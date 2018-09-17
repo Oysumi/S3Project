@@ -1,2 +1,4 @@
-# S3Project
-Video game project 2018 S3
+# S3 Informatic Project
+Video game project 2018
+
+TODO : ...
