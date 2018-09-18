@@ -1,35 +1,34 @@
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <cstdio>
+#include <string>
 #include "SDL/SDL.h"
+
+#include "fonctions.h"
+#include "SDL/texture.h"
+#include "SDL/fenetre.h"
+
+using namespace std;
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
+#define GRASS_SIZE 32
 
 int main ( int args, char * argv[] )
 {
-    SDL_Init(SDL_INIT_VIDEO) ;
+    Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT) ;
+    Texture herbe("ressources/grass.bmp") ; // Change the path to print a new image just for a test
     
-    SDL_WM_SetCaption("Project test", "Informatic S3 Project test") ;
-    
-    SDL_Surface * screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
-    
-    SDL_Surface * temp = SDL_LoadBMP("grass.bmp") ; // Change the path to print a new image just for a test
-    
-    SDL_Surface * background = SDL_DisplayFormat(temp) ;
-    
-    SDL_FreeSurface(temp) ;
-    
+    //EVENT LOOP
     SDL_Event event ;
-    int gameover = 0 ;
-    
-    while (!gameover)
+    bool end = false ;
+    while (!end)
     {
         if (SDL_PollEvent(&event))
         {
             switch (event.type)
             {
                 case SDL_QUIT:
-                    gameover = 1 ;
+                    end = true ;
                     break ;
                     
                 case SDL_KEYDOWN:
@@ -37,7 +36,7 @@ int main ( int args, char * argv[] )
                     {
                         case SDLK_ESCAPE:
                         case SDLK_q:
-                            gameover = 1 ;
+                            end = true ;
                             break ;
                             
                         default:
@@ -46,14 +45,16 @@ int main ( int args, char * argv[] )
                     break;
             }
         }
-        
-        SDL_BlitSurface(background, NULL, screen, NULL);
-        
-        SDL_UpdateRect(screen,0,0,0,0);
+        //ajoute un carré d'herbe
+        fenetre.ajouter(herbe) ;
+        fenetre.actualiser() ;
+
+        //Rempli la fenêtre d'herbe
+        for (unsigned short x = 0 ; x < SCREEN_WIDTH ; x+=GRASS_SIZE)
+            for (unsigned short y = 0 ; y < SCREEN_HEIGHT ; y+=GRASS_SIZE)
+                fenetre.ajouter(herbe,x,y) ;
+        fenetre.actualiser() ;
     }
-    
-    SDL_FreeSurface(background) ;
-    SDL_Quit() ;
-    
+
     return 0 ;
 }
