@@ -51,10 +51,8 @@ Fenetre::~Fenetre()
 // AJOUTE LA TEXTURE SUR LA FENETRE
 void Fenetre::ajouter (Texture const& t, SDL_Rect* pos)
 {
-	test_message("image2") ;
 	if(SDL_BlitSurface(t.surface(), NULL, m_screen, pos))
 		erreur(SDL_GetError()) ;
-	test_message("image3") ;
 }
 
 void Fenetre::ajouter (Texture const& t, unsigned short const& posx, unsigned int short const& posy)
