@@ -3,7 +3,7 @@ bool Fenetre::instantiated = false ;
 
 
 //CONSTRUCTEUR
-Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned short const& height)
+Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned short const& height, Uint32 flags)
 {
 	if (width >= SIZE_MIN)
 		m_width = width ;
@@ -33,7 +33,7 @@ Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned
 	    
 	    SDL_WM_SetCaption(title.c_str(), NULL) ;
 	    
-	    m_screen = SDL_SetVideoMode(width, height, 32, 0);
+	    m_screen = SDL_SetVideoMode(width, height, 32, flags);
 	    if (m_screen == NULL)
 	        erreur(SDL_GetError()) ;
 	}

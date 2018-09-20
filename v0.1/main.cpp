@@ -4,11 +4,8 @@
 #include "SDL/SDL.h"
 
 #include "fonctions.h"
-#include "SDL/texture.h"
-#include "SDL/fenetre.h"
-
-#include "SDL/texture.cpp"
-#include "SDL/fenetre.cpp"
+#include "DisplayClass/texture.h"
+#include "DisplayClass/fenetre.h"
 
 using namespace std;
 
@@ -18,7 +15,7 @@ using namespace std;
 
 int main ( int args, char * argv[] )
 {
-    Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT) ;
+    Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE || SDL_DOUBLEBUF) ;
     Texture herbe("ressources/grass.bmp") ; // Change the path to print a new image just for a test
     
     //EVENT LOOP
