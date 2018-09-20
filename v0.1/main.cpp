@@ -7,6 +7,9 @@
 #include "SDL/texture.h"
 #include "SDL/fenetre.h"
 
+#include "SDL/texture.cpp"
+#include "SDL/fenetre.cpp"
+
 using namespace std;
 
 #define SCREEN_WIDTH 640
