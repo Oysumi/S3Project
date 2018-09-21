@@ -5,7 +5,6 @@
 #include "SDL/SDL.h"
 
 #include "../fonctions.h"
-#include "texture.h"
 
 #define SIZE_MIN 10
 
@@ -15,10 +14,8 @@ class Fenetre
 
 	    Fenetre(std::string const& title, unsigned short const& width, unsigned short const& height, Uint32 flags = 0) ;
 	    ~Fenetre() ;
-        void ajouter (Texture const& t, SDL_Rect* pos) ;
-        void ajouter (Texture const& t, unsigned short const& posx, unsigned int short const& posy) ;
-	    void ajouter (Texture const& t) ;
 	    void actualiser() ;
+        SDL_Surface* screen() const ;
 
     private:
 
