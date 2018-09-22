@@ -20,6 +20,7 @@ class Texture
     protected:
 
         SDL_Surface* m_surface ;
+        std::string m_path ;
 };
 
 

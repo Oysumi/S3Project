@@ -1,31 +1,39 @@
 ﻿#include "fonctions.h"
 #include "SDL/SDL.h"
+#include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
 
 
-Erreur erreur ("erreurs.txt") ;
-Warning warning  ("warnings.txt");
+erreur_messages erreur_messages_messages ("erreur_messages_messages.txt") ;
+Warning warning  ("warning_messages.txt");
 Debugage debugage ("debugage_messages.txt");
 
 
-//Gestion des Erreurs
-Erreur::Erreur(string nom_fichier)
+//Gestion des erreur_messagess
+erreur_messages::erreur_messages(string const& nom_fichier)
 {
     m_fichier = NULL ;
     m_existence_fichier = false ;
     m_nomFichier = nom_fichier ;
 }
-Erreur::~Erreur()
+erreur_messages::~erreur_messages()
 {
     m_fichier->close() ;
     delete m_fichier ;
 }
-void Erreur::operator()(string const& contenu)
+void erreur_messages::operator()(string const& contenu)
 {
     if (!m_existence_fichier)
+    {
         m_fichier = new ofstream (m_nomFichier.c_str()) ;
+        m_fichier->close() ;
+        delete m_fichier ;
+        m_fichier = new ofstream (m_nomFichier.c_str(), ios::app) ;
+        m_existence_fichier = true ;
+    }
     *m_fichier << endl << contenu ;
-    exit( EXIT_FAILURE ) ;
 }
 
 
@@ -45,14 +53,20 @@ Warning::~Warning()
 void Warning::operator()(string const& contenu, bool arret)
 {
     if (!m_existence_fichier)
+    {
         m_fichier = new ofstream (m_nomFichier.c_str()) ;
+        m_fichier->close() ;
+        delete m_fichier ;
+        m_fichier = new ofstream (m_nomFichier.c_str(), ios::app) ;
+        m_existence_fichier = true ;
+    }
     *m_fichier << endl << contenu ;
     if (m_arret || arret)
         exit( EXIT_FAILURE ) ;
 }
 
 
-//Gestion des Warnings
+//Gestion des messages de debugages
 Debugage::Debugage(string const& nom_fichier)
 {
     m_fichier = NULL ;
@@ -67,6 +81,12 @@ Debugage::~Debugage()
 void Debugage::operator()(string const& contenu)
 {
     if (!m_existence_fichier)
+    {
         m_fichier = new ofstream (m_nomFichier.c_str()) ;
+        m_fichier->close() ;
+        delete m_fichier ;
+        m_fichier = new ofstream (m_nomFichier.c_str(), ios::app) ;
+        m_existence_fichier = true ;
+    }
     *m_fichier << endl << contenu ;
 }

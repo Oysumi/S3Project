@@ -23,19 +23,19 @@ Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned
 
 	if (instantiated)
 	{
-		erreur("La SDL ne peut gérer qu'une fenêtre") ;
+		erreur_messages("La SDL ne peut gérer qu'une fenêtre") ;
 		m_screen = NULL ;
 	}
 	else
 	{
 		if (SDL_Init(SDL_INIT_VIDEO) == -1)
-	        erreur(SDL_GetError()) ;
+	        erreur_messages(SDL_GetError()) ;
 	    
 	    SDL_WM_SetCaption(title.c_str(), NULL) ;
 	    
 	    m_screen = SDL_SetVideoMode(m_width, m_height, 32, flags);
 	    if (m_screen == NULL)
-	        erreur(SDL_GetError()) ;
+	        erreur_messages(SDL_GetError()) ;
 	}
 	instantiated = true ;
 }
