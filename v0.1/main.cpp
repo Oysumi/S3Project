@@ -6,6 +6,9 @@
 #include "fonctions.h"
 #include "DisplayClass/texture.h"
 #include "DisplayClass/fenetre.h"
+#include "CharactersClass/AbstractUnit.h"
+#include "CharactersClass/AbstractPlayer.h"
+#include "CharactersClass/HumanPlayer.h"
 
 using namespace std;
 
@@ -19,7 +22,7 @@ int main ( int args, char * argv[] )
     Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE || SDL_DOUBLEBUF) ;
     Texture herbe("ressources/Grass64.bmp") ;
     SpriteTexture water("ressources/SpriteWater64.bmp", MAP_CASE_SIZE, NB_WATER_SPRITE) ; 
-    
+
     //EVENT LOOP
     SDL_Event event ;
     bool end = false ;
