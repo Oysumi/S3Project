@@ -1,4 +1,7 @@
 #include "fenetre.h"
+
+using namespace std ;
+
 bool Fenetre::instantiated = false ;
 
 

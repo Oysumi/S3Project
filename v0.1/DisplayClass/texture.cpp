@@ -1,7 +1,7 @@
 #include "texture.h"
 #include "fenetre.h"
-using namespace std;
 
+using namespace std ;
 
 //CONSTRUCTEUR
 Texture::Texture(string const& path)
@@ -58,7 +58,7 @@ SpriteTexture::SpriteTexture (string const& path, unsigned short const& size_spr
 //DESTRUCTEUR
 SpriteTexture::~SpriteTexture()
 {
-    SDL_FreeSurface(m_surface) ;
+    //SDL_FreeSurface(m_surface) ; Est appelé en premier, puis destructeur de texture appelé en second qui fait la même chose d'où erreur de segmentation
 }
 
 
