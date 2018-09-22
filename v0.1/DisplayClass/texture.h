@@ -12,9 +12,9 @@ class Texture
     public:
 
         Texture(std::string const& path) ;
-        void ajouterA (Fenetre const& f, SDL_Rect* pos) ;
-        void ajouterA (Fenetre const& f, unsigned short const& posx, unsigned int short const& posy) ;
-	    void ajouterA (Fenetre const& f) ;
+        void ajouterA (Fenetre const& f, SDL_Rect* pos) const ;
+        void ajouterA (Fenetre const& f, unsigned short const& posx, unsigned int short const& posy) const ;
+	    void ajouterA (Fenetre const& f) const ;
         ~Texture() ;
 
     protected:
@@ -28,11 +28,11 @@ class SpriteTexture : public Texture
 
     public:
 
-        SpriteTexture (std::string const& path, unsigned short const& size_sprite, unsigned short const& nombre_de_sprite_longueur, unsigned short nombre_de_sprite_largeur = 1) ;
+        SpriteTexture (std::string const& path, unsigned short const& size_sprite, unsigned short const& nombre_de_sprite_longueur, unsigned short const& nombre_de_sprite_largeur = 1) ;
         ~SpriteTexture() ;
-        void ajouterA (Fenetre const& f, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short numero_sprite_largeur = 0) ;
-        void ajouterA (Fenetre const& f, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short numero_sprite_largeur = 0) ;
-	    void ajouterA (Fenetre const& f, unsigned short const& numero_sprite_longueur, unsigned short numero_sprite_largeur = 0) ;
+        void ajouterA (Fenetre const& f, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) const ;
+        void ajouterA (Fenetre const& f, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) const ;
+	    void ajouterA (Fenetre const& f, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) const ;
 
     private:
 

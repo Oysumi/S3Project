@@ -27,13 +27,13 @@ Texture::~Texture()
 
 
 // AJOUTE LA TEXTURE SUR LA FENETRE
-void Texture::ajouterA (Fenetre const& f, SDL_Rect* pos)
+void Texture::ajouterA (Fenetre const& f, SDL_Rect* pos) const
 {
     if(SDL_BlitSurface(m_surface, NULL, f.screen(), pos))
         erreur(SDL_GetError()) ;
 }
 
-void Texture::ajouterA (Fenetre const& f, unsigned short const& posx, unsigned int short const& posy)
+void Texture::ajouterA (Fenetre const& f, unsigned short const& posx, unsigned int short const& posy) const
 {
     SDL_Rect pos ;
     pos.x = posx ;
@@ -41,14 +41,14 @@ void Texture::ajouterA (Fenetre const& f, unsigned short const& posx, unsigned i
     ajouterA(f, &pos) ;
 }
 
-void Texture::ajouterA (Fenetre const& f)
+void Texture::ajouterA (Fenetre const& f) const
 {
     ajouterA(f, NULL) ;
 }
 
 
 //CONSTRUCTEUR
-SpriteTexture::SpriteTexture (string const& path, unsigned short const& size_sprite, unsigned short const& nombre_de_sprite_longueur, unsigned short nombre_de_sprite_largeur) : Texture(path)
+SpriteTexture::SpriteTexture (string const& path, unsigned short const& size_sprite, unsigned short const& nombre_de_sprite_longueur, unsigned short const& nombre_de_sprite_largeur) : Texture(path)
 {
     m_taille = size_sprite ;
     m_nb_longueur = nombre_de_sprite_longueur ;
@@ -63,7 +63,7 @@ SpriteTexture::~SpriteTexture()
 
 
 
-void SpriteTexture::ajouterA (Fenetre const& f, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short numero_sprite_largeur)
+void SpriteTexture::ajouterA (Fenetre const& f, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const
 {
 
     if(numero_sprite_longueur >= m_nb_longueur || numero_sprite_largeur >= m_nb_largeur)
@@ -77,7 +77,7 @@ void SpriteTexture::ajouterA (Fenetre const& f, SDL_Rect* pos, unsigned short co
         erreur(SDL_GetError()) ;
 }
 
-void SpriteTexture::ajouterA (Fenetre const& f, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short numero_sprite_largeur)
+void SpriteTexture::ajouterA (Fenetre const& f, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const
 {
     SDL_Rect pos ;
     pos.x = posx ;
@@ -85,7 +85,7 @@ void SpriteTexture::ajouterA (Fenetre const& f, unsigned short const& posx, unsi
     ajouterA(f, &pos, numero_sprite_longueur, numero_sprite_largeur) ;
 }
 
-void SpriteTexture::ajouterA (Fenetre const& f, unsigned short const& numero_sprite_longueur, unsigned short numero_sprite_largeur)
+void SpriteTexture::ajouterA (Fenetre const& f, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const
 {
     SDL_Rect* p = NULL ;
     ajouterA(f, p, numero_sprite_longueur, numero_sprite_largeur) ;
