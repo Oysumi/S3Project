@@ -15,3 +15,7 @@ Création d'un sprite regroupant ses pièces
 
 # FOURTH DAY (21/09/2018)
 Ajout de la gestion des slides et petit code d'exemple permettant de comprendre l'utilisation
+
+# FIFTH DAY (22/09/2018)
+Ajout d'un makefile, correction d'une erreur de segmentation
+Ajout de classes : AbstractPlayer, AbstractButton, HumanPlayer, ArtificialPlayer (...)
