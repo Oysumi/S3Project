@@ -24,7 +24,8 @@ class Erreur{
     void operator()(std::string const& contenu) ;
 
 	private:
-		std::ofstream m_fichier ;
+		bool m_existence_fichier ;
+		std::ofstream* m_fichier ;
     	std::string m_nomFichier ;
 };
 
@@ -38,7 +39,8 @@ class Warning{
     void operator()(std::string const& contenu, bool arret = false) ;
 
 	private:
-		std::ofstream m_fichier ;
+		bool m_existence_fichier ;
+		std::ofstream* m_fichier ;
     	std::string m_nomFichier ;
     	bool m_arret ;
 };
@@ -53,7 +55,8 @@ class Debugage{
     void operator()(std::string const& contenu) ;
 
 	private:
-		std::ofstream m_fichier ;
+		bool m_existence_fichier ;
+		std::ofstream* m_fichier ;
     	std::string m_nomFichier ;
 };
 
