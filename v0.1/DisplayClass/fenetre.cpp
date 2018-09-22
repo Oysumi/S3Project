@@ -1,7 +1,4 @@
 #include "fenetre.h"
-
-using namespace std ;
-
 bool Fenetre::instantiated = false ;
 
 
@@ -36,7 +33,7 @@ Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned
 	    
 	    SDL_WM_SetCaption(title.c_str(), NULL) ;
 	    
-	    m_screen = SDL_SetVideoMode(width, height, 32, flags);
+	    m_screen = SDL_SetVideoMode(m_width, m_height, 32, flags);
 	    if (m_screen == NULL)
 	        erreur(SDL_GetError()) ;
 	}

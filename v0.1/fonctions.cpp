@@ -1,30 +1,57 @@
 ﻿#include "fonctions.h"
+#include "SDL/SDL.h"
 using namespace std;
 
-//Générer un message d'erreur
-void erreur (string const& message)
+
+Erreur erreur ("erreurs.txt") ;
+Warning warning  ("warnings.txt");
+Debugage debugage ("debugage_messages.txt");
+
+
+//Gestion des Erreurs
+Erreur::Erreur(string nom_fichier) : m_fichier (nom_fichier.c_str())
 {
-    string const nomFichier("erreurs.txt") ;
-    ofstream fichierErreur(nomFichier.c_str()) ;
-    fichierErreur << "\n" << message << endl ;
-    fichierErreur.close() ;
+    m_nomFichier = nom_fichier ;
+}
+Erreur::~Erreur()
+{
+    m_fichier.close() ;
+}
+void Erreur::operator()(string const& contenu)
+{
+    m_fichier << endl << contenu ;
     exit( EXIT_FAILURE ) ;
 }
 
-//Générer un message de wrning
-void warning (string const& message)
+
+//Gestion des Warnings
+Warning::Warning(string const& nom_fichier, bool arret) : m_fichier (nom_fichier.c_str())
 {
-    string const nomFichier("warning.txt") ;
-    ofstream fichierWarning(nomFichier.c_str()) ;
-    fichierWarning << "\n" << message << endl ;
-    fichierWarning.close() ;
+    m_nomFichier = nom_fichier ;
+    m_arret = arret ;
+}
+Warning::~Warning()
+{
+    m_fichier.close() ;
+}
+void Warning::operator()(string const& contenu, bool arret)
+{
+    m_fichier << endl << contenu ;
+    if (m_arret || arret)
+        exit( EXIT_FAILURE ) ;
 }
 
-//Pour afficher un message utile au débugage
-void test_message (string const& message)
+
+//Gestion des Warnings
+Debugage::Debugage(string const& nom_fichier) : m_fichier (nom_fichier.c_str())
 {
-    string const nomFichier("test.txt") ;
-    ofstream fichierTest(nomFichier.c_str()) ;
-    fichierTest << "\n" << message << endl ;
-    fichierTest.close() ;
+    m_nomFichier = nom_fichier ;
+}
+Debugage::~Debugage()
+{
+    m_fichier.close() ;
+}
+void Debugage::operator()(string const& contenu)
+{
+    m_fichier << endl << contenu ;
 }
