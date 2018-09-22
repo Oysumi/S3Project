@@ -7,19 +7,19 @@
 
 /*
 Foncteurs communs à l'esemble du
-programme : Gestions des erreur_messagess,
+programme : Gestions des erreur_messages,
 des warnings et des messages utiles 
 au débogage du programme
 */
 
-//Une classe foncteur pour chaque type de message car le traitement, d'une erreur_messages, d'un warning et d'un message de débugage peut-être différent
+//Une classe foncteur pour chaque type de message car le traitement, d'une erreur_message, d'un warning et d'un message de débugage peut-être différent
 
-//Gestion des erreur_messagess
-class erreur_messages{
+//Gestion des erreur_messages
+class Erreur{
 	
 	public:
-    	erreur_messages(std::string const& nom_fichier) ;
-    	~erreur_messages() ;
+    	Erreur(std::string const& nom_fichier) ;
+    	~Erreur() ;
 
     void operator()(std::string const& contenu) ;
 
@@ -61,9 +61,9 @@ class Debugage{
 };
 
 
-extern erreur_messages erreur_messages_messages ;
-extern Warning warning ;
-extern Debugage debugage ;
+extern Erreur erreur_message ;
+extern Warning warning_message ;
+extern Debugage debugage_message ;
 
 
 #endif

@@ -10,7 +10,7 @@ Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned
 	else
 	{
 		m_width = SIZE_MIN ;
-		warning("Largeur fenêtre minimale non repspéctée") ;
+		warning_message("Largeur fenêtre minimale non repspéctée") ;
 	} 
 
 	if (height >= SIZE_MIN)
@@ -18,24 +18,24 @@ Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned
 	else
 	{
 		m_height = SIZE_MIN ;
-		warning("Hauteur fenêtre minimale non repspéctée") ;
+		warning_message("Hauteur fenêtre minimale non repspéctée") ;
 	}
 
 	if (instantiated)
 	{
-		erreur_messages("La SDL ne peut gérer qu'une fenêtre") ;
+		erreur_message("La SDL ne peut gérer qu'une fenêtre") ;
 		m_screen = NULL ;
 	}
 	else
 	{
 		if (SDL_Init(SDL_INIT_VIDEO) == -1)
-	        erreur_messages(SDL_GetError()) ;
+	        erreur_message(SDL_GetError()) ;
 	    
 	    SDL_WM_SetCaption(title.c_str(), NULL) ;
 	    
 	    m_screen = SDL_SetVideoMode(m_width, m_height, 32, flags);
 	    if (m_screen == NULL)
-	        erreur_messages(SDL_GetError()) ;
+	        erreur_message(SDL_GetError()) ;
 	}
 	instantiated = true ;
 }

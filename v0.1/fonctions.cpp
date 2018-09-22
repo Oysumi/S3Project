@@ -6,34 +6,36 @@
 using namespace std;
 
 
-erreur_messages erreur_messages_messages ("erreur_messages_messages.txt") ;
-Warning warning  ("warning_messages.txt");
-Debugage debugage ("debugage_messages.txt");
+Erreur erreur_message ("erreur_messages.txt") ;
+Warning warning_message  ("warning_messages.txt");
+Debugage debugage_message ("debugage_messages.txt");
 
 
-//Gestion des erreur_messagess
-erreur_messages::erreur_messages(string const& nom_fichier)
+//Gestion des erreur_messages
+Erreur::Erreur(string const& nom_fichier)
 {
     m_fichier = NULL ;
     m_existence_fichier = false ;
     m_nomFichier = nom_fichier ;
 }
-erreur_messages::~erreur_messages()
+Erreur::~Erreur()
 {
-    m_fichier->close() ;
-    delete m_fichier ;
+
 }
-void erreur_messages::operator()(string const& contenu)
+void Erreur::operator()(string const& contenu)
 {
     if (!m_existence_fichier)
     {
         m_fichier = new ofstream (m_nomFichier.c_str()) ;
         m_fichier->close() ;
         delete m_fichier ;
-        m_fichier = new ofstream (m_nomFichier.c_str(), ios::app) ;
         m_existence_fichier = true ;
     }
-    *m_fichier << endl << contenu ;
+    m_fichier = new ofstream (m_nomFichier.c_str(), ios::app) ;
+    *m_fichier << contenu << endl ;
+    m_fichier->close() ;
+    delete m_fichier ;
+    exit( EXIT_FAILURE ) ;
 }
 
 
@@ -47,8 +49,7 @@ Warning::Warning(string const& nom_fichier, bool arret)
 }
 Warning::~Warning()
 {
-    m_fichier->close() ;
-    delete m_fichier ;
+
 }
 void Warning::operator()(string const& contenu, bool arret)
 {
@@ -57,10 +58,12 @@ void Warning::operator()(string const& contenu, bool arret)
         m_fichier = new ofstream (m_nomFichier.c_str()) ;
         m_fichier->close() ;
         delete m_fichier ;
-        m_fichier = new ofstream (m_nomFichier.c_str(), ios::app) ;
         m_existence_fichier = true ;
     }
-    *m_fichier << endl << contenu ;
+    m_fichier = new ofstream (m_nomFichier.c_str(), ios::app) ;
+    *m_fichier << contenu << endl ;
+    m_fichier->close() ;
+    delete m_fichier ;
     if (m_arret || arret)
         exit( EXIT_FAILURE ) ;
 }
@@ -75,8 +78,7 @@ Debugage::Debugage(string const& nom_fichier)
 }
 Debugage::~Debugage()
 {
-    m_fichier->close() ;
-    delete m_fichier ;
+
 }
 void Debugage::operator()(string const& contenu)
 {
@@ -85,8 +87,10 @@ void Debugage::operator()(string const& contenu)
         m_fichier = new ofstream (m_nomFichier.c_str()) ;
         m_fichier->close() ;
         delete m_fichier ;
-        m_fichier = new ofstream (m_nomFichier.c_str(), ios::app) ;
         m_existence_fichier = true ;
     }
-    *m_fichier << endl << contenu ;
+    m_fichier = new ofstream (m_nomFichier.c_str(), ios::app) ;
+    *m_fichier << contenu << endl ;
+    m_fichier->close() ;
+    delete m_fichier ;
 }
