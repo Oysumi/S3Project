@@ -11,8 +11,8 @@
 
 using namespace std;
 
-#define SCREEN_WIDTH 1500
-#define SCREEN_HEIGHT 1000
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 400
 #define MAP_CASE_SIZE 64
 #define NB_SPRITE 17
 
