@@ -8,14 +8,6 @@
 #include "fonctions.h"
 #include "DisplayClass/texture.h"
 #include "DisplayClass/fenetre.h"
-#include "CharactersClass/AbstractPlayer.h"
-#include "CharactersClass/AbstractUnit.h"
-#include "CharactersClass/ArtificialPlayer.h"
-#include "CharactersClass/HumanPlayer.h"
-#include "MenuClass/AbstractButton.h"
-#include "MenuClass/ActionButton.h"
-#include "MenuClass/Menu.h"
-#include "MatriceClass/MatriceGameGestion.h"
 
 using namespace std;
 
@@ -29,7 +21,6 @@ using namespace std;
 short assocToSprite(char const& c)
 {
     short n = (short) c ;
-
     if (97 <= n && n <= 122)
     {
         return(n-87) ;
@@ -43,6 +34,10 @@ short assocToSprite(char const& c)
     if (48 <= n && n <= 57)
     {
         return(n-48) ;
+    }
+    if (c == ' ')
+    {
+        return 16;
     }
 
     Warning("La map contient des caractères ne correspondant à aucun Sprite") ;
@@ -63,23 +58,27 @@ int main ( int args, char * argv[] )
 
     //ANALYSE DU FICHIER DU TERRAIN
     string texte, ligne ;
-    unsigned short longueur_max_ligne = 0 ;
-    unsigned short nb_de_lignes = 0 ;
     ifstream fichier ("ressources/map.txt");
+    unsigned short nb_width_sprite, nb_height_sprite ;
     if ( fichier )
     {
-        while (getline(fichier, ligne)) //Tant qu'on n'est pas à la fin, on lit
+        unsigned short longueur_max_ligne = 0 ;
+        unsigned short  nb_de_lignes = 0 ;
+        while(getline(fichier, ligne)) //Tant qu'on n'est pas à la fin, on lit
         {
             texte += ligne + '\n' ;
             nb_de_lignes++ ;
             if (ligne.size() > longueur_max_ligne)
                 longueur_max_ligne = ligne.size() ;
         }
+
+        nb_width_sprite = longueur_max_ligne ;
+        nb_height_sprite = nb_de_lignes ;
     }
     else
     {
         erreur_message("Impossible d'ouvrir le fichier de la Map");
-        cout << "impossible" << endl ;
+        cout << "imossible" << endl ;
     }
 
     debugage_message("Lecture du fichier de terrain") ;
@@ -87,16 +86,16 @@ int main ( int args, char * argv[] )
 
     //Création d'un tableau réprésentant les textures du terrain
     char ** terrain = 0 ;
-    terrain = (char**)malloc(nb_de_lignes * sizeof(char*));
-    for (unsigned short i = 0 ; i < nb_de_lignes ; i++)
+    terrain = (char**)malloc(nb_height_sprite * sizeof(char*));
+    for (unsigned short i = 0 ; i < nb_height_sprite ; i++)
     {
-        terrain[i] = (char*)malloc(longueur_max_ligne * sizeof(char));
+        terrain[i] = (char*)malloc(nb_width_sprite * sizeof(char));
     }
 
     //Remplissage par des cases d'herbes (lignes complétées si de tailles différentes)
-    for (unsigned short l = 0 ; l < nb_de_lignes ; l++)
+    for (unsigned short l = 0 ; l < nb_height_sprite ; l++)
     {
-        for (unsigned short i = 0; i < longueur_max_ligne ; i++)
+        for (unsigned short i = 0; i < nb_width_sprite ; i++)
         {
             terrain[l][i] = 'G' ;
         }
@@ -104,7 +103,7 @@ int main ( int args, char * argv[] )
 
     //On indique les char du fichier dans le tableau
     unsigned short texte_curseur = 0 ;
-    for (unsigned short l = 0 ; l < nb_de_lignes ; l++)
+    for (unsigned short l = 0 ; l < nb_height_sprite ; l++)
     {
         unsigned short i ;
         for (i = 0 ; texte[texte_curseur] != '\n' ; i++)
@@ -116,9 +115,9 @@ int main ( int args, char * argv[] )
     }
     
     texte = "" ;
-    for (unsigned short l = 0 ; l < nb_de_lignes ; l++)
+    for (unsigned short l = 0 ; l < nb_height_sprite ; l++)
     {
-        for (unsigned short i = 0 ; i < longueur_max_ligne ; i++)
+        for (unsigned short i = 0 ; i < nb_width_sprite ; i++)
         {
             texte += terrain[l][i] ;
         }
@@ -126,6 +125,20 @@ int main ( int args, char * argv[] )
     }
     debugage_message("Vérfication et correction de celui-ci") ;
     debugage_message(texte) ;
+
+
+
+    SurfaceAffichage terrainComplet(nb_width_sprite*MAP_CASE_SIZE, nb_height_sprite*MAP_CASE_SIZE) ;
+    for (unsigned short x = 0 ; x < nb_width_sprite ; x++)
+    {
+        for (unsigned short y = 0 ; y < nb_height_sprite ; y++)
+        {
+            terrainComplet.ajouter(spriteTerrain, x*MAP_CASE_SIZE, y*MAP_CASE_SIZE, assocToSprite(terrain[y][x]) ) ;
+        }
+    }
+
+    terrainComplet.saveBMP("terrain.bmp") ;
+    fenetre.ajouter(terrainComplet) ;
     
     
     //EVENT LOOP
@@ -156,13 +169,7 @@ int main ( int args, char * argv[] )
                     break;
             }
         }
-        for (unsigned short x = 0 ; x < longueur_max_ligne ; x++)
-        {
-            for (unsigned short y = 0 ; y < nb_de_lignes ; y++)
-            {
-                spriteTerrain.ajouterA( fenetre, x*MAP_CASE_SIZE, y*MAP_CASE_SIZE, assocToSprite(terrain[y][x]) ) ;
-            }
-        }
+        
         fenetre.actualiser() ;
 
     }

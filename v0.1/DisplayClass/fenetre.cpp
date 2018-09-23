@@ -1,9 +1,107 @@
 #include "fenetre.h"
+using namespace std;
+
 bool Fenetre::instantiated = false ;
+
+//CONSTRUCTEUR
+SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short const& height)
+{
+	m_height = height ;
+	m_width = width ;
+	m_surface = SDL_CreateRGBSurface(SDL_HWSURFACE, m_width, m_height, 32, 0, 0, 0, 0);
+}
+
+//ACCESSEURS
+unsigned short SurfaceAffichage::width() const 
+{
+	return m_width ;
+}
+unsigned short SurfaceAffichage::height() const
+{
+	return m_height ;
+}
+
+// AJOUT SURFACE D'AFFICHAGE SUR UNE SURFACE D'AFFICHAGE
+void SurfaceAffichage::ajouter (SurfaceAffichage const& s, SDL_Rect* pos) const
+{
+	if(SDL_BlitSurface(s.m_surface, NULL, m_surface, pos))
+        erreur_message("L'ajout d'une SurfaceAffichage dans une autre à échoué :  " + string(SDL_GetError())) ;
+}
+void SurfaceAffichage::ajouter (SurfaceAffichage const& s, unsigned short const& posx, unsigned int short const& posy) const
+{
+	SDL_Rect pos ;
+    pos.x = posx ;
+    pos.y = posy ;
+    ajouter (s, &pos) ;
+}
+void SurfaceAffichage::ajouter (SurfaceAffichage const& s) const
+{
+	ajouter (s, NULL) ;
+}
+
+
+
+// AJOUTE LA TEXTURE SUR LA SURFACE D'AFFICHAGE
+void SurfaceAffichage::ajouter (Texture const& t, SDL_Rect* pos) const
+{
+    if(SDL_BlitSurface(t.surface(), NULL, m_surface, pos))
+        erreur_message("Impossible d'ajouter la texture " + t.path() + " à la SurfaceAffichage : " + string(SDL_GetError())) ;
+}
+
+void SurfaceAffichage::ajouter (Texture const& t, unsigned short const& posx, unsigned int short const& posy) const
+{
+    SDL_Rect pos ;
+    pos.x = posx ;
+    pos.y = posy ;
+    ajouter (t, &pos) ;
+}
+
+void SurfaceAffichage::ajouter (Texture const& t) const
+{
+    ajouter (t, NULL) ;
+}
+
+
+
+//AJOUT D'UN SPRITE SUR LA SURFACE D'AFFICHAGE
+void SurfaceAffichage::ajouter (SpriteTexture const& s, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const
+{
+    if(SDL_BlitSurface(s.surface(), new SDL_Rect(s.getRect(numero_sprite_longueur,numero_sprite_largeur)), m_surface, pos))
+        erreur_message("Impossible d'ajouter le sprite" + s.path() + " à la SurfaceAffichage : " + string(SDL_GetError())) ;
+}
+
+void SurfaceAffichage::ajouter (SpriteTexture const& s, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const
+{
+    SDL_Rect pos ;
+    pos.x = posx ;
+    pos.y = posy ;
+    ajouter (s, &pos, numero_sprite_longueur, numero_sprite_largeur) ;
+}
+
+void SurfaceAffichage::ajouter (SpriteTexture const& s, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const
+{
+    SDL_Rect* p = NULL ;
+    ajouter (s, p, numero_sprite_longueur, numero_sprite_largeur) ;
+}
+
+
+
+bool SurfaceAffichage::saveBMP(std::string const& name) const
+{
+	return (SDL_SaveBMP(m_surface, name.c_str()) == 0) ;
+}
+
+
+
+
+
+
+
+
 
 
 //CONSTRUCTEUR
-Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned short const& height, Uint32 flags)
+Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned short const& height, Uint32 flags) : SurfaceAffichage(width,height)
 {
 	if (width >= SIZE_MIN)
 		m_width = width ;
@@ -24,18 +122,18 @@ Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned
 	if (instantiated)
 	{
 		erreur_message("La SDL ne peut gérer qu'une fenêtre") ;
-		m_screen = NULL ;
+		m_surface = NULL ;
 	}
 	else
 	{
 		if (SDL_Init(SDL_INIT_VIDEO) == -1)
-	        erreur_message(SDL_GetError()) ;
+	        erreur_message("Impssible d'initialiser la SDL pour la fenetre " + title + " : " + SDL_GetError()) ;
 	    
 	    SDL_WM_SetCaption(title.c_str(), NULL) ;
 	    
-	    m_screen = SDL_SetVideoMode(m_width, m_height, 32, flags);
-	    if (m_screen == NULL)
-	        erreur_message(SDL_GetError()) ;
+	    m_surface = SDL_SetVideoMode(m_width, m_height, 32, flags);
+	    if (m_surface == NULL)
+	        erreur_message("Impssible de créer la fenetre " + title + " : " + SDL_GetError()) ;
 	}
 	instantiated = true ;
 }
@@ -47,16 +145,8 @@ Fenetre::~Fenetre()
 	instantiated = false ;
 }
 
-
-//ACCESSEUR
-SDL_Surface * Fenetre::screen() const
-{
-	return m_screen ;
-}
-
-
 // PERMET DE METTRE LA SURFACE DE LA FENETRE A JOUR
 void Fenetre::actualiser()
 {
-	SDL_Flip(m_screen) ;
+	SDL_Flip(m_surface) ;
 }
