@@ -8,6 +8,13 @@
 #include "fonctions.h"
 #include "DisplayClass/texture.h"
 #include "DisplayClass/fenetre.h"
+#include "CharactersClass/AbstractPlayer.h"
+#include "CharactersClass/AbstractUnit.h"
+#include "CharactersClass/ArtificialPlayer.h"
+#include "CharactersClass/HumanPlayer.h"
+#include "MenuClass/AbstractButton.h"
+#include "MenuClass/ActionButton.h"
+#include "MenuClass/Menu.h"
 
 using namespace std;
 
@@ -21,6 +28,7 @@ using namespace std;
 short assocToSprite(char const& c)
 {
     short n = (short) c ;
+
     if (97 <= n && n <= 122)
     {
         return(n-87) ;
