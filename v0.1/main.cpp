@@ -15,6 +15,7 @@
 #include "MenuClass/AbstractButton.h"
 #include "MenuClass/ActionButton.h"
 #include "MenuClass/Menu.h"
+#include "MatriceClass/MatriceGameGestion.h"
 
 using namespace std;
 

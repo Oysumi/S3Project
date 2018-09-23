@@ -11,6 +11,7 @@ ABBUTTONh=MenuClass/AbstractButton.h
 ACTBUTTONh=MenuClass/ActionButton.h
 SUBMENUh=MenuClass/SubMenuButton.h
 MENUh=MenuClass/Menu.h
+MATRICEh=MatriceClass/MatriceGameGestion.h
 
 TEXTUREcpp=DisplayClass/texture.cpp
 FENETREcpp=DisplayClass/fenetre.cpp
@@ -23,10 +24,13 @@ ACTBUTTONcpp=MenuClass/ActionButton.cpp
 MENUcpp=MenuClass/Menu.cpp
 MAINcpp=main.cpp
 
-$(BIN): $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) $(HUMPLAYERh) $(ARTPLAYERh) $(ABBUTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) \
+$(BIN): $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) \
+		$(HUMPLAYERh) $(ARTPLAYERh) $(ABBUTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) \
+		$(MATRICEh) \
 		$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(ABUNITcpp) $(ABPLAYERcpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(ACTBUTTONcpp) \
 		$(MENUcpp) $(MAINcpp)
-	g++ -Wall -lSDL $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) $(HUMPLAYERh) $(ARTPLAYERh) $(ABBUTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) \
+	g++ -Wall -lSDL $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) $(HUMPLAYERh) $(ARTPLAYERh) \
+					$(ABBUTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) $(MATRICEh) \
 					$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(ABUNITcpp) $(ABPLAYERcpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(MENUcpp) \
 					$(ACTBUTTONcpp) $(MAINcpp) \
 	-o $(BIN)
