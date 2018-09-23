@@ -20,6 +20,10 @@ class Texture
 
         std::string m_path ;
         SDL_Surface* m_surface ;
+
+
+
+        //friend void SurfaceAffichage::ajouter (SurfaceAffichage const& s, SDL_Rect* pos) ;
 };
 
 

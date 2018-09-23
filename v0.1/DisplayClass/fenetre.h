@@ -7,25 +7,25 @@
 #include "texture.h"
 #include "../fonctions.h"
 
-#define SIZE_MIN 10
-
+#define SIZE_MIN 100
 
 class SurfaceAffichage
 {
     public :
         SurfaceAffichage(unsigned short const& width, unsigned short const& height) ;
+        ~SurfaceAffichage() ;
 
-        void ajouter (Texture const& t, SDL_Rect* pos) const ;
-        void ajouter (Texture const& t, unsigned short const& posx, unsigned int short const& posy) const ;
-        void ajouter (Texture const& t) const ;
+        void ajouter (Texture const& t, SDL_Rect* pos) ;
+        void ajouter (Texture const& t, unsigned short const& posx, unsigned int short const& posy) ;
+        void ajouter (Texture const& t) ;
 
-        void ajouter (SurfaceAffichage const& s, SDL_Rect* pos) const ;
-        void ajouter (SurfaceAffichage const& s, unsigned short const& posx, unsigned int short const& posy) const ;
-        void ajouter (SurfaceAffichage const& s) const ;
+        void ajouter (SurfaceAffichage const& s, SDL_Rect* pos) ;
+        void ajouter (SurfaceAffichage const& s, unsigned short const& posx, unsigned int short const& posy) ;
+        void ajouter (SurfaceAffichage const& s) ;
 
-        void ajouter (SpriteTexture const& s, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) const ;
-        void ajouter (SpriteTexture const& s, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) const ;
-        void ajouter (SpriteTexture const& s, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) const ;
+        void ajouter (SpriteTexture const& s, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) ;
+        void ajouter (SpriteTexture const& s, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) ;
+        void ajouter (SpriteTexture const& s, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) ;
 
         bool saveBMP(std::string const& name) const ;
 

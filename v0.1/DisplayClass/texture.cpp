@@ -42,7 +42,7 @@ SpriteTexture::SpriteTexture (string const& path, unsigned short const& size_spr
 SDL_Rect SpriteTexture::getRect (unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const
 {
     if(numero_sprite_longueur >= m_nb_longueur || numero_sprite_largeur >= m_nb_largeur)
-        warning_message("Demande d'accès à une case du Sprite " + m_path + " qui n'existe pas") ;
+        warning_message("Demande d'accès à une case du Sprite " + path() + " qui n'existe pas") ;
     
     SDL_Rect image ;
     image.x = numero_sprite_longueur*m_taille ;

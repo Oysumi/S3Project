@@ -11,6 +11,12 @@ SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short c
 	m_surface = SDL_CreateRGBSurface(SDL_HWSURFACE, m_width, m_height, 32, 0, 0, 0, 0);
 }
 
+//DESTRUCTEUR
+SurfaceAffichage::~SurfaceAffichage()
+{
+	delete m_surface ;
+}
+
 //ACCESSEURS
 unsigned short SurfaceAffichage::width() const 
 {
@@ -21,20 +27,22 @@ unsigned short SurfaceAffichage::height() const
 	return m_height ;
 }
 
+
+
 // AJOUT SURFACE D'AFFICHAGE SUR UNE SURFACE D'AFFICHAGE
-void SurfaceAffichage::ajouter (SurfaceAffichage const& s, SDL_Rect* pos) const
+void SurfaceAffichage::ajouter (SurfaceAffichage const& s, SDL_Rect* pos)
 {
 	if(SDL_BlitSurface(s.m_surface, NULL, m_surface, pos))
         erreur_message("L'ajout d'une SurfaceAffichage dans une autre à échoué :  " + string(SDL_GetError())) ;
 }
-void SurfaceAffichage::ajouter (SurfaceAffichage const& s, unsigned short const& posx, unsigned int short const& posy) const
+void SurfaceAffichage::ajouter (SurfaceAffichage const& s, unsigned short const& posx, unsigned int short const& posy)
 {
 	SDL_Rect pos ;
     pos.x = posx ;
     pos.y = posy ;
     ajouter (s, &pos) ;
 }
-void SurfaceAffichage::ajouter (SurfaceAffichage const& s) const
+void SurfaceAffichage::ajouter (SurfaceAffichage const& s)
 {
 	ajouter (s, NULL) ;
 }
@@ -42,13 +50,13 @@ void SurfaceAffichage::ajouter (SurfaceAffichage const& s) const
 
 
 // AJOUTE LA TEXTURE SUR LA SURFACE D'AFFICHAGE
-void SurfaceAffichage::ajouter (Texture const& t, SDL_Rect* pos) const
+void SurfaceAffichage::ajouter (Texture const& t, SDL_Rect* pos)
 {
     if(SDL_BlitSurface(t.surface(), NULL, m_surface, pos))
         erreur_message("Impossible d'ajouter la texture " + t.path() + " à la SurfaceAffichage : " + string(SDL_GetError())) ;
 }
 
-void SurfaceAffichage::ajouter (Texture const& t, unsigned short const& posx, unsigned int short const& posy) const
+void SurfaceAffichage::ajouter (Texture const& t, unsigned short const& posx, unsigned int short const& posy)
 {
     SDL_Rect pos ;
     pos.x = posx ;
@@ -56,7 +64,7 @@ void SurfaceAffichage::ajouter (Texture const& t, unsigned short const& posx, un
     ajouter (t, &pos) ;
 }
 
-void SurfaceAffichage::ajouter (Texture const& t) const
+void SurfaceAffichage::ajouter (Texture const& t)
 {
     ajouter (t, NULL) ;
 }
@@ -64,13 +72,13 @@ void SurfaceAffichage::ajouter (Texture const& t) const
 
 
 //AJOUT D'UN SPRITE SUR LA SURFACE D'AFFICHAGE
-void SurfaceAffichage::ajouter (SpriteTexture const& s, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const
+void SurfaceAffichage::ajouter (SpriteTexture const& s, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur)
 {
     if(SDL_BlitSurface(s.surface(), new SDL_Rect(s.getRect(numero_sprite_longueur,numero_sprite_largeur)), m_surface, pos))
         erreur_message("Impossible d'ajouter le sprite" + s.path() + " à la SurfaceAffichage : " + string(SDL_GetError())) ;
 }
 
-void SurfaceAffichage::ajouter (SpriteTexture const& s, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const
+void SurfaceAffichage::ajouter (SpriteTexture const& s, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur)
 {
     SDL_Rect pos ;
     pos.x = posx ;
@@ -78,7 +86,7 @@ void SurfaceAffichage::ajouter (SpriteTexture const& s, unsigned short const& po
     ajouter (s, &pos, numero_sprite_longueur, numero_sprite_largeur) ;
 }
 
-void SurfaceAffichage::ajouter (SpriteTexture const& s, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const
+void SurfaceAffichage::ajouter (SpriteTexture const& s, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur)
 {
     SDL_Rect* p = NULL ;
     ajouter (s, p, numero_sprite_longueur, numero_sprite_largeur) ;
@@ -90,11 +98,6 @@ bool SurfaceAffichage::saveBMP(std::string const& name) const
 {
 	return (SDL_SaveBMP(m_surface, name.c_str()) == 0) ;
 }
-
-
-
-
-
 
 
 
@@ -144,6 +147,7 @@ Fenetre::~Fenetre()
 	SDL_Quit() ;
 	instantiated = false ;
 }
+
 
 // PERMET DE METTRE LA SURFACE DE LA FENETRE A JOUR
 void Fenetre::actualiser()
