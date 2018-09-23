@@ -59,7 +59,7 @@ int main ( int args, char * argv[] )
     ifstream fichier ("ressources/map.txt");
     if ( fichier )
     {
-        while(getline(fichier, ligne)) //Tant qu'on n'est pas à la fin, on lit
+        while (getline(fichier, ligne)) //Tant qu'on n'est pas à la fin, on lit
         {
             texte += ligne + '\n' ;
             nb_de_lignes++ ;
@@ -70,7 +70,7 @@ int main ( int args, char * argv[] )
     else
     {
         erreur_message("Impossible d'ouvrir le fichier de la Map");
-        cout << "imossible" << endl ;
+        cout << "impossible" << endl ;
     }
 
     debugage_message("Lecture du fichier de terrain") ;
