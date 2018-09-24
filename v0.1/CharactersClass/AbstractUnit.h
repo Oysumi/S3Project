@@ -8,13 +8,7 @@
 class AbstractUnit
 {
 	public:
-		AbstractUnit() ;
-		// we don't set the health to another value than 100 at the beginning
-		AbstractUnit(std::string name, short int strength, unsigned short int size, unsigned short int posx, unsigned short int posy) ;
-		// virtual void display() const ; virtuelle pure ?
-		~AbstractUnit() ;
-		// define two methods to set the owner and the texture
-
+		virtual void displayTo() = 0 ;
 
 	protected:
 		std::string m_name ;

@@ -17,8 +17,6 @@ TERRh=MapClass/terrain.h
 TEXTUREcpp=DisplayClass/texture.cpp
 FENETREcpp=DisplayClass/fenetre.cpp
 FONCTIONScpp=fonctions.cpp
-ABUNITcpp=CharactersClass/AbstractUnit.cpp
-ABPLAYERcpp=CharactersClass/AbstractPlayer.cpp
 HUMPLAYERcpp=CharactersClass/HumanPlayer.cpp
 ARTPLAYERcpp=CharactersClass/ArtificialPlayer.cpp
 ACTBUTTONcpp=MenuClass/ActionButton.cpp
@@ -29,11 +27,11 @@ MAINcpp=main.cpp
 $(BIN): $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) \
 		$(HUMPLAYERh) $(ARTPLAYERh) $(ABBUTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) \
 		$(MATRICEh) $(TERRh) \
-		$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(ABUNITcpp) $(ABPLAYERcpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(ACTBUTTONcpp) \
+		$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(ACTBUTTONcpp) \
 		$(MENUcpp) $(TERRcpp) $(MAINcpp)
 	g++ -Wall -lSDL $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) $(HUMPLAYERh) $(ARTPLAYERh) \
 					$(ABBUTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) $(MATRICEh) $(TERRh) \
-					$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(ABUNITcpp) $(ABPLAYERcpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(MENUcpp) \
+					$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(MENUcpp) \
 					$(ACTBUTTONcpp) $(TERRcpp) $(MAINcpp) \
 	-o $(BIN)
 clean:

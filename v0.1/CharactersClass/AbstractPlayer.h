@@ -4,9 +4,7 @@
 class AbstractPlayer
 {
 	public:
-		AbstractPlayer() ;
 		virtual void takeDecision() = 0 ;
-		virtual ~AbstractPlayer() ;
 };
 
 #endif // __ABSTRACTPLAYER_H__
