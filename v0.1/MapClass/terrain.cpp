@@ -105,9 +105,9 @@ bool Terrain::saveBMP (std::string const& fileName) const
 }
 
 
-SurfaceAffichage* const Terrain::terrainComplet() const
+SurfaceAffichage const& Terrain::terrainComplet() const
 {
-	return m_terrainComplet ;
+	return *m_terrainComplet ;
 }
 
 

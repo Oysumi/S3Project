@@ -23,7 +23,7 @@ int main ( int args, char * argv[] )
     Terrain terrain("ressources/map.txt","ressources/SpriteMap64.bmp") ;
     terrain.saveBMP("terrain.bmp") ;
 
-    fenetre.ajouter(*(terrain.terrainComplet())) ;
+    fenetre.ajouter(terrain.terrainComplet()) ;
     fenetre.actualiser() ;
     
     //EVENT LOOP
@@ -98,7 +98,7 @@ int main ( int args, char * argv[] )
             scroll.x -- ;
             changement = true ;
         }
-        if (droite_ecran && SDL_GetTicks()-temps_precedent>= TIME_BETWEEN_SCROLL_CHANGE && scroll.x < terrain.terrainComplet()->width() - SCREEN_WIDTH)
+        if (droite_ecran && SDL_GetTicks()-temps_precedent>= TIME_BETWEEN_SCROLL_CHANGE && scroll.x < terrain.terrainComplet().width() - SCREEN_WIDTH)
         {
             scroll.x ++ ;
             changement = true ;
@@ -108,7 +108,7 @@ int main ( int args, char * argv[] )
             scroll.y -- ;
             changement = true ;
         }
-        if (bas_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y < terrain.terrainComplet()->height() - SCREEN_HEIGHT)
+        if (bas_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y < terrain.terrainComplet().height() - SCREEN_HEIGHT)
         {
             scroll.y ++ ;
             changement = true ;
@@ -116,7 +116,7 @@ int main ( int args, char * argv[] )
         if (changement)
         {
             temps_precedent = SDL_GetTicks() ;
-            fenetre.ajouter(*(terrain.terrainComplet()),&scroll,0,0 ) ;
+            fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0 ) ;
             fenetre.actualiser() ;
         }
 

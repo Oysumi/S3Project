@@ -18,7 +18,7 @@ class Terrain
         ~Terrain() ;
 
         bool saveBMP (std::string const& fileName) const ;
-        SurfaceAffichage* const terrainComplet() const ;
+        SurfaceAffichage const& terrainComplet() const ;
         
     private : // Fonctions internes
         unsigned short assocCodeToCaseSprite (char const& c) const ;
