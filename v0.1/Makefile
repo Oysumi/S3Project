@@ -12,6 +12,7 @@ ACTBUTTONh=MenuClass/ActionButton.h
 SUBMENUh=MenuClass/SubMenuButton.h
 MENUh=MenuClass/Menu.h
 MATRICEh=MatriceClass/MatriceGameGestion.h
+TERRh=MapClass/terrain.h
 
 TEXTUREcpp=DisplayClass/texture.cpp
 FENETREcpp=DisplayClass/fenetre.cpp
@@ -22,17 +23,18 @@ HUMPLAYERcpp=CharactersClass/HumanPlayer.cpp
 ARTPLAYERcpp=CharactersClass/ArtificialPlayer.cpp
 ACTBUTTONcpp=MenuClass/ActionButton.cpp
 MENUcpp=MenuClass/Menu.cpp
+TERRcpp=MapClass/terrain.cpp
 MAINcpp=main.cpp
 
 $(BIN): $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) \
 		$(HUMPLAYERh) $(ARTPLAYERh) $(ABBUTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) \
-		$(MATRICEh) \
+		$(MATRICEh) $(TERRh) \
 		$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(ABUNITcpp) $(ABPLAYERcpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(ACTBUTTONcpp) \
-		$(MENUcpp) $(MAINcpp)
+		$(MENUcpp) $(TERRcpp) $(MAINcpp)
 	g++ -Wall -lSDL $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) $(HUMPLAYERh) $(ARTPLAYERh) \
-					$(ABBUTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) $(MATRICEh) \
+					$(ABBUTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) $(MATRICEh) $(TERRh) \
 					$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(ABUNITcpp) $(ABPLAYERcpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(MENUcpp) \
-					$(ACTBUTTONcpp) $(MAINcpp) \
+					$(ACTBUTTONcpp) $(TERRcpp) $(MAINcpp) \
 	-o $(BIN)
 clean:
 	rm -f $(BIN)

@@ -6,7 +6,7 @@
 //#include "../ConstructionClass/AbstractConstruction.h"
 /* include the map file */
 
-#include <list>
+#include <vector>
 
 class MatriceGameGestion
 {
@@ -23,9 +23,9 @@ class MatriceGameGestion
 		/* [...] */
 
 		/*Map m_myMap ;
-		std::list<AbstractPlayer> m_myPlayers ;
-		std::list<AbstractConstruction> m_myConstructions ;*/
-		std::list<AbstractUnit> m_myUnit ;
+		std::vector<AbstractPlayer> m_myPlayers ;
+		std::vector<AbstractConstruction> m_myConstructions ;*/
+		std::vector<AbstractUnit> m_myUnit ;
 };
 
 #endif // __MATRICEGAMEGESTION_H__
