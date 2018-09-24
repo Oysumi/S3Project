@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <time.h>
 #include "SDL/SDL.h"
 
 #include "fonctions.h"
@@ -11,18 +12,24 @@
 
 using namespace std;
 
-#define SCREEN_WIDTH 600
-#define SCREEN_HEIGHT 400
-#define SCROOL_ZONE 5
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 960
+#define SCROOL_ZONE 15
 #define TIME_BETWEEN_SCROLL_CHANGE 5
 
 int main ( int args, char * argv[] )
 {
+    //initialisation aléatoire
+    srand(time(NULL)) ;
+    
+    //Création fenêtre et terrain
+    Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN) ;
+    Terrain terrain("ressources/SpriteMap64.bmp", 50, 50) ;
 
-    Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE || SDL_DOUBLEBUF || SDL_FULLSCREEN) ;
-    Terrain terrain("ressources/map.txt","ressources/SpriteMap64.bmp") ;
+    //enregistrement du terrai dans une image
     terrain.saveBMP("terrain.bmp") ;
 
+    //On affiche le terrain
     fenetre.ajouter(terrain.terrainComplet()) ;
     fenetre.actualiser() ;
     

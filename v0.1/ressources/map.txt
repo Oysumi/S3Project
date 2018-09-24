@@ -1,16 +1,20 @@
-GGGGGGGGGGGGGGGGGGGG
+GGGGGGGGGGGGGGGGGGGGGGGGGG
+G    WW
+G  WWW
+G    WWW  W       WWWW
+G  WWWWWW  WWW
+G            W     WWW
+G      W     W
+G         WWW
+G      WWWW       WW
+G                 WWW
+G    W              WW
+G        W  W
+G        WW
 G
-G  C4444446
-G  80000002  E
-G  91111113  A  F
-G            A
-G      F     A
-G            B
-G      D555555557
+G    W
+GW W           WW
+G             WW
+G            WWWW
 G
-G    F
-G
-G          F
-G
-G    F
-G
+G     WW

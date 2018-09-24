@@ -15,6 +15,7 @@ class Terrain
 {
     public :
         Terrain(std::string const& fileMap, std::string const& fileSprite) ;
+        Terrain(std::string const& fileSprite, unsigned short const& width, unsigned int const& height) ;
         ~Terrain() ;
 
         bool saveBMP (std::string const& fileName) const ;
@@ -22,6 +23,8 @@ class Terrain
         
     private : // Fonctions internes
         unsigned short assocCodeToCaseSprite (char const& c) const ;
+        void generer_le_terrain (std::string const& terrain_representation) ;
+
 
     private : //Attributs
         SpriteTexture m_sprite ;
