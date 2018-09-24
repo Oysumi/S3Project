@@ -7,7 +7,7 @@ class SubMenuButton
 {
 	public:
 		SubMenuButton();
-		~SubMenuButton();
+		~SubMenuButton(); 
 	protected:
 		Menu m_myMenu ;
 };
