@@ -15,28 +15,34 @@ class SurfaceAffichage
         SurfaceAffichage(unsigned short const& width, unsigned short const& height) ;
         ~SurfaceAffichage() ;
 
-        void ajouter (Texture const& t, SDL_Rect* pos) ;
-        void ajouter (Texture const& t, unsigned short const& posx, unsigned int short const& posy) ;
-        void ajouter (Texture const& t) ;
-
-        void ajouter (SurfaceAffichage const& s, SDL_Rect* pos) ;
-        void ajouter (SurfaceAffichage const& s, unsigned short const& posx, unsigned int short const& posy) ;
-        void ajouter (SurfaceAffichage const& s) ;
-
-        void ajouter (SpriteTexture const& s, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) ;
-        void ajouter (SpriteTexture const& s, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) ;
-        void ajouter (SpriteTexture const& s, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) ;
-
         bool saveBMP(std::string const& name) const ;
 
         unsigned short width() const ; 
         unsigned short height() const ; 
+
+        //Affichage d'une texture
+        void ajouter (Texture const& t, SDL_Rect* srcect, SDL_Rect* pos) ;
+        void ajouter (Texture const& t, SDL_Rect* srcect, unsigned short const& posx, unsigned int short const& posy) ;
+        void ajouter (Texture const& t, unsigned short const& posx, unsigned int short const& posy) ;
+        void ajouter (Texture const& t) ;
+
+        //Affichage d'une surface d'affichage
+        void ajouter (SurfaceAffichage const& s, SDL_Rect* srcect, SDL_Rect* pos) ;
+        void ajouter (SurfaceAffichage const& s, SDL_Rect* srcect, unsigned short const& posx, unsigned int short const& posy) ;
+        void ajouter (SurfaceAffichage const& s, unsigned short const& posx, unsigned int short const& posy) ;
+        void ajouter (SurfaceAffichage const& s) ;
+
+        //Affichage d'un sprite
+        void ajouter (SpriteTexture const& s, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) ;
+        void ajouter (SpriteTexture const& s, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) ;
+        void ajouter (SpriteTexture const& s, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) ;
 
     protected :
 
         SDL_Surface* m_surface ;
         unsigned short m_height ;
         unsigned short m_width ;
+        static SurfaceAffichage* fenetre ;
 };
 
 
@@ -49,9 +55,6 @@ class Fenetre : public SurfaceAffichage
 	    ~Fenetre() ;
 	    void actualiser() ;
 
-    private:
-
-    	static bool instantiated ;
 };
 
 #endif

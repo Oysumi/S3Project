@@ -11,20 +11,32 @@
 
 using namespace std;
 
-#define SCREEN_WIDTH 800
+#define SCREEN_WIDTH 600
 #define SCREEN_HEIGHT 400
-
+#define SCROOL_ZONE 5
+#define TIME_BETWEEN_SCROLL_CHANGE 5
 
 int main ( int args, char * argv[] )
 {
 
-    Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE || SDL_DOUBLEBUF) ;
+    Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE || SDL_DOUBLEBUF || SDL_FULLSCREEN) ;
     Terrain terrain("ressources/map.txt","ressources/SpriteMap64.bmp") ;
     terrain.saveBMP("terrain.bmp") ;
-    fenetre.ajouter(terrain.terrainComplet()) ;
+
+    fenetre.ajouter(*(terrain.terrainComplet())) ;
+    fenetre.actualiser() ;
     
     //EVENT LOOP
     debugage_message("Début du Jeu") ;
+
+    bool changement, gauche_ecran = false, droite_ecran = false, bas_ecran = false, haut_ecran = false ;
+    int temps_precedent = 0 ;
+    SDL_Rect scroll ;
+    scroll.x = 0 ;
+    scroll.y = 0 ;
+    scroll.h = SCREEN_HEIGHT ;
+    scroll.w = SCREEN_WIDTH ;
+    
     SDL_Event event ;
     bool end = false ;
     while (!end)
@@ -49,10 +61,64 @@ int main ( int args, char * argv[] )
                             break;
                     }
                     break;
+
+                //DECALAGE DE LA CARTE
+                case SDL_MOUSEMOTION:
+                {
+                    if (event.motion.x <= SCROOL_ZONE)
+                        gauche_ecran = true ;
+                    else
+                        gauche_ecran = false ;
+
+                    if (event.motion.y <= SCROOL_ZONE)
+                        haut_ecran = true ;
+                    else
+                        haut_ecran = false ;
+
+                    if (event.motion.x >= SCREEN_WIDTH-SCROOL_ZONE)
+                        droite_ecran = true ;
+                    else
+                        droite_ecran = false ;
+
+                    if (event.motion.y >= SCREEN_HEIGHT-SCROOL_ZONE)
+                        bas_ecran = true ;
+                    else
+                        bas_ecran = false ;
+
+                    break ;
+                }
+
             }
         }
-        
-        fenetre.actualiser() ;
+
+
+        changement = false ;
+        if (gauche_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.x > 0)
+        {
+            scroll.x -- ;
+            changement = true ;
+        }
+        if (droite_ecran && SDL_GetTicks()-temps_precedent>= TIME_BETWEEN_SCROLL_CHANGE && scroll.x < terrain.terrainComplet()->width() - SCREEN_WIDTH)
+        {
+            scroll.x ++ ;
+            changement = true ;
+        }
+        if (haut_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y > 0)
+        {
+            scroll.y -- ;
+            changement = true ;
+        }
+        if (bas_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y < terrain.terrainComplet()->height() - SCREEN_HEIGHT)
+        {
+            scroll.y ++ ;
+            changement = true ;
+        }
+        if (changement)
+        {
+            temps_precedent = SDL_GetTicks() ;
+            fenetre.ajouter(*(terrain.terrainComplet()),&scroll,0,0 ) ;
+            fenetre.actualiser() ;
+        }
 
     }
     debugage_message("Fin du Jeu") ;

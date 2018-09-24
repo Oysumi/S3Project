@@ -1,10 +1,16 @@
 GGGGGGGGGGGGGGGGGGGG
 G
-GGGC4444446
-GGG80000002
-GGG91111113
+G  C4444446
+G  80000002  E
+G  91111113  A  F
+G            A
+G      F     A
+G            B
+G      D555555557
 G
+G    F
 G
+G          F
 G
-G
+G    F
 G
