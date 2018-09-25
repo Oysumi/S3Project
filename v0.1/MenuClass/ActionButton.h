@@ -22,6 +22,8 @@ class ActionButton : public AbstractButton
 		void setTextColor(SDL_Color text) ;
 		void setBackgroundColor(SDL_Color back) ;
 		void setButtonColors(SDL_Color background, SDL_Color text) ; // set the text and background color at the same time
+		void setButton(unsigned short int idToSet, unsigned short int size, unsigned short int pos_x, unsigned short int pos_y, SDL_Color text, SDL_Color back) ;
+		// void setButton(std::string idToSet, unsigned short int size, unsigned short int pos_x, unsigned short int pos_y, SDL_Color text, SDL_Color back) ;
 
 		// Getters
 		// We have to decide which one we choose between the string one and the integer one

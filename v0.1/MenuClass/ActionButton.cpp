@@ -77,6 +77,14 @@ void ActionButton::setButtonColors(SDL_Color background, SDL_Color text)
 	this->setBackgroundColor(background) ;
 }
 
+void ActionButton::setButton(unsigned short int idToSet, unsigned short int size, unsigned short int pos_x, unsigned short int pos_y, SDL_Color text, SDL_Color back)
+{
+	this->setId(idToSet) ;
+	this->setSize(size) ;
+	this->setPos(pos_x, pos_y) ;
+	this->setButtonColors(back, text) ;
+}
+
 /**************************************************************************************************************
  *                                                  GETTERS                                                   *
  **************************************************************************************************************/

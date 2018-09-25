@@ -1,0 +1,5 @@
+https://wiki.libsdl.org/SDL_GetCurrentDisplayMode
+https://wiki.libsdl.org/SDL_GetDesktopDisplayMode
+
+fonctions pour obtenir la largeur et hauteur de l'écran selon utilisateur
+fonctionne sous SDL2, à tester
