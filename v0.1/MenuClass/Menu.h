@@ -3,7 +3,7 @@
 
 #include "AbstractButton.h"
 #include <SDL/SDL.h>
-#include <list>
+#include <vector>
 
 class Menu
 {
@@ -13,12 +13,12 @@ class Menu
 		void setColor(SDL_Color col) ;
 
 	protected:
-		std::list<AbstractButton> m_myButtons ;
+		std::vector<AbstractButton> m_myButtons ;
 		unsigned short int m_size ;
 		unsigned short int m_pos_x ;
 		unsigned short int m_pos_y ;
 		SDL_Color m_background ;
-		static std::list<AbstractButton> * m_listButtons ;
+		static std::vector<AbstractButton> * m_listButtons ;
 };
 
 #endif // __MENU_H__

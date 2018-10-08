@@ -8,33 +8,30 @@ using namespace std ;
 /**************************************************************************************************************
  *                                             CONSTRUCTORS                                                   *
  **************************************************************************************************************/
-ActionButton::ActionButton() : m_id_f(0), m_id_s("")
+
+ActionButton::ActionButton() : m_id_f(0)
 { }
 
-ActionButton::ActionButton(unsigned short int idToSet) : m_id_f(idToSet), m_id_s("")
+ActionButton::ActionButton(unsigned short int idToSet) : m_id_f(idToSet)
 { }
 
-ActionButton::ActionButton(string idToSet) : m_id_f(0), m_id_s(idToSet)
+ActionButton::ActionButton(string idToSet) : m_id_f(0)
 { }
 
 ActionButton::ActionButton(unsigned short int idToSet, unsigned short int size, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) :
-m_id_f(idToSet), m_id_s("") 
+m_id_f(idToSet) 
 {
-	m_size = size ;
-	m_posx = pos_x ;
-	m_posy = pos_y ;
-	m_back_color = back ;
-	m_text_color = text ;
+	this->setSize(size) ;
+	this->setPos(pos_x, pos_y) ;
+	this->setButtonColors(back, text) ;
 }
 
 ActionButton::ActionButton(string idToSet, unsigned short int size, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) :
-m_id_f(0), m_id_s(idToSet)
+m_id_f(0)
 { 
-	m_size = size ;
-	m_posx = pos_x ;
-	m_posy = pos_y ;
-	m_back_color = back ;
-	m_text_color = text ;
+	this->setSize(size) ;
+	this->setPos(pos_x, pos_y) ;
+	this->setButtonColors(back, text) ;
 }
 
 /**************************************************************************************************************
@@ -43,11 +40,6 @@ m_id_f(0), m_id_s(idToSet)
 void ActionButton::setId(unsigned short int idToSet)
 {
 	m_id_f = idToSet ;
-}
-
-void ActionButton::setId(string idToSet)
-{
-	m_id_s = idToSet ;
 }
 
 void ActionButton::setSize(unsigned short int size)
@@ -88,6 +80,7 @@ void ActionButton::setButton(unsigned short int idToSet, unsigned short int size
 /**************************************************************************************************************
  *                                                  GETTERS                                                   *
  **************************************************************************************************************/
+
 unsigned short int ActionButton::getId() const
 {
 	return this->m_id_f ;

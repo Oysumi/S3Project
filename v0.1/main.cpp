@@ -13,7 +13,7 @@
 using namespace std;
 
 #define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 960
+#define SCREEN_HEIGHT 720
 #define SCROOL_ZONE 15
 #define TIME_BETWEEN_SCROLL_CHANGE 5
 

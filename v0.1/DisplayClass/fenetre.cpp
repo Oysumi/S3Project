@@ -85,8 +85,6 @@ void Fenetre::actualiser()
 }
 
 
-
-
 // ------------------- GESTION DE L'AFFICHAGE -------------------
 
 
