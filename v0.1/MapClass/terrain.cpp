@@ -4,8 +4,10 @@
 #include <time.h>
 using namespace std ;
 
+string Terrain::nameSpriteTexture = "ressources/SpriteMap64.bmp" ;
+
 //GENERATION D'UN TEXTE REPRESENTANT LE TERRAIN A PARTIR D'UN FICHIER
-Terrain::Terrain(string const& fileMap, string const& fileSprite) : m_sprite(fileSprite, MAP_CASE_SIZE, NB_SPRITE)
+Terrain::Terrain(string const& fileMap) : m_sprite(nameSpriteTexture, MAP_CASE_SIZE, NB_SPRITE)
 {
     
     debugage_message("Lecture du fichier de terrain") ;
@@ -39,7 +41,7 @@ Terrain::Terrain(string const& fileMap, string const& fileSprite) : m_sprite(fil
 }
 
 //GENERATION ALEATOIRE D'UN TEXTE REPRESENTANT LE TERRAIN
-Terrain::Terrain (string const& fileSprite, unsigned short const& width, unsigned int const& height) : m_sprite(fileSprite, MAP_CASE_SIZE, NB_SPRITE)
+Terrain::Terrain (unsigned short const& width, unsigned int const& height) : m_sprite(nameSpriteTexture, MAP_CASE_SIZE, NB_SPRITE)
 {
     //ANALYSE DU FICHIER DU TERRAIN
     string texte = "" ;
@@ -92,11 +94,11 @@ void Terrain::generer_le_terrain (string const& terrain_representation)
 
 	//Création d'un tableau réprésentant les textures du terrain
     debugage_message("Vérification du format de la map et correction") ;
-    char ** terrain = 0 ;
-    terrain = (char**)malloc(m_nb_height_sprite * sizeof(char*));
+    m_terrainTab = 0 ;
+    m_terrainTab = (char**)malloc(m_nb_height_sprite * sizeof(char*));
     for (unsigned short i = 0 ; i < m_nb_height_sprite ; i++)
     {
-        terrain[i] = (char*)malloc(m_nb_width_sprite * sizeof(char));
+        m_terrainTab[i] = (char*)malloc(m_nb_width_sprite * sizeof(char));
     }
 
     //Remplissage par des cases d'herbes (lignes complétées si de tailles différentes)
@@ -104,7 +106,7 @@ void Terrain::generer_le_terrain (string const& terrain_representation)
     {
         for (unsigned short i = 0; i < m_nb_width_sprite ; i++)
         {
-            terrain[l][i] = 'G' ;
+            m_terrainTab[l][i] = 'G' ;
         }
     }
 
@@ -123,7 +125,7 @@ void Terrain::generer_le_terrain (string const& terrain_representation)
         		carac = 'G' ;
 
         	//Remplacement dans le tablleau
-            terrain[l][i] = carac ;
+            m_terrainTab[l][i] = carac ;
             texte_curseur ++;
         }
         texte_curseur++ ;
@@ -135,28 +137,28 @@ void Terrain::generer_le_terrain (string const& terrain_representation)
     {
         for (unsigned short y = 0 ; y < m_nb_height_sprite ; y++)
         {
-            if(terrain[y][x] == 'W')
+            if(m_terrainTab[y][x] == 'W')
             {
             	short lettre_sprite = 0 ;
             	
             	if (x-1 < 0)
             		lettre_sprite += 8 ;
-            	else if (terrain[y][x-1] == 'G')
+            	else if (m_terrainTab[y][x-1] == 'G')
             			lettre_sprite += 8 ;
 
             	if (y-1 < 0)
             		lettre_sprite += 4 ;
-            	else if (terrain[y-1][x] == 'G')
+            	else if (m_terrainTab[y-1][x] == 'G')
             			lettre_sprite += 4 ;
 
             	if (x+1 >= m_nb_width_sprite)
             		lettre_sprite += 2 ;
-            	else if (terrain[y][x+1] == 'G')
+            	else if (m_terrainTab[y][x+1] == 'G')
             			lettre_sprite += 2 ;
 
             	if (y+1 >= m_nb_height_sprite)
             		lettre_sprite += 1 ;
-            	else if (terrain[y+1][x] == 'G')
+            	else if (m_terrainTab[y+1][x] == 'G')
             			lettre_sprite += 1 ;
             	
             	if (lettre_sprite >= 10)
@@ -164,7 +166,7 @@ void Terrain::generer_le_terrain (string const& terrain_representation)
             	else
             		lettre_sprite += 48 ;
 
-            	terrain[y][x] = (char) lettre_sprite ;
+            	m_terrainTab[y][x] = (char) lettre_sprite ;
             }
         }
     }
@@ -175,7 +177,7 @@ void Terrain::generer_le_terrain (string const& terrain_representation)
     {
         for (unsigned short i = 0 ; i < m_nb_width_sprite ; i++)
         {
-            texte_representation_terrain_final += terrain[l][i] ;
+            texte_representation_terrain_final += m_terrainTab[l][i] ;
         }
         texte_representation_terrain_final += "\n" ;
     }
@@ -187,7 +189,7 @@ void Terrain::generer_le_terrain (string const& terrain_representation)
     {
         for (unsigned short y = 0 ; y < m_nb_height_sprite ; y++)
         {
-            m_terrainComplet->ajouter(m_sprite, x*MAP_CASE_SIZE, y*MAP_CASE_SIZE, assocCodeToCaseSprite(terrain[y][x]) ) ;
+            m_terrainComplet->ajouter(m_sprite, x*MAP_CASE_SIZE, y*MAP_CASE_SIZE, assocCodeToCaseSprite(m_terrainTab[y][x]) ) ;
         }
     }
 

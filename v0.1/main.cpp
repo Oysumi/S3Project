@@ -24,7 +24,7 @@ int main ( int args, char * argv[] )
     
     //Création fenêtre et terrain
     Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN) ;
-    Terrain terrain("ressources/SpriteMap64.bmp", 50, 50) ;
+    Terrain terrain("ressources/map.txt") ;
 
     //enregistrement du terrai dans une image
     terrain.saveBMP("terrain.bmp") ;
