@@ -16,7 +16,11 @@ Texture::Texture(string const& path) : m_path(path)
 //DESTRUCTEUR
 Texture::~Texture()
 {
-	SDL_FreeSurface(m_surface) ;
+    cout << "Destruction texture" << endl ;
+    if(m_surface!=NULL){
+        SDL_FreeSurface(m_surface);
+        m_surface = NULL ;
+    }
 }
 
 //ACCESSEURS
@@ -28,9 +32,6 @@ string Texture::path() const
 {
     return m_path ;
 }
-
-
-
 
 //CONSTRUCTEUR
 SpriteTexture::SpriteTexture (string const& path, unsigned short const& size_sprite, unsigned short const& nombre_de_sprite_longueur, unsigned short const& nombre_de_sprite_largeur)
@@ -50,4 +51,9 @@ SDL_Rect SpriteTexture::getRect (unsigned short const& numero_sprite_longueur, u
     image.h = m_taille ;
     image.w = m_taille ;
     return image ;
+}
+
+SpriteTexture::~SpriteTexture()
+{ 
+    cout << "Destruction sprite texture" << endl ;
 }

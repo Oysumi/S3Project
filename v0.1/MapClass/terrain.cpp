@@ -72,7 +72,24 @@ Terrain::Terrain (unsigned short const& width, unsigned int const& height) : m_s
 //DESTRUCTEUR
 Terrain::~Terrain()
 {
-	delete m_terrainComplet ;
+    cout << "Destruction terrain" << endl ;
+    for (unsigned short i = 0 ; i < m_nb_height_sprite ; i++)
+    {
+        if(m_terrainTab[i]!=NULL){
+            free(m_terrainTab[i]) ;
+            m_terrainTab[i] = NULL;
+        }
+    }
+
+    if(m_terrainTab!=NULL){
+        free(m_terrainTab);
+        m_terrainTab = NULL;
+    }
+
+    if(m_terrainComplet!=NULL){
+        delete m_terrainComplet ;
+        m_terrainComplet = NULL;
+    }
 }
 
 //SAUVERGARDER L'IMAGE DU TERRAIN

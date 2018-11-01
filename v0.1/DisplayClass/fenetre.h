@@ -19,6 +19,7 @@ class SurfaceAffichage
 
         unsigned short width() const ; 
         unsigned short height() const ; 
+        SDL_Surface* surface() const ;
 
         //Affichage d'une texture
         void ajouter (Texture const& t, SDL_Rect* srcect, SDL_Rect* pos) ;

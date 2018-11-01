@@ -9,26 +9,15 @@ using namespace std ;
  *                                             CONSTRUCTORS                                                   *
  **************************************************************************************************************/
 
-ActionButton::ActionButton() : m_id_f(0)
+ActionButton::ActionButton() : m_id(0)
 { }
 
-ActionButton::ActionButton(unsigned short int idToSet) : m_id_f(idToSet)
+ActionButton::ActionButton(unsigned short int idToSet) : m_id(idToSet)
 { }
 
-ActionButton::ActionButton(string idToSet) : m_id_f(0)
-{ }
-
-ActionButton::ActionButton(unsigned short int idToSet, unsigned short int size, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) :
-m_id_f(idToSet) 
+ActionButton::ActionButton(unsigned short int idToSet, string textToWrite, unsigned short int size, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) :
+m_id(idToSet), m_text(textToWrite) 
 {
-	this->setSize(size) ;
-	this->setPos(pos_x, pos_y) ;
-	this->setButtonColors(back, text) ;
-}
-
-ActionButton::ActionButton(string idToSet, unsigned short int size, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) :
-m_id_f(0)
-{ 
 	this->setSize(size) ;
 	this->setPos(pos_x, pos_y) ;
 	this->setButtonColors(back, text) ;
@@ -39,7 +28,7 @@ m_id_f(0)
  **************************************************************************************************************/
 void ActionButton::setId(unsigned short int idToSet)
 {
-	m_id_f = idToSet ;
+	m_id = idToSet ;
 }
 
 void ActionButton::setSize(unsigned short int size)
@@ -83,7 +72,7 @@ void ActionButton::setButton(unsigned short int idToSet, unsigned short int size
 
 unsigned short int ActionButton::getId() const
 {
-	return this->m_id_f ;
+	return this->m_id ;
 }
 
 string ActionButton::getText() const

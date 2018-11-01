@@ -1,4 +1,26 @@
 #include "AbstractButton.h"
 
-AbstractButton::AbstractButton() : m_size(0), m_posx(0), m_posy(0), m_text(""), m_back_color({255,255,255}), m_text_color({0,0,0}) 
-{ }
+unsigned int AbstractButton::getPosX()
+{
+	return this->m_posx ;
+}
+
+unsigned int AbstractButton::getPosY()
+{
+	return this->m_posy ;
+}
+
+unsigned int AbstractButton::getSize()
+{
+	return this->m_size ;
+}
+
+void AbstractButton::setPosX(unsigned int x)
+{
+	m_posx = x ;
+}
+
+void AbstractButton::setPosY(unsigned int y)
+{
+	m_posy = y ;
+}

@@ -14,8 +14,13 @@ SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short c
 //DESTRUCTEUR
 SurfaceAffichage::~SurfaceAffichage()
 {
-	delete m_surface ;
+	cout << "Destruction surface affichage" << endl ;
+	if(m_surface!=NULL){
+		SDL_FreeSurface(m_surface);
+		m_surface = NULL;
+	}
 }
+
 //ACCESSEURS
 unsigned short SurfaceAffichage::width() const 
 {
@@ -24,6 +29,10 @@ unsigned short SurfaceAffichage::width() const
 unsigned short SurfaceAffichage::height() const
 {
 	return m_height ;
+}
+SDL_Surface* SurfaceAffichage::surface() const
+{
+	return m_surface ;
 }
 
 //sauvegarder l'image
@@ -55,12 +64,13 @@ Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned
 
 	if (fenetre == NULL)
 	{
-		if (SDL_Init(SDL_INIT_VIDEO) == -1)
+		if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	        erreur_message("Impssible d'initialiser la SDL pour la fenetre " + title + " : " + SDL_GetError()) ;
 	    
 	    SDL_WM_SetCaption(title.c_str(), NULL) ;
 	    
 	    m_surface = SDL_SetVideoMode(m_width, m_height, 32, flags);
+
 	    if (m_surface == NULL)
 	        erreur_message("Impssible de créer la fenetre " + title + " : " + SDL_GetError()) ;
 	    fenetre = this ;
@@ -74,8 +84,10 @@ Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned
 //DESTRUCTEUR
 Fenetre::~Fenetre()
 {
-	fenetre = NULL ;
-	SDL_Quit() ;
+	if (fenetre!=NULL){
+		fenetre = NULL ;
+	}
+	cout << "Destruction fenetre" << endl ;
 }
 
 // PERMET DE METTRE LA SURFACE DE LA FENETRE A JOUR
@@ -157,6 +169,9 @@ void SurfaceAffichage::ajouter (SpriteTexture const& s, SDL_Rect* pos, unsigned 
 	SDL_Rect* screct = new SDL_Rect(s.getRect(numero_sprite_longueur,numero_sprite_largeur)) ;
     if(SDL_BlitSurface(s.surface(), screct, m_surface, pos))
         erreur_message("Impossible d'ajouter le sprite" + s.path() + " à la SurfaceAffichage : " + string(SDL_GetError())) ;
+    if (screct != NULL){
+    	delete screct ;
+    }
 }
 void SurfaceAffichage::ajouter (SpriteTexture const& s, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur)
 {

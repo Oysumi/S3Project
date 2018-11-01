@@ -4,21 +4,26 @@
 #include "AbstractButton.h"
 #include <SDL/SDL.h>
 #include <vector>
+#include "../DisplayClass/fenetre.h"
 
 class Menu
 {
-	public:
-		void setSize(unsigned short int size) ;
-		void setPos(unsigned short int x, unsigned short int y) ;
-		void setColor(SDL_Color col) ;
-
 	protected:
 		std::vector<AbstractButton> m_myButtons ;
-		unsigned short int m_size ;
-		unsigned short int m_pos_x ;
-		unsigned short int m_pos_y ;
+		unsigned short int m_size_x ;
+		unsigned short int m_size_y ;
+		unsigned short int m_pos_x ; // coin en haut à gauche
+		unsigned short int m_pos_y ; // coin en haut à gauche
 		SDL_Color m_background ;
-		static std::vector<AbstractButton> * m_listButtons ;
+
+	private:
+		void calculPosButton(std::vector<AbstractButton> buttons) ;
+	
+	public:
+		Menu(std::vector<AbstractButton> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back) ;
+		void displayMenu(Fenetre screen) ;
+		SurfaceAffichage getMenu() ;
+		SDL_Color getColor() ;
 };
 
 #endif // __MENU_H__
