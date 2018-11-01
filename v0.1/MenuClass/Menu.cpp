@@ -33,12 +33,12 @@ void Menu::calculPosButton(vector<AbstractButton> buttons)
 	/**
 	 * Placement des boutons sur l'écran
 	 */
-	int i = 1 ;
+	int i = 0 ;
 	for ( AbstractButton b : buttons ){
 		b.setPosX(m_pos_x + DY);
 		b.setPosY(m_pos_y + i*(DX + longueur));
-		m_myButtons[i-1] = b ;
-		cout << "indice : " << i-1 << " ; pos x : " << m_myButtons[i-1].getPosX() << " ; pos y : " << m_myButtons[i-1].getPosY() << endl ;
+		m_myButtons[i] = b ;
+		cout << "indice : " << i << " ; pos x : " << m_myButtons[i].getPosX() << " ; pos y : " << m_myButtons[i].getPosY() << endl ;
 		i++ ;
 	}
 }
@@ -68,6 +68,9 @@ void Menu::displayMenu(Fenetre screen)
 	if(SDL_BlitSurface(surface, srcect, screen.surface(), pos))
         erreur_message("Impossible d'afficher le menu sur l'écran :  " + string(SDL_GetError())) ;
 
-	//screen.ajouter(menu, couleur) ;
+    for ( AbstractButton b : m_myButtons ){
+    	b.displayButton(screen) ;
+    }
+
     screen.actualiser() ;
 }

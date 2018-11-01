@@ -3,6 +3,7 @@
 
 #include <string>
 #include <SDL/SDL.h>
+#include "../DisplayClass/fenetre.h"
 
 // We put the constructor in protected so that we can't instanciate this class in the main code, making it a sort of abstract class
 
@@ -22,6 +23,9 @@ class AbstractButton
 		unsigned int getSize() ;
 		void setPosX(unsigned int x) ;
 		void setPosY(unsigned int y) ;
+		void displayButton(Fenetre screen) ;
+		SurfaceAffichage getSurface() ;
+		SDL_Color getBackColor() ;
 
 		// à définir méthode virtuelle qui renvoit la surface d'affichage du bouton
 };

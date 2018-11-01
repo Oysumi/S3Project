@@ -5,10 +5,13 @@
 #include <string>
 #include <time.h>
 #include "SDL/SDL.h"
+#include <vector>
 
 #include "fonctions.h"
 #include "DisplayClass/fenetre.h"
 #include "MapClass/terrain.h"
+#include "MenuClass/ActionButton.h"
+#include "MenuClass/Menu.h"
 
 using namespace std;
 
@@ -43,7 +46,20 @@ int main ( int args, char * argv[] )
     scroll.y = 0 ;
     scroll.h = SCREEN_HEIGHT ;
     scroll.w = SCREEN_WIDTH ;
-    
+
+    //TEST MENU
+    vector<AbstractButton> test(5) ;
+    SDL_Color font = {255, 255, 255} ; 
+    SDL_Color text = {0, 0, 0} ;
+
+    for ( int i = 0 ; i < 5 ; i ++ ){
+        test[i] = ActionButton(12, "TEST", 100, 110, 110, font, text) ;
+    }
+
+    SDL_Color font_menu = {253, 241, 184} ;
+    unsigned short int x(0), y(0) ;
+    Menu menu(test, x, y, font_menu) ;
+
     SDL_Event event ;
     bool end = false ;
     while (!end)
@@ -64,6 +80,9 @@ int main ( int args, char * argv[] )
                             end = true ;
                             break ;
                             
+                        case SDLK_m:
+                            menu.displayMenu(fenetre) ;
+                            break;
                         default:
                             break;
                     }
@@ -128,6 +147,8 @@ int main ( int args, char * argv[] )
         }
 
     }
+    
+    atexit(SDL_Quit);
     debugage_message("Fin du Jeu") ;
-    return 0 ;
+    return 0;
 }
