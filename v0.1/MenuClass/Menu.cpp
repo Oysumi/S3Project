@@ -1,6 +1,6 @@
 #include "Menu.h"
 #include "ActionButton.h"
-#include "../fonctions.h"
+#include "../Fonctions/fonctions.h"
 
 using namespace std ;
 
@@ -21,7 +21,7 @@ SDL_Color Menu::getColor()
 
 SurfaceAffichage Menu::getMenu()
 {
-	SurfaceAffichage surface(m_width, m_height) ;
+	SurfaceAffichage surface(m_width, m_height, true) ;
 
 	return surface ;
 }

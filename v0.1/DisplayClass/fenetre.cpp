@@ -5,11 +5,13 @@ using namespace std;
 SurfaceAffichage* SurfaceAffichage::fenetre = NULL ;
 
 //CONSTRUCTEUR
-SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short const& height)
+SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short const& height, bool const& create)
 {
 	m_height = height ;
 	m_width = width ;
-	m_surface = SDL_CreateRGBSurface(SDL_HWSURFACE, m_width, m_height, 32, 0, 0, 0, 0);
+	if (create){
+		m_surface = SDL_CreateRGBSurface(SDL_HWSURFACE, m_width, m_height, 32, 0, 0, 0, 0);
+	}
 }
 //DESTRUCTEUR
 SurfaceAffichage::~SurfaceAffichage()
@@ -44,7 +46,7 @@ bool SurfaceAffichage::saveBMP(std::string const& name) const
 
 
 //CONSTRUCTEUR FENETRE
-Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned short const& height, Uint32 flags) : SurfaceAffichage(width,height)
+Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned short const& height, Uint32 flags) : SurfaceAffichage(width,height,true)
 {
 	if (width >= SIZE_MIN)
 		m_width = width ;

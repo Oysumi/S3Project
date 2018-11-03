@@ -5,14 +5,16 @@
 #include "SDL/SDL.h"
 
 #include "texture.h"
-#include "../fonctions.h"
+#include "../Fonctions/fonctions.h"
 
 #define SIZE_MIN 100
 
 class SurfaceAffichage
 {
     public :
-        SurfaceAffichage(unsigned short const& width, unsigned short const& height) ;
+        /* create permet de dire si oui ou non nous avons besoin de créer une SDL_Surface, car dans le cas des
+         * textes à afficher, nous devons utiliser une fonction autre que celle proposée par SDL_RGB */
+        SurfaceAffichage(unsigned short const& width, unsigned short const& height, bool const& create) ;
         ~SurfaceAffichage() ;
 
         bool saveBMP(std::string const& name) const ;

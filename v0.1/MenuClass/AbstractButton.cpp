@@ -34,7 +34,7 @@ void AbstractButton::setPosY(unsigned int y)
 
 SurfaceAffichage AbstractButton::getSurfaceAffichage() const
 {
-	SurfaceAffichage surface(m_width, m_height) ;
+	SurfaceAffichage surface(m_width, m_height, true) ;
 
 	return surface ;
 }

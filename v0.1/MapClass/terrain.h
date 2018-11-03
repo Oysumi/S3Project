@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../fonctions.h"
+#include "../Fonctions/fonctions.h"
 #include "../DisplayClass/texture.h"
 #include "../DisplayClass/fenetre.h"
 

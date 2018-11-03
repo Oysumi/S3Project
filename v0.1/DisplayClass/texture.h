@@ -4,7 +4,7 @@
 #include <string>
 #include "SDL/SDL.h"
 
-#include "../fonctions.h"
+#include "../Fonctions/fonctions.h"
 
 class Texture
 {

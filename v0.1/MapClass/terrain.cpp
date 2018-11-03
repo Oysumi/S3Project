@@ -4,7 +4,7 @@
 #include <time.h>
 using namespace std ;
 
-string Terrain::nameSpriteTexture = "ressources/SpriteMap64.bmp" ;
+string Terrain::nameSpriteTexture = "../ressources/SpriteMap64.bmp" ;
 
 //GENERATION D'UN TEXTE REPRESENTANT LE TERRAIN A PARTIR D'UN FICHIER
 Terrain::Terrain(string const& fileMap) : m_sprite(nameSpriteTexture, MAP_CASE_SIZE, NB_SPRITE)
@@ -201,7 +201,7 @@ void Terrain::generer_le_terrain (string const& terrain_representation)
 
     debugage_message("Représentation des sprites calculées : ") ;
     debugage_message(texte_representation_terrain_final) ;
-    m_terrainComplet = new SurfaceAffichage(m_nb_width_sprite*MAP_CASE_SIZE, m_nb_height_sprite*MAP_CASE_SIZE) ;
+    m_terrainComplet = new SurfaceAffichage(m_nb_width_sprite*MAP_CASE_SIZE, m_nb_height_sprite*MAP_CASE_SIZE, true) ;
     for (unsigned short x = 0 ; x < m_nb_width_sprite ; x++)
     {
         for (unsigned short y = 0 ; y < m_nb_height_sprite ; y++)
