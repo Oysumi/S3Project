@@ -53,15 +53,17 @@ int main ( int args, char * argv[] )
     SDL_Color text = {0, 0, 0} ;
 
     for ( int i = 0 ; i < 5 ; i ++ ){
-        test[i] = ActionButton(12, "TEST", 100, 110, 110, font, text) ;
+        test[i] = ActionButton(12, "TEST", 100, 50, 110, 110, font, text) ;
     }
 
     SDL_Color font_menu = {253, 241, 184} ;
-    unsigned short int x(0), y(0) ;
+    unsigned short int x(SCREEN_WIDTH/2), y(0) ;
     Menu menu(test, x, y, font_menu) ;
 
     SDL_Event event ;
     bool end = false ;
+    bool menuOpen = false ;
+
     while (!end)
     {
         if (SDL_PollEvent(&event))
@@ -81,7 +83,17 @@ int main ( int args, char * argv[] )
                             break ;
                             
                         case SDLK_m:
-                            menu.displayMenu(fenetre) ;
+                            if (!menuOpen){
+                                menuOpen = true ;
+                                menu.displayMenu(fenetre) ;
+                                cout << "Menu ouvert" << endl ;
+                            }
+                            else{
+                                menuOpen = false ;
+                                fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0,text ) ;
+                                fenetre.actualiser() ;
+                                cout << "Menu fermé" << endl ;
+                            }
                             break;
                         default:
                             break;
@@ -142,7 +154,10 @@ int main ( int args, char * argv[] )
         if (changement)
         {
             temps_precedent = SDL_GetTicks() ;
-            fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0 ) ;
+            fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0,text ) ;
+            if (menuOpen){
+                menu.displayMenu(fenetre) ;
+            }
             fenetre.actualiser() ;
         }
 

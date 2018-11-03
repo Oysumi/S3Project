@@ -2,19 +2,24 @@
 
 using namespace std ;
 
-unsigned int AbstractButton::getPosX()
+unsigned int AbstractButton::getPosX() const
 {
 	return this->m_posx ;
 }
 
-unsigned int AbstractButton::getPosY()
+unsigned int AbstractButton::getPosY() const
 {
 	return this->m_posy ;
 }
 
-unsigned int AbstractButton::getSize()
+unsigned int AbstractButton::getWidth() const
 {
-	return this->m_size ;
+	return this->m_width ;
+}
+
+unsigned int AbstractButton::getHeight() const
+{
+	return this->m_height ;
 }
 
 void AbstractButton::setPosX(unsigned int x)
@@ -27,21 +32,21 @@ void AbstractButton::setPosY(unsigned int y)
 	m_posy = y ;
 }
 
-SurfaceAffichage AbstractButton::getSurface()
+SurfaceAffichage AbstractButton::getSurfaceAffichage() const
 {
-	SurfaceAffichage surface(m_size, m_size) ;
+	SurfaceAffichage surface(m_width, m_height) ;
 
 	return surface ;
 }
 
-SDL_Color AbstractButton::getBackColor()
+SDL_Color AbstractButton::getBackColor() const
 {
 	return this->m_back_color ;
 }
 
-void AbstractButton::displayButton(Fenetre screen)
+void AbstractButton::displayButton(Fenetre screen) const
 {
-	SurfaceAffichage button = this->getSurface() ;
+	SurfaceAffichage button = this->getSurfaceAffichage() ;
 	SDL_Surface* surface = button.surface() ;
 	SDL_Rect* srcect = NULL ;
 	SDL_Rect* pos = (SDL_Rect*)malloc(sizeof(SDL_Rect)) ;

@@ -10,8 +10,8 @@ class Menu
 {
 	protected:
 		std::vector<AbstractButton> m_myButtons ;
-		unsigned short int m_size_x ;
-		unsigned short int m_size_y ;
+		unsigned short int m_height ;
+		unsigned short int m_width ;
 		unsigned short int m_pos_x ; // coin en haut à gauche
 		unsigned short int m_pos_y ; // coin en haut à gauche
 		SDL_Color m_background ;
@@ -21,9 +21,12 @@ class Menu
 	
 	public:
 		Menu(std::vector<AbstractButton> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back) ;
-		void displayMenu(Fenetre screen) ;
 		SurfaceAffichage getMenu() ;
 		SDL_Color getColor() ;
+		unsigned short getPosX() ;
+		unsigned short getPosY() ;
+		void displayMenu(Fenetre screen) ;
+		
 };
 
 #endif // __MENU_H__

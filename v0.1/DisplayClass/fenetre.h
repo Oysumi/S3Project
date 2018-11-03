@@ -28,9 +28,10 @@ class SurfaceAffichage
         void ajouter (Texture const& t) ;
 
         //Affichage d'une surface d'affichage
-        void ajouter (SurfaceAffichage const& s, SDL_Rect* srcect, SDL_Rect* pos) ;
-        void ajouter (SurfaceAffichage const& s, SDL_Rect* srcect, unsigned short const& posx, unsigned int short const& posy) ;
-        void ajouter (SurfaceAffichage const& s, unsigned short const& posx, unsigned int short const& posy) ;
+        void ajouter (SurfaceAffichage const& s, SDL_Rect* srcect, SDL_Rect* pos, SDL_Color col) ;
+        void ajouter (SurfaceAffichage const& s, SDL_Rect* srcect, unsigned short const& posx, unsigned int short const& posy, SDL_Color col) ;
+        void ajouter (SurfaceAffichage const& s, unsigned short const& posx, unsigned int short const& posy, SDL_Color col) ;
+        void ajouter (SurfaceAffichage const& s, SDL_Color col) ;
         void ajouter (SurfaceAffichage const& s) ;
 
         //Affichage d'un sprite

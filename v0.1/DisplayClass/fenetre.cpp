@@ -129,7 +129,7 @@ void SurfaceAffichage::ajouter (Texture const& t)
 
 
 // AJOUT SURFACE D'AFFICHAGE SUR UNE SURFACE D'AFFICHAGE
-void SurfaceAffichage::ajouter (SurfaceAffichage const& s, SDL_Rect* srcect, SDL_Rect* pos)
+void SurfaceAffichage::ajouter (SurfaceAffichage const& s, SDL_Rect* srcect, SDL_Rect* pos, SDL_Color col)
 {
 	SDL_Rect position ;
 	position.x = 0 ;
@@ -139,29 +139,33 @@ void SurfaceAffichage::ajouter (SurfaceAffichage const& s, SDL_Rect* srcect, SDL
 		pos = &position ;
 	}
 	//fprintf(stderr, " surface : %p\n Coord : %p\n Pos : %p\n Fsurface %p\n", s.m_surface, srcect, pos, m_surface);
-	if(SDL_FillRect(m_surface, NULL, SDL_MapRGB(m_surface->format, 0, 0, 0)) != 0)
-		erreur_message("L'ajout d'une SurfaceAffichage dans une autre à échoué (impossible d'effacer l'ecran) :  " + string(SDL_GetError())) ;
+	//if(SDL_FillRect(m_surface, NULL, SDL_MapRGB(m_surface->format, 0, 0, 0)) != 0)
+		//erreur_message("L'ajout d'une SurfaceAffichage dans une autre à échoué (impossible d'effacer l'ecran) :  " + string(SDL_GetError())) ;
 	if(SDL_BlitSurface(s.m_surface, srcect, m_surface, pos))
         erreur_message("L'ajout d'une SurfaceAffichage dans une autre à échoué :  " + string(SDL_GetError())) ;
 }
-void SurfaceAffichage::ajouter (SurfaceAffichage const& s, SDL_Rect* srcect, unsigned short const& posx, unsigned int short const& posy)
+void SurfaceAffichage::ajouter (SurfaceAffichage const& s, SDL_Rect* srcect, unsigned short const& posx, unsigned int short const& posy, SDL_Color col)
 {
 	SDL_Rect pos ;
     pos.x = posx ;
     pos.y = posy ;
-    ajouter (s, srcect, &pos) ;
+    ajouter (s, srcect, &pos, col) ;
 }
-void SurfaceAffichage::ajouter (SurfaceAffichage const& s, unsigned short const& posx, unsigned int short const& posy)
+void SurfaceAffichage::ajouter (SurfaceAffichage const& s, unsigned short const& posx, unsigned int short const& posy, SDL_Color col)
 {
-    ajouter (s, NULL, posx, posy) ;
+    ajouter (s, NULL, posx, posy, col) ;
 }
-void SurfaceAffichage::ajouter (SurfaceAffichage const& s)
+void SurfaceAffichage::ajouter(SurfaceAffichage const& s, SDL_Color col)
 {
 	SDL_Rect* srcect = NULL ;
 	SDL_Rect* pos = NULL ;
-    ajouter (s, srcect, pos) ;
+	ajouter (s, srcect, pos, col) ;
 }
-
+void SurfaceAffichage::ajouter (SurfaceAffichage const& s)
+{
+	SDL_Color couleur = {0,0,0} ;
+    ajouter (s, couleur) ;
+}
 
 //AJOUT D'UN SPRITE SUR LA SURFACE D'AFFICHAGE
 void SurfaceAffichage::ajouter (SpriteTexture const& s, SDL_Rect* pos, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur)

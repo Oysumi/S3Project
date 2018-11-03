@@ -15,10 +15,10 @@ ActionButton::ActionButton() : m_id(0)
 ActionButton::ActionButton(unsigned short int idToSet) : m_id(idToSet)
 { }
 
-ActionButton::ActionButton(unsigned short int idToSet, string textToWrite, unsigned short int size, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) :
+ActionButton::ActionButton(unsigned short int idToSet, string textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) :
 m_id(idToSet), m_text(textToWrite) 
 {
-	this->setSize(size) ;
+	this->setSize(width, height) ;
 	this->setPos(pos_x, pos_y) ;
 	this->setButtonColors(back, text) ;
 }
@@ -31,9 +31,10 @@ void ActionButton::setId(unsigned short int idToSet)
 	m_id = idToSet ;
 }
 
-void ActionButton::setSize(unsigned short int size)
+void ActionButton::setSize(unsigned short int width, unsigned short int height)
 {
-	m_size = size ;
+	m_width = width ;
+	m_height = height ;
 }
 
 void ActionButton::setPos(unsigned short int pos_x, unsigned short int pos_y)
@@ -58,14 +59,6 @@ void ActionButton::setButtonColors(SDL_Color background, SDL_Color text)
 	this->setBackgroundColor(background) ;
 }
 
-void ActionButton::setButton(unsigned short int idToSet, unsigned short int size, unsigned short int pos_x, unsigned short int pos_y, SDL_Color text, SDL_Color back)
-{
-	this->setId(idToSet) ;
-	this->setSize(size) ;
-	this->setPos(pos_x, pos_y) ;
-	this->setButtonColors(back, text) ;
-}
-
 /**************************************************************************************************************
  *                                                  GETTERS                                                   *
  **************************************************************************************************************/
@@ -78,11 +71,6 @@ unsigned short int ActionButton::getId() const
 string ActionButton::getText() const
 {
 	return this->m_text ;
-}
-
-unsigned short int ActionButton::getSize() const
-{
-	return this->m_size ;
 }
 
 unsigned short int ActionButton::getPosX() const

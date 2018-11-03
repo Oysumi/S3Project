@@ -14,6 +14,28 @@ Menu::Menu(vector<AbstractButton> buttons, unsigned short int pos_x, unsigned sh
 	this->calculPosButton(buttons) ;
 }
 
+SDL_Color Menu::getColor()
+{
+	return this->m_background ;
+}
+
+SurfaceAffichage Menu::getMenu()
+{
+	SurfaceAffichage surface(m_width, m_height) ;
+
+	return surface ;
+}
+
+unsigned short Menu::getPosX()
+{
+	return this->m_pos_x ;
+}
+
+unsigned short Menu::getPosY()
+{
+	return this->m_pos_y ;
+}
+
 void Menu::calculPosButton(vector<AbstractButton> buttons)
 {
 	/**
@@ -23,53 +45,56 @@ void Menu::calculPosButton(vector<AbstractButton> buttons)
 	 */
 	int nbButton = buttons.size() ;
 	m_myButtons = vector<AbstractButton>(nbButton) ;
-	int const DX = 10 ;
-	int const DY = 10 ;
-	int longueur = buttons[0].getSize(); // on suppose ici que tous les boutons ont la même taille pour le moment
+	int const LARGEUR = 10 ;
+	int const HAUTEUR = 10 ;
 
-	m_size_y = nbButton*(DY+longueur) + DX ;
-	m_size_x = 2*DX + longueur ;
+	int boutonLargeur = buttons[0].getWidth(); // on suppose ici que tous les boutons ont la même taille pour le moment
+	int boutonHauteur = buttons[0].getHeight() ; // idem
+
+	m_height = nbButton*(HAUTEUR+boutonHauteur) + HAUTEUR ;
+	m_width = 2*LARGEUR + boutonLargeur ;
 
 	/**
 	 * Placement des boutons sur l'écran
 	 */
 	int i = 0 ;
 	for ( AbstractButton b : buttons ){
-		b.setPosX(m_pos_x + DY);
-		b.setPosY(m_pos_y + i*(DX + longueur));
+		b.setPosX(m_pos_x + LARGEUR);
+		b.setPosY(m_pos_y + (i+1)*HAUTEUR + i*boutonHauteur);
 		m_myButtons[i] = b ;
 		cout << "indice : " << i << " ; pos x : " << m_myButtons[i].getPosX() << " ; pos y : " << m_myButtons[i].getPosY() << endl ;
 		i++ ;
 	}
 }
 
-SDL_Color Menu::getColor()
-{
-	return this->m_background ;
-}
-
-SurfaceAffichage Menu::getMenu()
-{
-	SurfaceAffichage surface(m_size_x, m_size_y) ;
-
-	return surface ;
-}
-
 void Menu::displayMenu(Fenetre screen)
 {
-	SurfaceAffichage menu = this->getMenu() ;
-	SDL_Surface* surface = menu.surface() ;
-	SDL_Rect* srcect = NULL ;
-	SDL_Rect* pos = NULL ;
+	SurfaceAffichage menuAffichage = this->getMenu() ;
+	SDL_Surface* menuSurface = menuAffichage.surface() ;
 	SDL_Color couleur = this->getColor() ;
 
-	if(SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, couleur.r, couleur.g, couleur.b)) != 0)
-		erreur_message("Impossible de créer une surface pour afficher le menu :  " + string(SDL_GetError())) ;
-	if(SDL_BlitSurface(surface, srcect, screen.surface(), pos))
-        erreur_message("Impossible d'afficher le menu sur l'écran :  " + string(SDL_GetError())) ;
+	if(SDL_FillRect(menuSurface, NULL, SDL_MapRGB(menuSurface->format, couleur.r, couleur.g, couleur.b)) != 0){
+		erreur_message("Impossible de colorer le menu :  " + string(SDL_GetError())) ;
+	}
 
+	unsigned int posX = this->getPosX() ;
+	unsigned int posY = this->getPosY() ;
+
+	screen.ajouter(menuAffichage, posX, posY, couleur) ;
+ 
     for ( AbstractButton b : m_myButtons ){
-    	b.displayButton(screen) ;
+    	SurfaceAffichage bouton = b.getSurfaceAffichage() ;
+    	SDL_Surface* boutonSurface = bouton.surface() ;
+    	SDL_Color col = b.getBackColor() ;
+
+    	posX = b.getPosX() ;
+    	posY = b.getPosY() ;
+
+    	if(SDL_FillRect(boutonSurface, NULL, SDL_MapRGB(boutonSurface->format, col.r, col.g, col.b)) != 0){
+			erreur_message("Impossible de colorer l'un des boutons du menu :  " + string(SDL_GetError())) ;
+    	}
+
+    	screen.ajouter(bouton, posX, posY, col) ;
     }
 
     screen.actualiser() ;

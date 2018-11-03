@@ -10,7 +10,8 @@
 class AbstractButton
 {
 	protected:
-		unsigned int m_size ;
+		unsigned int m_width ;
+		unsigned int m_height ;
 		unsigned int m_posx ;
 		unsigned int m_posy ;
 		std::string m_text ;
@@ -18,14 +19,15 @@ class AbstractButton
 		SDL_Color m_text_color ;
 
 	public:
-		unsigned int getPosX() ;
-		unsigned int getPosY() ;
-		unsigned int getSize() ;
+		unsigned int getPosX() const ;
+		unsigned int getPosY() const ;
+		unsigned int getWidth() const ;
+		unsigned int getHeight() const ;
 		void setPosX(unsigned int x) ;
 		void setPosY(unsigned int y) ;
-		void displayButton(Fenetre screen) ;
-		SurfaceAffichage getSurface() ;
-		SDL_Color getBackColor() ;
+		void displayButton(Fenetre screen) const ;
+		SurfaceAffichage getSurfaceAffichage() const ;
+		SDL_Color getBackColor() const ;
 
 		// à définir méthode virtuelle qui renvoit la surface d'affichage du bouton
 };
