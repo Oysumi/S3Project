@@ -34,7 +34,7 @@ void AbstractButton::setPosY(unsigned int y)
 
 SurfaceAffichage AbstractButton::getSurfaceAffichage() const
 {
-	SurfaceAffichage surface(m_width, m_height, true) ;
+	SurfaceAffichage surface(m_width, m_height) ;
 
 	return surface ;
 }
@@ -60,4 +60,9 @@ void AbstractButton::displayButton(Fenetre screen) const
         erreur_message("Impossible d'afficher le menu sur l'écran :  " + string(SDL_GetError())) ;
 
     free(pos) ;
+}
+
+const char * AbstractButton::getText() const
+{
+	return m_text ;
 }

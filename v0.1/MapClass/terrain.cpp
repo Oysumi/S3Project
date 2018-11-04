@@ -201,7 +201,7 @@ void Terrain::generer_le_terrain (string const& terrain_representation)
 
     debugage_message("Représentation des sprites calculées : ") ;
     debugage_message(texte_representation_terrain_final) ;
-    m_terrainComplet = new SurfaceAffichage(m_nb_width_sprite*MAP_CASE_SIZE, m_nb_height_sprite*MAP_CASE_SIZE, true) ;
+    m_terrainComplet = new SurfaceAffichage(m_nb_width_sprite*MAP_CASE_SIZE, m_nb_height_sprite*MAP_CASE_SIZE) ;
     for (unsigned short x = 0 ; x < m_nb_width_sprite ; x++)
     {
         for (unsigned short y = 0 ; y < m_nb_height_sprite ; y++)

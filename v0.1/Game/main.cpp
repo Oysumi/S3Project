@@ -6,6 +6,7 @@
 #include <time.h>
 #include "SDL/SDL.h"
 #include <vector>
+#include <SDL/SDL_ttf.h>
 
 #include "../Fonctions/fonctions.h"
 #include "../DisplayClass/fenetre.h"
@@ -64,6 +65,8 @@ int main ( int args, char * argv[] )
     bool end = false ;
     bool menuOpen = false ;
 
+    TTF_Init() ;
+
     while (!end)
     {
         if (SDL_PollEvent(&event))
@@ -86,7 +89,7 @@ int main ( int args, char * argv[] )
                             }
                             else{
                                 menuOpen = false ;
-                                fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0,text ) ;
+                                fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0) ;
                                 fenetre.actualiser() ;
                                 cout << "Menu fermé" << endl ;
                             }
@@ -156,7 +159,7 @@ int main ( int args, char * argv[] )
         if (changement)
         {
             temps_precedent = SDL_GetTicks() ;
-            fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0,text ) ;
+            fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0) ;
             if (menuOpen){
                 menu.displayMenu(fenetre) ;
             }
@@ -166,6 +169,7 @@ int main ( int args, char * argv[] )
     }
     
     atexit(SDL_Quit);
+    TTF_Quit() ;
     debugage_message("Fin du Jeu") ;
     return 0;
 }

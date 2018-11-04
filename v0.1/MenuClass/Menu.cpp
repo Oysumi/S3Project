@@ -1,6 +1,7 @@
 #include "Menu.h"
 #include "ActionButton.h"
 #include "../Fonctions/fonctions.h"
+#include "../DisplayClass/Texte.h"
 
 using namespace std ;
 
@@ -21,7 +22,7 @@ SDL_Color Menu::getColor()
 
 SurfaceAffichage Menu::getMenu()
 {
-	SurfaceAffichage surface(m_width, m_height, true) ;
+	SurfaceAffichage surface(m_width, m_height) ;
 
 	return surface ;
 }
@@ -80,7 +81,7 @@ void Menu::displayMenu(Fenetre screen)
 	unsigned int posX = this->getPosX() ;
 	unsigned int posY = this->getPosY() ;
 
-	screen.ajouter(menuAffichage, posX, posY, couleur) ;
+	screen.ajouter(menuAffichage, posX, posY) ;
  
     for ( AbstractButton b : m_myButtons ){
     	SurfaceAffichage bouton = b.getSurfaceAffichage() ;
@@ -94,7 +95,11 @@ void Menu::displayMenu(Fenetre screen)
 			erreur_message("Impossible de colorer l'un des boutons du menu :  " + string(SDL_GetError())) ;
     	}
 
-    	screen.ajouter(bouton, posX, posY, col) ;
+    	screen.ajouter(bouton, posX, posY) ;
+
+    	cout << b.getText() << endl ;
+    	Texte text(b.getText()) ;
+    	text.displayText(screen, b) ;
     }
 
     screen.actualiser() ;

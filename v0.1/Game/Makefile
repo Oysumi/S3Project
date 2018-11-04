@@ -45,6 +45,6 @@ $(BIN): $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) \
 	    -lm -lSDL_mixer \
 	    -lSDL \
 	    -lSDL_image \
-	    -lSDL_tff
+	    -lSDL_ttf
 clean:
 	rm -f $(BIN)

@@ -10,11 +10,10 @@ class ActionButton : public AbstractButton
 		// Constructors
 		ActionButton() ; 
 		ActionButton(unsigned short int idToSet) ;
-		ActionButton(unsigned short int idToSet, std::string textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) ;
+		ActionButton(unsigned short int idToSet, const char * textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) ;
 
 		// Getters
 		unsigned short int getId() const ;
-		std::string getText() const ; // get the text which represents what is written in the button
 		unsigned short int getWidth() const ;
 		unsigned short int getHeight() const ;
 		unsigned short int getPosX() const ;
@@ -26,7 +25,6 @@ class ActionButton : public AbstractButton
 
 	protected:
 		unsigned short int m_id ;
-		std::string m_text ;
 
 		// Setters
 		void setId(unsigned short int idToSet) ;

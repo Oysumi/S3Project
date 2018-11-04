@@ -14,7 +14,7 @@ class AbstractButton
 		unsigned int m_height ;
 		unsigned int m_posx ;
 		unsigned int m_posy ;
-		std::string m_text ;
+		const char * m_text ;
 		SDL_Color m_back_color ;
 		SDL_Color m_text_color ;
 
@@ -28,6 +28,7 @@ class AbstractButton
 		void displayButton(Fenetre screen) const ;
 		SurfaceAffichage getSurfaceAffichage() const ;
 		SDL_Color getBackColor() const ;
+		const char * getText() const ;
 
 		// à définir méthode virtuelle qui renvoit la surface d'affichage du bouton
 };

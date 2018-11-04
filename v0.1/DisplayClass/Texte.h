@@ -9,7 +9,7 @@
 class Texte{
 
 	public:
-		Texte(std::string textToWrite) ;
+		Texte(const char * textToWrite) ;
 		int width() ;
 		int height() ;
 		SurfaceAffichage surfaceAffichage() ;
