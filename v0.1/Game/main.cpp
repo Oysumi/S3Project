@@ -57,8 +57,8 @@ int main ( int args, char * argv[] )
         test[i] = ActionButton(12, "TEST", 200, 100, 110, 110, font, text) ;
     }
 
-    SDL_Color font_menu = {253, 241, 184} ;
-    unsigned short int x(SCREEN_WIDTH/2), y(0) ;
+    SDL_Color font_menu = {0, 0, 0} ;
+    unsigned short int x(0), y(0) ;
     Menu menu(test, x, y, font_menu) ;
 
     SDL_Event event ;

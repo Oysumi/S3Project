@@ -3,7 +3,7 @@
 using namespace std ;
 
 #define TYPEFACE 30
-#define SHIFT_X 10
+#define SHIFT_X 25
 
 Texte::Texte(const char * textToWrite){
 	/* Loading of the font */
