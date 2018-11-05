@@ -49,19 +49,19 @@ int main ( int args, char * argv[] )
     scroll.w = SCREEN_WIDTH ;
 
     //TEST MENU
-    vector<AbstractButton> test(5) ;
+    vector<AbstractButton> test(3) ;
     SDL_Color font = {255, 255, 255} ; 
     SDL_Color text = {0, 0, 0} ;
 
-    for ( int i = 0 ; i < 5 ; i ++ ){
-        test[i] = ActionButton(12, "TEST", 200, 100, 110, 110, font, text) ;
-    }
+    test[0] = ActionButton(12, "RETOUR", 200, 100, 110, 110, font, text) ;
+    test[1] = ActionButton(12, "MUSIQUE", 200, 100, 110, 110, font, text) ;
+    test[2] = ActionButton(12, "QUITTER", 200, 100, 110, 110, font, text) ;
 
     SDL_Color font_menu = {0, 0, 0} ;
-    unsigned short int x(0), y(0) ;
+    unsigned short int x(SCREEN_WIDTH/2 - 100), y(SCREEN_HEIGHT/4) ;
     Menu menu(test, x, y, font_menu) ;
 
-    SDL_Event event ;
+    SDL_Event event ; 
     bool end = false ;
     bool menuOpen = false ;
 
