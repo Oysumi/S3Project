@@ -14,18 +14,21 @@ class Menu
 		unsigned short int m_width ;
 		unsigned short int m_pos_x ; // coin en haut à gauche
 		unsigned short int m_pos_y ; // coin en haut à gauche
+		int m_id ;
 		SDL_Color m_background ;
 
 	private:
 		void calculPosButton(std::vector<AbstractButton> buttons) ;
 	
 	public:
-		Menu(std::vector<AbstractButton> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back) ;
+		Menu(); 
+		Menu(std::vector<AbstractButton> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id) ;
 		SurfaceAffichage getMenu() ;
 		SDL_Color getColor() ;
 		unsigned short getPosX() ;
 		unsigned short getPosY() ;
 		void displayMenu(Fenetre screen) ;
+		int getID() ;
 		
 };
 

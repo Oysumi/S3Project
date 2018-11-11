@@ -12,6 +12,7 @@
 #include "../DisplayClass/fenetre.h"
 #include "../MapClass/terrain.h"
 #include "../MenuClass/ActionButton.h"
+#include "../MatriceClass/MatriceGameGestion.h"
 #include "../MenuClass/Menu.h"
 
 using namespace std;
@@ -20,6 +21,7 @@ using namespace std;
 #define SCREEN_HEIGHT 720
 #define SCROOL_ZONE 15
 #define TIME_BETWEEN_SCROLL_CHANGE 5
+#define ID_MENU_ESCAPE 32
 
 int main ( int args, char * argv[] )
 {
@@ -48,6 +50,7 @@ int main ( int args, char * argv[] )
     scroll.h = SCREEN_HEIGHT ;
     scroll.w = SCREEN_WIDTH ;
 
+    /*
     //TEST MENU
     vector<AbstractButton> test(3) ;
     SDL_Color font = {255, 255, 255} ; 
@@ -59,13 +62,18 @@ int main ( int args, char * argv[] )
 
     SDL_Color font_menu = {0, 0, 0} ;
     unsigned short int x(SCREEN_WIDTH/2 - 100), y(SCREEN_HEIGHT/4) ;
-    Menu menu(test, x, y, font_menu) ;
+    Menu menu(test, x, y, font_menu, 32) ;*/
+
+    // Initialisation de la matrice de gestion de jeu
+    MatriceGameGestion matrice ;
 
     SDL_Event event ; 
     bool end = false ;
     bool menuOpen = false ;
 
     TTF_Init() ;
+
+    int id_esc = ID_MENU_ESCAPE ;
 
     while (!end)
     {
@@ -84,14 +92,15 @@ int main ( int args, char * argv[] )
                         case SDLK_ESCAPE:
                             if (!menuOpen){
                                 menuOpen = true ;
-                                menu.displayMenu(fenetre) ;
-                                cout << "Menu ouvert" << endl ;
+                                /*menu.displayMenu(fenetre) ;
+                                cout << "Menu ouvert" << endl ;*/
+                                matrice.openMenu(id_esc, fenetre);
                             }
                             else{
                                 menuOpen = false ;
                                 fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0) ;
                                 fenetre.actualiser() ;
-                                cout << "Menu fermé" << endl ;
+                                //cout << "Menu fermé" << endl ;
                             }
                             break ;
 
@@ -161,7 +170,7 @@ int main ( int args, char * argv[] )
             temps_precedent = SDL_GetTicks() ;
             fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0) ;
             if (menuOpen){
-                menu.displayMenu(fenetre) ;
+                matrice.openMenu(id_esc, fenetre);
             }
             fenetre.actualiser() ;
         }
@@ -171,5 +180,6 @@ int main ( int args, char * argv[] )
     atexit(SDL_Quit);
     TTF_Quit() ;
     debugage_message("Fin du Jeu") ;
+
     return 0;
 }

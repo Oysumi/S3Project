@@ -7,11 +7,16 @@ using namespace std ;
 
 #define ID 5878 // id fixé au hasard pour les boutons
 
-Menu::Menu(vector<AbstractButton> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back)
+Menu::Menu(){ 
+	m_id = 0 ;
+} ; // Est utile pour la création d'un vector de Menu dans MatriceGameGestion.cpp
+
+Menu::Menu(vector<AbstractButton> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id)
 {
 	m_pos_x = pos_x ;
 	m_pos_y = pos_y ;
 	m_background = back ;
+	m_id = id ;
 	this->calculPosButton(buttons) ;
 }
 
@@ -103,4 +108,8 @@ void Menu::displayMenu(Fenetre screen)
     }
 
     screen.actualiser() ;
+}
+
+int Menu::getID(){
+	return m_id ;
 }
