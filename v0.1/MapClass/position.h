@@ -1,10 +1,10 @@
 #ifndef DEF_POSITION
-#define DEF_POSTION
+#define DEF_POSITION
 
 class MapPos
 {
     public :
-        MapPos(unsigned int const& x, unsigned int const& y) ;
+        MapPos(unsigned short const& x, unsigned short const& y) ;
         unsigned short x () const ;
         unsigned short y () const ;
         

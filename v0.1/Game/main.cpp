@@ -10,10 +10,11 @@
 
 #include "../Fonctions/fonctions.h"
 #include "../DisplayClass/fenetre.h"
-#include "../MapClass/terrain.h"
+#include "../MapClass/map.h"
 #include "../MenuClass/ActionButton.h"
 #include "../MatriceClass/MatriceGameGestion.h"
 #include "../MenuClass/Menu.h"
+#include "../CharactersClass/AbstractPlayer.h"
 
 using namespace std;
 
@@ -27,16 +28,15 @@ int main ( int args, char * argv[] )
 {
     //initialisation aléatoire
     srand(time(NULL)) ;
+    vector <AbstractPlayer> joueurs ;
     
     //Création fenêtre et terrain
     Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN) ;
-    Terrain terrain("../ressources/map.txt") ;
+    Map map (joueurs) ;
 
-    //enregistrement du terrai dans une image
-    terrain.saveBMP("../terrain.bmp") ;
 
     //On affiche le terrain
-    fenetre.ajouter(terrain.terrainComplet()) ;
+    fenetre.ajouter(map.getSurface()) ;
     fenetre.actualiser() ;
     
     //EVENT LOOP
@@ -77,6 +77,8 @@ int main ( int args, char * argv[] )
 
     while (!end)
     {
+        changement = false ;
+
         if (SDL_PollEvent(&event))
         {
             switch (event.type)
@@ -92,14 +94,12 @@ int main ( int args, char * argv[] )
                         case SDLK_ESCAPE:
                             if (!menuOpen){
                                 menuOpen = true ;
-                                /*menu.displayMenu(fenetre) ;
-                                cout << "Menu ouvert" << endl ;*/
+                                changement = true ;
                                 matrice.openMenu(id_esc, fenetre);
                             }
                             else{
                                 menuOpen = false ;
-                                fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0) ;
-                                fenetre.actualiser() ;
+                                changement = true ;
                                 //cout << "Menu fermé" << endl ;
                             }
                             break ;
@@ -144,13 +144,12 @@ int main ( int args, char * argv[] )
         }
 
 
-        changement = false ;
         if (gauche_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.x > 0)
         {
             scroll.x -- ;
             changement = true ;
         }
-        if (droite_ecran && SDL_GetTicks()-temps_precedent>= TIME_BETWEEN_SCROLL_CHANGE && scroll.x < terrain.terrainComplet().width() - SCREEN_WIDTH)
+        if (droite_ecran && SDL_GetTicks()-temps_precedent>= TIME_BETWEEN_SCROLL_CHANGE && scroll.x < map.width() - SCREEN_WIDTH)
         {
             scroll.x ++ ;
             changement = true ;
@@ -160,7 +159,7 @@ int main ( int args, char * argv[] )
             scroll.y -- ;
             changement = true ;
         }
-        if (bas_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y < terrain.terrainComplet().height() - SCREEN_HEIGHT)
+        if (bas_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y < map.height() - SCREEN_HEIGHT)
         {
             scroll.y ++ ;
             changement = true ;
@@ -168,7 +167,7 @@ int main ( int args, char * argv[] )
         if (changement)
         {
             temps_precedent = SDL_GetTicks() ;
-            fenetre.ajouter(terrain.terrainComplet(),&scroll,0,0) ;
+            fenetre.ajouter(map.getSurface(),&scroll,0,0) ;
             if (menuOpen){
                 matrice.openMenu(id_esc, fenetre);
             }

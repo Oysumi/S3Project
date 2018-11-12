@@ -11,13 +11,9 @@
 class Construction
 {
     public :
-        Construction(std::string const& nameFile) ;
-
         
     private :
         MapPos m_pos ;
-
-        
 
 };
 

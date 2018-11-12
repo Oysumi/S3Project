@@ -1,6 +1,6 @@
 #include "MapPos.h"
 
-MapPos::MapPos(unsigned int const& x, unsigned int const& y)
+MapPos::MapPos(unsigned short const& x, unsigned short const& y)
 {
 	m_x = x ;
 	m_y = y ;
