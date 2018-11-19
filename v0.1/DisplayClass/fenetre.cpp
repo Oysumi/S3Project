@@ -21,7 +21,6 @@ SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short c
 //DESTRUCTEUR
 SurfaceAffichage::~SurfaceAffichage()
 {
-	cout << "Destruction surface affichage" << endl ;
 	if(m_surface!=NULL){
 		SDL_FreeSurface(m_surface);
 		m_surface = NULL;
@@ -94,7 +93,6 @@ Fenetre::~Fenetre()
 	if (fenetre!=NULL){
 		fenetre = NULL ;
 	}
-	cout << "Destruction fenetre" << endl ;
 }
 
 // PERMET DE METTRE LA SURFACE DE LA FENETRE A JOUR

@@ -15,6 +15,7 @@ class Menu
 		unsigned short int m_pos_x ; // coin en haut à gauche
 		unsigned short int m_pos_y ; // coin en haut à gauche
 		int m_id ;
+		bool m_open ;
 		SDL_Color m_background ;
 
 	private:
@@ -29,6 +30,10 @@ class Menu
 		unsigned short getPosY() ;
 		void displayMenu(Fenetre screen) ;
 		int getID() ;
+		void openCloseMenu();
+		bool isOpen() ;
+		int receiveAction(unsigned int x, unsigned int y); // Reçoit des coordonnées qui seront comparées avec la position des boutons du menu
+										 // Retourne l'ID du bouton
 		
 };
 

@@ -9,15 +9,19 @@ using namespace std ;
  *                                             CONSTRUCTORS                                                   *
  **************************************************************************************************************/
 
-ActionButton::ActionButton() : m_id(0)
-{ }
+ActionButton::ActionButton()
+{ 
+	m_id = 0 ;
+}
 
-ActionButton::ActionButton(unsigned short int idToSet) : m_id(idToSet)
-{ }
+ActionButton::ActionButton(unsigned short int idToSet)
+{ 
+	m_id = idToSet ;
+}
 
-ActionButton::ActionButton(unsigned short int idToSet, const char * textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) :
-m_id(idToSet)
+ActionButton::ActionButton(unsigned short int idToSet, const char * textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text)
 {
+	m_id = idToSet ;
 	m_text = textToWrite ;
 	this->setSize(width, height) ;
 	this->setPos(pos_x, pos_y) ;
@@ -63,11 +67,6 @@ void ActionButton::setButtonColors(SDL_Color background, SDL_Color text)
 /**************************************************************************************************************
  *                                                  GETTERS                                                   *
  **************************************************************************************************************/
-
-unsigned short int ActionButton::getId() const
-{
-	return this->m_id ;
-}
 
 unsigned short int ActionButton::getPosX() const
 {

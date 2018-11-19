@@ -16,7 +16,6 @@ Texture::Texture(string const& path) : m_path(path)
 //DESTRUCTEUR
 Texture::~Texture()
 {
-    cout << "Destruction texture" << endl ;
     if(m_surface!=NULL){
         SDL_FreeSurface(m_surface);
         m_surface = NULL ;
@@ -51,9 +50,4 @@ SDL_Rect SpriteTexture::getRect (unsigned short const& numero_sprite_longueur, u
     image.h = m_taille ;
     image.w = m_taille ;
     return image ;
-}
-
-SpriteTexture::~SpriteTexture()
-{ 
-    cout << "Destruction sprite texture" << endl ;
 }

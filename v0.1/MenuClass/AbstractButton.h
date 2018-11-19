@@ -14,15 +14,17 @@ class AbstractButton
 		unsigned int m_height ;
 		unsigned int m_posx ;
 		unsigned int m_posy ;
+		int m_id ;
 		const char * m_text ;
 		SDL_Color m_back_color ;
 		SDL_Color m_text_color ;
-
+		
 	public:
 		unsigned int getPosX() const ;
 		unsigned int getPosY() const ;
 		unsigned int getWidth() const ;
 		unsigned int getHeight() const ;
+		int getID() const ;
 		void setPosX(unsigned int x) ;
 		void setPosY(unsigned int y) ;
 		void displayButton(Fenetre screen) const ;

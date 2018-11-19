@@ -22,6 +22,7 @@ using namespace std;
 #define SCREEN_HEIGHT 720
 #define SCROOL_ZONE 15
 #define TIME_BETWEEN_SCROLL_CHANGE 5
+#define TIME_LIMIT_TO_DISPLAY_MENU 500
 #define ID_MENU_ESCAPE 32
 
 int main ( int args, char * argv[] )
@@ -44,25 +45,13 @@ int main ( int args, char * argv[] )
 
     bool changement, gauche_ecran = false, droite_ecran = false, bas_ecran = false, haut_ecran = false ;
     int temps_precedent = 0 ;
+    int temps_menu = 0 ;
+
     SDL_Rect scroll ;
     scroll.x = 0 ;
     scroll.y = 0 ;
     scroll.h = SCREEN_HEIGHT ;
     scroll.w = SCREEN_WIDTH ;
-
-    /*
-    //TEST MENU
-    vector<AbstractButton> test(3) ;
-    SDL_Color font = {255, 255, 255} ; 
-    SDL_Color text = {0, 0, 0} ;
-
-    test[0] = ActionButton(12, "RETOUR", 200, 100, 110, 110, font, text) ;
-    test[1] = ActionButton(12, "MUSIQUE", 200, 100, 110, 110, font, text) ;
-    test[2] = ActionButton(12, "QUITTER", 200, 100, 110, 110, font, text) ;
-
-    SDL_Color font_menu = {0, 0, 0} ;
-    unsigned short int x(SCREEN_WIDTH/2 - 100), y(SCREEN_HEIGHT/4) ;
-    Menu menu(test, x, y, font_menu, 32) ;*/
 
     // Initialisation de la matrice de gestion de jeu
     MatriceGameGestion matrice ;
@@ -92,15 +81,16 @@ int main ( int args, char * argv[] )
                     {
 
                         case SDLK_ESCAPE:
-                            if (!menuOpen){
+                            if (!menuOpen && SDL_GetTicks()-temps_menu > TIME_LIMIT_TO_DISPLAY_MENU){
                                 menuOpen = true ;
                                 changement = true ;
-                                matrice.openMenu(id_esc, fenetre);
+                                matrice.openMenu(id_esc, fenetre, true);
+                                temps_menu = SDL_GetTicks();
                             }
                             else{
                                 menuOpen = false ;
                                 changement = true ;
-                                //cout << "Menu fermé" << endl ;
+                                matrice.openMenu(id_esc, fenetre, true);
                             }
                             break ;
 
@@ -140,6 +130,12 @@ int main ( int args, char * argv[] )
                     break ;
                 }
 
+                //GESTION DES CLICS DE SOURIS
+                case SDL_MOUSEBUTTONDOWN:
+                    unsigned int mouse_x = event.motion.x ;
+                    unsigned int mouse_y = event.motion.y ;
+                    end = matrice.receiveAction(mouse_x, mouse_y);
+                    break ;
             }
         }
 
@@ -169,7 +165,7 @@ int main ( int args, char * argv[] )
             temps_precedent = SDL_GetTicks() ;
             fenetre.ajouter(map.getSurface(),&scroll,0,0) ;
             if (menuOpen){
-                matrice.openMenu(id_esc, fenetre);
+                matrice.openMenu(id_esc, fenetre, false);
             }
             fenetre.actualiser() ;
         }

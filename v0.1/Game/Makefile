@@ -17,7 +17,6 @@ MATRICEh=../MatriceClass/MatriceGameGestion.h
 TERRh=../MapClass/terrain.h
 TEXTEh=../DisplayClass/Texte.h
 MAPh=../MapClass/map.h
-CONSh=../MapClass/construction.h
 
 TEXTUREcpp=../DisplayClass/texture.cpp
 FENETREcpp=../DisplayClass/fenetre.cpp
@@ -31,22 +30,22 @@ MATRICEcpp=../MatriceClass/MatriceGameGestion.cpp
 TERRcpp=../MapClass/terrain.cpp
 TEXTEcpp=../DisplayClass/Texte.cpp
 MAPcpp=../MapClass/map.cpp
-CONScpp=../MapClass/construction.cpp
 MAINcpp=main.cpp
 
 $(BIN): $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) \
 		$(HUMPLAYERh) $(ARTPLAYERh) $(ABUTTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) \
-		$(MATRICEh) $(TERRh) $(TEXTEh) $(MAPh) $(CONSh)\
+		$(MATRICEh) $(TERRh) $(TEXTEh) $(MAPh)\
 		$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(ACTBUTTONcpp) \
 		$(ABSBUTTONcpp) $(MENUcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(MAINcpp)
 	g++ -Wall -g -lSDL $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) $(HUMPLAYERh) $(ARTPLAYERh) \
 				    $(ACTBUTTONh) $(ABUTONh) $(SUBMENUh) $(MENUh) $(MATRICEh) $(TERRh) $(TEXTEh) \
 					$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(MENUcpp) \
-					$(ABSBUTTONcpp) $(ACTBUTTONcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(MAINcpp) $(MAPcpp) $(CONScpp)\
+					$(ABSBUTTONcpp) $(ACTBUTTONcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(MAPcpp) $(MAINcpp) \
 		-I $(INSTL) \
 		-L $(LIB) \
 		-Wl,-rpath,$(LIB) \
 	    -o $(BIN) \
+	    -lm -lSDL_mixer \
 	    -lSDL \
 	    -lSDL_image \
 	    -lSDL_ttf

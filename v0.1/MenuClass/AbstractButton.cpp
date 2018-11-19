@@ -22,6 +22,11 @@ unsigned int AbstractButton::getHeight() const
 	return this->m_height ;
 }
 
+int AbstractButton::getID() const
+{
+	return this->m_id ;
+}
+
 void AbstractButton::setPosX(unsigned int x)
 {
 	m_posx = x ;

@@ -72,7 +72,6 @@ Terrain::Terrain (unsigned short const& width, unsigned int const& height) : m_s
 //DESTRUCTEUR
 Terrain::~Terrain()
 {
-    cout << "Destruction terrain" << endl ;
     for (unsigned short i = 0 ; i < m_nb_height_sprite ; i++)
     {
         if(m_terrainTab[i]!=NULL){

@@ -2,13 +2,14 @@
 #include "ActionButton.h"
 #include "../Fonctions/fonctions.h"
 #include "../DisplayClass/Texte.h"
+#include "../IDButtons/idbuttons.h"
+
+#include <iostream>
 
 using namespace std ;
 
-#define ID 5878 // id fixé au hasard pour les boutons
-
 Menu::Menu(){ 
-	m_id = 0 ;
+	m_id = NOTHING ;
 } ; // Est utile pour la création d'un vector de Menu dans MatriceGameGestion.cpp
 
 Menu::Menu(vector<AbstractButton> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id)
@@ -17,6 +18,7 @@ Menu::Menu(vector<AbstractButton> buttons, unsigned short int pos_x, unsigned sh
 	m_pos_y = pos_y ;
 	m_background = back ;
 	m_id = id ;
+	m_open = false ;
 	this->calculPosButton(buttons) ;
 }
 
@@ -68,8 +70,7 @@ void Menu::calculPosButton(vector<AbstractButton> buttons)
 		b.setPosX(m_pos_x + LARGEUR);
 		b.setPosY(m_pos_y + (i+1)*HAUTEUR + i*boutonHauteur);
 		m_myButtons[i] = b ;
-		cout << "indice : " << i << " ; pos x : " << m_myButtons[i].getPosX() << " ; pos y : " << m_myButtons[i].getPosY() << endl ;
-		i++ ;
+		i++;
 	}
 }
 
@@ -101,8 +102,6 @@ void Menu::displayMenu(Fenetre screen)
     	}
 
     	screen.ajouter(bouton, posX, posY) ;
-
-    	cout << b.getText() << endl ;
     	Texte text(b.getText()) ;
     	text.displayText(screen, b) ;
     }
@@ -112,4 +111,50 @@ void Menu::displayMenu(Fenetre screen)
 
 int Menu::getID(){
 	return m_id ;
+}
+
+void Menu::openCloseMenu(){
+	m_open = ( m_open ) ? false : true ;
+	if (m_open)
+		cout << "ouvert" << endl ;
+	else
+		cout << "fermé" << endl ;
+}
+
+bool Menu::isOpen(){
+	return m_open;
+}
+
+int Menu::receiveAction(unsigned int x, unsigned int y){
+	unsigned int pos_x, pos_y, width, height ;
+	unsigned short int id = NOTHING ;
+
+	for (AbstractButton b : m_myButtons){
+		if (id == NOTHING){
+			pos_x = b.getPosX();
+			pos_y = b.getPosY();
+			width = b.getWidth();
+			height = b.getHeight();
+
+			if (x >= pos_x && x <= pos_x + width && y >= pos_y && y <= pos_y + height){
+				id = b.getID();
+			}	 
+		}
+	}
+
+	switch (id)
+	{
+		case RETOUR:
+			break;
+		case QUITTER:
+			break;
+		case ATTAQUER:
+			break;
+		case DEFENDRE:
+			break;
+		case ALLER_A:
+			break;
+	}
+
+	return id ;
 }

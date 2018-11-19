@@ -16,7 +16,8 @@ class MatriceGameGestion
 		MatriceGameGestion();
 		void gameLoop(/*TO DEFINE*/);
 		void addMenu(Menu menuToAdd);
-		void openMenu(int id, Fenetre screen) ;
+		void openMenu(int id, Fenetre screen, bool openclose) ;
+		bool receiveAction(unsigned int x, unsigned int y);
 
 	private:
 		void initTurnPlayer() ;
