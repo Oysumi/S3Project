@@ -13,7 +13,7 @@ class Texte{
 		int width() ;
 		int height() ;
 		SurfaceAffichage surfaceAffichage() ;
-		void displayText(Fenetre screen, AbstractButton b) ;
+		void displayText(Fenetre screen, AbstractButton * b) ;
 		~Texte() ;
 
 	private:

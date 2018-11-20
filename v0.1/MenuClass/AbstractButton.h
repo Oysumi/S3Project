@@ -27,10 +27,11 @@ class AbstractButton
 		int getID() const ;
 		void setPosX(unsigned int x) ;
 		void setPosY(unsigned int y) ;
-		void displayButton(Fenetre screen) const ;
-		SurfaceAffichage getSurfaceAffichage() const ;
+		virtual void displayButton(Fenetre screen) = 0 ;
+		virtual SurfaceAffichage getSurfaceAffichage() = 0 ;
 		SDL_Color getBackColor() const ;
 		const char * getText() const ;
+		virtual ~AbstractButton() ;
 
 		// à définir méthode virtuelle qui renvoit la surface d'affichage du bouton
 };

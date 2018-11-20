@@ -20,6 +20,9 @@ class ActionButton : public AbstractButton
 		SDL_Color getBackgroundColor() const ;
 		SDL_Color getTextColor() const ;
 		
+		// Actions
+		SurfaceAffichage getSurfaceAffichage() ;
+		void displayButton(Fenetre screen) ; 
 		~ActionButton() ;
 
 	protected:

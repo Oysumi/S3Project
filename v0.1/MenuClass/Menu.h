@@ -9,7 +9,7 @@
 class Menu
 {
 	protected:
-		std::vector<AbstractButton> m_myButtons ;
+		std::vector<AbstractButton*> m_myButtons ;
 		unsigned short int m_height ;
 		unsigned short int m_width ;
 		unsigned short int m_pos_x ; // coin en haut à gauche
@@ -19,11 +19,11 @@ class Menu
 		SDL_Color m_background ;
 
 	private:
-		void calculPosButton(std::vector<AbstractButton> buttons) ;
+		void calculPosButton(std::vector<AbstractButton*> buttons) ;
 	
 	public:
 		Menu(); 
-		Menu(std::vector<AbstractButton> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id) ;
+		Menu(std::vector<AbstractButton*> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id) ;
 		SurfaceAffichage getMenu() ;
 		SDL_Color getColor() ;
 		unsigned short getPosX() ;

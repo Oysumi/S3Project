@@ -40,10 +40,10 @@ SurfaceAffichage Texte::surfaceAffichage(){
 	return surface ;
 }
 
-void Texte::displayText(Fenetre screen, AbstractButton b){
+void Texte::displayText(Fenetre screen, AbstractButton * b){
 
-	int pos_x = b.getPosX() + ( b.getWidth() - m_text->w )/2  ;
-	int pos_y = b.getPosY() + ( b.getHeight() - m_text->h) /2 ;
+	int pos_x = b->getPosX() + ( b->getWidth() - m_text->w )/2  ;
+	int pos_y = b->getPosY() + ( b->getHeight() - m_text->h) /2 ;
 
 	SurfaceAffichage surface = this->surfaceAffichage() ;
 

@@ -2,7 +2,8 @@
 #include "ActionButton.h"
 #include "../Fonctions/fonctions.h"
 #include "../DisplayClass/Texte.h"
-#include "../IDButtons/idbuttons.h"
+#include "../ID/idbuttons.h"
+#include "../ID/idmenus.h"
 
 #include <iostream>
 
@@ -12,7 +13,7 @@ Menu::Menu(){
 	m_id = NOTHING ;
 } ; // Est utile pour la création d'un vector de Menu dans MatriceGameGestion.cpp
 
-Menu::Menu(vector<AbstractButton> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id)
+Menu::Menu(vector<AbstractButton*> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id)
 {
 	m_pos_x = pos_x ;
 	m_pos_y = pos_y ;
@@ -44,7 +45,7 @@ unsigned short Menu::getPosY()
 	return this->m_pos_y ;
 }
 
-void Menu::calculPosButton(vector<AbstractButton> buttons)
+void Menu::calculPosButton(vector<AbstractButton*> buttons)
 {
 	/**
 	 * On calcule la taille du menu (lxL) en fonction des boutons qu'on suppose ici de taille fixe
@@ -52,12 +53,12 @@ void Menu::calculPosButton(vector<AbstractButton> buttons)
 	 *                                         l = 2*dy + largeur boutons où dy est le shift avec le bord du menu
 	 */
 	int nbButton = buttons.size() ;
-	m_myButtons = vector<AbstractButton>(nbButton) ;
+	m_myButtons = vector<AbstractButton*>(nbButton) ;
 	int const LARGEUR = 10 ;
 	int const HAUTEUR = 10 ;
 
-	int boutonLargeur = buttons[0].getWidth(); // on suppose ici que tous les boutons ont la même taille pour le moment
-	int boutonHauteur = buttons[0].getHeight() ; // idem
+	int boutonLargeur = buttons[0]->getWidth(); // on suppose ici que tous les boutons ont la même taille pour le moment
+	int boutonHauteur = buttons[0]->getHeight() ; // idem
 
 	m_height = nbButton*(HAUTEUR+boutonHauteur) + HAUTEUR ;
 	m_width = 2*LARGEUR + boutonLargeur ;
@@ -66,9 +67,9 @@ void Menu::calculPosButton(vector<AbstractButton> buttons)
 	 * Placement des boutons sur l'écran
 	 */
 	int i = 0 ;
-	for ( AbstractButton b : buttons ){
-		b.setPosX(m_pos_x + LARGEUR);
-		b.setPosY(m_pos_y + (i+1)*HAUTEUR + i*boutonHauteur);
+	for ( AbstractButton * b : buttons ){
+		b->setPosX(m_pos_x + LARGEUR);
+		b->setPosY(m_pos_y + (i+1)*HAUTEUR + i*boutonHauteur);
 		m_myButtons[i] = b ;
 		i++;
 	}
@@ -89,20 +90,20 @@ void Menu::displayMenu(Fenetre screen)
 
 	screen.ajouter(menuAffichage, posX, posY) ;
  
-    for ( AbstractButton b : m_myButtons ){
-    	SurfaceAffichage bouton = b.getSurfaceAffichage() ;
+    for ( AbstractButton * b : m_myButtons ){
+    	SurfaceAffichage bouton = b->getSurfaceAffichage() ;
     	SDL_Surface* boutonSurface = bouton.surface() ;
-    	SDL_Color col = b.getBackColor() ;
+    	SDL_Color col = b->getBackColor() ;
 
-    	posX = b.getPosX() ;
-    	posY = b.getPosY() ;
+    	posX = b->getPosX() ;
+    	posY = b->getPosY() ;
 
     	if(SDL_FillRect(boutonSurface, NULL, SDL_MapRGB(boutonSurface->format, col.r, col.g, col.b)) != 0){
 			erreur_message("Impossible de colorer l'un des boutons du menu :  " + string(SDL_GetError())) ;
     	}
 
     	screen.ajouter(bouton, posX, posY) ;
-    	Texte text(b.getText()) ;
+    	Texte text(b->getText()) ;
     	text.displayText(screen, b) ;
     }
 
@@ -115,10 +116,6 @@ int Menu::getID(){
 
 void Menu::openCloseMenu(){
 	m_open = ( m_open ) ? false : true ;
-	if (m_open)
-		cout << "ouvert" << endl ;
-	else
-		cout << "fermé" << endl ;
 }
 
 bool Menu::isOpen(){
@@ -129,15 +126,15 @@ int Menu::receiveAction(unsigned int x, unsigned int y){
 	unsigned int pos_x, pos_y, width, height ;
 	unsigned short int id = NOTHING ;
 
-	for (AbstractButton b : m_myButtons){
+	for (AbstractButton * b : m_myButtons){
 		if (id == NOTHING){
-			pos_x = b.getPosX();
-			pos_y = b.getPosY();
-			width = b.getWidth();
-			height = b.getHeight();
+			pos_x = b->getPosX();
+			pos_y = b->getPosY();
+			width = b->getWidth();
+			height = b->getHeight();
 
 			if (x >= pos_x && x <= pos_x + width && y >= pos_y && y <= pos_y + height){
-				id = b.getID();
+				id = b->getID();
 			}	 
 		}
 	}

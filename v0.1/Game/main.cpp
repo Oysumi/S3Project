@@ -16,6 +16,7 @@
 #include "../MatriceClass/MatriceGameGestion.h"
 #include "../MenuClass/Menu.h"
 #include "../CharactersClass/AbstractPlayer.h"
+#include "../ID/idmenus.h"
 
 using namespace std;
 
@@ -24,7 +25,6 @@ using namespace std;
 #define SCROOL_ZONE 15
 #define TIME_BETWEEN_SCROLL_CHANGE 5
 #define TIME_LIMIT_TO_DISPLAY_MENU 500
-#define ID_MENU_ESCAPE 32
 
 int main ( int args, char * argv[] )
 {
@@ -33,10 +33,8 @@ int main ( int args, char * argv[] )
     vector <AbstractPlayer> joueurs ;
     vector <AbstractButton*> bouton ;
 
-    /* A SUPPRIMER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-    bouton = remplissage() ;
-    deleteVect(bouton) ;
-    /* ********************************************/
+    //Création des boutons nécessaires aux menus
+    bouton = remplissage();
 
     //Création fenêtre et terrain
     Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN) ;
@@ -61,15 +59,12 @@ int main ( int args, char * argv[] )
     scroll.w = SCREEN_WIDTH ;
 
     // Initialisation de la matrice de gestion de jeu
-    MatriceGameGestion matrice ;
+    MatriceGameGestion matrice(bouton) ;
 
     SDL_Event event ; 
     bool end = false ;
-    bool menuOpen = false ;
 
     TTF_Init() ;
-
-    int id_esc = ID_MENU_ESCAPE ;
 
     while (!end)
     {
@@ -86,18 +81,11 @@ int main ( int args, char * argv[] )
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym)
                     {
-
                         case SDLK_ESCAPE:
-                            if (!menuOpen && SDL_GetTicks()-temps_menu > TIME_LIMIT_TO_DISPLAY_MENU){
-                                menuOpen = true ;
+                            if (SDL_GetTicks()-temps_menu > TIME_LIMIT_TO_DISPLAY_MENU){
                                 changement = true ;
-                                matrice.openMenu(id_esc, fenetre, true);
+                                matrice.openMenu(ESCAPE_MENU, fenetre, true);
                                 temps_menu = SDL_GetTicks();
-                            }
-                            else{
-                                menuOpen = false ;
-                                changement = true ;
-                                matrice.openMenu(id_esc, fenetre, true);
                             }
                             break ;
 
@@ -171,8 +159,8 @@ int main ( int args, char * argv[] )
         {
             temps_precedent = SDL_GetTicks() ;
             fenetre.ajouter(map.getSurface(),&scroll,0,0) ;
-            if (menuOpen){
-                matrice.openMenu(id_esc, fenetre, false);
+            if (matrice.isAMenuOpened()){
+                matrice.keepOpening(fenetre);
             }
             fenetre.actualiser() ;
         }
@@ -181,6 +169,7 @@ int main ( int args, char * argv[] )
     
     atexit(SDL_Quit);
     TTF_Quit() ;
+    deleteVect(bouton);
     debugage_message("Fin du Jeu") ;
 
     return 0;
