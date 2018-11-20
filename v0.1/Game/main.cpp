@@ -9,6 +9,7 @@
 #include <SDL/SDL_ttf.h>
 
 #include "../Fonctions/fonctions.h"
+#include "../Fonctions/remplissage.h"
 #include "../DisplayClass/fenetre.h"
 #include "../MapClass/map.h"
 #include "../MenuClass/ActionButton.h"
@@ -30,7 +31,13 @@ int main ( int args, char * argv[] )
     //initialisation aléatoire
     srand(time(NULL)) ;
     vector <AbstractPlayer> joueurs ;
-    
+    vector <AbstractButton*> bouton ;
+
+    /* A SUPPRIMER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+    bouton = remplissage() ;
+    deleteVect(bouton) ;
+    /* ********************************************/
+
     //Création fenêtre et terrain
     Fenetre fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN) ;
     Map map (joueurs) ;
