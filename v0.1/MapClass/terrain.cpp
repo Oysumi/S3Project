@@ -7,7 +7,7 @@ using namespace std ;
 string Terrain::nameSpriteTexture = "../ressources/SpriteMap64.bmp" ;
 
 //GENERATION D'UN TEXTE REPRESENTANT LE TERRAIN A PARTIR D'UN FICHIER
-Terrain::Terrain(string const& fileMap) : m_sprite(nameSpriteTexture, MAP_CASE_SIZE, NB_SPRITE)
+Terrain::Terrain(string const& fileMap, std::list <MapPos>* free_pos) : m_sprite(nameSpriteTexture, MAP_CASE_SIZE, NB_SPRITE)
 {
     
     debugage_message("Lecture du fichier de terrain") ;
@@ -34,14 +34,13 @@ Terrain::Terrain(string const& fileMap) : m_sprite(nameSpriteTexture, MAP_CASE_S
     else
     {
         erreur_message("Impossible d'ouvrir le fichier de la Map");
-        cout << "imossible" << endl ;
     }
 
-    generer_le_terrain(texte) ;
+    generer_le_terrain(texte, free_pos) ;
 }
 
 //GENERATION ALEATOIRE D'UN TEXTE REPRESENTANT LE TERRAIN
-Terrain::Terrain (unsigned short const& width, unsigned int const& height) : m_sprite(nameSpriteTexture, MAP_CASE_SIZE, NB_SPRITE)
+Terrain::Terrain (unsigned short const& width, unsigned int const& height, std::list <MapPos>* free_pos) : m_sprite(nameSpriteTexture, MAP_CASE_SIZE, NB_SPRITE)
 {
     //ANALYSE DU FICHIER DU TERRAIN
     string texte = "" ;
@@ -51,11 +50,11 @@ Terrain::Terrain (unsigned short const& width, unsigned int const& height) : m_s
     m_nb_height_sprite = height ;
 
 	debugage_message("Génération aléatoire du terrain") ;
-    for (unsigned short x = 0 ; x < width ; x++)
+    for (unsigned short y = 0 ; y < height ; y++)
     {
-        for (unsigned short y = 0 ; y < height ; y++)
+        for (unsigned short x = 0 ; x < width ; x++)
         {
-            if (rand()%3==0)
+            if (rand()%2==0)
             	texte += 'W' ;
             else
             	texte += 'G' ;
@@ -65,30 +64,34 @@ Terrain::Terrain (unsigned short const& width, unsigned int const& height) : m_s
     debugage_message("map gènerée : ") ;
     debugage_message(texte) ;
 
-    generer_le_terrain(texte) ;
+    generer_le_terrain(texte, free_pos) ;
 
 }
 
 //DESTRUCTEUR
 Terrain::~Terrain()
 {
-    for (unsigned short i = 0 ; i < m_nb_height_sprite ; i++)
-    {
-        if(m_terrainTab[i]!=NULL){
-            free(m_terrainTab[i]) ;
-            m_terrainTab[i] = NULL;
-        }
-    }
+    delete m_terrainComplet ;
+}
 
-    if(m_terrainTab!=NULL){
-        free(m_terrainTab);
-        m_terrainTab = NULL;
-    }
+unsigned short Terrain::posxOut() const
+{
+    return m_nb_width_sprite ;
+}
 
-    if(m_terrainComplet!=NULL){
-        delete m_terrainComplet ;
-        m_terrainComplet = NULL;
-    }
+unsigned short Terrain::posyOut() const
+{
+    return m_nb_height_sprite ;
+}
+
+SpriteTexture const& Terrain::sprite() const
+{
+    return m_sprite ;
+}
+
+unsigned short Terrain::sprite_code (MapPos const& pos)
+{
+    return assocCodeToCaseSprite(m_sprite_representation[pos]) ;
 }
 
 //SAUVERGARDER L'IMAGE DU TERRAIN
@@ -105,11 +108,12 @@ SurfaceAffichage const& Terrain::terrainComplet() const
 
 
 
-void Terrain::generer_le_terrain (string const& terrain_representation)
+void Terrain::generer_le_terrain (string const& terrain_representation, std::list <MapPos>* free_pos)
 {
 
 	//Création d'un tableau réprésentant les textures du terrain
-    debugage_message("Vérification du format de la map et correction") ;
+    debugage_message("Vérification du format de la map et correction ...") ;
+    char ** m_terrainTab ;
     m_terrainTab = 0 ;
     m_terrainTab = (char**)malloc(m_nb_height_sprite * sizeof(char*));
     for (unsigned short i = 0 ; i < m_nb_height_sprite ; i++)
@@ -147,7 +151,6 @@ void Terrain::generer_le_terrain (string const& terrain_representation)
         texte_curseur++ ;
     }
     
-    debugage_message("Choix automatique du bon sprite pour chaque cas") ;
     //On remplace les cases d'eau par les bons sprites
 	for (unsigned short x = 0 ; x < m_nb_width_sprite ; x++)
     {
@@ -197,15 +200,21 @@ void Terrain::generer_le_terrain (string const& terrain_representation)
         }
         texte_representation_terrain_final += "\n" ;
     }
-
     debugage_message("Représentation des sprites calculées : ") ;
     debugage_message(texte_representation_terrain_final) ;
+
+
     m_terrainComplet = new SurfaceAffichage(m_nb_width_sprite*MAP_CASE_SIZE, m_nb_height_sprite*MAP_CASE_SIZE) ;
     for (unsigned short x = 0 ; x < m_nb_width_sprite ; x++)
     {
         for (unsigned short y = 0 ; y < m_nb_height_sprite ; y++)
         {
             m_terrainComplet->ajouter(m_sprite, x*MAP_CASE_SIZE, y*MAP_CASE_SIZE, assocCodeToCaseSprite(m_terrainTab[y][x]) ) ;
+            m_sprite_representation.insert(std::pair<MapPos,char>(MapPos(x,m_nb_height_sprite-1-y),m_terrainTab[y][x]));
+            if(assocCodeToCaseSprite(m_terrainTab[y][x]) == 16)
+            {
+                free_pos->insert(free_pos->begin(), MapPos(x,m_nb_height_sprite-1-y)) ;
+            }
         }
     }
 
@@ -228,10 +237,6 @@ unsigned short Terrain::assocCodeToCaseSprite(char const& c) const
     if (48 <= n && n <= 57)
     {
         return(n-48) ;
-    }
-    if (c == ' ')
-    {
-        return 16;
     }
 
     Warning("La map contient des caractères ne correspondant à aucun Sprite") ;

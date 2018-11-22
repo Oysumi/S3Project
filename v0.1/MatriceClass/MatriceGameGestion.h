@@ -1,13 +1,22 @@
 #ifndef __MATRICEGAMEGESTION_H__
 #define __MATRICEGAMEGESTION_H__
 
-/*#include "../CharactersClass/AbstractPlayer.h"
-#include "../CharactersClass/AbstractUnit.h"
-#include "../ConstructionClass/AbstractConstruction.h"*/
-/* include the map file */
-#include "../MenuClass/Menu.h"
+#include "SDL/SDL.h"
+#include <SDL/SDL_ttf.h>
+
+#include "../Fonctions/fonctions.h"
+#include "../Fonctions/remplissage.h"
+
 #include "../DisplayClass/fenetre.h"
+#include "../ID/idbuttons.h"
+#include "../MenuClass/ActionButton.h"
 #include "../ID/idmenus.h"
+#include "../MenuClass/Menu.h"
+
+#include "../CharactersClass/AbstractPlayer.h"
+#include "../MapClass/construction.h"
+#include "../MapClass/map.h"
+#include "../MatriceClass/MatriceGameGestion.h"
 
 #include <vector>
 
@@ -15,27 +24,22 @@ class MatriceGameGestion
 {
 	public:
 		MatriceGameGestion(std::vector<AbstractButton*> all_buttons);
-		void gameLoop(/*TO DEFINE*/);
-		void addMenu(Menu menuToAdd);
-		void openMenu(int id, Fenetre screen, bool openclose) ;
-		void keepOpening(Fenetre screen);
-		bool isAMenuOpened();
-		bool receiveAction(unsigned int x, unsigned int y);
+		~MatriceGameGestion();
 
-	private:
-		void initTurnPlayer() ;
-		void moveUnit() ;
-		void defeatPlayer() ;
-		void winPlayer() ;
+		void init() ;
+		void gameLoop() ;
 
-		std::vector<Menu> m_allMenu ;
-		int m_menus_opened[NUMBER_OF_MENUS] ;
-		/* [...] */
+	private :
+		std::vector <AbstractPlayer> m_player_list ;
+		Fenetre m_fenetre ;
+		Map m_map ;
+		std::vector <Menu*> m_saveMenu ;
 
-		/*Map m_myMap ;
-		std::vector<AbstractPlayer> m_myPlayers ;
-		std::vector<AbstractConstruction> m_myConstructions ;
-		std::vector<AbstractUnit> m_myUnit ;*/
+	private :
+		//void initTurnPlayer() ;
+		//void moveUnit() ;
+		//void defeatPlayer() ;
+		//void winPlayer() ;
 
 };
 

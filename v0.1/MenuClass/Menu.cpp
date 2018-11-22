@@ -9,8 +9,11 @@
 
 using namespace std ;
 
+vector<Menu*> Menu::allMenu ;
+
 Menu::Menu(){ 
 	m_id = NOTHING ;
+	allMenu.push_back(this) ;
 } ; // Est utile pour la création d'un vector de Menu dans MatriceGameGestion.cpp
 
 Menu::Menu(vector<AbstractButton*> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id)
@@ -21,6 +24,16 @@ Menu::Menu(vector<AbstractButton*> buttons, unsigned short int pos_x, unsigned s
 	m_id = id ;
 	m_open = false ;
 	this->calculPosButton(buttons) ;
+	allMenu.push_back(this) ;
+}
+
+Menu::~Menu()
+{
+	for (unsigned short i = 0 ; i < allMenu.size() ; i++)
+	{
+		if(allMenu[i]==this)
+			allMenu.erase(allMenu.begin()+i) ;
+	}
 }
 
 SDL_Color Menu::getColor()
@@ -43,6 +56,12 @@ unsigned short Menu::getPosX()
 unsigned short Menu::getPosY()
 {
 	return this->m_pos_y ;
+}
+
+bool Menu::clickIsOnThisMenu(unsigned int x, unsigned int y)
+{
+	return getPosX() < x && x < getPosX()+m_width &&
+		   getPosY() < y && y < getPosY()+m_height ;
 }
 
 void Menu::calculPosButton(vector<AbstractButton*> buttons)
@@ -75,7 +94,7 @@ void Menu::calculPosButton(vector<AbstractButton*> buttons)
 	}
 }
 
-void Menu::displayMenu(Fenetre screen)
+void Menu::displayMenu(Fenetre& screen)
 {
 	SurfaceAffichage menuAffichage = this->getMenu() ;
 	SDL_Surface* menuSurface = menuAffichage.surface() ;
@@ -110,6 +129,19 @@ void Menu::displayMenu(Fenetre screen)
     screen.actualiser() ;
 }
 
+bool Menu::displayMenuWithId(int id, Fenetre& screen)
+{
+	for (unsigned short i = 0 ; i < allMenu.size() ; i++)
+    {
+        if (id == allMenu[i]->m_id)
+        {
+            allMenu[i]->displayMenu(screen) ;
+            return true ;
+        }
+    }
+    return false ;
+}
+
 int Menu::getID(){
 	return m_id ;
 }
@@ -120,6 +152,20 @@ void Menu::openCloseMenu(){
 
 bool Menu::isOpen(){
 	return m_open;
+}
+
+int Menu::getIdButtonOn(unsigned int x, unsigned int y)
+{
+	int id_button ;
+
+    for (unsigned short i = 0 ; i < allMenu.size() ; i++)
+    {
+        if (allMenu[i]->isOpen() && allMenu[i]->clickIsOnThisMenu(x,y)){
+            id_button = allMenu[i]->receiveAction(x,y);
+        }
+    }
+
+    return id_button ;
 }
 
 int Menu::receiveAction(unsigned int x, unsigned int y){
@@ -154,4 +200,42 @@ int Menu::receiveAction(unsigned int x, unsigned int y){
 	}
 
 	return id ;
+}
+
+
+bool Menu::isAMenuOpened(){
+    bool menu_opened = false ;
+    unsigned short i = 0 ;
+    while (i < Menu::allMenu.size() && !menu_opened){
+        menu_opened = ( Menu::allMenu[i]->isOpen() ) ? true : false ;
+        i++ ;
+    }
+
+    return menu_opened ;
+}
+
+void Menu::keepOpening(Fenetre screen){
+    for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++){
+        if (Menu::allMenu[i]->isOpen()){
+            Menu::allMenu[i]->displayMenu(screen);
+        }
+    }
+}
+
+
+void Menu::openMenu(int id, Fenetre screen, bool openclose){
+	// On parcourt l'ensemble des menus présents de la matrice pour consulter leur ID et ouvrir le menu voulu
+	bool done = false ;
+	for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++){
+        if (!done){
+			if (id == Menu::allMenu[i]->getID()){
+				Menu::allMenu[i]->displayMenu(screen);
+                if (openclose){
+                    Menu::allMenu[i]->openCloseMenu();
+                }
+				done = true ;
+			}
+		}
+	}
+
 }
