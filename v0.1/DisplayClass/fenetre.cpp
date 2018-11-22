@@ -93,6 +93,10 @@ Fenetre::~Fenetre()
 	if (fenetre!=NULL){
 		fenetre = NULL ;
 	}
+	if(m_surface!=NULL){
+		SDL_FreeSurface(m_surface);
+		m_surface = NULL;
+	}
 }
 
 // PERMET DE METTRE LA SURFACE DE LA FENETRE A JOUR

@@ -16,7 +16,7 @@ class SurfaceAffichage
          * textes à afficher, nous devons utiliser une fonction autre que celle proposée par SDL_RGB */
         SurfaceAffichage(unsigned short const& width, unsigned short const& height) ;
         SurfaceAffichage(unsigned short const& width, unsigned short const& height, SDL_Surface* surface) ;
-        ~SurfaceAffichage() ;
+        virtual ~SurfaceAffichage() ;
 
         bool saveBMP(std::string const& name) const ;
 

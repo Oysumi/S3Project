@@ -218,6 +218,13 @@ void Terrain::generer_le_terrain (string const& terrain_representation, std::lis
         }
     }
 
+    // Destruction de la variable locale m_terrainTab
+    for (unsigned short i = 0 ; i < m_nb_height_sprite ; i++)
+    {
+        free(m_terrainTab[i]) ;
+    }
+
+    free(m_terrainTab);
 }
 
 //ASSOCIER UNE LETTRE DE REPRESENTATION AU NUMERO DU SPRITE

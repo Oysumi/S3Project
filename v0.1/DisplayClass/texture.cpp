@@ -51,3 +51,11 @@ SDL_Rect SpriteTexture::getRect (unsigned short const& numero_sprite_longueur, u
     image.w = m_taille ;
     return image ;
 }
+
+//DESTRUCTEUR
+SpriteTexture::~SpriteTexture(){
+    if(m_surface!=NULL){
+        SDL_FreeSurface(m_surface);
+        m_surface = NULL ;
+    }
+}

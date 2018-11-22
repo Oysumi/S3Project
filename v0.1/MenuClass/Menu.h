@@ -44,7 +44,7 @@ class Menu
 		bool isOpen() ;
 		
 		static void openMenu(int id, Fenetre screen, bool openclose) ;
-		static void keepOpening(Fenetre screen);
+		static void keepOpened(Fenetre screen);
 		static bool isAMenuOpened() ;
 		static bool displayMenuWithId(int id, Fenetre& screen) ;
 		static int getIdButtonOn(unsigned int x, unsigned int y) ; // Reçoit des coordonnées qui seront comparées avec la position des boutons du menu

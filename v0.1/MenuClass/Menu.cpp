@@ -214,7 +214,7 @@ bool Menu::isAMenuOpened(){
     return menu_opened ;
 }
 
-void Menu::keepOpening(Fenetre screen){
+void Menu::keepOpened(Fenetre screen){
     for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++){
         if (Menu::allMenu[i]->isOpen()){
             Menu::allMenu[i]->displayMenu(screen);

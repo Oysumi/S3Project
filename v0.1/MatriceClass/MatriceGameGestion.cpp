@@ -184,7 +184,7 @@ void MatriceGameGestion::gameLoop()
             temps_precedent = SDL_GetTicks() ;
             m_fenetre.ajouter(m_map.getSurface(),&scroll,0,0) ;
             if (Menu::isAMenuOpened()){
-                Menu::keepOpening(m_fenetre);
+                Menu::keepOpened(m_fenetre);
             }
             m_fenetre.actualiser() ;
         }
