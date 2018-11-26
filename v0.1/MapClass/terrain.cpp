@@ -113,12 +113,12 @@ void Terrain::generer_le_terrain (string const& terrain_representation, std::lis
 
 	//Création d'un tableau réprésentant les textures du terrain
     debugage_message("Vérification du format de la map et correction ...") ;
-    char ** m_terrainTab ;
-    m_terrainTab = 0 ;
-    m_terrainTab = (char**)malloc(m_nb_height_sprite * sizeof(char*));
+    char ** terrainTab ;
+    terrainTab = 0 ;
+    terrainTab = (char**)malloc(m_nb_height_sprite * sizeof(char*));
     for (unsigned short i = 0 ; i < m_nb_height_sprite ; i++)
     {
-        m_terrainTab[i] = (char*)malloc(m_nb_width_sprite * sizeof(char));
+        terrainTab[i] = (char*)malloc(m_nb_width_sprite * sizeof(char));
     }
 
     //Remplissage par des cases d'herbes (lignes complétées si de tailles différentes)
@@ -126,7 +126,7 @@ void Terrain::generer_le_terrain (string const& terrain_representation, std::lis
     {
         for (unsigned short i = 0; i < m_nb_width_sprite ; i++)
         {
-            m_terrainTab[l][i] = 'G' ;
+            terrainTab[l][i] = 'G' ;
         }
     }
 
@@ -145,7 +145,7 @@ void Terrain::generer_le_terrain (string const& terrain_representation, std::lis
         		carac = 'G' ;
 
         	//Remplacement dans le tablleau
-            m_terrainTab[l][i] = carac ;
+            terrainTab[l][i] = carac ;
             texte_curseur ++;
         }
         texte_curseur++ ;
@@ -156,28 +156,28 @@ void Terrain::generer_le_terrain (string const& terrain_representation, std::lis
     {
         for (unsigned short y = 0 ; y < m_nb_height_sprite ; y++)
         {
-            if(m_terrainTab[y][x] == 'W')
+            if(terrainTab[y][x] == 'W')
             {
             	short lettre_sprite = 0 ;
             	
             	if (x-1 < 0)
             		lettre_sprite += 8 ;
-            	else if (m_terrainTab[y][x-1] == 'G')
+            	else if (terrainTab[y][x-1] == 'G')
             			lettre_sprite += 8 ;
 
             	if (y-1 < 0)
             		lettre_sprite += 4 ;
-            	else if (m_terrainTab[y-1][x] == 'G')
+            	else if (terrainTab[y-1][x] == 'G')
             			lettre_sprite += 4 ;
 
             	if (x+1 >= m_nb_width_sprite)
             		lettre_sprite += 2 ;
-            	else if (m_terrainTab[y][x+1] == 'G')
+            	else if (terrainTab[y][x+1] == 'G')
             			lettre_sprite += 2 ;
 
             	if (y+1 >= m_nb_height_sprite)
             		lettre_sprite += 1 ;
-            	else if (m_terrainTab[y+1][x] == 'G')
+            	else if (terrainTab[y+1][x] == 'G')
             			lettre_sprite += 1 ;
             	
             	if (lettre_sprite >= 10)
@@ -185,7 +185,7 @@ void Terrain::generer_le_terrain (string const& terrain_representation, std::lis
             	else
             		lettre_sprite += 48 ;
 
-            	m_terrainTab[y][x] = (char) lettre_sprite ;
+            	terrainTab[y][x] = (char) lettre_sprite ;
             }
         }
     }
@@ -196,7 +196,7 @@ void Terrain::generer_le_terrain (string const& terrain_representation, std::lis
     {
         for (unsigned short i = 0 ; i < m_nb_width_sprite ; i++)
         {
-            texte_representation_terrain_final += m_terrainTab[l][i] ;
+            texte_representation_terrain_final += terrainTab[l][i] ;
         }
         texte_representation_terrain_final += "\n" ;
     }
@@ -209,22 +209,22 @@ void Terrain::generer_le_terrain (string const& terrain_representation, std::lis
     {
         for (unsigned short y = 0 ; y < m_nb_height_sprite ; y++)
         {
-            m_terrainComplet->ajouter(m_sprite, x*MAP_CASE_SIZE, y*MAP_CASE_SIZE, assocCodeToCaseSprite(m_terrainTab[y][x]) ) ;
-            m_sprite_representation.insert(std::pair<MapPos,char>(MapPos(x,m_nb_height_sprite-1-y),m_terrainTab[y][x]));
-            if(assocCodeToCaseSprite(m_terrainTab[y][x]) == 16)
+            m_terrainComplet->ajouter(m_sprite, x*MAP_CASE_SIZE, y*MAP_CASE_SIZE, assocCodeToCaseSprite(terrainTab[y][x]) ) ;
+            m_sprite_representation.insert(std::pair<MapPos,char>(MapPos(x,m_nb_height_sprite-1-y),terrainTab[y][x]));
+            if(assocCodeToCaseSprite(terrainTab[y][x]) == 16)
             {
                 free_pos->insert(free_pos->begin(), MapPos(x,m_nb_height_sprite-1-y)) ;
             }
         }
     }
 
-    // Destruction de la variable locale m_terrainTab
+    //Destruction de la variable locale terrainTab
     for (unsigned short i = 0 ; i < m_nb_height_sprite ; i++)
     {
-        free(m_terrainTab[i]) ;
+        free(terrainTab[i]) ;
     }
 
-    free(m_terrainTab);
+    free(terrainTab) ;
 }
 
 //ASSOCIER UNE LETTRE DE REPRESENTATION AU NUMERO DU SPRITE

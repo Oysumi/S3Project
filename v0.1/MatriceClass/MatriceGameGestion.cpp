@@ -14,28 +14,32 @@ using namespace std;
 #define TIME_BETWEEN_SCROLL_CHANGE 5
 #define TIME_LIMIT_TO_DISPLAY_MENU 500
 
-MatriceGameGestion::MatriceGameGestion(vector<AbstractButton*> all_buttons) :
+MatriceGameGestion::MatriceGameGestion() :
     m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN),
     m_map (35,15)
 {
+
+        // Création de la matrice de gestion de jeu
+    m_all_buttons = new vector<AbstractButton*> ;
+    remplissage(m_all_buttons) ;
 
     //Couleur de menu
     SDL_Color font_menu = {0, 0, 0} ;
 
     // Création et ajout dans la mémoire du menu principal (quand on appuie sur la touche escape)
     vector<AbstractButton*> escapeButtons ;
-    escapeButtons.push_back(all_buttons[RETOUR]);
-    escapeButtons.push_back(all_buttons[MUSIQUE]);
-    escapeButtons.push_back(all_buttons[QUITTER]);
+    escapeButtons.push_back((*m_all_buttons)[RETOUR]);
+    escapeButtons.push_back((*m_all_buttons)[MUSIQUE]);
+    escapeButtons.push_back((*m_all_buttons)[QUITTER]);
     unsigned short int x(SCREEN_WIDTH/2 - 100), y(SCREEN_HEIGHT/4) ;
     m_saveMenu.push_back(new Menu (escapeButtons, x, y, font_menu, ESCAPE_MENU)) ;
 
     // Création et ajout dans la mémoire du menu prise de décision (attaquer, défendre, aller à, ...)
     vector<AbstractButton*> decisionButtons ;
-    decisionButtons.push_back(all_buttons[ATTAQUER]);
-    decisionButtons.push_back(all_buttons[DEFENDRE]);
-    decisionButtons.push_back(all_buttons[ALLER_A]);
-    decisionButtons.push_back(all_buttons[FERMER]);
+    decisionButtons.push_back((*m_all_buttons)[ATTAQUER]);
+    decisionButtons.push_back((*m_all_buttons)[DEFENDRE]);
+    decisionButtons.push_back((*m_all_buttons)[ALLER_A]);
+    decisionButtons.push_back((*m_all_buttons)[FERMER]);
     m_saveMenu.push_back(new Menu (decisionButtons, 0, 0, font_menu, ATTACK_MENU)) ;
 
 }
@@ -43,6 +47,8 @@ MatriceGameGestion::MatriceGameGestion(vector<AbstractButton*> all_buttons) :
 
 MatriceGameGestion::~MatriceGameGestion()
 {
+    deleteVect(m_all_buttons) ;
+    delete m_all_buttons ;
     //Suppression des menus de la mémoire de la matrice
     for (unsigned short i = 0 ; i < m_saveMenu.size() ; i++)
     {
@@ -109,7 +115,7 @@ void MatriceGameGestion::gameLoop()
                         case SDLK_ESCAPE:
                             if (SDL_GetTicks()-temps_menu > TIME_LIMIT_TO_DISPLAY_MENU){
                                 changement = true ;
-                                Menu::openMenu(ESCAPE_MENU, m_fenetre, true);
+                                Menu::openMenu(ESCAPE_MENU, m_fenetre);
                                 temps_menu = SDL_GetTicks();
                             }
                             break ;

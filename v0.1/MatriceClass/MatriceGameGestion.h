@@ -23,7 +23,7 @@
 class MatriceGameGestion
 {
 	public:
-		MatriceGameGestion(std::vector<AbstractButton*> all_buttons);
+		MatriceGameGestion();
 		~MatriceGameGestion();
 
 		void init() ;
@@ -34,6 +34,7 @@ class MatriceGameGestion
 		Fenetre m_fenetre ;
 		Map m_map ;
 		std::vector <Menu*> m_saveMenu ;
+		std::vector <AbstractButton*> * m_all_buttons ;
 
 	private :
 		//void initTurnPlayer() ;

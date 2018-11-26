@@ -185,19 +185,6 @@ int Menu::receiveAction(unsigned int x, unsigned int y){
 		}
 	}
 
-	switch (id)
-	{
-		case RETOUR:
-			break;
-		case QUITTER:
-			break;
-		case ATTAQUER:
-			break;
-		case DEFENDRE:
-			break;
-		case ALLER_A:
-			break;
-	}
 
 	return id ;
 }
@@ -223,16 +210,14 @@ void Menu::keepOpened(Fenetre screen){
 }
 
 
-void Menu::openMenu(int id, Fenetre screen, bool openclose){
+void Menu::openMenu(int id, Fenetre screen){
 	// On parcourt l'ensemble des menus présents de la matrice pour consulter leur ID et ouvrir le menu voulu
 	bool done = false ;
 	for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++){
         if (!done){
 			if (id == Menu::allMenu[i]->getID()){
 				Menu::allMenu[i]->displayMenu(screen);
-                if (openclose){
-                    Menu::allMenu[i]->openCloseMenu();
-                }
+                Menu::allMenu[i]->openCloseMenu();
 				done = true ;
 			}
 		}

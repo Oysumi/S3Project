@@ -23,21 +23,12 @@ int main ( int args, char * argv[] )
 {
     //initialisation aléatoire
     srand(time(NULL)) ;
-
-    vector <AbstractButton*> bouton ;
-    bouton = remplissage() ;
-
-    //Initialisation du jeu
-    MatriceGameGestion matrice(bouton) ;
     
-    //Création des unités / Remplissage de la carte ...
+    MatriceGameGestion matrice ;
+    //Initialisation et boucle du jeu
     matrice.init() ;
-
-    //Boucle du Jeu
     matrice.gameLoop() ;
     
-    //Traitement fin du Jeu
-    deleteVect(bouton) ;
     atexit(SDL_Quit) ;
     TTF_Quit() ;
     debugage_message("Fin du Jeu") ;

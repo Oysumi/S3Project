@@ -34,6 +34,7 @@ class Map
         bool add_unit (Unit const& unit) ;
         bool add_cons (Construction const& cons) ;
 
+
     private :
         void add_unit_texture(Unit const& unit) ;
         void add_cons_texture(Construction const& cons) ;
@@ -41,10 +42,10 @@ class Map
         void del_cons_texture(Construction const& cons) ;
         
     private :
-        std::vector <Unit> m_list_unit ;
-        std::vector <Construction> m_list_cons ; //construction
-        std::map <MapPos, short> m_map_unit ;
-        std::map <MapPos, short> m_map_cons ;
+        std::vector <Unit*> m_list_unit ;
+        std::vector <Construction*> m_list_cons ; //construction
+        std::map <MapPos, Unit*> m_map_unit ;
+        std::map <MapPos, Construction*> m_map_cons ;
         SurfaceAffichage* m_graphic_map ;
         std::list <MapPos> m_free_pos ;
         Terrain m_terrain ;

@@ -8,7 +8,7 @@
  * permet alors un accès direct aux cases et donc à la libération
  * de ces dernières */
 
-std::vector<AbstractButton*> remplissage() ;
-void deleteVect(std::vector<AbstractButton*> tab);
+void remplissage(std::vector<AbstractButton*>* tab) ;
+void deleteVect(std::vector<AbstractButton*>* tab);
 
 #endif
