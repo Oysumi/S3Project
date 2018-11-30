@@ -20,9 +20,10 @@
 using namespace std;
 
 int main ( int args, char * argv[] )
-{
-    //initialisation aléatoire
+{   
+    //initialisation aléatoire et TTF
     srand(time(NULL)) ;
+    TTF_Init() ;
     
     MatriceGameGestion matrice ;
     //Initialisation et boucle du jeu

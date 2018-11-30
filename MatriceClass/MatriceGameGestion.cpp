@@ -2,6 +2,8 @@
 #include "../MenuClass/ActionButton.h"
 #include "../MenuClass/AbstractButton.h"
 #include "../ID/idbuttons.h"
+#include "../ID/idmenus.h"
+#include "../CharactersClass/HumanPlayer.h"
 
 #include <iostream>
 
@@ -13,6 +15,8 @@ using namespace std;
 #define SCROOL_ZONE 15
 #define TIME_BETWEEN_SCROLL_CHANGE 5
 #define TIME_LIMIT_TO_DISPLAY_MENU 500
+
+
 
 MatriceGameGestion::MatriceGameGestion() :
     m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN),
@@ -42,34 +46,57 @@ MatriceGameGestion::MatriceGameGestion() :
     decisionButtons.push_back((*m_all_buttons)[FERMER]);
     m_saveMenu.push_back(new Menu (decisionButtons, 0, 0, font_menu, ATTACK_MENU)) ;
 
+
+    //Représente le rectangle de la map affichée sur la fenêtre
+    m_scroll.x = 0 ;
+    m_scroll.y = 0 ;
+    m_scroll.h = SCREEN_HEIGHT ;
+    m_scroll.w = SCREEN_WIDTH ;
+
 }
 
 
 MatriceGameGestion::~MatriceGameGestion()
 {
-    deleteVect(m_all_buttons) ;
+    for (unsigned short i = 0 ; i < m_all_buttons->size() ; i++)
+    {
+        delete (*m_all_buttons)[i] ;
+    }
     delete m_all_buttons ;
+    
     //Suppression des menus de la mémoire de la matrice
     for (unsigned short i = 0 ; i < m_saveMenu.size() ; i++)
     {
         delete(m_saveMenu[i]) ;
     }
+
+    //Suppression des joueurs de la mémoire de la matrice
+    for (unsigned short i = 0 ; i < m_player_list->size() ; i++)
+    {
+        cout << "delete " << i+1 << "/" << m_player_list->size() << endl ;
+        delete (*m_player_list)[i] ;
+    }
+    delete m_player_list ;
 }
 
 
 void MatriceGameGestion::init()
 {
+    m_player_list = new std::vector <AbstractPlayer*> ;
+
+    m_player_list->push_back(new HumanPlayer()) ;
+
     for (unsigned short i = 0 ; i < 10 && m_map.nb_free_pos() > 0 ; i++)
-        m_map.add_unit( Unit("../ressources/catapult.bmp", m_map.random_free_pos()) ) ;
+        m_map.add_unit( Unit("../ressources/catapult.bmp", m_map.random_free_pos(), m_player_list->at(0) )) ;
     
     for (unsigned short i = 0 ; i < 5 && m_map.nb_free_pos() > 0 ; i++)
-        m_map.add_cons( Construction("../ressources/ground.bmp", m_map.random_free_pos(), NULL )) ;
+        m_map.add_cons( Construction("../ressources/ground.bmp", m_map.random_free_pos(), m_player_list->at(0) )) ;
 
     for (unsigned short i = 0 ; i < 5 && m_map.nb_free_pos() > 0 ; i++)
     {
         MapPos pos (m_map.random_free_pos()) ;
-        m_map.add_cons( Construction("../ressources/ground.bmp", pos, NULL )) ;
-        m_map.add_unit( Unit("../ressources/catapult.bmp", pos )) ;
+        m_map.add_cons( Construction("../ressources/ground.bmp", pos, m_player_list->at(0) )) ;
+        m_map.add_unit( Unit("../ressources/catapult.bmp", pos, m_player_list->at(0) )) ;
     }
 
     //On affiche le terrain
@@ -77,123 +104,13 @@ void MatriceGameGestion::init()
     m_fenetre.actualiser() ;
 }
 
-
 void MatriceGameGestion::gameLoop()
 {
-    debugage_message("Début du Jeu") ;
+    m_player_list->at(0)->takeDecision(m_fenetre, m_map, m_scroll) ;
+}
 
-    bool changement, gauche_ecran = false, droite_ecran = false, bas_ecran = false, haut_ecran = false ;
-    int temps_precedent = 0 ;
-    int temps_menu = 0 ;
-
-    SDL_Rect scroll ;
-    scroll.x = 0 ;
-    scroll.y = 0 ;
-    scroll.h = SCREEN_HEIGHT ;
-    scroll.w = SCREEN_WIDTH ;
-
-    SDL_Event event ; 
-    bool end = false ;
-
-    TTF_Init() ;
-
-    while (!end)
-    {
-        changement = false ;
-
-        if (SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-                case SDL_QUIT:
-                    end = true ;
-                    break ;
-                    
-                case SDL_KEYDOWN:
-                    switch (event.key.keysym.sym)
-                    {
-                        case SDLK_ESCAPE:
-                            if (SDL_GetTicks()-temps_menu > TIME_LIMIT_TO_DISPLAY_MENU){
-                                changement = true ;
-                                Menu::openMenu(ESCAPE_MENU, m_fenetre);
-                                temps_menu = SDL_GetTicks();
-                            }
-                            break ;
-
-                        case SDLK_q:
-                            end = true ;
-                            break ;
-                            
-                        default:
-                            break;
-                            
-                    }
-                    break;
-
-                //DECALAGE DE LA CARTE
-                case SDL_MOUSEMOTION:
-                {
-                    if (event.motion.x <= SCROOL_ZONE)
-                        gauche_ecran = true ;
-                    else
-                        gauche_ecran = false ;
-
-                    if (event.motion.y <= SCROOL_ZONE)
-                        haut_ecran = true ;
-                    else
-                        haut_ecran = false ;
-
-                    if (event.motion.x >= SCREEN_WIDTH-SCROOL_ZONE)
-                        droite_ecran = true ;
-                    else
-                        droite_ecran = false ;
-
-                    if (event.motion.y >= SCREEN_HEIGHT-SCROOL_ZONE)
-                        bas_ecran = true ;
-                    else
-                        bas_ecran = false ;
-
-                    break ;
-                }
-
-                //GESTION DES CLICS DE SOURIS
-                case SDL_MOUSEBUTTONDOWN:
-                    if (Menu::getIdButtonOn(event.motion.x,event.motion.y)==QUITTER)
-                        end = true ;
-                    break ;
-            }
-        }
-
-
-        if (gauche_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.x > 0)
-        {
-            scroll.x -- ;
-            changement = true ;
-        }
-        if (droite_ecran && SDL_GetTicks()-temps_precedent>= TIME_BETWEEN_SCROLL_CHANGE && scroll.x < m_map.width() - SCREEN_WIDTH)
-        {
-            scroll.x ++ ;
-            changement = true ;
-        }
-        if (haut_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y > 0)
-        {
-            scroll.y -- ;
-            changement = true ;
-        }
-        if (bas_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y < m_map.height() - SCREEN_HEIGHT)
-        {
-            scroll.y ++ ;
-            changement = true ;
-        }
-        if (changement)
-        {
-            temps_precedent = SDL_GetTicks() ;
-            m_fenetre.ajouter(m_map.getSurface(),&scroll,0,0) ;
-            if (Menu::isAMenuOpened()){
-                Menu::keepOpened(m_fenetre);
-            }
-            m_fenetre.actualiser() ;
-        }
-
-    }
+void MatriceGameGestion::updateDisplay()
+{
+    m_fenetre.ajouter(m_map.getSurface()) ;
+    m_fenetre.actualiser() ;
 }

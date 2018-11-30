@@ -20,11 +20,13 @@ MAPh=../MapClass/map.h
 CONSh=../MapClass/construction.h
 POSh=../MapClass/position.h
 REMPLIh=../Fonctions/remplissage.h
+OBJMOBh=../MapClass/objetmobile.h
 
 TEXTUREcpp=../DisplayClass/texture.cpp
 FENETREcpp=../DisplayClass/fenetre.cpp
 FONCTIONScpp=../Fonctions/fonctions.cpp
 UNITcpp=../CharactersClass/Unit.cpp
+ABPLAYERcpp=../CharactersClass/AbstractPlayer.cpp
 HUMPLAYERcpp=../CharactersClass/HumanPlayer.cpp
 ARTPLAYERcpp=../CharactersClass/ArtificialPlayer.cpp
 ABSBUTTONcpp=../MenuClass/AbstractButton.cpp
@@ -37,17 +39,18 @@ MAPcpp=../MapClass/map.cpp
 CONScpp=../MapClass/construction.cpp
 POScpp=../MapClass/position.cpp
 REMPLIcpp=../Fonctions/remplissage.cpp
+OBJMOBcpp=../MapClass/objetmobile.cpp
 MAINcpp=main.cpp
 
 $(BIN): $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) \
 		$(HUMPLAYERh) $(ARTPLAYERh) $(ABUTTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) \
-		$(MATRICEh) $(TERRh) $(TEXTEh) $(MAPh) $(CONSh) $(POSh) $(REMPLIh)\
+		$(MATRICEh) $(TERRh) $(TEXTEh) $(MAPh) $(CONSh) $(POSh) $(REMPLIh) $(OBJMOBh) \
 		$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(ACTBUTTONcpp) \
 		$(ABSBUTTONcpp) $(MENUcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(REMPLIcpp) $(MAINcpp)
 	g++ -Wall -g -lSDL $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(UNITh) $(ABPLAYERh) $(HUMPLAYERh) $(ARTPLAYERh) \
 				    $(ACTBUTTONh) $(ABUTONh) $(SUBMENUh) $(MENUh) $(MATRICEh) $(TERRh) $(TEXTEh) $(REMPLIh) \
-					$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(UNITcpp) $(ARTPLAYERcpp) $(MENUcpp) \
-					$(ABSBUTTONcpp) $(ACTBUTTONcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(REMPLIcpp) $(MAPcpp) $(CONScpp) $(POScpp) $(MAINcpp) \
+					$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ABPLAYERcpp) $(UNITcpp) $(ARTPLAYERcpp) $(MENUcpp) \
+					$(ABSBUTTONcpp) $(ACTBUTTONcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(REMPLIcpp) $(OBJMOBcpp) $(MAPcpp) $(CONScpp) $(POScpp) $(MAINcpp) \
 		-I $(INSTL) \
 		-L $(LIB) \
 		-Wl,-rpath,$(LIB) \

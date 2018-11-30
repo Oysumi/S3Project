@@ -156,7 +156,7 @@ bool Menu::isOpen(){
 
 int Menu::getIdButtonOn(unsigned int x, unsigned int y)
 {
-	int id_button ;
+	int id_button = NOTHING ;
 
     for (unsigned short i = 0 ; i < allMenu.size() ; i++)
     {

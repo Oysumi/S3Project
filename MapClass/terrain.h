@@ -23,6 +23,7 @@ class Terrain
 
         unsigned short posxOut() const ;
         unsigned short posyOut() const ;
+        unsigned short sprite_size() const ;
 
         SpriteTexture const& sprite() const ;
         unsigned short sprite_code (MapPos const& pos) ; //const

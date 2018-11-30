@@ -8,6 +8,7 @@
 #include <vector>
 #include <map>
 #include <list>
+#include "SDL/SDL.h"
 
 #include "../Fonctions/fonctions.h"
 #include "../DisplayClass/texture.h"
@@ -15,7 +16,6 @@
 #include "../MapClass/construction.h"
 #include "../MapClass/terrain.h"
 #include "../CharactersClass/Unit.h"
-#include "../CharactersClass/AbstractPlayer.h"
 #include "position.h"
 
 class Map
@@ -26,14 +26,18 @@ class Map
         ~Map() ;
         unsigned short height() const ;
         unsigned short width() const;
+        unsigned short sprite_size() const ;
         SurfaceAffichage const& getSurface() const ;
 
+        MapPos mapPos_of_click (SDL_Rect scroll, unsigned short const& x, unsigned short const& y) const ;
+        Unit* unit_on (MapPos const& pos) ;
+        Construction* cons_on (MapPos const& pos) ;
+
         MapPos random_free_pos () ;
-        unsigned int nb_free_pos () ;
+        unsigned int nb_free_pos () const ;
 
-        bool add_unit (Unit const& unit) ;
-        bool add_cons (Construction const& cons) ;
-
+        virtual bool add_unit (Unit const& unit) ;
+        virtual bool add_cons (Construction const& cons) ;
 
     private :
         void add_unit_texture(Unit const& unit) ;

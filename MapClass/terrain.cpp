@@ -249,3 +249,8 @@ unsigned short Terrain::assocCodeToCaseSprite(char const& c) const
     Warning("La map contient des caractères ne correspondant à aucun Sprite") ;
     return 16; //Ce sera donc de l'hebre
 }
+
+unsigned short Terrain::sprite_size() const
+{
+    return MAP_CASE_SIZE ;
+}

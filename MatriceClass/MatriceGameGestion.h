@@ -8,9 +8,7 @@
 #include "../Fonctions/remplissage.h"
 
 #include "../DisplayClass/fenetre.h"
-#include "../ID/idbuttons.h"
 #include "../MenuClass/ActionButton.h"
-#include "../ID/idmenus.h"
 #include "../MenuClass/Menu.h"
 
 #include "../CharactersClass/AbstractPlayer.h"
@@ -29,14 +27,21 @@ class MatriceGameGestion
 		void init() ;
 		void gameLoop() ;
 
-	private :
-		std::vector <AbstractPlayer> m_player_list ;
+	private :	
 		Fenetre m_fenetre ;
-		Map m_map ;
 		std::vector <Menu*> m_saveMenu ;
 		std::vector <AbstractButton*> * m_all_buttons ;
 
+		Map m_map ;
+		SDL_Rect m_scroll ; //Représente le rectangle de la map affichée sur la fenêtre
+		std::vector <AbstractPlayer*>* m_player_list ;	
+
 	private :
+		//static Unit* current_select_unit ;
+		//static AbstractPlayer* current_turn_player ;
+
+	private :
+		void updateDisplay() ;
 		//void initTurnPlayer() ;
 		//void moveUnit() ;
 		//void defeatPlayer() ;

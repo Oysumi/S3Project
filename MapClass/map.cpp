@@ -56,7 +56,7 @@ MapPos Map::random_free_pos ()
 	return MapPos(0,0) ;
 }
 
-unsigned int Map::nb_free_pos ()
+unsigned int Map::nb_free_pos () const
 {
 	return m_free_pos.size() ;
 }
@@ -152,4 +152,26 @@ void Map::del_cons_texture(Construction const& cons)
 			add_unit_texture(*(m_map_unit[pos])) ;
 		}
 	}
+}
+
+
+
+Unit* Map::unit_on (MapPos const& pos)
+{
+	//cout << "unit on " << pos << " ? " ;
+    return m_map_unit[pos] ;
+}
+
+Construction* Map::cons_on (MapPos const& pos)
+{
+    return m_map_cons[pos] ;
+}
+
+MapPos Map::mapPos_of_click (SDL_Rect scroll, unsigned short const& x, unsigned short const& y) const
+{
+    //cout << "Click on : " << x << ";" << y << endl ;
+    //cout << "Scroll " << scroll.x << ";" << scroll.y << endl ;
+    //cout << "size :" << m_terrain.sprite_size() << endl << endl ;
+    //cout << x+scroll.x << ";" << height()-y-scroll.y << endl ;
+    return MapPos((x+scroll.x)/m_terrain.sprite_size(),(height()-y-scroll.y)/m_terrain.sprite_size()) ;
 }
