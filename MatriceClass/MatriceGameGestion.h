@@ -32,9 +32,9 @@ class MatriceGameGestion
 		std::vector <Menu*> m_saveMenu ;
 		std::vector <AbstractButton*> * m_all_buttons ;
 
-		Map m_map ;
+		Map* m_map ;
 		SDL_Rect m_scroll ; //Représente le rectangle de la map affichée sur la fenêtre
-		std::vector <AbstractPlayer*>* m_player_list ;	
+		std::vector <AbstractPlayer*> * m_player_list ;	
 
 	private :
 		//static Unit* current_select_unit ;

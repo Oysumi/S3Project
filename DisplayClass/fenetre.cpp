@@ -71,7 +71,7 @@ Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned
 	if (fenetre == NULL)
 	{
 		if (SDL_Init(SDL_INIT_VIDEO) != 0)
-	        erreur_message("Impssible d'initialiser la SDL pour la fenetre " + title + " : " + SDL_GetError()) ;
+        	erreur_message("Impssible d'initialiser la SDL pour la fenetre " + title + " : " + SDL_GetError()) ;
 	    
 	    SDL_WM_SetCaption(title.c_str(), NULL) ;
 	    

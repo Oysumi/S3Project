@@ -9,6 +9,5 @@
  * de ces dernières */
 
 void remplissage(std::vector<AbstractButton*>* tab) ;
-void deleteVect(std::vector<AbstractButton*>* tab);
 
 #endif

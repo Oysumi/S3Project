@@ -19,7 +19,7 @@ HumanPlayer::HumanPlayer()
 HumanPlayer::~HumanPlayer()
 {}
 
-void HumanPlayer::takeDecision(Fenetre fenetre, Map map, SDL_Rect scroll)
+void HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll)
 {
 
 	debugage_message("Début du Jeu") ;

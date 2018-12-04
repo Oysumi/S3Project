@@ -19,12 +19,3 @@ void remplissage(vector<AbstractButton*>* bouton)
     bouton->push_back(new ActionButton(FERMER, "FERMER", 200, 100, 110, 110, font, text)) ;
 
 }
-
-void deleteVect(vector<AbstractButton*>* tab)
-{
-	for (unsigned short i = 0 ; i < tab->size() ; i++)
-	{
-		delete (*tab)[i] ;
-	}
-}
-

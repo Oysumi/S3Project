@@ -19,14 +19,14 @@ using namespace std;
 
 
 MatriceGameGestion::MatriceGameGestion() :
-    m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN),
-    m_map (35,15)
+    m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN )
 {
 
-        // Création de la matrice de gestion de jeu
+    // Création des boutons
     m_all_buttons = new vector<AbstractButton*> ;
     remplissage(m_all_buttons) ;
 
+    //Création des menus
     //Couleur de menu
     SDL_Color font_menu = {0, 0, 0} ;
 
@@ -55,62 +55,78 @@ MatriceGameGestion::MatriceGameGestion() :
 
 }
 
-
-MatriceGameGestion::~MatriceGameGestion()
-{
-    for (unsigned short i = 0 ; i < m_all_buttons->size() ; i++)
-    {
-        delete (*m_all_buttons)[i] ;
-    }
-    delete m_all_buttons ;
-    
-    //Suppression des menus de la mémoire de la matrice
-    for (unsigned short i = 0 ; i < m_saveMenu.size() ; i++)
-    {
-        delete(m_saveMenu[i]) ;
-    }
-
-    //Suppression des joueurs de la mémoire de la matrice
-    for (unsigned short i = 0 ; i < m_player_list->size() ; i++)
-    {
-        cout << "delete " << i+1 << "/" << m_player_list->size() << endl ;
-        delete (*m_player_list)[i] ;
-    }
-    delete m_player_list ;
-}
-
-
 void MatriceGameGestion::init()
 {
+    m_map = new Map (35,15) ;
+
     m_player_list = new std::vector <AbstractPlayer*> ;
 
     m_player_list->push_back(new HumanPlayer()) ;
 
-    for (unsigned short i = 0 ; i < 10 && m_map.nb_free_pos() > 0 ; i++)
-        m_map.add_unit( Unit("../ressources/catapult.bmp", m_map.random_free_pos(), m_player_list->at(0) )) ;
+    for (unsigned short i = 0 ; i < 10 && m_map->nb_free_pos() > 0 ; i++)
+        m_map->add_unit( Unit("../ressources/catapult.bmp", m_map->random_free_pos(), m_player_list->at(0) )) ;
     
-    for (unsigned short i = 0 ; i < 5 && m_map.nb_free_pos() > 0 ; i++)
-        m_map.add_cons( Construction("../ressources/ground.bmp", m_map.random_free_pos(), m_player_list->at(0) )) ;
+    for (unsigned short i = 0 ; i < 5 && m_map->nb_free_pos() > 0 ; i++)
+        m_map->add_cons( Construction("../ressources/ground.bmp", m_map->random_free_pos(), m_player_list->at(0) )) ;
 
-    for (unsigned short i = 0 ; i < 5 && m_map.nb_free_pos() > 0 ; i++)
+    for (unsigned short i = 0 ; i < 5 && m_map->nb_free_pos() > 0 ; i++)
     {
-        MapPos pos (m_map.random_free_pos()) ;
-        m_map.add_cons( Construction("../ressources/ground.bmp", pos, m_player_list->at(0) )) ;
-        m_map.add_unit( Unit("../ressources/catapult.bmp", pos, m_player_list->at(0) )) ;
+        MapPos pos (m_map->random_free_pos()) ;
+        m_map->add_cons( Construction("../ressources/ground.bmp", pos, m_player_list->at(0) )) ;
+        m_map->add_unit( Unit("../ressources/catapult.bmp", pos, m_player_list->at(0) )) ;
     }
 
     //On affiche le terrain
-    m_fenetre.ajouter(m_map.getSurface()) ;
-    m_fenetre.actualiser() ;
+    updateDisplay() ;
 }
 
 void MatriceGameGestion::gameLoop()
 {
-    m_player_list->at(0)->takeDecision(m_fenetre, m_map, m_scroll) ;
+    m_player_list->at(0)->takeDecision(m_fenetre, *m_map, m_scroll) ;
 }
 
 void MatriceGameGestion::updateDisplay()
 {
-    m_fenetre.ajouter(m_map.getSurface()) ;
+    m_fenetre.ajouter(m_map->getSurface()) ;
     m_fenetre.actualiser() ;
+}
+
+MatriceGameGestion::~MatriceGameGestion()
+{
+    //Suppression des joueurs de m_player_list
+    while(!m_player_list->empty())
+    {
+        delete(m_player_list->back()) ;
+        m_player_list->pop_back() ;
+    }
+
+    if (m_player_list!=NULL)
+    {
+        delete(m_player_list) ;
+        m_player_list = NULL ;
+    }
+    
+
+    //Suppression des menus de la mémoire de la matrice
+    while(!m_saveMenu.empty())
+    {
+        delete(m_saveMenu.back()) ;
+        m_saveMenu.pop_back() ;
+    }
+
+    //Suppression des boutons de la mémoire de la matrice
+    while(!m_all_buttons->empty())
+    {
+        delete(m_all_buttons->back()) ;
+        m_all_buttons->pop_back() ;
+    }
+
+    if (m_all_buttons!=NULL)
+    {
+        delete(m_all_buttons) ;
+        m_all_buttons = NULL ;
+    }
+
+    delete(m_map) ;
+
 }

@@ -2,20 +2,12 @@
 #include <cstdio>
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <time.h>
-#include <vector>
 #include "SDL/SDL.h"
 #include <SDL/SDL_ttf.h>
 
-#include "../Fonctions/fonctions.h"
-#include "../Fonctions/remplissage.h"
-
-#include "../ID/idbuttons.h"
-#include "../MenuClass/ActionButton.h"
-
-#include "../CharactersClass/AbstractPlayer.h"
 #include "../MatriceClass/MatriceGameGestion.h"
+#include "../Fonctions/fonctions.h"
 
 using namespace std;
 
@@ -24,15 +16,18 @@ int main ( int args, char * argv[] )
     //initialisation aléatoire et TTF
     srand(time(NULL)) ;
     TTF_Init() ;
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+        erreur_message("Impssible d'initialiser la SDL") ;
     
-    MatriceGameGestion matrice ;
-    //Initialisation et boucle du jeu
-    matrice.init() ;
-    matrice.gameLoop() ;
-    
-    atexit(SDL_Quit) ;
+    {
+        MatriceGameGestion matrice ;
+        //Initialisation et boucle du jeu
+        matrice.init() ;
+        matrice.gameLoop() ;
+    }
+
     TTF_Quit() ;
-    debugage_message("Fin du Jeu") ;
+    SDL_Quit() ;
 
     return 0;
 }

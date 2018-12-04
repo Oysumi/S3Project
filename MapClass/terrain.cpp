@@ -71,7 +71,11 @@ Terrain::Terrain (unsigned short const& width, unsigned int const& height, std::
 //DESTRUCTEUR
 Terrain::~Terrain()
 {
-    delete m_terrainComplet ;
+    if (m_terrainComplet != NULL)
+    {
+        delete m_terrainComplet ;
+        m_terrainComplet = NULL ;
+    }
 }
 
 unsigned short Terrain::posxOut() const

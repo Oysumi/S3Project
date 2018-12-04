@@ -23,15 +23,15 @@ class Map
     public :
         Map(unsigned short x, unsigned short y) ;
         Map() ;
-        ~Map() ;
+        virtual ~Map() ;
         unsigned short height() const ;
         unsigned short width() const;
         unsigned short sprite_size() const ;
         SurfaceAffichage const& getSurface() const ;
 
         MapPos mapPos_of_click (SDL_Rect scroll, unsigned short const& x, unsigned short const& y) const ;
-        Unit* unit_on (MapPos const& pos) ;
-        Construction* cons_on (MapPos const& pos) ;
+        Unit* unit_on (MapPos const& pos) const ;
+        Construction* cons_on (MapPos const& pos) const ;
 
         MapPos random_free_pos () ;
         unsigned int nb_free_pos () const ;
@@ -48,8 +48,8 @@ class Map
     private :
         std::vector <Unit*> m_list_unit ;
         std::vector <Construction*> m_list_cons ; //construction
-        std::map <MapPos, Unit*> m_map_unit ;
-        std::map <MapPos, Construction*> m_map_cons ;
+        std::map <MapPos, Unit*>* m_map_unit ;
+        std::map <MapPos, Construction*>* m_map_cons ;
         SurfaceAffichage* m_graphic_map ;
         std::list <MapPos> m_free_pos ;
         Terrain m_terrain ;

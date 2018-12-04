@@ -11,7 +11,7 @@ class HumanPlayer : public AbstractPlayer
 	public :
 		HumanPlayer() ;
 		virtual ~HumanPlayer() ;
-		virtual void takeDecision(Fenetre fenetre, Map map, SDL_Rect scroll) ;
+		virtual void takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll) ;
 };
 
 #endif // __HUMANPLAYER_H__

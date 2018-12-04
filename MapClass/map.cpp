@@ -3,6 +3,9 @@ using namespace std ;
 
 Map::Map(unsigned short x, unsigned short y) : m_terrain(x,y,&m_free_pos)
 {
+	m_map_unit = new map <MapPos, Unit*> ;
+    m_map_cons  = new map <MapPos, Construction*> ;
+
 	m_graphic_map = new SurfaceAffichage(width(),height()) ;
 	m_graphic_map->ajouter(m_terrain.terrainComplet()) ;
 }
@@ -12,16 +15,38 @@ Map::Map() : Map(5,5)
 
 Map::~Map()
 {
-	delete(m_graphic_map) ;
-	for (unsigned short i = 0 ; i < m_list_unit.size() ; i++)
+	//Suppression des graphismes de la map de la mémoire
+	if (m_graphic_map != NULL)
 	{
-		delete(m_list_unit[i]) ;
+		delete(m_graphic_map) ;
+		m_graphic_map = NULL ;
 	}
 
-	for (unsigned short i = 0 ; i < m_list_cons.size() ; i++)
-	{
-		delete(m_list_cons[i]) ;
-	}
+	//Suppression des unités de la mémoire
+	while(!m_list_unit.empty())
+    {
+        delete(m_list_unit.back()) ;
+        m_list_unit.pop_back() ;
+    }
+
+    //Suppression des construction de la mémoire
+	while(!m_list_cons.empty())
+    {
+        delete(m_list_cons.back()) ;
+        m_list_cons.pop_back() ;
+    }
+
+    if(m_map_unit != NULL)
+    {
+    	delete m_map_unit ;
+    	m_map_unit = NULL ;
+    }
+    if(m_map_cons != NULL)
+    {
+    	delete m_map_cons ;
+    	m_map_cons = NULL ;
+    }
+
 }
 
 unsigned short Map::height() const
@@ -69,9 +94,9 @@ bool Map::add_unit (Unit const& unit)
 		warning_message("Try to add unit with position out the map") ;
 		return false ;
 	}
-	if (m_map_unit.find(pos) != m_map_unit.end()) //Unité dejà presénte à cette postion ?
+	if (m_map_unit->find(pos) != m_map_unit->end()) //Unité dejà presénte à cette postion ?
 	{
-		if(m_map_unit[pos] != NULL)
+		if(m_map_unit->at(pos) != NULL)
 		{
 			warning_message("Try to add unit with position out the map") ;
 			return false ;
@@ -79,7 +104,7 @@ bool Map::add_unit (Unit const& unit)
 	}
 	//Ajout de l'unité à la map
 	m_list_unit.push_back(new Unit (unit)) ;
-	m_map_unit[pos] = m_list_unit.back() ;
+	(*m_map_unit)[pos] = m_list_unit.back() ;
 	m_free_pos.remove(pos) ;
 	add_unit_texture(unit) ;
 	return true ;
@@ -93,9 +118,9 @@ bool Map::add_cons(Construction const& cons)
 		warning_message("Try to add unit with position out the map") ;
 		return false ;
 	}
-	if (m_map_cons.find(pos) != m_map_cons.end()) //Construction dejà presénte à cette postion ?
+	if (m_map_cons->find(pos) != m_map_cons->end()) //Construction dejà presénte à cette postion ?
 	{
-		if(m_map_cons[pos] != NULL)
+		if(m_map_cons->at(pos) != NULL)
 		{
 			warning_message("Try to add unit with position out the map") ;
 			return false ;
@@ -103,7 +128,7 @@ bool Map::add_cons(Construction const& cons)
 	}
 	//Ajout de la construction à la map
 	m_list_cons.push_back(new Construction (cons)) ;
-	m_map_cons[pos] = m_list_cons.back() ;
+	(*m_map_cons)[pos] = m_list_cons.back() ;
 	m_free_pos.remove(pos) ;
 	add_cons_texture(cons) ;
 	return true ;
@@ -119,11 +144,11 @@ void Map::add_cons_texture(Construction const& cons)
 	MapPos pos (cons.getPos()) ;
 	m_graphic_map->ajouter(cons.getSurface(), pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE) ;
 	
-	if (m_map_unit.find(pos) != m_map_unit.end()) //Unité presénte à cette postion ?
+	if (m_map_unit->find(pos) != m_map_unit->end()) //Unité presénte à cette postion ?
 	{
-		if(m_map_unit[pos] != NULL) //Unité à réécrire par dessus
+		if(m_map_unit->at(pos) != NULL) //Unité à réécrire par dessus
 		{
-			add_unit_texture(*(m_map_unit[pos])) ;
+			add_unit_texture(*(m_map_unit->at(pos))) ;
 		}
 	}
 }
@@ -132,11 +157,11 @@ void Map::del_unit_texture(Unit const& unit)
 {
 	MapPos pos (unit.getPos()) ;
 	m_graphic_map->ajouter(m_terrain.sprite(), pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE, m_terrain.sprite_code(pos)) ; //Réecriture du terrain (effacer)
-	if (m_map_cons.find(pos) != m_map_cons.end()) //Construction dejà presénte à cette postion ?
+	if (m_map_cons->find(pos) != m_map_cons->end()) //Construction dejà presénte à cette postion ?
 	{
-		if(m_map_cons[pos] != NULL) //Construction à réécrire par dessus
+		if(m_map_cons->at(pos) != NULL) //Construction à réécrire par dessus
 		{
-			add_cons_texture(*(m_map_cons[pos])) ;
+			add_cons_texture(*(m_map_cons->at(pos))) ;
 		}
 	}
 }
@@ -145,26 +170,26 @@ void Map::del_cons_texture(Construction const& cons)
 {
 	MapPos pos (cons.getPos()) ;
 	m_graphic_map->ajouter(m_terrain.sprite(), pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE, m_terrain.sprite_code(pos)) ; //Réecriture du terrain (effacer)
-	if (m_map_unit.find(pos) != m_map_unit.end()) //Unité dejà presénte à cette postion ?
+	if (m_map_unit->find(pos) != m_map_unit->end()) //Unité dejà presénte à cette postion ?
 	{
-		if(m_map_unit[pos] != NULL) //Unité à réécrire par dessus
+		if(m_map_unit->at(pos) != NULL) //Unité à réécrire par dessus
 		{
-			add_unit_texture(*(m_map_unit[pos])) ;
+			add_unit_texture(*(m_map_unit->at(pos))) ;
 		}
 	}
 }
 
 
 
-Unit* Map::unit_on (MapPos const& pos)
+Unit* Map::unit_on (MapPos const& pos) const
 {
 	//cout << "unit on " << pos << " ? " ;
-    return m_map_unit[pos] ;
+    return m_map_unit->at(pos) ;
 }
 
-Construction* Map::cons_on (MapPos const& pos)
+Construction* Map::cons_on (MapPos const& pos) const
 {
-    return m_map_cons[pos] ;
+    return m_map_cons->at(pos) ;
 }
 
 MapPos Map::mapPos_of_click (SDL_Rect scroll, unsigned short const& x, unsigned short const& y) const

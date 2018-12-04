@@ -9,7 +9,7 @@ class AbstractPlayer
 {
 	public :
 		virtual ~AbstractPlayer() ;
-		virtual void takeDecision(Fenetre fenetre, Map map, SDL_Rect scroll) = 0 ;
+		virtual void takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll) = 0 ;
 };
 
 #endif // __ABSTRACTPLAYER_H__

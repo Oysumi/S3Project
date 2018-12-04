@@ -11,7 +11,7 @@ using namespace std ;
 
 vector<Menu*> Menu::allMenu ;
 
-Menu::Menu(){ 
+Menu::Menu(){
 	m_id = NOTHING ;
 	allMenu.push_back(this) ;
 } ; // Est utile pour la création d'un vector de Menu dans MatriceGameGestion.cpp
