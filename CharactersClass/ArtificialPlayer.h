@@ -9,7 +9,7 @@
 class ArtificialPlayer : AbstractPlayer 
 {
 	public:
-	 	virtual void takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll);
+	 	virtual Decision takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll);
 };
 
 #endif // __ARTIFICIALPLAYER_H__

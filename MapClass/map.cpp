@@ -183,12 +183,15 @@ void Map::del_cons_texture(Construction const& cons)
 
 Unit* Map::unit_on (MapPos const& pos) const
 {
-	//cout << "unit on " << pos << " ? " ;
+	if (m_map_unit->find(pos) == m_map_unit->end()) //Rien d'enregistrer à cette position
+		return NULL ;
     return m_map_unit->at(pos) ;
 }
 
 Construction* Map::cons_on (MapPos const& pos) const
 {
+	if (m_map_cons->find(pos) == m_map_cons->end()) //Rien d'enregistrer à cette position
+		return NULL ;
     return m_map_cons->at(pos) ;
 }
 

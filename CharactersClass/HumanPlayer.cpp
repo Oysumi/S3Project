@@ -3,6 +3,7 @@
 #include "../MenuClass/Menu.h"
 #include "../ID/idbuttons.h"
 #include "../ID/idmenus.h"
+#include "../MatriceClass/decisionID.h"
 
 #include <string>
 #include <iostream>
@@ -13,25 +14,27 @@
 
 using namespace std ;
 
-HumanPlayer::HumanPlayer()
-{}
+HumanPlayer::HumanPlayer(string name)
+{
+
+}
 
 HumanPlayer::~HumanPlayer()
 {}
 
-void HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll)
+Decision HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll)
 {
 
 	debugage_message("Début du Jeu") ;
 
     bool changement, gauche_ecran = false, droite_ecran = false, bas_ecran = false, haut_ecran = false ;
     int temps_precedent = 0 ;
-    int temps_menu = 0 ;
 
     SDL_Event event ; 
-    bool end = false ;
 
-    while (!end)
+    Decision decision_retour ;
+
+    while (!decision_retour.is_valid())
     {
         changement = false ;
 
@@ -40,23 +43,19 @@ void HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll
             switch (event.type)
             {
                 case SDL_QUIT:
-                    end = true ;
+                    decision_retour.set_decision(DECISION_QUITTER) ;
                     break ;
                     
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym)
                     {
                         case SDLK_ESCAPE:
-                            if (SDL_GetTicks()-temps_menu > TIME_LIMIT_TO_DISPLAY_MENU)
-                            {
-                                changement = true ;
-                                Menu::openMenu(ESCAPE_MENU, fenetre);
-                                temps_menu = SDL_GetTicks();
-                            }
+                            changement = true ;
+                            Menu::openMenu(ESCAPE_MENU, fenetre);
                             break ;
 
                         case SDLK_q:
-                            end = true ;
+                            decision_retour.set_decision(DECISION_QUITTER) ;
                             break ;
                             
                         default:
@@ -95,11 +94,11 @@ void HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll
                 case SDL_MOUSEBUTTONDOWN:
                     if (Menu::getIdButtonOn(event.motion.x,event.motion.y)==QUITTER)
                     {
-                        end = true ;
+                        decision_retour.set_decision(DECISION_QUITTER) ;
                     }
                     else
                     {
-                        cout << map.unit_on(map.mapPos_of_click(scroll,event.motion.x,event.motion.y)) << endl ;
+                        //cout << map.unit_on(map.mapPos_of_click(scroll,event.motion.x,event.motion.y)) << endl ;
                     }
                     break ;
             }
@@ -137,4 +136,6 @@ void HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll
         }
 
     }
+
+    return decision_retour ;
 }

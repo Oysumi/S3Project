@@ -4,12 +4,13 @@
 #include "SDL/SDL.h"
 #include "../DisplayClass/fenetre.h"
 #include "../MapClass/map.h"
+#include "../MatriceClass/decision.h"
 
 class AbstractPlayer
 {
 	public :
 		virtual ~AbstractPlayer() ;
-		virtual void takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll) = 0 ;
+		virtual Decision takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll) = 0 ;
 };
 
 #endif // __ABSTRACTPLAYER_H__

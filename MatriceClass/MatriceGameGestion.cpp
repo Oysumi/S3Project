@@ -4,6 +4,7 @@
 #include "../ID/idbuttons.h"
 #include "../ID/idmenus.h"
 #include "../CharactersClass/HumanPlayer.h"
+#include "../MatriceClass/decisionID.h"
 
 #include <iostream>
 
@@ -61,7 +62,7 @@ void MatriceGameGestion::init()
 
     m_player_list = new std::vector <AbstractPlayer*> ;
 
-    m_player_list->push_back(new HumanPlayer()) ;
+    m_player_list->push_back(new HumanPlayer("testplayer")) ;
 
     for (unsigned short i = 0 ; i < 10 && m_map->nb_free_pos() > 0 ; i++)
         m_map->add_unit( Unit("../ressources/catapult.bmp", m_map->random_free_pos(), m_player_list->at(0) )) ;
@@ -76,13 +77,23 @@ void MatriceGameGestion::init()
         m_map->add_unit( Unit("../ressources/catapult.bmp", pos, m_player_list->at(0) )) ;
     }
 
+    Decision::init_list_of_choice() ;
+
     //On affiche le terrain
     updateDisplay() ;
 }
 
 void MatriceGameGestion::gameLoop()
 {
-    m_player_list->at(0)->takeDecision(m_fenetre, *m_map, m_scroll) ;
+    Decision d ;
+    while(d.decision() != DECISION_QUITTER)
+    {
+        d = m_player_list->at(0)->takeDecision(m_fenetre, *m_map, m_scroll)  ;
+        if (!d.is_valid())
+            warning_message("Player as return an invalid decision") ;
+        else
+            cout << d << endl ;
+    }
 }
 
 void MatriceGameGestion::updateDisplay()
