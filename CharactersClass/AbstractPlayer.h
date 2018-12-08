@@ -11,6 +11,9 @@ class AbstractPlayer
 	public :
 		virtual ~AbstractPlayer() ;
 		virtual Decision takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll) = 0 ;
+		unsigned short colorId() const ;
+	protected :
+		unsigned short m_color_id ;
 };
 
 #endif // __ABSTRACTPLAYER_H__

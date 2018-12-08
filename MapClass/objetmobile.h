@@ -2,30 +2,27 @@
 #define __MOBILEOBJECT_H__
 
 #include "../DisplayClass/texture.h"
+#include "../DisplayClass/fenetre.h"
 #include "../MapClass/position.h"
+
 #include <string>
 
 class AbstractPlayer ;
 
+//La classe Abstraite Objet Mobile représente toute les map
 class ObjetMobile
 {
 	public:
-		ObjetMobile(std::string const& texture_path, MapPos const& pos, AbstractPlayer* player) ;
+		ObjetMobile(MapPos const& pos, AbstractPlayer* player) ;
 		ObjetMobile(ObjetMobile const& aCopier) ;
-		~ObjetMobile() ;
 		
-		Texture const& getSurface() const ;
+		virtual SurfaceAffichage getSurface() const = 0 ;
 		MapPos const& getPos() const ;
 		AbstractPlayer* proprietaire () const ;
-
-	protected :
-		void init_texture () ;
 
 	protected:
 
 		MapPos m_pos ;
-		Texture * m_texture ;
-		std::string m_texture_path ;
 		AbstractPlayer * m_proprietaire ;
 } ;
 

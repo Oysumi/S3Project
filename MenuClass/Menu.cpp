@@ -86,7 +86,8 @@ void Menu::calculPosButton(vector<AbstractButton*> buttons)
 	 * Placement des boutons sur l'écran
 	 */
 	int i = 0 ;
-	for ( AbstractButton * b : buttons ){
+	for ( AbstractButton * b : buttons )
+	{
 		b->setPosX(m_pos_x + LARGEUR);
 		b->setPosY(m_pos_y + (i+1)*HAUTEUR + i*boutonHauteur);
 		m_myButtons[i] = b ;
@@ -100,7 +101,8 @@ void Menu::displayMenu(Fenetre& screen)
 	SDL_Surface* menuSurface = menuAffichage.surface() ;
 	SDL_Color couleur = this->getColor() ;
 
-	if(SDL_FillRect(menuSurface, NULL, SDL_MapRGB(menuSurface->format, couleur.r, couleur.g, couleur.b)) != 0){
+	if(SDL_FillRect(menuSurface, NULL, SDL_MapRGB(menuSurface->format, couleur.r, couleur.g, couleur.b)) != 0)
+	{
 		erreur_message("Impossible de colorer le menu :  " + string(SDL_GetError())) ;
 	}
 
@@ -109,7 +111,8 @@ void Menu::displayMenu(Fenetre& screen)
 
 	screen.ajouter(menuAffichage, posX, posY) ;
  
-    for ( AbstractButton * b : m_myButtons ){
+    for ( AbstractButton * b : m_myButtons )
+    {
     	SurfaceAffichage bouton = b->getSurfaceAffichage() ;
     	SDL_Surface* boutonSurface = bouton.surface() ;
     	SDL_Color col = b->getBackColor() ;
@@ -117,9 +120,8 @@ void Menu::displayMenu(Fenetre& screen)
     	posX = b->getPosX() ;
     	posY = b->getPosY() ;
 
-    	if(SDL_FillRect(boutonSurface, NULL, SDL_MapRGB(boutonSurface->format, col.r, col.g, col.b)) != 0){
+    	if(SDL_FillRect(boutonSurface, NULL, SDL_MapRGB(boutonSurface->format, col.r, col.g, col.b)) != 0)
 			erreur_message("Impossible de colorer l'un des boutons du menu :  " + string(SDL_GetError())) ;
-    	}
 
     	screen.ajouter(bouton, posX, posY) ;
     	Texte text(b->getText()) ;
@@ -142,46 +144,36 @@ bool Menu::displayMenuWithId(int id, Fenetre& screen)
     return false ;
 }
 
-int Menu::getID(){
+int Menu::getID()
+{
 	return m_id ;
 }
 
-void Menu::openCloseMenu(){
+void Menu::openCloseMenu()
+{
 	m_open = ( m_open ) ? false : true ;
 }
 
-bool Menu::isOpen(){
-	return m_open;
-}
-
-int Menu::getIdButtonOn(unsigned int x, unsigned int y)
+bool Menu::isOpen()
 {
-	int id_button = NOTHING ;
-
-    for (unsigned short i = 0 ; i < allMenu.size() ; i++)
-    {
-        if (allMenu[i]->isOpen() && allMenu[i]->clickIsOnThisMenu(x,y)){
-            id_button = allMenu[i]->receiveAction(x,y);
-        }
-    }
-
-    return id_button ;
+	return m_open;
 }
 
 int Menu::receiveAction(unsigned int x, unsigned int y){
 	unsigned int pos_x, pos_y, width, height ;
 	unsigned short int id = NOTHING ;
 
-	for (AbstractButton * b : m_myButtons){
-		if (id == NOTHING){
+	for (AbstractButton * b : m_myButtons)
+	{
+		if (id == NOTHING)
+		{
 			pos_x = b->getPosX();
 			pos_y = b->getPosY();
 			width = b->getWidth();
 			height = b->getHeight();
 
-			if (x >= pos_x && x <= pos_x + width && y >= pos_y && y <= pos_y + height){
-				id = b->getID();
-			}	 
+			if (x >= pos_x && x <= pos_x + width && y >= pos_y && y <= pos_y + height)
+				id = b->getID(); 
 		}
 	}
 
@@ -193,7 +185,8 @@ int Menu::receiveAction(unsigned int x, unsigned int y){
 bool Menu::isAMenuOpened(){
     bool menu_opened = false ;
     unsigned short i = 0 ;
-    while (i < Menu::allMenu.size() && !menu_opened){
+    while (i < Menu::allMenu.size() && !menu_opened)
+    {
         menu_opened = ( Menu::allMenu[i]->isOpen() ) ? true : false ;
         i++ ;
     }
@@ -201,26 +194,53 @@ bool Menu::isAMenuOpened(){
     return menu_opened ;
 }
 
-void Menu::keepOpened(Fenetre screen){
-    for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++){
-        if (Menu::allMenu[i]->isOpen()){
-            Menu::allMenu[i]->displayMenu(screen);
-        }
+void Menu::keepOpened(Fenetre screen)
+{
+    for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++)
+    {
+        if (Menu::allMenu[i]->isOpen())
+            Menu::allMenu[i]->displayMenu(screen) ;
     }
 }
 
 
-void Menu::openMenu(int id, Fenetre screen){
+void Menu::openMenu(int id, Fenetre screen)
+{
 	// On parcourt l'ensemble des menus présents de la matrice pour consulter leur ID et ouvrir le menu voulu
 	bool done = false ;
-	for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++){
-        if (!done){
-			if (id == Menu::allMenu[i]->getID()){
-				Menu::allMenu[i]->displayMenu(screen);
-                Menu::allMenu[i]->openCloseMenu();
+	for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++)
+	{
+        if (!done)
+			if (id == Menu::allMenu[i]->getID())
+			{
+				Menu::allMenu[i]->displayMenu(screen) ;
+                Menu::allMenu[i]->openCloseMenu() ;
 				done = true ;
 			}
-		}
 	}
 
+}
+
+int Menu::getIdButtonOn(unsigned int x, unsigned int y)
+{
+	int id_button = NOTHING ;
+
+    for (unsigned short i = 0 ; i < allMenu.size() ; i++)
+    {
+        if (allMenu[i]->isOpen() && allMenu[i]->clickIsOnThisMenu(x,y)){
+            id_button = allMenu[i]->receiveAction(x,y) ;
+        }
+    }
+
+    return id_button ;
+}
+
+bool Menu::isOnOneMenu(unsigned int x, unsigned int y)
+{
+	for (unsigned short i = 0 ; i < allMenu.size() ; i++)
+    {
+        if (allMenu[i]->clickIsOnThisMenu(x,y))
+            return true ;
+    }
+    return false ;
 }

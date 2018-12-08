@@ -18,6 +18,8 @@
 #include "../CharactersClass/Unit.h"
 #include "position.h"
 
+class AbstractPlayer ;
+
 class Map
 {
     public :
@@ -53,7 +55,7 @@ class Map
         SurfaceAffichage* m_graphic_map ;
         std::list <MapPos> m_free_pos ;
         Terrain m_terrain ;
-
+        AbstractPlayer* m_current_player_vision ;
 };
 
 

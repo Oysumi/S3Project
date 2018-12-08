@@ -1,21 +1,26 @@
 #include "Unit.h"
+#include "../CharactersClass/AbstractPlayer.h"
 #include "SDL/SDL.h"
 using namespace std ;
 
+string Unit::sprite_unit_path = "../ressources/catapult.bmp" ;
 
-Unit::Unit(string const& texture_path, MapPos const& pos, AbstractPlayer* const& player) :
-	ObjetMobile(texture_path, pos, player) {}
+Unit::Unit(unsigned short type , MapPos const& pos, AbstractPlayer* const& player) :
+	ObjetMobile(pos,player),
+	m_type(type)
+	{}
 
 Unit::Unit(Unit const& aCopier) : 
-	ObjetMobile(aCopier) {}
+	ObjetMobile(aCopier),
+	m_type(aCopier.m_type) 
+	{}
 
-Unit::~Unit()
+SurfaceAffichage Unit::getSurface() const
 {
-	if (m_texture != NULL)
-	{
-		delete m_texture ;
-		m_texture = NULL ;
-	}
+	SurfaceAffichage s (MAP_CASE_SIZE,MAP_CASE_SIZE) ;
+	s.ajouter(SpriteTexture(sprite_unit_path,MAP_CASE_SIZE,NB_COLOR,NB_TYPE_UNIT), m_proprietaire->colorId()) ;
+	s.rendre_transparente() ;
+	return s ;
 }
 
 void Unit::changePos (MapPos const& new_pos)

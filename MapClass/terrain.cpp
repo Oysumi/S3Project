@@ -42,28 +42,85 @@ Terrain::Terrain(string const& fileMap, std::list <MapPos>* free_pos) : m_sprite
 //GENERATION ALEATOIRE D'UN TEXTE REPRESENTANT LE TERRAIN
 Terrain::Terrain (unsigned short const& width, unsigned int const& height, std::list <MapPos>* free_pos) : m_sprite(nameSpriteTexture, MAP_CASE_SIZE, NB_SPRITE)
 {
-    //ANALYSE DU FICHIER DU TERRAIN
-    string texte = "" ;
-
 
     m_nb_width_sprite = width ;
     m_nb_height_sprite = height ;
 
-	debugage_message("Génération aléatoire du terrain") ;
+
+    //Création d'un tableau servant à la création aléatoire du terrain
+    char ** terrainConstruction ;
+    terrainConstruction = 0 ;
+    terrainConstruction = (char**)malloc(m_nb_height_sprite * sizeof(char*));
+    for (unsigned short i = 0 ; i < m_nb_height_sprite ; i++)
+    {
+        terrainConstruction[i] = (char*)malloc(m_nb_width_sprite * sizeof(char));
+    }
+
+
+    //L'algorithme augmente la probabilité que ce soit une case d'eau si d'autres sont déjà présente à proximité
+    unsigned short pnvl = 5 ; // Probabilité (sur cent) d'obtenir un nouveau lac
+    unsigned short patl = 45 ; // Probabilité (sur cent) d'augmenter la taille du lac pour une case minimum présente à côté
+    unsigned short chance_eau ;
+    unsigned short seuil ;
     for (unsigned short y = 0 ; y < height ; y++)
     {
         for (unsigned short x = 0 ; x < width ; x++)
         {
-            if (rand()%2==0)
-            	texte += 'W' ;
+            chance_eau = rand() % 100 ;
+            seuil = 0 ;
+
+            if (x > 0)
+            	if (terrainConstruction[y][x-1] == 'W')
+                    seuil += patl ;
+
+            if (y > 0)
+                if (terrainConstruction[y-1][x] == 'W')
+                    {
+                        if (seuil == 0)
+                            seuil += patl ;
+                        else 
+                            seuil += 0 ;
+                    }
+
+            if (y > 0 && x > 0)
+                if (terrainConstruction[y-1][x-1] == 'W')
+                    {
+                        if (seuil == 0)
+                            seuil += patl/4 ; //diagonale à une incidence minime
+                        else if (seuil == patl)
+                            seuil += 0 ;
+                        else
+                            seuil += 5 ;
+                    }
+
+            if (chance_eau < pnvl || chance_eau < seuil)
+                terrainConstruction[y][x] = 'W' ;
             else
-            	texte += 'G' ;
+                terrainConstruction[y][x] = 'G' ;
+        }
+    }
+
+    //Transformation du tableau en texte
+    string texte = "" ;
+    for (unsigned short y = 0 ; y < height ; y++)
+    {
+        for (unsigned short x = 0 ; x < width ; x++)
+        {
+            texte += terrainConstruction[y][x] ;
         }
         texte += '\n' ;
     }
+
+    //Destruction du tableau de construction
+    for (unsigned short i = 0 ; i < m_nb_height_sprite ; i++)
+    {
+        free(terrainConstruction[i]) ;
+    }
+    free(terrainConstruction) ;
+
+    //Affichage et passage à la fonction qui génère l'affichage à partir du texte représentant le terrain
     debugage_message("map gènerée : ") ;
     debugage_message(texte) ;
-
     generer_le_terrain(texte, free_pos) ;
 
 }

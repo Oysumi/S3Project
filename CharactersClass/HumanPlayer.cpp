@@ -14,9 +14,9 @@
 
 using namespace std ;
 
-HumanPlayer::HumanPlayer(string name)
+HumanPlayer::HumanPlayer(string name, unsigned short color_id)
 {
-
+    m_color_id =color_id % NB_COLOR  ;
 }
 
 HumanPlayer::~HumanPlayer()
@@ -92,9 +92,11 @@ Decision HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect sc
 
                 //GESTION DES CLICS DE SOURIS
                 case SDL_MOUSEBUTTONDOWN:
-                    if (Menu::getIdButtonOn(event.motion.x,event.motion.y)==QUITTER)
+                    if (Menu::isOnOneMenu(event.motion.x,event.motion.y))
                     {
-                        decision_retour.set_decision(DECISION_QUITTER) ;
+                        cout << "MENU CLICK" << endl ;
+                        if(Menu::getIdButtonOn(event.motion.x,event.motion.y)==QUITTER)
+                            decision_retour.set_decision(DECISION_QUITTER) ;
                     }
                     else
                     {

@@ -13,6 +13,8 @@ Texture::Texture(string const& path) : m_path(path)
         erreur_message("Impossible de charger la  texture " + path + " (displayFormat Fail) : " + SDL_GetError()) ;
 }
 
+
+
 //DESTRUCTEUR
 Texture::~Texture()
 {

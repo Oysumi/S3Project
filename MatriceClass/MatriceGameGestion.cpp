@@ -58,23 +58,25 @@ MatriceGameGestion::MatriceGameGestion() :
 
 void MatriceGameGestion::init()
 {
+
     m_map = new Map (35,15) ;
 
     m_player_list = new std::vector <AbstractPlayer*> ;
 
-    m_player_list->push_back(new HumanPlayer("testplayer")) ;
+    m_player_list->push_back(new HumanPlayer("testplayer", 0)) ;
+    m_player_list->push_back(new HumanPlayer("ennemi", 1)) ;
 
     for (unsigned short i = 0 ; i < 10 && m_map->nb_free_pos() > 0 ; i++)
-        m_map->add_unit( Unit("../ressources/catapult.bmp", m_map->random_free_pos(), m_player_list->at(0) )) ;
+        m_map->add_unit( Unit(UNIT_CATAPULT,m_map->random_free_pos(),m_player_list->at(1) )) ;
     
     for (unsigned short i = 0 ; i < 5 && m_map->nb_free_pos() > 0 ; i++)
-        m_map->add_cons( Construction("../ressources/ground.bmp", m_map->random_free_pos(), m_player_list->at(0) )) ;
+        m_map->add_cons( Construction(CONSTRUCTION_GROUND,m_map->random_free_pos(),m_player_list->at(0)) ) ;
 
     for (unsigned short i = 0 ; i < 5 && m_map->nb_free_pos() > 0 ; i++)
     {
         MapPos pos (m_map->random_free_pos()) ;
-        m_map->add_cons( Construction("../ressources/ground.bmp", pos, m_player_list->at(0) )) ;
-        m_map->add_unit( Unit("../ressources/catapult.bmp", pos, m_player_list->at(0) )) ;
+        m_map->add_cons( Construction(CONSTRUCTION_GROUND, pos, m_player_list->at(0)) ) ;
+        m_map->add_unit( Unit(UNIT_CATAPULT,pos,m_player_list->at(0)) ) ;
     }
 
     Decision::init_list_of_choice() ;

@@ -18,6 +18,9 @@ SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short c
 	m_width = width ;
 	m_surface = surface ;
 }
+
+
+
 //DESTRUCTEUR
 SurfaceAffichage::~SurfaceAffichage()
 {
@@ -47,7 +50,10 @@ bool SurfaceAffichage::saveBMP(std::string const& name) const
 	return (SDL_SaveBMP(m_surface, name.c_str()) == 0) ;
 }
 
-
+void SurfaceAffichage::rendre_transparente()
+{
+	SDL_SetColorKey(m_surface, SDL_SRCCOLORKEY, SDL_MapRGB(m_surface->format, 255, 255, 255)); //Ajout de la transparence
+}
 
 //CONSTRUCTEUR FENETRE
 Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned short const& height, Uint32 flags) : SurfaceAffichage(width,height)
