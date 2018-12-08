@@ -60,23 +60,40 @@ MatriceGameGestion::~MatriceGameGestion()
 {
     for (unsigned short i = 0 ; i < m_all_buttons->size() ; i++)
     {
-        delete (*m_all_buttons)[i] ;
+        if ((*m_all_buttons)[i] != NULL){
+            delete (*m_all_buttons)[i] ;
+            (*m_all_buttons)[i] = NULL ;
+        }
     }
-    delete m_all_buttons ;
+
+    if (m_all_buttons != NULL){
+        delete m_all_buttons ;
+        m_all_buttons = NULL ;
+    }
     
     //Suppression des menus de la mémoire de la matrice
     for (unsigned short i = 0 ; i < m_saveMenu.size() ; i++)
     {
-        delete(m_saveMenu[i]) ;
+        if (m_saveMenu[i] != NULL){
+            delete(m_saveMenu[i]) ;
+            m_saveMenu[i] = NULL ;
+        }
     }
 
     //Suppression des joueurs de la mémoire de la matrice
     for (unsigned short i = 0 ; i < m_player_list->size() ; i++)
     {
         cout << "delete " << i+1 << "/" << m_player_list->size() << endl ;
-        delete (*m_player_list)[i] ;
+        if ((*m_player_list)[i] != NULL){
+            delete (*m_player_list)[i] ;
+            (*m_player_list)[i] = NULL ;
+        }
     }
-    delete m_player_list ;
+
+    if (m_player_list != NULL){
+        delete m_player_list ;
+        m_player_list = NULL ;
+    }
 }
 
 

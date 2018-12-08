@@ -14,14 +14,24 @@ Map::~Map()
 {
 	for (unsigned short i = 0 ; i < m_list_unit.size() ; i++)
 	{
-		delete(m_list_unit[i]) ;
+		if (m_list_unit[i] != NULL){
+			delete(m_list_unit[i]) ;
+			m_list_unit[i] = NULL ;
+		}
 	}
 
 	for (unsigned short i = 0 ; i < m_list_cons.size() ; i++)
 	{
-		delete(m_list_cons[i]) ;
+		if (m_list_cons[i] != NULL){
+			delete(m_list_cons[i]) ;
+			m_list_cons[i] = NULL ;
+		}
+	} 
+
+	if (m_graphic_map != NULL){
+		delete(m_graphic_map) ;
+		m_graphic_map = NULL ;
 	}
-	delete(m_graphic_map) ;
 }
 
 unsigned short Map::height() const
