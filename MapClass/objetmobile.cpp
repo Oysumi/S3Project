@@ -20,11 +20,15 @@ ObjetMobile::ObjetMobile(ObjetMobile const& aCopier) : m_pos(aCopier.m_pos)
 
 ObjetMobile::~ObjetMobile()
 {
+	cout << "===========================================" << endl ;
+	cout << "Debut destruction objet..." << endl ;
 	if (m_texture != NULL)
 	{
 		delete m_texture ;
 		m_texture = NULL ;
 	}
+	cout << "Fin destruction object." << endl ;
+	cout << "===========================================" << endl ;
 }
 
 Texture const& ObjetMobile::getSurface() const

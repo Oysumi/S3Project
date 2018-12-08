@@ -8,7 +8,7 @@ using namespace std ;
 Texte::Texte(const char * textToWrite){
 	/* Loading of the font */
 	m_font = TTF_OpenFont ("../font/04B_30__.TTF", TYPEFACE) ;
-	
+
 	if(!m_font) {
     	cout << TTF_GetError() << endl ;
     	exit(3) ;
@@ -22,7 +22,11 @@ Texte::Texte(const char * textToWrite){
 }
 
 Texte::~Texte(){
+	cout << "===========================================" << endl ;
+	cout << "Destruction texte..." << endl ;
 	TTF_CloseFont(m_font) ;
+	cout << "Fin destruction texte." << endl ;
+	cout << "===========================================" << endl ;
 }
 
 /***************************************************************************************/

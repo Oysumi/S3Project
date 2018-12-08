@@ -29,11 +29,15 @@ Menu::Menu(vector<AbstractButton*> buttons, unsigned short int pos_x, unsigned s
 
 Menu::~Menu()
 {
+	cout << "===========================================" << endl ;
+	cout << "Debut destruction menu..." << endl ;
 	for (unsigned short i = 0 ; i < allMenu.size() ; i++)
 	{
 		if(allMenu[i]==this)
 			allMenu.erase(allMenu.begin()+i) ;
 	}
+	cout << "Fin destruction menu." << endl ;
+	cout << "===========================================" << endl ;
 }
 
 SDL_Color Menu::getColor()

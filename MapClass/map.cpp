@@ -12,26 +12,44 @@ Map::Map() : Map(5,5)
 
 Map::~Map()
 {
+	cout << "===========================================" << endl ;
+	cout << "Debut destruction map..." << endl ;
 	for (unsigned short i = 0 ; i < m_list_unit.size() ; i++)
 	{
+		cout << "taille des unités : " << m_list_unit.size() << endl ;
+		if (already_destroyed){
+			cout << "Unité déjà détruite." << endl ;
+		} else {
+			cout << "Unité non déjà détruite." << endl ;
+		}
+		cout << "Destruction liste des unités." << endl ;
 		if (m_list_unit[i] != NULL){
+			cout << "Unité " << i << endl ;
 			delete(m_list_unit[i]) ;
 			m_list_unit[i] = NULL ;
 		}
 	}
+	m_list_unit.erase(m_list_unit.begin(), m_list_unit.end());
+	cout << "TAILLE DES UNITES APRÈS : " << m_list_unit.size() << endl ;
+	already_destroyed = true ;
+	cout << "Fin destruction des unités." << endl ;
 
 	for (unsigned short i = 0 ; i < m_list_cons.size() ; i++)
 	{
+		cout << "Destruction liste constructions." << endl ;
 		if (m_list_cons[i] != NULL){
 			delete(m_list_cons[i]) ;
 			m_list_cons[i] = NULL ;
 		}
 	} 
+	cout << "Fin destruction constructions." << endl ;
 
 	if (m_graphic_map != NULL){
 		delete(m_graphic_map) ;
 		m_graphic_map = NULL ;
 	}
+	cout << "Fin destruction map." << endl ;
+	cout << "===========================================" << endl ;
 }
 
 unsigned short Map::height() const

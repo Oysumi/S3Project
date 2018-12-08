@@ -71,7 +71,9 @@ Terrain::Terrain (unsigned short const& width, unsigned int const& height, std::
 //DESTRUCTEUR
 Terrain::~Terrain()
 {
+    cout << "Debut destruction terrain..." << endl ;
     delete m_terrainComplet ;
+    cout << "Fin destruction terrain." << endl ;
 }
 
 unsigned short Terrain::posxOut() const

@@ -58,6 +58,8 @@ MatriceGameGestion::MatriceGameGestion() :
 
 MatriceGameGestion::~MatriceGameGestion()
 {
+    cout << "===========================================" << endl ;
+    cout << "Debut destruction Matrice." << endl ;
     for (unsigned short i = 0 ; i < m_all_buttons->size() ; i++)
     {
         if ((*m_all_buttons)[i] != NULL){
@@ -94,6 +96,8 @@ MatriceGameGestion::~MatriceGameGestion()
         delete m_player_list ;
         m_player_list = NULL ;
     }
+    cout << "Fin destruction matrice." << endl ;
+    cout << "===========================================" << endl ;
 }
 
 

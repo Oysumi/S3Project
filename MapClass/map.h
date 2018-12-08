@@ -53,7 +53,7 @@ class Map
         SurfaceAffichage* m_graphic_map ;
         std::list <MapPos> m_free_pos ;
         Terrain m_terrain ;
-
+        bool already_destroyed = false ;
 };
 
 
