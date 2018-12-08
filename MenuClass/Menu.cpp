@@ -23,7 +23,7 @@ Menu::Menu(vector<AbstractButton*> buttons, unsigned short int pos_x, unsigned s
 	m_background = back ;
 	m_id = id ;
 	m_open = false ;
-	this->calculPosButton(buttons) ;
+	this->calculPosButton(buttons) ; 
 	allMenu.push_back(this) ;
 }
 

@@ -12,7 +12,7 @@ class ObjetMobile
 	public:
 		ObjetMobile(std::string const& texture_path, MapPos const& pos, AbstractPlayer* player) ;
 		ObjetMobile(ObjetMobile const& aCopier) ;
-		~ObjetMobile() ;
+		virtual ~ObjetMobile() ;
 		
 		Texture const& getSurface() const ;
 		MapPos const& getPos() const ;

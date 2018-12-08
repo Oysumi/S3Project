@@ -23,7 +23,10 @@ int main ( int args, char * argv[] )
 {   
     //initialisation aléatoire et TTF
     srand(time(NULL)) ;
-    TTF_Init() ;
+
+    if (TTF_Init() == -1){
+        erreur_message("Erreur d'initialisation de TTF_Init : " + string(TTF_GetError()));
+    } ;
     
     MatriceGameGestion matrice ;
     //Initialisation et boucle du jeu

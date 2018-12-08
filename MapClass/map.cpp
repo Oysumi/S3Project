@@ -12,7 +12,6 @@ Map::Map() : Map(5,5)
 
 Map::~Map()
 {
-	delete(m_graphic_map) ;
 	for (unsigned short i = 0 ; i < m_list_unit.size() ; i++)
 	{
 		delete(m_list_unit[i]) ;
@@ -22,6 +21,7 @@ Map::~Map()
 	{
 		delete(m_list_cons[i]) ;
 	}
+	delete(m_graphic_map) ;
 }
 
 unsigned short Map::height() const
