@@ -18,10 +18,14 @@ Texture::Texture(string const& path) : m_path(path)
 //DESTRUCTEUR
 Texture::~Texture()
 {
+    cout << "===========================================" << endl ;
+    cout << "Debut destruction texture..." << endl ;
     if(m_surface!=NULL){
         SDL_FreeSurface(m_surface);
         m_surface = NULL ;
     }
+    cout << "Fin destruction texture..." << endl ;
+    cout << "===========================================" << endl ;
 }
 
 //ACCESSEURS

@@ -23,17 +23,21 @@ Menu::Menu(vector<AbstractButton*> buttons, unsigned short int pos_x, unsigned s
 	m_background = back ;
 	m_id = id ;
 	m_open = false ;
-	this->calculPosButton(buttons) ;
+	this->calculPosButton(buttons) ; 
 	allMenu.push_back(this) ;
 }
 
 Menu::~Menu()
 {
+	cout << "===========================================" << endl ;
+	cout << "Debut destruction menu..." << endl ;
 	for (unsigned short i = 0 ; i < allMenu.size() ; i++)
 	{
 		if(allMenu[i]==this)
 			allMenu.erase(allMenu.begin()+i) ;
 	}
+	cout << "Fin destruction menu." << endl ;
+	cout << "===========================================" << endl ;
 }
 
 SDL_Color Menu::getColor()

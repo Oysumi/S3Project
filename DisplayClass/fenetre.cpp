@@ -111,6 +111,8 @@ Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned
 //DESTRUCTEUR
 Fenetre::~Fenetre()
 {
+	cout << "===========================================" << endl ;
+	cout << "Debut destruction fenetre..." << endl ;
 	if (fenetre!=NULL){
 		fenetre = NULL ;
 	}
@@ -118,6 +120,8 @@ Fenetre::~Fenetre()
 		SDL_FreeSurface(m_surface);
 		m_surface = NULL;
 	}
+	cout << "Fin destruction fenetre." << endl ;
+	cout << "===========================================" << endl ;
 }
 
 // PERMET DE METTRE LA SURFACE DE LA FENETRE A JOUR
