@@ -17,8 +17,8 @@
 class Terrain
 {
     public :
-        Terrain(std::string const& fileMap, std::list <MapPos>* free_pos) ;
-        Terrain(unsigned short const& width, unsigned int const& height, std::list <MapPos>* free_pos) ;
+        Terrain(std::string const& fileMap, std::list <MapPos>* & free_pos) ;
+        Terrain(unsigned short const& width, unsigned int const& height, std::list <MapPos>* & free_pos) ;
         ~Terrain() ;
 
         unsigned short posxOut() const ;

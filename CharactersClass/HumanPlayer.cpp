@@ -22,39 +22,41 @@ HumanPlayer::HumanPlayer(string name, unsigned short color_id)
 HumanPlayer::~HumanPlayer()
 {}
 
-Decision HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect& scroll)
+Decision HumanPlayer::takeDecision(
+    Fenetre& fenetre, //Passage par référence, une seule et même fenêtre dont le joueur peut changer le contenu pendant son tour
+    Map const& map, //Ici la Map est une référence constante, ainsi le joueur est en lecture seule, il doit passer par la matrice pour tout changement
+    SDL_Rect& scroll //Permet juste à la matrice de savoir où regarde le joueur
+    )
 {
-
-	debugage_message("Début du Jeu") ;
 
     bool changement, gauche_ecran = false, droite_ecran = false, bas_ecran = false, haut_ecran = false ;
     int temps_precedent = 0 ;
 
     SDL_Event event ; 
+    Decision decision_retour ; //Décision qui sera renvoyer à la matrice
 
-    Decision decision_retour ;
-
-    while (!decision_retour.is_valid())
+    while (!decision_retour.is_valid()) // Tant que le joueur n'a pas pris de décision que la matrice doit traiter
     {
         changement = false ;
 
-        if (SDL_PollEvent(&event))
+        if (SDL_PollEvent(&event)) // On attend un événement
         {
             switch (event.type)
             {
-                case SDL_QUIT:
+
+                case SDL_QUIT: // Si le programme reçoit un signal d'extinction
                     decision_retour.set_decision(DECISION_QUITTER) ;
                     break ;
                     
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym)
                     {
-                        case SDLK_ESCAPE:
+                        case SDLK_ESCAPE: // Si le joueur ouvre le menu principal
                             changement = true ;
                             Menu::openMenu(ESCAPE_MENU, fenetre);
                             break ;
 
-                        case SDLK_q:
+                        case SDLK_q: // Le joueur souhaite quitter grâce à la touche Q
                             decision_retour.set_decision(DECISION_QUITTER) ;
                             break ;
                             
@@ -64,7 +66,7 @@ Decision HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect& s
                     }
                     break;
 
-                //DECALAGE DE LA CARTE
+                //Si l'utilisateur bouge le curseur sur le bord de l'écran on doit décaler la partie de la map affichée sur l'écran
                 case SDL_MOUSEMOTION:
                 {
                     if (event.motion.x <= SCROOL_ZONE)
@@ -90,19 +92,21 @@ Decision HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect& s
                     break ;
                 }
 
+
                 //GESTION DES CLICS DE SOURIS
                 case SDL_MOUSEBUTTONDOWN:
-                    if (Menu::isOnOneMenu(event.motion.x,event.motion.y))
+
+                    if (Menu::isOnOneMenu(event.motion.x,event.motion.y)) //GESTION CLICK SUR LES MENUS
                     {
                         if(Menu::getIdButtonOn(event.motion.x,event.motion.y)==QUITTER)
-                            decision_retour.set_decision(DECISION_QUITTER) ;
+                            decision_retour.set_decision(DECISION_QUITTER) ; // Le joueur à decidé de quitter via le menu principal
                         else
                             cout << "MENU CLICK" << endl ;
                     }
-                    else
+                    else //GESTION CLICS SUR lA MAP
                     {
                         MapPos pos( map.mapPos_of_click(scroll,event.motion.x,event.motion.y) ) ;
-                        if(map.unit_on(pos) != NULL || map.cons_on(pos) != NULL)
+                        if(map.have_unit_on(pos) || map.have_cons_on(pos))
                         {
                             decision_retour.set_decision(DECISION_CHANGE_SELECT_UNIT, &pos) ;
                         }
@@ -111,7 +115,7 @@ Decision HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect& s
             }
         }
 
-
+        //Si le joueur a son curseur sur le côté, on doit progressivement décaler la partie de la map affichée sur l'écran grâce à la variable scroll
         if (gauche_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.x > 0)
         {
             scroll.x -- ;
@@ -132,6 +136,8 @@ Decision HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect& s
             scroll.y ++ ;
             changement = true ;
         }
+
+        //Si la variable scroll à bougée on doit actualiser la nouvelle partie de la map affichée
         if (changement)
         {
             temps_precedent = SDL_GetTicks() ;

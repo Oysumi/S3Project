@@ -22,12 +22,16 @@ class Unit : public ObjetMobile
 		Unit(Unit const& aCopier) ;
 
 		virtual SurfaceAffichage getSurface() const ;
-		void changePos (MapPos const& new_pos) ;
 
 		static std::string sprite_unit_path ;
 
+	protected :
+		void changePos (MapPos const& new_pos) ;
+
 	protected:
 		unsigned short m_type ;
+		unsigned short m_vitesse ;
+		unsigned short m_deplacement ;
 		std::string m_name ;
 		unsigned short int m_health ;
 		short int m_strength ; // can be negative

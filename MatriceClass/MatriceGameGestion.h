@@ -32,18 +32,18 @@ class MatriceGameGestion
 		std::vector <Menu*> m_saveMenu ;
 		std::vector <AbstractButton*> * m_all_buttons ;
 
-		Map* m_map ;
+		Map* m_map ; //Contient la plupart des données du jeu
 		SDL_Rect m_scroll ; //Représente le rectangle de la map affichée sur la fenêtre
-		std::vector <AbstractPlayer*> * m_player_list ;	
+		
+	/* 	Liste des joueurs dont le seul rôle est de prendre des décisions que la Matrice
+		de Gestion du jeu interprète. En fonction de ces décisions celle-ci modifie les
+		données de la Map que le joueur ne peut pas modifier directement mais seulement lire */
+		std::vector <AbstractPlayer*> * m_player_list ;
 		AbstractPlayer* m_current_player ;
 
 	private :
-		//static Unit* current_select_unit ;
-		//static AbstractPlayer* current_turn_player ;
-
-	private :
 		void updateDisplay() ;
-		//void initTurnPlayer() ;
+		void new_selection(MapPos const pos) ;
 		//void moveUnit() ;
 		//void defeatPlayer() ;
 		//void winPlayer() ;

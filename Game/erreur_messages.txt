@@ -1,0 +1,1 @@
+Impossible de charger la  texture ../ressources/SpriteMap64.bmp (displayFormat Fail) : No video mode has been set
