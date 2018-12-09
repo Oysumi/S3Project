@@ -12,6 +12,7 @@ void Decision::init_list_of_choice()
 	add_choice(    "TOUR_SUIVANT",        WITHOUT_POS   ) ;
 	add_choice(    "CHANGE_SELECT_UNIT",  NEED_POS      ) ;
 	add_choice(    "MOVE_SELECT_UNIT",    NEED_POS      ) ;
+	add_choice(    "UPDATE_GRAPHISME",    WITHOUT_POS   ) ;
 }
 
 void Decision::add_choice(string name, bool choice_need_pos)

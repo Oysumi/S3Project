@@ -2,7 +2,7 @@
 #include "../MapClass/map.h"
 using namespace std ;
 
-Selection::Selection(MapObject* selection, Map const& map)
+Selection::Selection(MapObject* selection, Map const& map, AbstractPlayer* current_player)
 {
 	m_selection = selection ;
     m_possible_to_move = NULL ;
@@ -12,19 +12,23 @@ Selection::Selection(MapObject* selection, Map const& map)
 
 		MapPos const pos(m_select_unit->getPos()), out(map.posOut()) ;
 		vector <MapPos> adjacent ;
-        if (pos.x() > 0)
-            adjacent.push_back(MapPos(pos.x()-1,pos.y())) ;
-        if (pos.x()+1 < out.x())
-            adjacent.push_back(MapPos(pos.x()+1,pos.y())) ;
-        if (pos.y() > 0)
-            adjacent.push_back(MapPos(pos.x(),pos.y()-1)) ;
-        if (pos.y()+1 < out.y())
-            adjacent.push_back(MapPos(pos.x(),pos.y()+1)) ;
 
-        m_possible_to_move = new std::vector <MapPos> ;
-        for (unsigned short i = 0 ; i < adjacent.size() ; i++)
-            if (map.terrain_adapt_to_unit(adjacent[i], *m_select_unit) && !map.have_unit_on(adjacent[i]))
-                m_possible_to_move->push_back(adjacent[i]) ;
+        if (m_select_unit->proprietaire() == current_player)
+        {
+            if (pos.x() > 0)
+                adjacent.push_back(MapPos(pos.x()-1,pos.y())) ;
+            if (pos.x()+1 < out.x())
+                adjacent.push_back(MapPos(pos.x()+1,pos.y())) ;
+            if (pos.y() > 0)
+                adjacent.push_back(MapPos(pos.x(),pos.y()-1)) ;
+            if (pos.y()+1 < out.y())
+                adjacent.push_back(MapPos(pos.x(),pos.y()+1)) ;
+
+            m_possible_to_move = new std::vector <MapPos> ;
+            for (unsigned short i = 0 ; i < adjacent.size() ; i++)
+                if (map.terrain_adapt_to_unit(adjacent[i], *m_select_unit) && !map.have_unit_on(adjacent[i]))
+                    m_possible_to_move->push_back(adjacent[i]) ;
+        }
 	}
     m_valid = true ;
 }
@@ -52,7 +56,6 @@ Selection::~Selection()
 
 bool Selection::possible_move_at (MapPos const& pos) const
 {
-    cout << "AVANT" << endl ;
     if (!m_valid)
         return false ;
     if (m_possible_to_move == NULL)
@@ -87,6 +90,11 @@ vector <MapPos> Selection::possible_to_move_unit () const
 Unit* Selection::unit()
 {
     return m_select_unit ;
+}
+
+AbstractPlayer* Selection::proprietaire_objet()
+{
+    return m_selection->proprietaire() ;
 }
 
 Unit const& Selection::see_select_unit() const

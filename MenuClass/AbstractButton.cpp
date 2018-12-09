@@ -37,14 +37,24 @@ void AbstractButton::setPosY(unsigned int y)
 	m_posy = y ;
 }
 
+void AbstractButton::setText(std::string text)
+{
+	m_text = text ;
+}
+
 SDL_Color AbstractButton::getBackColor() const
 {
 	return this->m_back_color ;
 }
 
+SDL_Color AbstractButton::getTextColor() const
+{
+	return this->m_text_color ;
+}
+
 const char * AbstractButton::getText() const
 {
-	return m_text ;
+	return m_text.c_str() ;
 }
 
 AbstractButton::~AbstractButton() { };

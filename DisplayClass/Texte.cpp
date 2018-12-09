@@ -5,7 +5,7 @@ using namespace std ;
 #define TYPEFACE 30
 #define SHIFT_X 25
 
-Texte::Texte(const char * textToWrite){
+Texte::Texte(const char * textToWrite, SDL_Color font_color){
 	/* Loading of the font */
 	m_font = TTF_OpenFont ("../font/04B_30__.TTF", TYPEFACE) ;
 	if(!m_font) {
@@ -13,12 +13,12 @@ Texte::Texte(const char * textToWrite){
     	exit(3) ;
 	}
 
-	/* Defining the color of the text (here black) */
-	SDL_Color font_color = {0, 0, 0} ;
-
 	/* Writting the text in the SDL_Surface */
 	m_text = TTF_RenderText_Blended(m_font,textToWrite,font_color);
 }
+
+Texte::Texte(string textToWrite, SDL_Color font_color) : Texte(textToWrite.c_str())
+{}
 
 Texte::~Texte(){
 	TTF_CloseFont(m_font) ;

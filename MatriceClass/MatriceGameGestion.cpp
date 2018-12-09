@@ -5,6 +5,7 @@
 #include "../ID/idmenus.h"
 #include "../PlayerClass/HumanPlayer.h"
 #include "../MatriceClass/decisionID.h"
+#include "../DisplayClass/Texte.h"
 
 #include <iostream>
 
@@ -17,10 +18,12 @@ using namespace std;
 #define TIME_BETWEEN_SCROLL_CHANGE 5
 #define TIME_LIMIT_TO_DISPLAY_MENU 500
 
+#define BEGIN_GOLD 200
+
 
 //Initialise le programme, fenetre, menus, boutons ...
 MatriceGameGestion::MatriceGameGestion() :
-    m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF)
+    m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN)
 {
     // Création des boutons
     m_all_buttons = new vector<AbstractButton*> ;
@@ -32,10 +35,11 @@ MatriceGameGestion::MatriceGameGestion() :
 
     // Création et ajout dans la mémoire du menu principal (quand on appuie sur la touche escape)
     vector<AbstractButton*> escapeButtons ;
+    escapeButtons.push_back((*m_all_buttons)[AFFICHAGE]);
     escapeButtons.push_back((*m_all_buttons)[RETOUR]);
-    escapeButtons.push_back((*m_all_buttons)[MUSIQUE]);
+    escapeButtons.push_back((*m_all_buttons)[FIN_DU_TOUR]);
     escapeButtons.push_back((*m_all_buttons)[QUITTER]);
-    unsigned short int x(SCREEN_WIDTH/2 - 100), y(SCREEN_HEIGHT/4) ;
+    unsigned short int x(SCREEN_WIDTH/2 - LARGEUR_MENU1/2), y(SCREEN_HEIGHT/6) ;
     m_saveMenu.push_back(new Menu (escapeButtons, x, y, font_menu, ESCAPE_MENU)) ;
 
     // Création et ajout dans la mémoire du menu prise de décision (attaquer, défendre, aller à, ...)
@@ -66,8 +70,9 @@ void MatriceGameGestion::init()
 
     //Création des joueurs de la partie
     m_player_list = new std::vector <AbstractPlayer*> ;
-    m_player_list->push_back(new HumanPlayer("testplayer", 0)) ;
-    m_player_list->push_back(new HumanPlayer("ennemi", 1)) ;
+    addPlayer("player1") ;
+    addPlayer("player2") ;
+    m_current_player = NULL ;
 
     //Création de quelques unités
     for (unsigned short i = 0 ; i < 10 && m_map->nb_free_pos() > 0 ; i++)
@@ -90,6 +95,14 @@ void MatriceGameGestion::init()
         m_map->add_unit( Unit(UNIT_CATAPULT,pos,m_player_list->at(0)) ) ;
     }
 
+    m_tour = 0 ;
+
+}
+
+void MatriceGameGestion::addPlayer(string name)
+{
+    m_player_list->push_back(new HumanPlayer(name, m_player_list->size())) ;
+    m_player_gold[m_player_list->back()] = BEGIN_GOLD ;
 }
 
 void MatriceGameGestion::gameLoop()
@@ -100,10 +113,10 @@ void MatriceGameGestion::gameLoop()
     debugage_message("Début du Jeu") ;
     for( unsigned short i = 0 ; d.decision() != DECISION_QUITTER ; i= (i+1) % m_player_list->size())
     {
-        m_current_player = m_player_list->at(i) ;
-        deleteSelection() ; // On deselectionne l'unité en passant au joueur suivant
-        updateDisplay() ; //On affiche la map
-
+        if(i==0)
+            m_tour ++ ;
+        initNewTurn(m_player_list->at(i)) ;
+        d = Decision() ; //No remet les décisions à zéro (=> éviter une boucle infine avec decision tour_suivant)
         while (d.decision() != DECISION_TOUR_SUIVANT && d.decision() != DECISION_QUITTER) // Tour d'un joueur
         {
             //Attente d'une decision de la part du joueur qu'il soit un Humain ou IA
@@ -111,13 +124,16 @@ void MatriceGameGestion::gameLoop()
                 m_current_selection = new Selection() ;
             d = m_current_player->takeDecision(*m_map, *m_current_selection, m_fenetre, m_scroll)  ;
 
+
             if (!d.is_valid()) // Le joueur n'a pas réellement pris de décision, ce n'est pas normal
                 warning_message("Player as return an invalid decision") ;
-            else 
-            //Traitement de la decision
+            else if (d.decision() == DECISION_UPDATE_GRAPHISME)
+                updateDisplay() ;
+
+            //Traitement des autres decisions
+            else
             {
                 cout << d << endl ;
-
 
                 //SELECTION D'UNE NOUVELLE UNITE OU D'UNE NOUVELLE CONSTRUCTION
                 if (d.decision() == DECISION_CHANGE_SELECT_UNIT)
@@ -127,10 +143,8 @@ void MatriceGameGestion::gameLoop()
                             selection_unit() ;
                         else if(m_current_selection->type() == OBJECT_TYPE_CONSTRUCTION)
                         {
-                            cout << "traitement selection construction at " << m_current_selection->getPos() << endl ;
-
                             /*
-                            ... Affichage d'un menu proposant plusieurs décisions possibles comme créer une catpaulte, ou rencforcer le chateau ...
+                            ... Affichage d'un menu proposant plusieurs boutons permeetant de créer une catpaulte, de rencforcer le chateau, sa production en or ...
                             */
                         }
                         updateDisplay() ;
@@ -144,15 +158,20 @@ void MatriceGameGestion::gameLoop()
                 {
                     if (validSelection(OBJECT_TYPE_UNIT))
                     {
-                        if (m_map->move_unit_at(m_current_selection->getPos(), d.target()))
+                        if (m_current_selection->unit()->proprietaire() == m_current_player)
                         {
-                            m_map->delete_all_symbol() ;
-                            new_selection(m_current_selection->getPos()) ;
-                            selection_unit() ;
-                            updateDisplay() ;
-                        } 
+                            if (m_map->move_unit_at(m_current_selection->getPos(), d.target()))
+                            {
+                                m_map->delete_all_symbol() ;
+                                new_selection(m_current_selection->getPos(), true) ;
+                                selection_unit() ;
+                                updateDisplay() ;
+                            } 
+                            else
+                                warning_message("Player as try to move select unit at invalid position") ;
+                        }
                         else
-                            warning_message("Player as try to move select unit at invalid position") ;
+                            warning_message("Player as try to move unit of another player") ;
                     }
                     else
                         warning_message("Player as try to move select unit, but not unit selected") ;
@@ -162,7 +181,19 @@ void MatriceGameGestion::gameLoop()
     }
 }
 
-bool MatriceGameGestion::new_selection(MapPos const pos)
+void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
+{
+    if(m_current_player != NULL)
+        m_player_gold[m_current_player] += 100 ;
+
+    m_current_player = new_current_player ;
+    m_map->reset_deplacement_all_unit (); //Les unités peuvent de nouveaux se déplacer
+    deleteSelection() ; // On deselectionne l'unité en passant au joueur suivant
+    m_saveMenu[0]->setTextButton(0,"tour " + to_string(m_tour) + " de " + m_current_player->name()) ;
+    updateDisplay() ; //On affiche la map
+}
+
+bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
 {
     //On charge les symboles que la Matrice est susceptible de rajouter sur la Map
     Texture selection_current_player ("../ressources/green_circle.bmp") ;
@@ -172,7 +203,7 @@ bool MatriceGameGestion::new_selection(MapPos const pos)
     //Selection de la construction ou de l'unité ?
     if (m_map->unit_on(pos) != NULL)
         new_selection = m_map->unit_on(pos) ;
-    if (m_map->cons_on(pos) != NULL) //Par défault c'est plutôt la construction de la case qui sera sélectionée (affection après <=> écraser)
+    if (m_map->cons_on(pos) != NULL && !force_unit) //Par défault c'est plutôt la construction de la case qui sera sélectionée (affection après <=> écraser)
         new_selection = m_map->cons_on(pos) ;
     //Mais si il y a une construction actuellement séléctionnée à cette position, le joueur tente de selectionner l'unité de cette case
     if (m_map->cons_on(pos) != NULL && m_current_selection != NULL)
@@ -191,7 +222,7 @@ bool MatriceGameGestion::new_selection(MapPos const pos)
         else
             selection_symbol = new SurfaceAffichage(selection_enemy) ;
 
-        m_current_selection = new Selection(new_selection, *m_map) ;
+        m_current_selection = new Selection(new_selection, *m_map, m_current_player) ;
 
         // dans tous les cas on affiche le cercle de selection
         selection_symbol->rendre_transparente() ;
@@ -209,16 +240,30 @@ void MatriceGameGestion::selection_unit()
     SurfaceAffichage deplacement (Texture("../ressources/green_circle.bmp")) ;
     deplacement.rendre_transparente() ;
 
-    std::vector <MapPos> movecase (m_current_selection->possible_to_move_unit()) ;
-    if (m_current_selection->unit()->canMove())
-        for (unsigned short i = 0 ; i < movecase.size() ; i++)
-            m_map->add_symbol(deplacement, movecase[i]) ;
+    if (validSelection(OBJECT_TYPE_UNIT))
+        if (m_current_selection->unit()->proprietaire() == m_current_player)
+        {
+            std::vector <MapPos> movecase (m_current_selection->possible_to_move_unit()) ;
+            if (m_current_selection->unit()->canMove())
+                for (unsigned short i = 0 ; i < movecase.size() ; i++)
+                    m_map->add_symbol(deplacement, movecase[i]) ;
+        }
 }
 
 //Affiche simplement la partie de la map voulue (et définie par m_scroll) sur la fenetre du jeu
 void MatriceGameGestion::updateDisplay()
 {
     m_fenetre.ajouter(m_map->getSurface(),&m_scroll,0,0) ;
+    if (validSelection(OBJECT_TYPE_UNIT))
+        m_fenetre.ajouter(Texte(string("Catapulte de "+m_current_selection->proprietaire_objet()->name())).surfaceAffichage(), 0, SCREEN_HEIGHT - 30) ;
+    if (validSelection(OBJECT_TYPE_CONSTRUCTION))
+        m_fenetre.ajouter(Texte(string("Construction de "+m_current_selection->proprietaire_objet()->name())).surfaceAffichage(), 0, SCREEN_HEIGHT - 30) ;
+    SurfaceAffichage gold ("../ressources/metal.bmp") ;
+    gold.rendre_transparente() ;
+    m_fenetre.ajouter(gold,1,0) ;
+    m_fenetre.ajouter(Texte(std::to_string(m_player_gold[m_current_player]),SDL_Color({50,220,220})).surfaceAffichage(), 72, 1) ;
+    if (Menu::isAMenuOpened())
+        Menu::keepOpened(m_fenetre);
     m_fenetre.actualiser() ;
 }
 

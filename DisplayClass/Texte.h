@@ -9,7 +9,8 @@
 class Texte{
 
 	public:
-		Texte(const char * textToWrite) ;
+		Texte(const char * textToWrite, SDL_Color font_color = {0, 0, 0}) ;
+		Texte(std::string textToWrite, SDL_Color font_color = {0, 0, 0}) ;
 		int width() ;
 		int height() ;
 		SurfaceAffichage surfaceAffichage() ;

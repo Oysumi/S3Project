@@ -36,12 +36,13 @@ class Menu
 		SurfaceAffichage getMenu() ;
 		~Menu();
 		SDL_Color getColor() ;
-		unsigned short getPosX() ;
-		unsigned short getPosY() ;
+		unsigned short getPosX() const ;
+		unsigned short getPosY() const ;
 		void displayMenu(Fenetre& screen) ;
 		int getID() ;
 		void openCloseMenu();
 		bool isOpen() ;
+		bool setTextButton(unsigned short nb, std::string const& text) ;
 		
 		static void openMenu(int id, Fenetre& screen) ;
 		static void keepOpened(Fenetre& screen);

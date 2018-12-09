@@ -14,9 +14,13 @@
 
 using namespace std ;
 
-HumanPlayer::HumanPlayer(string name, unsigned short color_id)
+HumanPlayer::HumanPlayer(string name, unsigned short color_id) : AbstractPlayer(name,color_id%NB_COLOR)
 {
-    m_color_id =color_id % NB_COLOR  ;
+    m_gauche_ecran = false ;
+    m_droite_ecran = false ;
+    m_bas_ecran = false ;
+    m_haut_ecran = false ;
+    m_temps_precedent = 0 ;
 }
 
 HumanPlayer::~HumanPlayer()
@@ -30,9 +34,7 @@ Decision HumanPlayer::takeDecision(
             SDL_Rect& scroll //Permet juste à la matrice de savoir où regarde le joueur
             )
 {
-
-    bool changement, gauche_ecran = false, droite_ecran = false, bas_ecran = false, haut_ecran = false ;
-    int temps_precedent = 0 ;
+    bool changement ;
 
     SDL_Event event ; 
     Decision decision_retour ; //Décision qui sera renvoyer à la matrice
@@ -58,6 +60,10 @@ Decision HumanPlayer::takeDecision(
                             Menu::openMenu(ESCAPE_MENU, fenetre);
                             break ;
 
+                        case SDLK_BACKSPACE: // Si le joueur ouvre le menu principal
+                            decision_retour.set_decision(DECISION_TOUR_SUIVANT) ;
+                            break ;
+
                         case SDLK_q: // Le joueur souhaite quitter grâce à la touche Q
                             decision_retour.set_decision(DECISION_QUITTER) ;
                             break ;
@@ -72,24 +78,24 @@ Decision HumanPlayer::takeDecision(
                 case SDL_MOUSEMOTION:
                 {
                     if (event.motion.x <= SCROOL_ZONE)
-                        gauche_ecran = true ;
+                        m_gauche_ecran = true ;
                     else
-                        gauche_ecran = false ;
+                        m_gauche_ecran = false ;
 
                     if (event.motion.y <= SCROOL_ZONE)
-                        haut_ecran = true ;
+                        m_haut_ecran = true ;
                     else
-                        haut_ecran = false ;
+                        m_haut_ecran = false ;
 
                     if (event.motion.x >= scroll.w-SCROOL_ZONE)
-                        droite_ecran = true ;
+                        m_droite_ecran = true ;
                     else
-                        droite_ecran = false ;
+                        m_droite_ecran = false ;
 
                     if (event.motion.y >= scroll.h-SCROOL_ZONE)
-                        bas_ecran = true ;
+                        m_bas_ecran = true ;
                     else
-                        bas_ecran = false ;
+                        m_bas_ecran = false ;
 
                     break ;
                 }
@@ -102,6 +108,13 @@ Decision HumanPlayer::takeDecision(
                     {
                         if(Menu::getIdButtonOn(event.motion.x,event.motion.y)==QUITTER)
                             decision_retour.set_decision(DECISION_QUITTER) ; // Le joueur à decidé de quitter via le menu principal
+                        else if(Menu::getIdButtonOn(event.motion.x,event.motion.y)==RETOUR)
+                        {
+                            changement = true ;
+                            Menu::openMenu(ESCAPE_MENU, fenetre);
+                        }
+                        else if(Menu::getIdButtonOn(event.motion.x,event.motion.y)==FIN_DU_TOUR)
+                            decision_retour.set_decision(DECISION_TOUR_SUIVANT) ;
                         else
                             cout << "MENU CLICK" << endl ;
                     }
@@ -109,11 +122,9 @@ Decision HumanPlayer::takeDecision(
                     {
                         MapPos pos( map.mapPos_of_click(scroll,event.motion.x,event.motion.y) ) ;
 
-                        cout << "AVANTTT" << endl ;
                         if (selection.possible_move_at(pos)) //Si on peut déplacer l'unité séléctionnée sur cette case
                         {
                             decision_retour.set_decision(DECISION_MOVE_SELECT_UNIT, &pos) ;
-                            cout << "APRÈS" << endl ;
                         }
                         else if(map.have_unit_on(pos) || map.have_cons_on(pos)) //Si il y a quelque chose à selectionner sur cette case
                             decision_retour.set_decision(DECISION_CHANGE_SELECT_UNIT, &pos) ;
@@ -123,22 +134,22 @@ Decision HumanPlayer::takeDecision(
         }
 
         //Si le joueur a son curseur sur le côté, on doit progressivement décaler la partie de la map affichée sur l'écran grâce à la variable scroll
-        if (gauche_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.x > 0)
+        if (m_gauche_ecran && SDL_GetTicks()-m_temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.x > 0)
         {
             scroll.x -- ;
             changement = true ;
         }
-        if (droite_ecran && SDL_GetTicks()-temps_precedent>= TIME_BETWEEN_SCROLL_CHANGE && scroll.x < map.width() - scroll.w)
+        if (m_droite_ecran && SDL_GetTicks()-m_temps_precedent>= TIME_BETWEEN_SCROLL_CHANGE && scroll.x < map.width() - scroll.w)
         {
             scroll.x ++ ;
             changement = true ;
         }
-        if (haut_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y > 0)
+        if (m_haut_ecran && SDL_GetTicks()-m_temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y > 0)
         {
             scroll.y -- ;
             changement = true ;
         }
-        if (bas_ecran && SDL_GetTicks()-temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y < map.height() - scroll.h)
+        if (m_bas_ecran && SDL_GetTicks()-m_temps_precedent >= TIME_BETWEEN_SCROLL_CHANGE && scroll.y < map.height() - scroll.h)
         {
             scroll.y ++ ;
             changement = true ;
@@ -147,12 +158,8 @@ Decision HumanPlayer::takeDecision(
         //Si la variable scroll à bougée on doit actualiser la nouvelle partie de la map affichée
         if (changement)
         {
-            temps_precedent = SDL_GetTicks() ;
-            fenetre.ajouter(map.getSurface(),&scroll,0,0) ;
-            if (Menu::isAMenuOpened()){
-                Menu::keepOpened(fenetre);
-            }
-            fenetre.actualiser() ;
+            m_temps_precedent = SDL_GetTicks() ;
+            decision_retour.set_decision(DECISION_UPDATE_GRAPHISME) ;
         }
 
     }

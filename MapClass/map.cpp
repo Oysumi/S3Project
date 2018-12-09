@@ -192,6 +192,19 @@ Construction* Map::cons_on (MapPos const& pos)
     return m_map_cons->at(pos) ;
 }
 
+void Map::reset_deplacement_all_unit ()
+{
+	for (unsigned int i = 0 ; i < m_list_unit.size() ; i++)
+	{
+		if(m_list_unit[i] != NULL)
+			m_list_unit[i]->reset_deplacement() ;
+	}
+}
+
+
+
+
+
 
 
 

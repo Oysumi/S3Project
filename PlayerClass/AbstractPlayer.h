@@ -9,8 +9,10 @@
 class AbstractPlayer
 {
 	public :
+		AbstractPlayer(std::string name, unsigned short color_id) ;
 		virtual ~AbstractPlayer() ;
 		unsigned short colorId() const ;
+		std::string name () const ;
 		
 		//Méthode virtuelle pure utilisée par la matrice pour demander au joueur de prendre une décision, seul interraction d'un joueur
 		virtual Decision takeDecision(
@@ -21,6 +23,7 @@ class AbstractPlayer
 		) = 0 ;
 		
 	protected :
+		std::string m_name ;
 		unsigned short m_color_id ;
 };
 

@@ -48,14 +48,22 @@ SurfaceAffichage Menu::getMenu()
 	return surface ;
 }
 
-unsigned short Menu::getPosX()
+unsigned short Menu::getPosX() const
 {
 	return this->m_pos_x ;
 }
 
-unsigned short Menu::getPosY()
+unsigned short Menu::getPosY() const
 {
 	return this->m_pos_y ;
+}
+
+bool Menu::setTextButton(unsigned short nb, string const& text)
+{
+	if (nb >= m_myButtons.size())
+		return false ;
+	m_myButtons[nb]->setText(text) ;
+	return true ;
 }
 
 bool Menu::clickIsOnThisMenu(unsigned int x, unsigned int y)
@@ -124,7 +132,7 @@ void Menu::displayMenu(Fenetre& screen)
 			erreur_message("Impossible de colorer l'un des boutons du menu :  " + string(SDL_GetError())) ;
 
     	screen.ajouter(bouton, posX, posY) ;
-    	Texte text(b->getText()) ;
+    	Texte text(b->getText(),b->getTextColor()) ;
     	text.displayText(screen, b) ;
     }
 

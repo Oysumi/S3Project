@@ -10,12 +10,13 @@ void remplissage(vector<AbstractButton*>* bouton)
 	SDL_Color font = {255,255,255};
 	SDL_Color text = {0,0,0};
 
-	bouton->push_back(new ActionButton(RETOUR, "RETOUR", 200, 100, 110, 110, font, text)) ;
+	bouton->push_back(new ActionButton(RETOUR, "Retour", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, font, text)) ;
     bouton->push_back(new ActionButton(MUSIQUE, "MUSIQUE", 200, 100, 110, 110, font, text)) ;
-    bouton->push_back(new ActionButton(QUITTER, "QUITTER", 200, 100, 110, 110, font, text)) ;
+    bouton->push_back(new ActionButton(QUITTER, "Quitter", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, font, text)) ;
     bouton->push_back(new ActionButton(ATTAQUER, "ATATQUER", 200, 100, 110, 110, font, text)) ;
     bouton->push_back(new ActionButton(DEFENDRE, "DEFENDRE", 200, 100, 110, 110, font, text)) ;
     bouton->push_back(new ActionButton(ALLER_A, "ALLER_A", 200, 100, 110, 110, font, text)) ;
     bouton->push_back(new ActionButton(FERMER, "FERMER", 200, 100, 110, 110, font, text)) ;
-
+    bouton->push_back(new ActionButton(FIN_DU_TOUR, "Fin du tour", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, font, text)) ;
+    bouton->push_back(new ActionButton(AFFICHAGE, "Tour de ", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, text, font)) ;
 }

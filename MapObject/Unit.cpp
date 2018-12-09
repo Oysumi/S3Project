@@ -34,6 +34,11 @@ unsigned short Unit::type () const
 	return OBJECT_TYPE_UNIT ;
 }
 
+void Unit::reset_deplacement()
+{
+	m_deplacement = m_vitesse ;
+}
+
 bool Unit::move(MapPos const& pos)
 {
 	if (pos != m_pos && pos.adjacent(m_pos, m_deplacement))

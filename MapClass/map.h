@@ -40,6 +40,9 @@ class Map
         Unit* unit_on (MapPos const& pos) ;
         Construction* cons_on (MapPos const& pos) ;
 
+        //Reset déplacement all unit
+        void reset_deplacement_all_unit () ;
+
         //Ajouter une unités ou une construction sur la Map
         bool add_unit (Unit const& unit) ;
         bool add_cons (Construction const& cons) ;
