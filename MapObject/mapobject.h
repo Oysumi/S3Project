@@ -24,6 +24,7 @@ class MapObject
 		virtual SurfaceAffichage getSurface() const = 0 ;
 		//Retourne le type d'objet, construction, unité ...
 		virtual unsigned short type () const = 0 ;
+		virtual bool canMove () const = 0 ;
 
 		//accesseurs
 		MapPos const& getPos() const ;

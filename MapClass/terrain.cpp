@@ -134,6 +134,8 @@ Terrain::~Terrain()
         delete m_terrainComplet ;
         m_terrainComplet = NULL ;
     }
+
+    delete(m_sprite_representation) ;
 }
 
 unsigned short Terrain::posxOut() const
@@ -151,9 +153,9 @@ SpriteTexture const& Terrain::sprite() const
     return m_sprite ;
 }
 
-unsigned short Terrain::sprite_code (MapPos const& pos)
+unsigned short Terrain::sprite_code (MapPos const& pos) const
 {
-    return assocCodeToCaseSprite(m_sprite_representation[pos]) ;
+    return assocCodeToCaseSprite((*m_sprite_representation)[pos]) ;
 }
 
 //SAUVERGARDER L'IMAGE DU TERRAIN
@@ -267,12 +269,13 @@ void Terrain::generer_le_terrain (string const& terrain_representation, std::lis
 
 
     m_terrainComplet = new SurfaceAffichage(m_nb_width_sprite*MAP_CASE_SIZE, m_nb_height_sprite*MAP_CASE_SIZE) ;
+    m_sprite_representation = new map <MapPos, char> ;
     for (unsigned short x = 0 ; x < m_nb_width_sprite ; x++)
     {
         for (unsigned short y = 0 ; y < m_nb_height_sprite ; y++)
         {
             m_terrainComplet->ajouter(m_sprite, x*MAP_CASE_SIZE, y*MAP_CASE_SIZE, assocCodeToCaseSprite(terrainTab[y][x]) ) ;
-            m_sprite_representation.insert(std::pair<MapPos,char>(MapPos(x,m_nb_height_sprite-1-y),terrainTab[y][x]));
+            m_sprite_representation->insert(std::pair<MapPos,char>(MapPos(x,m_nb_height_sprite-1-y),terrainTab[y][x]));
             if(assocCodeToCaseSprite(terrainTab[y][x]) == 16)
             {
                 free_pos->insert(free_pos->begin(), MapPos(x,m_nb_height_sprite-1-y)) ;
@@ -309,7 +312,7 @@ unsigned short Terrain::assocCodeToCaseSprite(char const& c) const
     }
 
     Warning("La map contient des caractères ne correspondant à aucun Sprite") ;
-    return 16; //Ce sera donc de l'hebre
+    return GRASS; //Ce sera donc de l'hebre
 }
 
 unsigned short Terrain::sprite_size() const

@@ -8,12 +8,18 @@ string Unit::sprite_unit_path = "../ressources/catapult.bmp" ;
 Unit::Unit(unsigned short type , MapPos const& pos, AbstractPlayer* const& player) :
 	MapObject(pos,player),
 	m_type(type%NB_TYPE_UNIT)
-	{}
+	{
+		m_vitesse = 2 ;
+		m_deplacement = m_vitesse ;
+	}
 
 Unit::Unit(Unit const& aCopier) : 
 	MapObject(aCopier),
-	m_type(aCopier.m_type) 
-	{}
+	m_type(aCopier.m_type)
+	{
+		m_vitesse = aCopier.m_vitesse ;
+		m_deplacement = m_vitesse ;
+	}
 
 SurfaceAffichage Unit::getSurface() const
 {
@@ -28,7 +34,7 @@ unsigned short Unit::type () const
 	return OBJECT_TYPE_UNIT ;
 }
 
-bool Unit::deplacer(MapPos const& pos)
+bool Unit::move(MapPos const& pos)
 {
 	if (pos != m_pos && pos.adjacent(m_pos, m_deplacement))
 	{
@@ -37,6 +43,11 @@ bool Unit::deplacer(MapPos const& pos)
 		return true ;
 	}
 	return false ;
+}
+
+bool Unit::canMove () const
+{
+	return m_deplacement > 0 ;
 }
 
 void Unit::changePos (MapPos const& new_pos)

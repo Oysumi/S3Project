@@ -13,6 +13,7 @@
 #define MAP_CASE_SIZE 64
 #define NB_SPRITE 17
 
+#define GRASS 16
 
 class Terrain
 {
@@ -26,7 +27,7 @@ class Terrain
         unsigned short sprite_size() const ;
 
         SpriteTexture const& sprite() const ;
-        unsigned short sprite_code (MapPos const& pos) ; //const
+        unsigned short sprite_code (MapPos const& pos) const ;
 
         bool saveBMP (std::string const& fileName) const ;
         SurfaceAffichage const& terrainComplet() const ;
@@ -41,7 +42,7 @@ class Terrain
         unsigned short m_nb_width_sprite ;
         unsigned short m_nb_height_sprite ;
         SurfaceAffichage* m_terrainComplet ;
-        std::map <MapPos, char> m_sprite_representation ;
+        std::map <MapPos, char> * m_sprite_representation ;
 };
 
 

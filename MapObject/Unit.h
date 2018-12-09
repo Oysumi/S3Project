@@ -23,8 +23,9 @@ class Unit : public MapObject
 
 		virtual SurfaceAffichage getSurface() const ;
 		virtual unsigned short type () const ;
+		virtual bool canMove () const ;
 
-		bool deplacer(MapPos const& pos) ;
+		bool move(MapPos const& pos) ;
 
 		static std::string sprite_unit_path ;
 

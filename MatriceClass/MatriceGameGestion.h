@@ -14,7 +14,7 @@
 #include "../PlayerClass/AbstractPlayer.h"
 #include "../MapObject/construction.h"
 #include "../MapClass/map.h"
-#include "../MatriceClass/MatriceGameGestion.h"
+#include "../MatriceClass/selection.h"
 
 #include <vector>
 
@@ -41,15 +41,17 @@ class MatriceGameGestion
 		std::vector <AbstractPlayer*> * m_player_list ;
 		AbstractPlayer* m_current_player ;
 
-		MapObject* m_current_selection ;
+		Selection* m_current_selection ;
 
 	private :
-		void updateDisplay() ;
 		bool new_selection(MapPos const pos) ;
-		//void moveUnit() ;
+		void selection_unit() ;
 		//void defeatPlayer() ;
 		//void winPlayer() ;
 
+		void updateDisplay() ;
+		void deleteSelection() ;
+		bool validSelection(short type = -1) const ;
 };
 
 #endif // __MATRICEGAMEGESTION_H__

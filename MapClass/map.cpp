@@ -61,6 +61,11 @@ unsigned short Map::width() const
 	return m_terrain.terrainComplet().width() ;
 }
 
+MapPos Map::posOut() const
+{
+	return MapPos(m_terrain.posxOut(),m_terrain.posyOut()) ;
+}
+
 SurfaceAffichage const& Map::getSurface() const
 {
 	return *m_graphic_map ;
@@ -94,6 +99,10 @@ MapPos Map::mapPos_of_click (SDL_Rect const& scroll, unsigned short const& x, un
     return MapPos((x+scroll.x)/m_terrain.sprite_size(),(height()-y-scroll.y)/m_terrain.sprite_size()) ;
 }
 
+bool Map::terrain_adapt_to_unit(MapPos const& pos, Unit const& unit) const
+{
+	return m_terrain.sprite_code(pos) == GRASS ;
+}
 
 bool Map::add_unit (Unit const& unit)
 {
@@ -107,7 +116,7 @@ bool Map::add_unit (Unit const& unit)
 	{
 		if(m_map_unit->at(pos) != NULL)
 		{
-			warning_message("Try to add unit with position out the map") ;
+			warning_message("We have unit at pos try to add other unit") ;
 			return false ;
 		}
 	}
@@ -131,7 +140,7 @@ bool Map::add_cons(Construction const& cons)
 	{
 		if(m_map_cons->at(pos) != NULL)
 		{
-			warning_message("Try to add unit with position out the map") ;
+			warning_message("We have construction at pos try to add other unit") ;
 			return false ;
 		}
 	}
@@ -143,18 +152,30 @@ bool Map::add_cons(Construction const& cons)
 	return true ;
 }
 
-bool Map::have_unit_on (MapPos const& pos) const
+bool Map::move_unit_at(MapPos const& source, MapPos const& destination)
 {
-	if (m_map_unit->find(pos) == m_map_unit->end()) //Rien d'enregistré à cette position
+	if (!have_unit_on(source)) // Aucune unité à déplacer
 		return false ;
-    return (m_map_unit->at(pos) != NULL) ;
-}
+	if (have_unit_on(destination)) // Déjà une unité à l'emplacement de destination
+		return false ;
+	Unit* u = unit_on(source) ;
+	bool result = u->move(destination) ;
+	if (!result) // L'unité ne peut pas effectuer ce déplacement
+		return false ;
 
-bool Map::have_cons_on (MapPos const& pos) const
-{
-	if (m_map_cons->find(pos) == m_map_cons->end()) //Rien d'enregistré à cette position
-		return false ;
-    return (m_map_cons->at(pos) != NULL) ;
+	//mise à jour map d'association
+	(*m_map_unit)[destination] = u ;
+	m_map_unit->erase(source) ;
+
+	//mise à jour de la liste des positions libres
+	m_free_pos->remove(destination) ;
+	if (!have_cons_on(source) && m_terrain.sprite_code(source)==GRASS) //Si la position est libre, on l'ajoute
+		m_free_pos->push_back(source) ;
+
+	//mises à jour des textures
+	actualiser(source) ;
+	actualiser(destination) ;
+	return true ;
 }
 
 Unit* Map::unit_on (MapPos const& pos)
@@ -170,6 +191,30 @@ Construction* Map::cons_on (MapPos const& pos)
 		return NULL ;
     return m_map_cons->at(pos) ;
 }
+
+
+
+
+
+bool Map::have_unit_on (MapPos const& pos) const
+{
+	if (m_map_unit->find(pos) == m_map_unit->end()) //Rien d'enregistré à cette position
+		return false ;
+    return (m_map_unit->at(pos) != NULL) ;
+}
+
+bool Map::have_cons_on (MapPos const& pos) const
+{
+	if (m_map_cons->find(pos) == m_map_cons->end()) //Rien d'enregistré à cette position
+		return false ;
+    return (m_map_cons->at(pos) != NULL) ;
+}
+
+
+
+
+
+
 
 void Map::add_symbol (SurfaceAffichage const& surface, MapPos const& pos, bool audessus)
 {
@@ -200,22 +245,12 @@ void Map::delete_all_symbol() //Supprime tous les symboles de la map
 
 
 
-void Map::del_unit_texture(Unit const& unit)
-{
-	resest_texture(unit.getPos()) ;
-	ajouter_texture_objets(unit.getPos()) ;
-}
 
-void Map::del_cons_texture(Construction const& cons)
-{
-	resest_texture(cons.getPos()) ;
-	ajouter_texture_objets(cons.getPos()) ;
-}
 
-//Permet d'ajouter un graphisme sur une certaine case
-void Map::ajouter(SurfaceAffichage const& surf, MapPos const& pos)
+void Map::actualiser (MapPos const& pos)
 {
-	m_graphic_map->ajouter(surf, pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE) ;
+	resest_texture(pos) ;
+	ajouter_texture_objets(pos) ;
 }
 
 void Map::ajouter_texture_objets(MapPos const& pos)
@@ -229,20 +264,11 @@ void Map::ajouter_texture_objets(MapPos const& pos)
 		add_cons_texture(*pc) ;
 }
 
-
-
-
-
-
-
-
-
 //La map affiche le terrain sur cette case ce qui écrase et supprime tous les graphismes présents sur cette case
 void Map::resest_texture(MapPos const& pos)
 {
 	m_graphic_map->ajouter(m_terrain.sprite(), pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE, m_terrain.sprite_code(pos)) ; //Réecriture du terrain (effacer)
 }
-
 
 void Map::add_unit_texture(Unit const& unit)
 {
@@ -253,3 +279,10 @@ void Map::add_cons_texture(Construction const& cons)
 {
 	ajouter(cons.getSurface(), cons.getPos()) ;
 }
+
+//Permet d'ajouter un graphisme sur une certaine case
+void Map::ajouter(SurfaceAffichage const& surf, MapPos const& pos)
+{
+	m_graphic_map->ajouter(surf, pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE) ;
+}
+

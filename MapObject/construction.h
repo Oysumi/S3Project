@@ -27,6 +27,7 @@ class Construction : public MapObject
 
         virtual SurfaceAffichage getSurface() const ;
         virtual unsigned short type () const ;
+        virtual bool canMove () const ;
 
         static std::string sprite_construction_path ;
 

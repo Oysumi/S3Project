@@ -23,6 +23,11 @@ SurfaceAffichage Construction::getSurface() const
 	return s ;
 }
 
+bool Construction::canMove () const
+{
+	return false ;
+}
+
 unsigned short Construction::type () const
 {
 	return OBJECT_TYPE_CONSTRUCTION ;

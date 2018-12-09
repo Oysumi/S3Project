@@ -22,11 +22,13 @@ HumanPlayer::HumanPlayer(string name, unsigned short color_id)
 HumanPlayer::~HumanPlayer()
 {}
 
+//Fonction utilisée par la matrice pour demander au joueur de prendre une décision, seul interraction d'un joueur
 Decision HumanPlayer::takeDecision(
-    Fenetre& fenetre, //Passage par référence, une seule et même fenêtre dont le joueur peut changer le contenu pendant son tour
-    Map const& map, //Ici la Map est une référence constante, ainsi le joueur est en lecture seule, il doit passer par la matrice pour tout changement
-    SDL_Rect& scroll //Permet juste à la matrice de savoir où regarde le joueur
-    )
+            Map const& map, //Ici la Map est une référence constante, ainsi le joueur est en lecture seule, il doit passer par la matrice pour tout changement
+            Selection const& selection, // Permet au joueur d'avoir des infos sur l'unité séléctionée, sans changer la sélécion
+            Fenetre& fenetre, //Passage par référence, une seule et même fenêtre dont le joueur peut changer le contenu pendant son tour
+            SDL_Rect& scroll //Permet juste à la matrice de savoir où regarde le joueur
+            )
 {
 
     bool changement, gauche_ecran = false, droite_ecran = false, bas_ecran = false, haut_ecran = false ;
@@ -106,10 +108,15 @@ Decision HumanPlayer::takeDecision(
                     else //GESTION CLICS SUR lA MAP
                     {
                         MapPos pos( map.mapPos_of_click(scroll,event.motion.x,event.motion.y) ) ;
-                        if(map.have_unit_on(pos) || map.have_cons_on(pos))
+
+                        cout << "AVANTTT" << endl ;
+                        if (selection.possible_move_at(pos)) //Si on peut déplacer l'unité séléctionnée sur cette case
                         {
-                            decision_retour.set_decision(DECISION_CHANGE_SELECT_UNIT, &pos) ;
+                            decision_retour.set_decision(DECISION_MOVE_SELECT_UNIT, &pos) ;
+                            cout << "APRÈS" << endl ;
                         }
+                        else if(map.have_unit_on(pos) || map.have_cons_on(pos)) //Si il y a quelque chose à selectionner sur cette case
+                            decision_retour.set_decision(DECISION_CHANGE_SELECT_UNIT, &pos) ;
                     }
                     break ;
             }

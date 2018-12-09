@@ -1,18 +1,11 @@
 #ifndef DEF_MAP
 #define DEF_MAP
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #include <string>
 #include <vector>
 #include <map>
 #include <list>
-#include "SDL/SDL.h"
 
-#include "../Fonctions/fonctions.h"
-#include "../DisplayClass/texture.h"
-#include "../DisplayClass/fenetre.h"
 #include "../MapObject/construction.h"
 #include "../MapClass/terrain.h"
 #include "../MapObject/Unit.h"
@@ -51,13 +44,18 @@ class Map
         bool add_unit (Unit const& unit) ;
         bool add_cons (Construction const& cons) ;
 
+        bool move_unit_at(MapPos const& source, MapPos const& destination) ;
+
         void add_symbol (SurfaceAffichage const& surface, MapPos const& pos, bool audessus = true) ;
         void delete_all_symbol() ;
 
     public : // II) Méthodes constantes, les seules utilisables pour une map en lecture seule, pour les joueurs
         
         unsigned short height() const ;
-        unsigned short width() const;
+        unsigned short width() const ;
+
+        MapPos posOut() const ;
+
         unsigned short sprite_size() const ;
         SurfaceAffichage const& getSurface() const ;
 
@@ -69,19 +67,18 @@ class Map
         MapPos random_free_pos () const ;
         unsigned int nb_free_pos () const ;
 
+        bool terrain_adapt_to_unit(MapPos const& pos, Unit const& unit) const ;
 
     private : // III) Méthodes privées permettant surtout de gérer les différents affichages simplement
-
         void ajouter_texture_objets(MapPos const& pos) ;
 
+        void actualiser (MapPos const& pos) ;
         void resest_texture(MapPos const& pos) ; //affiche le terrain sur cette case ce qui écrase et supprime tous les graphismes présents sur cette case
-        void ajouter(SurfaceAffichage const& surf, MapPos const& pos) ; //ajouter un graphisme sur une certaine case
-
+        
         void add_unit_texture(Unit const& unit) ;
         void add_cons_texture(Construction const& cons) ;
 
-        void del_unit_texture(Unit const& unit) ;
-        void del_cons_texture(Construction const& cons) ;
+        void ajouter(SurfaceAffichage const& surf, MapPos const& pos) ; //ajouter un graphisme sur une certaine case
         
     private : // Le stockage des données !
 
