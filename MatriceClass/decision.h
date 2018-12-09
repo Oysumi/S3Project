@@ -17,6 +17,7 @@ class Decision
 		bool set_target (MapPos const& pos) ;
 		bool is_valid() const ;
 		unsigned short decision() const ;
+		MapPos target () const ;
 
 		friend std::ostream &operator<<( std::ostream &flux, Decision const& dec);
 		static void add_choice(std::string name, bool choice_need_pos) ;

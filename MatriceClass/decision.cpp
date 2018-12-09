@@ -31,7 +31,7 @@ bool Decision::set_decision (unsigned short const& id, MapPos* pos)
 	if (id < list_of_choice.size())
 	{
 
-		if(!list_of_choice[m_id_decision].second) // Si cette décision n'a pas besoin d'être associée à une position
+		if(!list_of_choice[id].second) // Si cette décision n'a pas besoin d'être associée à une position
 		{
 			m_id_decision = (short) id ;
 			m_valid = true ;
@@ -40,8 +40,8 @@ bool Decision::set_decision (unsigned short const& id, MapPos* pos)
 		if (pos != NULL)
 		{
 			m_id_decision = (short) id ;
-			set_target(*pos) ;
 			m_valid = true ;
+			set_target(*pos) ;
 			return true ;
 		}
 		warning_message("Try to set decision need pos without") ;
@@ -75,9 +75,19 @@ unsigned short Decision::decision() const
 	return m_id_decision ;
 }
 
+MapPos Decision::target () const
+{
+	return m_target ;
+}
+
 void Decision::afficher(ostream &flux) const
 {
-    flux << list_of_choice[m_id_decision].first ;
+	if (!m_valid)
+		flux << "Invalid decision" << endl ;
+	else if(!list_of_choice[m_id_decision].second) // Si la décision ne nécessite pas de cible
+    	flux << list_of_choice[m_id_decision].first ;
+    else
+    	flux << list_of_choice[m_id_decision].first << " with target " << m_target ;
 }
 
 ostream &operator<<( ostream &flux, Decision const& dec)

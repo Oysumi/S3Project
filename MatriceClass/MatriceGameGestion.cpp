@@ -80,27 +80,60 @@ void MatriceGameGestion::init()
     }
 
     Decision::init_list_of_choice() ;
-
-    //On affiche le terrain
-    updateDisplay() ;
 }
 
 void MatriceGameGestion::gameLoop()
 {
+    Texture selection_current_player ("../ressources/green_circle.bmp") ;
+    Texture selection_enemy ("../ressources/red_circle.bmp") ;
+    
     Decision d ;
-    while(d.decision() != DECISION_QUITTER)
+    for( unsigned short i = 0 ; d.decision() != DECISION_QUITTER ; i= (i+1) % m_player_list->size())
     {
-        d = m_player_list->at(0)->takeDecision(m_fenetre, *m_map, m_scroll)  ;
-        if (!d.is_valid())
-            warning_message("Player as return an invalid decision") ;
-        else
-            cout << d << endl ;
+        m_current_player = m_player_list->at(i) ;
+        updateDisplay() ; //On affiche la map
+        while (d.decision() != DECISION_TOUR_SUIVANT && d.decision() != DECISION_QUITTER) // Tour d'un joueur
+        {
+            //Attente d'une decision de la part du joueur qu'il soit un Humain ou IA
+            d = m_current_player->takeDecision(m_fenetre, *m_map, m_scroll)  ;
+
+            //Traitement de la decision
+            if (!d.is_valid())
+                warning_message("Player as return an invalid decision") ;
+            else
+            {
+                cout << d << endl ;
+                if (d.decision() == DECISION_CHANGE_SELECT_UNIT) //NOUVELLE SELECTION
+                {
+                    AbstractPlayer* select ;
+                    if (m_map->unit_on(d.target()) != NULL)
+                        select = m_map->unit_on(d.target())->proprietaire() ;
+                    else
+                        select = m_map->cons_on(d.target())->proprietaire() ;
+                    if (select != NULL)
+                    {
+                        SurfaceAffichage* selection_symbol ;
+                        if (select == m_current_player)
+                            selection_symbol = new SurfaceAffichage(selection_current_player) ;
+                        else
+                            selection_symbol = new SurfaceAffichage(selection_enemy) ;
+                        selection_symbol->rendre_transparente() ;
+                        m_map->delete_all_symbol() ;
+                        m_map->add_symbol(*selection_symbol,d.target()) ;
+                        delete(selection_symbol) ;
+                        updateDisplay() ;
+                    }
+                    else
+                        warning_message("Player as try to select unit or construction at empty pos") ;
+                }
+            }
+        }
     }
 }
 
 void MatriceGameGestion::updateDisplay()
 {
-    m_fenetre.ajouter(m_map->getSurface()) ;
+    m_fenetre.ajouter(m_map->getSurface(),&m_scroll,0,0) ;
     m_fenetre.actualiser() ;
 }
 

@@ -19,7 +19,22 @@ SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short c
 	m_surface = surface ;
 }
 
+SurfaceAffichage::SurfaceAffichage(Texture const& texture)
+{
+	SDL_Surface* surf = texture.surface() ;
 
+	m_surface = SDL_CreateRGBSurface(surf->flags, surf->w, surf->h, 
+                      surf->format->BitsPerPixel, surf->format->Rmask,
+                      surf->format->Gmask, surf->format->Bmask,
+                      surf->format->Amask);
+    SDL_BlitSurface(surf, NULL, m_surface, NULL);
+
+    m_height = surf->h ;
+	m_width = surf->w ;
+}
+
+SurfaceAffichage::SurfaceAffichage(string const& texture_path) : SurfaceAffichage(Texture(texture_path))
+{}
 
 //DESTRUCTEUR
 SurfaceAffichage::~SurfaceAffichage()

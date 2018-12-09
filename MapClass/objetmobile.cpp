@@ -16,3 +16,8 @@ MapPos const& ObjetMobile::getPos() const
 {
 	return m_pos ;
 }
+
+AbstractPlayer* ObjetMobile::proprietaire () const
+{
+	return m_proprietaire ;
+}

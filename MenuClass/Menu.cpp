@@ -194,7 +194,7 @@ bool Menu::isAMenuOpened(){
     return menu_opened ;
 }
 
-void Menu::keepOpened(Fenetre screen)
+void Menu::keepOpened(Fenetre& screen)
 {
     for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++)
     {
@@ -204,7 +204,7 @@ void Menu::keepOpened(Fenetre screen)
 }
 
 
-void Menu::openMenu(int id, Fenetre screen)
+void Menu::openMenu(int id, Fenetre& screen)
 {
 	// On parcourt l'ensemble des menus présents de la matrice pour consulter leur ID et ouvrir le menu voulu
 	bool done = false ;
@@ -239,7 +239,7 @@ bool Menu::isOnOneMenu(unsigned int x, unsigned int y)
 {
 	for (unsigned short i = 0 ; i < allMenu.size() ; i++)
     {
-        if (allMenu[i]->clickIsOnThisMenu(x,y))
+        if (allMenu[i]->clickIsOnThisMenu(x,y) && allMenu[i]->m_open)
             return true ;
     }
     return false ;

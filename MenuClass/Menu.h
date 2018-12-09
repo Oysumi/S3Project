@@ -43,8 +43,8 @@ class Menu
 		void openCloseMenu();
 		bool isOpen() ;
 		
-		static void openMenu(int id, Fenetre screen) ;
-		static void keepOpened(Fenetre screen);
+		static void openMenu(int id, Fenetre& screen) ;
+		static void keepOpened(Fenetre& screen);
 		static bool isAMenuOpened() ;
 		static bool displayMenuWithId(int id, Fenetre& screen) ;
 		static bool isOnOneMenu(unsigned int x, unsigned int y) ;

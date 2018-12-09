@@ -22,7 +22,7 @@ HumanPlayer::HumanPlayer(string name, unsigned short color_id)
 HumanPlayer::~HumanPlayer()
 {}
 
-Decision HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll)
+Decision HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect& scroll)
 {
 
 	debugage_message("Début du Jeu") ;
@@ -94,13 +94,18 @@ Decision HumanPlayer::takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect sc
                 case SDL_MOUSEBUTTONDOWN:
                     if (Menu::isOnOneMenu(event.motion.x,event.motion.y))
                     {
-                        cout << "MENU CLICK" << endl ;
                         if(Menu::getIdButtonOn(event.motion.x,event.motion.y)==QUITTER)
                             decision_retour.set_decision(DECISION_QUITTER) ;
+                        else
+                            cout << "MENU CLICK" << endl ;
                     }
                     else
                     {
-                        //cout << map.unit_on(map.mapPos_of_click(scroll,event.motion.x,event.motion.y)) << endl ;
+                        MapPos pos( map.mapPos_of_click(scroll,event.motion.x,event.motion.y) ) ;
+                        if(map.unit_on(pos) != NULL || map.cons_on(pos) != NULL)
+                        {
+                            decision_retour.set_decision(DECISION_CHANGE_SELECT_UNIT, &pos) ;
+                        }
                     }
                     break ;
             }

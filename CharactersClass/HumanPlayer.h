@@ -13,7 +13,7 @@ class HumanPlayer : public AbstractPlayer
 	public :
 		HumanPlayer(std::string name, unsigned short color_id) ;
 		virtual ~HumanPlayer() ;
-		virtual Decision takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect scroll) ;
+		virtual Decision takeDecision(Fenetre& fenetre, Map const& map, SDL_Rect& scroll) ;
 };
 
 #endif // __HUMANPLAYER_H__

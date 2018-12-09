@@ -25,27 +25,37 @@ class Map
     public :
         Map(unsigned short x, unsigned short y) ;
         Map() ;
-        virtual ~Map() ;
+        ~Map() ;
         unsigned short height() const ;
         unsigned short width() const;
         unsigned short sprite_size() const ;
         SurfaceAffichage const& getSurface() const ;
 
-        MapPos mapPos_of_click (SDL_Rect scroll, unsigned short const& x, unsigned short const& y) const ;
+        MapPos mapPos_of_click (SDL_Rect const& scroll, unsigned short const& x, unsigned short const& y) const ;
         Unit* unit_on (MapPos const& pos) const ;
         Construction* cons_on (MapPos const& pos) const ;
 
         MapPos random_free_pos () ;
         unsigned int nb_free_pos () const ;
 
-        virtual bool add_unit (Unit const& unit) ;
-        virtual bool add_cons (Construction const& cons) ;
+        bool add_unit (Unit const& unit) ;
+        bool add_cons (Construction const& cons) ;
+
+        void add_symbol (SurfaceAffichage const& surface, MapPos const& pos, bool audessus = true) ;
+        void delete_all_symbol() ;
 
     private :
         void add_unit_texture(Unit const& unit) ;
-        void add_cons_texture(Construction const& cons) ;
+        void add_cons_texture(Construction const& cons, bool reecriture = true) ;
+        
+        void add_unit_texture(Unit* punit) ;
+        void add_cons_texture(Construction* pcons, bool reecriture = true) ;
+
         void del_unit_texture(Unit const& unit) ;
         void del_cons_texture(Construction const& cons) ;
+
+        void resest_texture(MapPos const& pos) ;
+        void ajouter(SurfaceAffichage const& surf, MapPos const& pos) ;
         
     private :
         std::vector <Unit*> m_list_unit ;
@@ -54,6 +64,7 @@ class Map
         std::map <MapPos, Construction*>* m_map_cons ;
         SurfaceAffichage* m_graphic_map ;
         std::list <MapPos> m_free_pos ;
+        std::vector <MapPos> m_list_pos_symbol ;
         Terrain m_terrain ;
         AbstractPlayer* m_current_player_vision ;
 };

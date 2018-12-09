@@ -35,6 +35,7 @@ class MatriceGameGestion
 		Map* m_map ;
 		SDL_Rect m_scroll ; //Représente le rectangle de la map affichée sur la fenêtre
 		std::vector <AbstractPlayer*> * m_player_list ;	
+		AbstractPlayer* m_current_player ;
 
 	private :
 		//static Unit* current_select_unit ;
