@@ -17,9 +17,9 @@ int main ( int args, char * argv[] )
     srand(time(NULL)) ;
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
-        erreur_message("Impssible d'initialiser la SDL") ;
+        erreur_message("Impssible d'initialiser la SDL" + string(SDL_GetError())) ;
 
-    if (TTF_Init() == -1)
+    if (TTF_Init() != 0)
         erreur_message("Erreur d'initialisation de TTF_Init : " + string(TTF_GetError())) ;
     
     {
