@@ -21,3 +21,5 @@ AbstractPlayer* ObjetMobile::proprietaire () const
 {
 	return m_proprietaire ;
 }
+
+ObjetMobile::~ObjetMobile() {}

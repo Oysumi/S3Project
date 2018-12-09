@@ -15,6 +15,7 @@ class ObjetMobile
 	public:
 		ObjetMobile(MapPos const& pos, AbstractPlayer* player) ;
 		ObjetMobile(ObjetMobile const& aCopier) ;
+		virtual ~ObjetMobile();
 		
 		virtual SurfaceAffichage getSurface() const = 0 ;
 		MapPos const& getPos() const ;
