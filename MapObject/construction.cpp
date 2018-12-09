@@ -1,17 +1,17 @@
 #include "construction.h"
-#include "../CharactersClass/AbstractPlayer.h"
+#include "../PlayerClass/AbstractPlayer.h"
 #include "SDL/SDL.h"
 using namespace std;
 
 std::string Construction::sprite_construction_path = "../ressources/ground.bmp" ;
 
 Construction::Construction(unsigned short type , MapPos const& pos, AbstractPlayer* const& player) :
-	ObjetMobile(pos,player),
+	MapObject(pos,player),
 	m_type(type)
 	{}
 
 Construction::Construction(Construction const& aCopier) : 
-	ObjetMobile(aCopier),
+	MapObject(aCopier),
 	m_type(aCopier.m_type) 
 	{}
 

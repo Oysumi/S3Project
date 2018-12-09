@@ -3,7 +3,7 @@
 #include "../MenuClass/AbstractButton.h"
 #include "../ID/idbuttons.h"
 #include "../ID/idmenus.h"
-#include "../CharactersClass/HumanPlayer.h"
+#include "../PlayerClass/HumanPlayer.h"
 #include "../MatriceClass/decisionID.h"
 
 #include <iostream>

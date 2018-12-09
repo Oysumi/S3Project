@@ -3,7 +3,7 @@
 
 #include "../DisplayClass/texture.h"
 #include "../MapClass/position.h"
-#include "../MapClass/objetmobile.h"
+#include "../MapObject/mapobject.h"
 #include "../MapClass/terrain.h"
 #include <string>
 
@@ -15,7 +15,7 @@
 
 class AbstractPlayer ;
 
-class Unit : public ObjetMobile
+class Unit : public MapObject
 {
 	public:
 		Unit(unsigned short type, MapPos const& pos, AbstractPlayer* const& player) ;

@@ -11,8 +11,8 @@
 #include "../MenuClass/ActionButton.h"
 #include "../MenuClass/Menu.h"
 
-#include "../CharactersClass/AbstractPlayer.h"
-#include "../MapClass/construction.h"
+#include "../PlayerClass/AbstractPlayer.h"
+#include "../MapObject/construction.h"
 #include "../MapClass/map.h"
 #include "../MatriceClass/MatriceGameGestion.h"
 

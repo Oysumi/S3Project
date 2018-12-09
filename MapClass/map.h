@@ -13,9 +13,9 @@
 #include "../Fonctions/fonctions.h"
 #include "../DisplayClass/texture.h"
 #include "../DisplayClass/fenetre.h"
-#include "../MapClass/construction.h"
+#include "../MapObject/construction.h"
 #include "../MapClass/terrain.h"
-#include "../CharactersClass/Unit.h"
+#include "../MapObject/Unit.h"
 #include "position.h"
 
 class AbstractPlayer ;

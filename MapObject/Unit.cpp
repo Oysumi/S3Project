@@ -1,17 +1,17 @@
 #include "Unit.h"
-#include "../CharactersClass/AbstractPlayer.h"
+#include "../PlayerClass/AbstractPlayer.h"
 #include "SDL/SDL.h"
 using namespace std ;
 
 string Unit::sprite_unit_path = "../ressources/catapult.bmp" ;
 
 Unit::Unit(unsigned short type , MapPos const& pos, AbstractPlayer* const& player) :
-	ObjetMobile(pos,player),
+	MapObject(pos,player),
 	m_type(type)
 	{}
 
 Unit::Unit(Unit const& aCopier) : 
-	ObjetMobile(aCopier),
+	MapObject(aCopier),
 	m_type(aCopier.m_type) 
 	{}
 

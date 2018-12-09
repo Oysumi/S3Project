@@ -4,7 +4,7 @@
 #include <string>
 #include "../DisplayClass/texture.h"
 #include "../MapClass/position.h"
-#include "../MapClass/objetmobile.h"
+#include "../MapObject/mapobject.h"
 #include "../MapClass/terrain.h"
 
 #define NB_COLOR 2
@@ -12,7 +12,7 @@
 #define NB_TYPE_CONSTRUCTION  1
 #define CONSTRUCTION_GROUND 0
 
-class Construction : public ObjetMobile
+class Construction : public MapObject
 {
     public :
     	Construction(unsigned short type, MapPos const& pos, AbstractPlayer* const& player) ;

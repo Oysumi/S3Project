@@ -1,5 +1,5 @@
-#ifndef __MOBILEOBJECT_H__
-#define __MOBILEOBJECT_H__
+#ifndef __MAPOBJECT_H__
+#define __MAPOBJECT_H__
 
 #include "../DisplayClass/texture.h"
 #include "../DisplayClass/fenetre.h"
@@ -9,13 +9,13 @@
 
 class AbstractPlayer ;
 
-//La classe Abstraite Objet Mobile représente toute les map
-class ObjetMobile
+//La classe Abstraite MapObject représente toute les map
+class MapObject
 {
 	public:
-		ObjetMobile(MapPos const& pos, AbstractPlayer* player) ;
-		ObjetMobile(ObjetMobile const& aCopier) ;
-		virtual ~ObjetMobile();
+		MapObject(MapPos const& pos, AbstractPlayer* player) ;
+		MapObject(MapObject const& aCopier) ;
+		virtual ~MapObject();
 		
 		virtual SurfaceAffichage getSurface() const = 0 ;
 		MapPos const& getPos() const ;
