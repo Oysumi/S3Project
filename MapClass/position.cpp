@@ -23,6 +23,31 @@ unsigned short MapPos::y () const
 	return m_y ;
 }
 
+unsigned short MapPos::separation_value(MapPos const& pos) const
+{
+	unsigned short separation = 0 ;
+	short diff = m_x - pos.m_x ;
+	if (diff > 0)
+		separation += diff ;
+	else
+		separation -= diff ;
+
+	diff = m_y - pos.m_y ;
+	if (diff > 0)
+		separation += diff ;
+	else
+		separation -= diff ;
+
+	return separation ;
+}
+
+bool MapPos::adjacent(MapPos const& pos, unsigned short nb_cases_de_separation) const
+{
+	return nb_cases_de_separation >= separation_value(pos) ;
+}
+
+
+
 
 bool MapPos::estegala(MapPos const& b) const
 {
@@ -32,6 +57,11 @@ bool MapPos::estegala(MapPos const& b) const
 bool operator==(MapPos const& a, MapPos const& b)
 {
 	return a.estegala(b) ;
+}
+
+bool operator!=(MapPos const& a, MapPos const& b)
+{
+	return !(a==b) ;
 }
 
 bool MapPos::estpluspetitque(MapPos const& b) const

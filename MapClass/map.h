@@ -72,16 +72,16 @@ class Map
 
     private : // III) Méthodes privées permettant surtout de gérer les différents affichages simplement
 
-        void add_unit_texture(Unit const& unit) ;
-        void add_cons_texture(Construction const& cons, bool reecriture = true) ;
-        void add_unit_texture(Unit* punit) ;
-        void add_cons_texture(Construction* pcons, bool reecriture = true) ;
-
-        void del_unit_texture(Unit const& unit) ;
-        void del_cons_texture(Construction const& cons) ;
+        void ajouter_texture_objets(MapPos const& pos) ;
 
         void resest_texture(MapPos const& pos) ; //affiche le terrain sur cette case ce qui écrase et supprime tous les graphismes présents sur cette case
         void ajouter(SurfaceAffichage const& surf, MapPos const& pos) ; //ajouter un graphisme sur une certaine case
+
+        void add_unit_texture(Unit const& unit) ;
+        void add_cons_texture(Construction const& cons) ;
+
+        void del_unit_texture(Unit const& unit) ;
+        void del_cons_texture(Construction const& cons) ;
         
     private : // Le stockage des données !
 

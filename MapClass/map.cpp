@@ -115,7 +115,7 @@ bool Map::add_unit (Unit const& unit)
 	m_list_unit.push_back(new Unit (unit)) ;
 	(*m_map_unit)[pos] = m_list_unit.back() ;
 	m_free_pos->remove(pos) ;
-	add_unit_texture(unit) ;
+	ajouter_texture_objets(unit.getPos()) ;
 	return true ;
 }
 
@@ -139,7 +139,7 @@ bool Map::add_cons(Construction const& cons)
 	m_list_cons.push_back(new Construction (cons)) ;
 	(*m_map_cons)[pos] = m_list_cons.back() ;
 	m_free_pos->remove(pos) ;
-	add_cons_texture(cons) ;
+	ajouter_texture_objets(cons.getPos()) ;
 	return true ;
 }
 
@@ -178,8 +178,7 @@ void Map::add_symbol (SurfaceAffichage const& surface, MapPos const& pos, bool a
 	{
 		resest_texture(pos) ;
 		m_graphic_map->ajouter(surface) ;
-		add_cons_texture(cons_on(pos),false) ;
-		add_unit_texture(unit_on(pos)) ;
+		ajouter_texture_objets(pos) ;
 	}
 	else
 		ajouter(surface,pos) ;
@@ -192,8 +191,7 @@ void Map::delete_all_symbol() //Supprime tous les symboles de la map
 	{
 		pos = m_list_pos_symbol.back() ;
 		resest_texture(pos) ;
-		add_cons_texture(cons_on(pos),false) ;
-		add_unit_texture(unit_on(pos)) ;
+		ajouter_texture_objets(pos) ;
 		m_list_pos_symbol.pop_back() ;
 	}
 }
@@ -202,46 +200,41 @@ void Map::delete_all_symbol() //Supprime tous les symboles de la map
 
 
 
-
-
-
-void Map::add_unit_texture(Unit const& unit)
-{
-	ajouter(unit.getSurface(), unit.getPos()) ;
-}
-
-void Map::add_cons_texture(Construction const& cons, bool reecriture)
-{
-	MapPos const pos (cons.getPos()) ;
-	ajouter(cons.getSurface(), pos) ;
-	if (reecriture) // Faut-il réafficher une unité par dessus ?
-		add_unit_texture(unit_on(pos)) ;
-}
-
-
-
-void Map::add_unit_texture(Unit* punit){
-	if (punit != NULL)
-		add_unit_texture(*punit) ;}
-
-void Map::add_cons_texture(Construction* pcons, bool reecriture){
-	if (pcons != NULL)
-		add_cons_texture(*pcons, reecriture) ;}
-
-
-
-
 void Map::del_unit_texture(Unit const& unit)
 {
 	resest_texture(unit.getPos()) ;
-	add_cons_texture(cons_on(unit.getPos()), false) ;
+	ajouter_texture_objets(unit.getPos()) ;
 }
 
 void Map::del_cons_texture(Construction const& cons)
 {
 	resest_texture(cons.getPos()) ;
-	add_unit_texture(unit_on(cons.getPos())) ;
+	ajouter_texture_objets(cons.getPos()) ;
 }
+
+//Permet d'ajouter un graphisme sur une certaine case
+void Map::ajouter(SurfaceAffichage const& surf, MapPos const& pos)
+{
+	m_graphic_map->ajouter(surf, pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE) ;
+}
+
+void Map::ajouter_texture_objets(MapPos const& pos)
+{
+	Unit* pu = unit_on(pos) ;
+	if (pu != NULL)
+		add_unit_texture(*pu) ;
+
+	Construction* pc = cons_on(pos) ;
+	if (pc != NULL)
+		add_cons_texture(*pc) ;
+}
+
+
+
+
+
+
+
 
 
 //La map affiche le terrain sur cette case ce qui écrase et supprime tous les graphismes présents sur cette case
@@ -250,8 +243,13 @@ void Map::resest_texture(MapPos const& pos)
 	m_graphic_map->ajouter(m_terrain.sprite(), pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE, m_terrain.sprite_code(pos)) ; //Réecriture du terrain (effacer)
 }
 
-//Permet d'ajouter un graphisme sur une certaine case
-void Map::ajouter(SurfaceAffichage const& surf, MapPos const& pos)
+
+void Map::add_unit_texture(Unit const& unit)
 {
-	m_graphic_map->ajouter(surf, pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE) ;
+	ajouter(unit.getSurface(), unit.getPos()) ;
+}
+
+void Map::add_cons_texture(Construction const& cons)
+{
+	ajouter(cons.getSurface(), cons.getPos()) ;
 }

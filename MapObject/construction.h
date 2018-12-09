@@ -7,10 +7,17 @@
 #include "../MapObject/mapobject.h"
 #include "../MapClass/terrain.h"
 
-#define NB_COLOR 2
 
-#define NB_TYPE_CONSTRUCTION  1
-#define CONSTRUCTION_GROUND 0
+#define NB_TYPE_CONSTRUCTION 6
+
+#define CONSTRUCTION_CASTLE1  0
+#define CONSTRUCTION_CASTLE2  1
+#define CONSTRUCTION_ARCHERY1 2
+#define CONSTRUCTION_ARCHERY2 3
+#define CONSTRUCTION_FARM     4
+#define CONSTRUCTION_TOWER    5
+
+#define OBJECT_TYPE_CONSTRUCTION 1
 
 class Construction : public MapObject
 {
@@ -19,6 +26,8 @@ class Construction : public MapObject
         Construction(Construction const& aCopier) ;
 
         virtual SurfaceAffichage getSurface() const ;
+        virtual unsigned short type () const ;
+
         static std::string sprite_construction_path ;
 
     protected :

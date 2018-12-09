@@ -7,9 +7,12 @@
 
 #include <string>
 
+#define NB_COLOR 2
+
 class AbstractPlayer ;
 
-//La classe Abstraite MapObject représente toute les map
+//La classe Abstraite MapObject représente toutes les entités placées sur la map
+//En pratique il s'agit de la classe mère des classes d'unités et de constructions
 class MapObject
 {
 	public:
@@ -17,12 +20,16 @@ class MapObject
 		MapObject(MapObject const& aCopier) ;
 		virtual ~MapObject();
 		
+		//Récupérer la surface d'affichage pour éventuellement afficher l'objet sur la Map
 		virtual SurfaceAffichage getSurface() const = 0 ;
+		//Retourne le type d'objet, construction, unité ...
+		virtual unsigned short type () const = 0 ;
+
+		//accesseurs
 		MapPos const& getPos() const ;
 		AbstractPlayer* proprietaire () const ;
 
 	protected:
-
 		MapPos m_pos ;
 		AbstractPlayer * m_proprietaire ;
 } ;

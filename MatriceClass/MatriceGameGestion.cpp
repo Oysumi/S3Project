@@ -62,7 +62,7 @@ MatriceGameGestion::MatriceGameGestion() :
 void MatriceGameGestion::init()
 {
     //Création de la map (et chargement de tout le terrain et etc...)
-    m_map = new Map (35,15) ;
+    m_map = new Map (50,25) ;
 
     //Création des joueurs de la partie
     m_player_list = new std::vector <AbstractPlayer*> ;
@@ -73,13 +73,20 @@ void MatriceGameGestion::init()
     for (unsigned short i = 0 ; i < 10 && m_map->nb_free_pos() > 0 ; i++)
         m_map->add_unit( Unit(UNIT_CATAPULT,m_map->random_free_pos(),m_player_list->at(1) )) ;
     
-    for (unsigned short i = 0 ; i < 5 && m_map->nb_free_pos() > 0 ; i++)
-        m_map->add_cons( Construction(CONSTRUCTION_GROUND,m_map->random_free_pos(),m_player_list->at(0)) ) ;
+    for (unsigned short i = 0 ; i < 2 && m_map->nb_free_pos() > 0 ; i++)
+    {
+        m_map->add_cons( Construction(CONSTRUCTION_CASTLE1,m_map->random_free_pos(),m_player_list->at(i)) ) ;
+        m_map->add_cons( Construction(CONSTRUCTION_CASTLE2,m_map->random_free_pos(),m_player_list->at(i)) ) ;
+        m_map->add_cons( Construction(CONSTRUCTION_ARCHERY1,m_map->random_free_pos(),m_player_list->at(i)) ) ;
+        m_map->add_cons( Construction(CONSTRUCTION_ARCHERY2,m_map->random_free_pos(),m_player_list->at(i)) ) ;
+        m_map->add_cons( Construction(CONSTRUCTION_FARM,m_map->random_free_pos(),m_player_list->at(i)) ) ;
+        m_map->add_cons( Construction(CONSTRUCTION_TOWER,m_map->random_free_pos(),m_player_list->at(i)) ) ;
+    }
 
     for (unsigned short i = 0 ; i < 5 && m_map->nb_free_pos() > 0 ; i++)
     {
         MapPos pos (m_map->random_free_pos()) ;
-        m_map->add_cons( Construction(CONSTRUCTION_GROUND, pos, m_player_list->at(0)) ) ;
+        m_map->add_cons( Construction(CONSTRUCTION_TOWER, pos, m_player_list->at(0)) ) ;
         m_map->add_unit( Unit(UNIT_CATAPULT,pos,m_player_list->at(0)) ) ;
     }
 
@@ -94,7 +101,10 @@ void MatriceGameGestion::gameLoop()
     for( unsigned short i = 0 ; d.decision() != DECISION_QUITTER ; i= (i+1) % m_player_list->size())
     {
         m_current_player = m_player_list->at(i) ;
+        m_current_selection = NULL ;
+        m_map->delete_all_symbol() ; // On deselectionne l'unité en passant au joueur suivant
         updateDisplay() ; //On affiche la map
+
         while (d.decision() != DECISION_TOUR_SUIVANT && d.decision() != DECISION_QUITTER) // Tour d'un joueur
         {
             //Attente d'une decision de la part du joueur qu'il soit un Humain ou IA
@@ -105,7 +115,26 @@ void MatriceGameGestion::gameLoop()
             {
                 cout << d << endl ;
                 if (d.decision() == DECISION_CHANGE_SELECT_UNIT) //NOUVELLE SELECTION
-                    new_selection(d.target()) ;
+                {
+                    if (new_selection(d.target()))
+                    {
+                        if(m_current_selection->type() == OBJECT_TYPE_UNIT)
+                        {
+                            cout << "traitement selection unité at " << m_current_selection->getPos() << endl ;
+                            //Afficher les symboles pour indiquer les possible déplacement de l'unité
+                        }
+                        else if(m_current_selection->type() == OBJECT_TYPE_CONSTRUCTION)
+                        {
+                            cout << "traitement selection construction at " << m_current_selection->getPos() << endl ;
+
+                            /*
+                            ... Affichage d'un menu proposant plusieurs décisions possibles comme créer une catpaulte, ou rencforcer le chateau ...
+                            */
+                        }
+                    }
+                    else //La selection a la position demandée n'est pas possible
+                        warning_message("Player as try to select unit or construction at empty pos") ;
+                }
 
             }
             else // Le joueur n'a pas réellement pris de décision, ce n'est pas normal
@@ -114,37 +143,45 @@ void MatriceGameGestion::gameLoop()
     }
 }
 
-void MatriceGameGestion::new_selection(MapPos const pos)
+bool MatriceGameGestion::new_selection(MapPos const pos)
 {
     //On charge les symboles que la Matrice est susceptible de rajouter sur la Map
     Texture selection_current_player ("../ressources/green_circle.bmp") ;
     Texture selection_enemy ("../ressources/red_circle.bmp") ;
 
-    AbstractPlayer* select ; // a quel joueur appartient l'unite ou la construction selectionnée ?
+    MapObject* new_selection ;
+    //Selection de la construction ou de l'unité ?
     if (m_map->unit_on(pos) != NULL)
-        select = m_map->unit_on(pos)->proprietaire() ;
-    else
-        select = m_map->cons_on(pos)->proprietaire() ;
+        new_selection = m_map->unit_on(pos) ;
+    if (m_map->cons_on(pos) != NULL) //Par défault c'est plutôt la construction de la case qui sera sélectionée (affection après <=> écraser)
+        new_selection = m_map->cons_on(pos) ;
+    //Mais si il y a une construction actuellement séléctionnée à cette position, le joueur tente de selectionner l'unité de cette case
+    if (m_map->cons_on(pos) != NULL && m_map->cons_on(pos) == m_current_selection)
+        new_selection = m_map->unit_on(pos) ;
 
-    if (select != NULL) // si il y a bien une unite ou une construction à cette position selectionee
+
+    if (new_selection != NULL) // si il y a bien une unite ou une construction à cette position selectionee
     {
-        SurfaceAffichage* selection_symbol ;
+        // a quel joueur appartient l'unite ou la construction selectionnée ?
+        AbstractPlayer* select_player = new_selection->proprietaire() ;
 
-        if (select == m_current_player) // cette unite ou cette construction appartient t-elle au joueur en train de faire son tour ?
+        SurfaceAffichage* selection_symbol ;
+        if (select_player == m_current_player) // cette unite ou cette construction appartient t-elle au joueur en train de faire son tour ?
             selection_symbol = new SurfaceAffichage(selection_current_player) ;
         else
             selection_symbol = new SurfaceAffichage(selection_enemy) ;
 
+        m_current_selection = new_selection ;
         // dans tous les cas on affiche le cercle de selection
         selection_symbol->rendre_transparente() ;
         m_map->delete_all_symbol() ;
         m_map->add_symbol(*selection_symbol,pos) ;
         delete(selection_symbol) ;
         updateDisplay() ;
-    }
+        return true ;
 
-    else // Si le joueur a demandé à selectionner une unité ou une construction sur une position vide, anormal
-        warning_message("Player as try to select unit or construction at empty pos") ;
+    }
+    return false ;
 }
 
 //Affiche simplement la partie de la map voulue (et définie par m_scroll) sur la fenetre du jeu

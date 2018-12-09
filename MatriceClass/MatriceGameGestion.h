@@ -41,9 +41,11 @@ class MatriceGameGestion
 		std::vector <AbstractPlayer*> * m_player_list ;
 		AbstractPlayer* m_current_player ;
 
+		MapObject* m_current_selection ;
+
 	private :
 		void updateDisplay() ;
-		void new_selection(MapPos const pos) ;
+		bool new_selection(MapPos const pos) ;
 		//void moveUnit() ;
 		//void defeatPlayer() ;
 		//void winPlayer() ;

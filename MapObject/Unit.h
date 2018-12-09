@@ -7,11 +7,11 @@
 #include "../MapClass/terrain.h"
 #include <string>
 
-#define NB_COLOR 2
-
 #define NB_TYPE_UNIT  2
 #define UNIT_CATAPULT 0
 #define UNIT_BALISTE  1
+
+#define OBJECT_TYPE_UNIT 0
 
 class AbstractPlayer ;
 
@@ -22,6 +22,9 @@ class Unit : public MapObject
 		Unit(Unit const& aCopier) ;
 
 		virtual SurfaceAffichage getSurface() const ;
+		virtual unsigned short type () const ;
+
+		bool deplacer(MapPos const& pos) ;
 
 		static std::string sprite_unit_path ;
 
