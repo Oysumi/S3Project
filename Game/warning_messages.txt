@@ -1,0 +1,1 @@
+Player as try to select unit or construction at empty pos

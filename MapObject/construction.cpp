@@ -23,6 +23,11 @@ SurfaceAffichage Construction::getSurface() const
 	return s ;
 }
 
+void Construction::capture_by (AbstractPlayer * new_propietaire)
+{
+	m_proprietaire = new_propietaire ;
+}
+
 bool Construction::canMove () const
 {
 	return false ;

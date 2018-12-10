@@ -20,19 +20,26 @@ class AbstractButton
 		SDL_Color m_text_color ;
 		
 	public:
+		//GETTERS
 		unsigned int getPosX() const ;
 		unsigned int getPosY() const ;
 		unsigned int getWidth() const ;
 		unsigned int getHeight() const ;
 		int getID() const ;
-		void setPosX(unsigned int x) ;
-		void setPosY(unsigned int y) ;
-		void setText(std::string text) ;
-		virtual void displayButton(Fenetre screen) = 0 ;
-		virtual SurfaceAffichage getSurfaceAffichage() = 0 ;
 		SDL_Color getBackColor() const ;
 		SDL_Color getTextColor() const ;
 		const char * getText() const ;
+
+		//SETTERS
+		void setPosX(unsigned int x) ;
+		void setPosY(unsigned int y) ;
+		void setText(std::string text) ;
+
+		//Méthodes virtuelles pures
+		virtual void displayButton(Fenetre screen) = 0 ;
+		virtual SurfaceAffichage getSurfaceAffichage() = 0 ;
+
+		// destructeur
 		virtual ~AbstractButton() ;
 
 		// à définir méthode virtuelle qui renvoit la surface d'affichage du bouton

@@ -29,6 +29,8 @@ class Construction : public MapObject
         virtual unsigned short type () const ;
         virtual bool canMove () const ;
 
+        void capture_by (AbstractPlayer * new_propietaire) ;
+
         static std::string sprite_construction_path ;
 
     protected :

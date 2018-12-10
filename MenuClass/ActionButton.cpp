@@ -73,16 +73,6 @@ void ActionButton::setButtonColors(SDL_Color background, SDL_Color text)
  *                                                  GETTERS                                                   *
  **************************************************************************************************************/
 
-unsigned short int ActionButton::getPosX() const
-{
-	return this->m_posx ;
-}
-
-unsigned short int ActionButton::getPosY() const
-{
-	return this->m_posy ;
-}
-
 SurfaceAffichage ActionButton::getSurfaceAffichage()
 {
 	SurfaceAffichage surface(m_width, m_height) ;

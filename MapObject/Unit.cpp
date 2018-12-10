@@ -39,9 +39,16 @@ void Unit::reset_deplacement()
 	m_deplacement = m_vitesse ;
 }
 
-bool Unit::move(MapPos const& pos)
+bool Unit::canMove_at (MapPos const& pos) const
 {
 	if (pos != m_pos && pos.adjacent(m_pos, m_deplacement))
+		return true ;
+	return false ;
+}
+
+bool Unit::move(MapPos const& pos)
+{
+	if (canMove_at(pos))
 	{
 		m_deplacement -= m_pos.separation_value(pos) ;
 		m_pos = pos ;

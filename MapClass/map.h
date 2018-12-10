@@ -47,7 +47,9 @@ class Map
         bool add_unit (Unit const& unit) ;
         bool add_cons (Construction const& cons) ;
 
-        bool move_unit_at(MapPos const& source, MapPos const& destination) ;
+        bool del_unit (Unit const& unit) ;
+
+        bool move_unit_at(MapPos const& source, MapPos const& destination, bool erase_source_unit = false) ;
 
         void add_symbol (SurfaceAffichage const& surface, MapPos const& pos, bool audessus = true) ;
         void delete_all_symbol() ;
@@ -71,6 +73,8 @@ class Map
         unsigned int nb_free_pos () const ;
 
         bool terrain_adapt_to_unit(MapPos const& pos, Unit const& unit) const ;
+
+        unsigned short nb_construction_of(AbstractPlayer* player) const ;
 
     private : // III) Méthodes privées permettant surtout de gérer les différents affichages simplement
         void ajouter_texture_objets(MapPos const& pos) ;

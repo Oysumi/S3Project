@@ -2,33 +2,14 @@
 #include "../MapClass/map.h"
 using namespace std ;
 
-Selection::Selection(MapObject* selection, Map const& map, AbstractPlayer* current_player)
+Selection::Selection(MapObject* selection)
 {
 	m_selection = selection ;
     m_possible_to_move = NULL ;
 	if (m_selection->type() == OBJECT_TYPE_UNIT)
 	{
 		m_select_unit = dynamic_cast<Unit*> (m_selection) ;
-
-		MapPos const pos(m_select_unit->getPos()), out(map.posOut()) ;
-		vector <MapPos> adjacent ;
-
-        if (m_select_unit->proprietaire() == current_player)
-        {
-            if (pos.x() > 0)
-                adjacent.push_back(MapPos(pos.x()-1,pos.y())) ;
-            if (pos.x()+1 < out.x())
-                adjacent.push_back(MapPos(pos.x()+1,pos.y())) ;
-            if (pos.y() > 0)
-                adjacent.push_back(MapPos(pos.x(),pos.y()-1)) ;
-            if (pos.y()+1 < out.y())
-                adjacent.push_back(MapPos(pos.x(),pos.y()+1)) ;
-
-            m_possible_to_move = new std::vector <MapPos> ;
-            for (unsigned short i = 0 ; i < adjacent.size() ; i++)
-                if (map.terrain_adapt_to_unit(adjacent[i], *m_select_unit) && !map.have_unit_on(adjacent[i]))
-                    m_possible_to_move->push_back(adjacent[i]) ;
-        }
+        m_possible_to_move = new vector <MapPos> ;
 	}
     m_valid = true ;
 }
@@ -52,6 +33,14 @@ Selection::~Selection()
         delete(m_possible_to_move) ;
         m_possible_to_move = NULL ;
     }
+}
+
+bool Selection::add_possible_move_for_select_unit(MapPos const& pos)
+{
+    if(!m_valid || m_possible_to_move == NULL)
+        return false ;
+    m_possible_to_move->push_back(pos) ;
+    return true ;
 }
 
 bool Selection::possible_move_at (MapPos const& pos) const
@@ -82,7 +71,7 @@ MapObject* Selection::value()
 }
 
 //Si l'objet selectionné est une unité
-vector <MapPos> Selection::possible_to_move_unit () const
+vector <MapPos> Selection::possible_move_for_unit () const
 {
 	return *m_possible_to_move ;
 }
@@ -97,7 +86,7 @@ AbstractPlayer* Selection::proprietaire_objet()
     return m_selection->proprietaire() ;
 }
 
-Unit const& Selection::see_select_unit() const
+Unit const& Selection::seeUnit() const
 {
 	return *m_select_unit ;
 }

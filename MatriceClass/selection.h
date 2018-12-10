@@ -15,20 +15,27 @@ class AbstractPlayer ;
 class Selection
 {
 	public:
-		Selection(MapObject* selection, Map const& map, AbstractPlayer* current_player) ;
+		Selection(MapObject* selection) ;
 		Selection() ;
 		~Selection() ;
+
+		//vérifier si cette selection est valable
 		bool valid () const ;
 
+		//méthodes constantes
 		unsigned short type () const ;
 		MapPos getPos () const ;
+
+		//A utiliser si l'objet selectionné est une unité
+		Unit const& seeUnit() const ;
+		std::vector <MapPos> possible_move_for_unit () const ;
+		bool possible_move_at (MapPos const& pos) const ;
+		
+		//Méthodes pour la matrice
+		Unit* unit() ;
 		MapObject* value() ; //Permet de modifier l'unité du pointeur donc méthode non constante
 		AbstractPlayer* proprietaire_objet() ;
-		//Si l'objet selectionné est une unité
-		std::vector <MapPos> possible_to_move_unit () const ;
-		bool possible_move_at (MapPos const& pos) const ;
-		Unit const& see_select_unit() const ;
-		Unit* unit() ;
+		bool add_possible_move_for_select_unit(MapPos const& pos) ;
 		
 	private :
 		MapObject* m_selection ;

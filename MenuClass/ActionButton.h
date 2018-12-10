@@ -12,20 +12,14 @@ class ActionButton : public AbstractButton
 		ActionButton(unsigned short int idToSet) ;
 		ActionButton(unsigned short int idToSet, const char * textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) ;
 		ActionButton(unsigned short int idToSet, std::string textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text) ;
-
-		// Getters
-		unsigned short int getWidth() const ;
-		unsigned short int getHeight() const ;
-		unsigned short int getPosX() const ;
-		unsigned short int getPosY() const ;
-		
-		// Actions
-		SurfaceAffichage getSurfaceAffichage() ;
-		void displayButton(Fenetre screen) ; 
 		~ActionButton() ;
 
+		// Actions
+		virtual SurfaceAffichage getSurfaceAffichage() ;
+		virtual void displayButton(Fenetre screen) ; 
+
 	protected:
-		// Setters
+		// Setters non publics
 		void setId(unsigned short int idToSet) ;
 		void setSize(unsigned short int width, unsigned short int height) ;
 		void setPos(unsigned short int pos_x, unsigned short int pos_y) ;

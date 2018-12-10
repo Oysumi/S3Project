@@ -2,6 +2,10 @@
 
 using namespace std ;
 
+/**************************************************************************************************************
+ *                                                  GETTERS                                                   *
+ **************************************************************************************************************/
+
 unsigned int AbstractButton::getPosX() const
 {
 	return this->m_posx ;
@@ -27,21 +31,6 @@ int AbstractButton::getID() const
 	return this->m_id ;
 }
 
-void AbstractButton::setPosX(unsigned int x)
-{
-	m_posx = x ;
-}
-
-void AbstractButton::setPosY(unsigned int y)
-{
-	m_posy = y ;
-}
-
-void AbstractButton::setText(std::string text)
-{
-	m_text = text ;
-}
-
 SDL_Color AbstractButton::getBackColor() const
 {
 	return this->m_back_color ;
@@ -57,4 +46,25 @@ const char * AbstractButton::getText() const
 	return m_text.c_str() ;
 }
 
+/**************************************************************************************************************
+ *                                                  SETTERS                                                   *
+ **************************************************************************************************************/
+
+void AbstractButton::setPosX(unsigned int x)
+{
+	m_posx = x ;
+}
+
+void AbstractButton::setPosY(unsigned int y)
+{
+	m_posy = y ;
+}
+
+void AbstractButton::setText(std::string text)
+{
+	m_text = text ;
+}
+
+
+//DESTRUCTEUR
 AbstractButton::~AbstractButton() { };

@@ -37,14 +37,16 @@ class MatriceGameGestion
 		données de la Map que le joueur ne peut pas modifier directement mais seulement lire */
 		std::vector <AbstractPlayer*> * m_player_list ;
 		std::map <AbstractPlayer*, unsigned short> m_player_gold ;
-		AbstractPlayer* m_current_player ;
+		AbstractPlayer* m_current_player_turn ;
 		unsigned short m_tour ;
+		bool m_fin_de_la_partie ;
 
 		Selection* m_current_selection ;
 
 	private :
 		bool new_selection(MapPos const pos, bool force_unit = false) ;
 		void selection_unit() ;
+		void verification_defaite() ;
 		//void defeatPlayer() ;
 		//void winPlayer() ;
 

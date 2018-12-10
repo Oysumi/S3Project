@@ -25,8 +25,10 @@ class Unit : public MapObject
 		virtual unsigned short type () const ;
 		virtual bool canMove () const ;
 
-		void reset_deplacement() ;
+		bool canMove_at (MapPos const& pos) const ;
+
 		bool move(MapPos const& pos) ;
+		void reset_deplacement() ;
 
 		static std::string sprite_unit_path ;
 

@@ -104,6 +104,17 @@ bool Map::terrain_adapt_to_unit(MapPos const& pos, Unit const& unit) const
 	return m_terrain.sprite_code(pos) == GRASS ;
 }
 
+unsigned short Map::nb_construction_of(AbstractPlayer* player) const
+{
+	unsigned short compt = 0 ;
+	for (unsigned short i = 0 ; i < m_list_cons.size() ; i++)
+		if (m_list_cons[i]->proprietaire() == player)
+			compt ++ ;
+	return compt ;
+}
+
+
+
 bool Map::add_unit (Unit const& unit)
 {
 	MapPos pos (unit.getPos()) ;
@@ -125,6 +136,37 @@ bool Map::add_unit (Unit const& unit)
 	(*m_map_unit)[pos] = m_list_unit.back() ;
 	m_free_pos->remove(pos) ;
 	ajouter_texture_objets(unit.getPos()) ;
+	return true ;
+}
+
+bool Map::del_unit (Unit const& unit)
+{
+	MapPos const pos (unit.getPos()) ;
+	
+	if (!have_unit_on(pos)) // Aucune unité à supprimer
+		return false ;
+
+	Unit* pu = unit_on(pos); // On prend le pointeur de l'unité à cette position
+	
+	//Supression de la mémoire et du vecteur
+	bool suppression = false ;
+	for (vector<Unit*>::iterator it = m_list_unit.begin() ; it != m_list_unit.end() ; it++)
+		if(*it == pu)
+		{
+			if(!suppression)
+				delete(pu) ;
+			suppression = true ;
+			m_list_unit.erase(it) ;
+		}
+	//supression de l'association avec la position
+	m_map_unit->erase(pos) ;
+
+	//libération de la case si elle l'est
+	if (!have_cons_on(pos) && m_terrain.sprite_code(pos)==GRASS) //Si la position est libre, on l'ajoute
+		m_free_pos->push_back(pos) ;
+
+	//mises à jour des textures
+	actualiser(pos) ;
 	return true ;
 }
 
@@ -152,13 +194,20 @@ bool Map::add_cons(Construction const& cons)
 	return true ;
 }
 
-bool Map::move_unit_at(MapPos const& source, MapPos const& destination)
+bool Map::move_unit_at(MapPos const& source, MapPos const& destination, bool erase_source_unit)
 {
-	if (!have_unit_on(source)) // Aucune unité à déplacer
+	if (!have_unit_on(source)) // Y a t-il une unité ?
 		return false ;
+
+	Unit* u = unit_on(source) ; // Si oui on prend cette unité
+	
+	//Si l'unité peut bouger et doit détruire l'autre à son arrivée
+	if (u->canMove_at(destination) && erase_source_unit && have_unit_on(destination))
+		del_unit(*unit_on(destination)) ; //Alors on la supprime avant d'y placer la nouvelle unité
+
 	if (have_unit_on(destination)) // Déjà une unité à l'emplacement de destination
 		return false ;
-	Unit* u = unit_on(source) ;
+
 	bool result = u->move(destination) ;
 	if (!result) // L'unité ne peut pas effectuer ce déplacement
 		return false ;
@@ -175,6 +224,7 @@ bool Map::move_unit_at(MapPos const& source, MapPos const& destination)
 	//mises à jour des textures
 	actualiser(source) ;
 	actualiser(destination) ;
+	
 	return true ;
 }
 
@@ -253,8 +303,6 @@ void Map::delete_all_symbol() //Supprime tous les symboles de la map
 		m_list_pos_symbol.pop_back() ;
 	}
 }
-
-
 
 
 
