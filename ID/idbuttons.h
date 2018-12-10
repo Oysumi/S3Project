@@ -5,6 +5,8 @@
 #define HAUTEUR_MENU1 100
 #define LARGEUR_MENU2 200
 #define HAUTEUR_MENU2 60
+#define LARGEUR_MENU3 200
+#define HAUTEUR_MENU3 60
 
 #define NOTHING 100
 
@@ -20,5 +22,10 @@
 #define CREATION 9
 #define CREER_UNITE 10
 #define CREER_CONSTRUCTION 11
+#define SELECTION 12
+#define ARCHER 13
+#define CATAPULTE 14
+#define CHATEAU 15
+#define FERME 16
 
 #endif

@@ -52,12 +52,26 @@ MatriceGameGestion::MatriceGameGestion() :
     decisionButtons.push_back((*m_all_buttons)[FERMER]);
     m_saveMenu.push_back(new Menu (decisionButtons, 0, 0, font_menu, ATTACK_MENU)) ;
 
-    // Création et ajout dans le mémoire du menu création (construction, unité...)
+    // Création et ajout dans la mémoire du menu création (construction, unité...)
     vector<AbstractButton*> constructionButtons ;
     constructionButtons.push_back((*m_all_buttons)[CREATION]);
     constructionButtons.push_back((*m_all_buttons)[CREER_UNITE]);
     constructionButtons.push_back((*m_all_buttons)[CREER_CONSTRUCTION]);
     m_saveMenu.push_back(new Menu (constructionButtons, 0, 500, font_menu, CREATION_MENU));
+    
+    // Création et ajout dans la mémoire du menu selection spécifique aux unités
+    vector<AbstractButton*> unitButtons ;
+    unitButtons.push_back((*m_all_buttons)[SELECTION]);
+    unitButtons.push_back((*m_all_buttons)[ARCHER]);
+    unitButtons.push_back((*m_all_buttons)[CATAPULTE]);
+    m_saveMenu.push_back(new Menu (unitButtons, 0, 500, font_menu, UNITES_MENU));
+
+    // Création et ajout dans la mémoire du menu selection spécifique aux constructions
+    vector<AbstractButton*> consButtons ;
+    consButtons.push_back((*m_all_buttons)[SELECTION]);
+    consButtons.push_back((*m_all_buttons)[CHATEAU]);
+    consButtons.push_back((*m_all_buttons)[FERME]);
+    m_saveMenu.push_back(new Menu (consButtons, 0, 500, font_menu, CONS_MENU));
     
     // On initialise tous les choix possibles
     Decision::init_list_of_choice() ;
