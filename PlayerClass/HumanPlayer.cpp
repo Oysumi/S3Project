@@ -14,6 +14,8 @@
 
 using namespace std ;
 
+bool debug = false ;
+
 HumanPlayer::HumanPlayer(string name, unsigned short color_id) : AbstractPlayer(name,color_id%NB_COLOR)
 {
     m_gauche_ecran = false ;
@@ -116,7 +118,8 @@ Decision HumanPlayer::takeDecision(
                         else if(Menu::getIdButtonOn(event.motion.x,event.motion.y)==FIN_DU_TOUR)
                             decision_retour.set_decision(DECISION_TOUR_SUIVANT) ;
                         else
-                            cout << "MENU CLICK" << endl ;
+                            if (debug)
+                                cout << "MENU CLICK" << endl ;
                     }
                     else //GESTION CLICS SUR lA MAP
                     {

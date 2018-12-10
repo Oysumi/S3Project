@@ -20,6 +20,7 @@ using namespace std;
 
 #define BEGIN_GOLD 200
 
+bool debugage = false ;
 
 //Initialise le programme, fenetre, menus, boutons ...
 MatriceGameGestion::MatriceGameGestion() :
@@ -133,7 +134,8 @@ void MatriceGameGestion::gameLoop()
             //Traitement des autres decisions
             else
             {
-                cout << d << endl ;
+                if (debugage)
+                    cout << d << endl ;
 
                 //SELECTION D'UNE NOUVELLE UNITE OU D'UNE NOUVELLE CONSTRUCTION
                 if (d.decision() == DECISION_CHANGE_SELECT_UNIT)
