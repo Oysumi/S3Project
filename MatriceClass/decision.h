@@ -23,7 +23,7 @@ class Decision
 		static void add_choice(std::string name, bool choice_need_pos) ;
 		static void init_list_of_choice() ;
 
-		static std::vector<std::pair<std::string,bool>> list_of_choice ;
+		static std::vector<std::pair<std::string,bool> > list_of_choice ;
 
 	private :
 		void afficher(std::ostream &flux) const;

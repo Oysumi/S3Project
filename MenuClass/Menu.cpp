@@ -132,7 +132,7 @@ void Menu::displayMenu(Fenetre& screen)
 			erreur_message("Impossible de colorer l'un des boutons du menu :  " + string(SDL_GetError())) ;
 
     	screen.ajouter(bouton, posX, posY) ;
-    	Texte text(b->getText(),b->getTextColor()) ;
+    	Texte text(b->getText(),b->getTextColor(), b->sizeText()) ;
     	text.displayText(screen, b) ;
     }
 

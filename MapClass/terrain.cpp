@@ -123,7 +123,6 @@ Terrain::Terrain (unsigned short const& width, unsigned int const& height, std::
     debugage_message(texte) ;
     free_pos = new list <MapPos> ;
     generer_le_terrain(texte, free_pos) ;
-
 }
 
 //DESTRUCTEUR

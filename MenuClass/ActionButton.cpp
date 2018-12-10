@@ -19,14 +19,15 @@ ActionButton::ActionButton(unsigned short int idToSet)
 	m_id = idToSet ;
 }
 
-ActionButton::ActionButton(unsigned short int idToSet, const char * textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text)
-: ActionButton(idToSet, string(textToWrite), width, height, pos_x, pos_y, back, text)
+ActionButton::ActionButton(unsigned short int idToSet, const char * textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text, int size_text)
+: ActionButton(idToSet, string(textToWrite), width, height, pos_x, pos_y, back, text, size_text)
 {}
 
-ActionButton::ActionButton(unsigned short int idToSet, string textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text)
+ActionButton::ActionButton(unsigned short int idToSet, string textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text, int size_text)
 {
 	m_id = idToSet ;
 	m_text = textToWrite ;
+  m_sizeText = size_text ;
 	this->setSize(width, height) ;
 	this->setPos(pos_x, pos_y) ;
 	this->setButtonColors(back, text) ;

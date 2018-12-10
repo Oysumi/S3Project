@@ -11,7 +11,7 @@
 
 using namespace std;
 
-#define SCREEN_WIDTH 1280
+#define SCREEN_WIDTH 1080
 #define SCREEN_HEIGHT 720
 
 #define SCROOL_ZONE 15
@@ -25,7 +25,7 @@ using namespace std;
 
 //Initialise le programme, fenetre, menus, boutons ...
 MatriceGameGestion::MatriceGameGestion() :
-    m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF)
+    m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN)
 {
     // Création des boutons
     m_all_buttons = new vector<AbstractButton*> ;
@@ -52,7 +52,14 @@ MatriceGameGestion::MatriceGameGestion() :
     decisionButtons.push_back((*m_all_buttons)[FERMER]);
     m_saveMenu.push_back(new Menu (decisionButtons, 0, 0, font_menu, ATTACK_MENU)) ;
 
-    //On initialise tous les choix possibles
+    // Création et ajout dans le mémoire du menu création (construction, unité...)
+    vector<AbstractButton*> constructionButtons ;
+    constructionButtons.push_back((*m_all_buttons)[CREATION]);
+    constructionButtons.push_back((*m_all_buttons)[CREER_UNITE]);
+    constructionButtons.push_back((*m_all_buttons)[CREER_CONSTRUCTION]);
+    m_saveMenu.push_back(new Menu (constructionButtons, 0, 0, font_menu, CREATION_MENU));
+    
+    // On initialise tous les choix possibles
     Decision::init_list_of_choice() ;
     m_current_selection = NULL ;
 
@@ -340,7 +347,7 @@ void MatriceGameGestion::updateDisplay()
     SurfaceAffichage gold ("../ressources/metal.bmp") ;
     gold.rendre_transparente() ;
     m_fenetre.ajouter(gold,1,0) ;
-    m_fenetre.ajouter(Texte(std::to_string(m_player_gold[m_current_player_turn]),SDL_Color({50,220,220})).surfaceAffichage(), 72, 1) ;
+    m_fenetre.ajouter(Texte(std::to_string(m_player_gold[m_current_player_turn]),SDL_Color({252, 210, 28})).surfaceAffichage(), 72, 1) ;
     if (Menu::isAMenuOpened())
         Menu::keepOpened(m_fenetre);
     m_fenetre.actualiser() ;

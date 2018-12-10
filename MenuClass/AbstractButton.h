@@ -15,6 +15,7 @@ class AbstractButton
 		unsigned int m_posx ;
 		unsigned int m_posy ;
 		int m_id ;
+    int m_sizeText ;  // Taille du texte pour les boutons
 		std::string m_text ;
 		SDL_Color m_back_color ;
 		SDL_Color m_text_color ;
@@ -29,6 +30,7 @@ class AbstractButton
 		SDL_Color getBackColor() const ;
 		SDL_Color getTextColor() const ;
 		const char * getText() const ;
+    int sizeText() const ;
 
 		//SETTERS
 		void setPosX(unsigned int x) ;

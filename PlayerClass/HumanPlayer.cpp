@@ -55,6 +55,10 @@ Decision HumanPlayer::takeDecision(
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym)
                     {
+                      case SDLK_x :
+                        Menu::openMenu(CREATION_MENU, fenetre);
+                        break;
+                        
                         case SDLK_ESCAPE: // Si le joueur ouvre le menu principal
                             changement = true ;
                             Menu::openMenu(ESCAPE_MENU, fenetre);

@@ -51,7 +51,7 @@ $(BIN): $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) \
 		$(MATRICEh) $(TERRh) $(TEXTEh) $(MAPh) $(CONSh) $(POSh) $(REMPLIh) $(OBJMOBh) $(DECh) $(SELh) \
 		$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(ACTBUTTONcpp) \
 		$(ABSBUTTONcpp) $(MENUcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(REMPLIcpp) $(MAINcpp)
-	g++ -Wall -g -lSDL $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(UNITh) $(ABPLAYERh) $(HUMPLAYERh) $(ARTPLAYERh) \
+	g++ -std=c++11 -Wall -g -lSDL $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(UNITh) $(ABPLAYERh) $(HUMPLAYERh) $(ARTPLAYERh) \
 				    $(ACTBUTTONh) $(ABUTONh) $(SUBMENUh) $(MENUh) $(MATRICEh) $(TERRh) $(TEXTEh) $(REMPLIh) \
 					$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ABPLAYERcpp) $(UNITcpp) $(ARTPLAYERcpp) $(MENUcpp) \
 					$(ABSBUTTONcpp) $(ACTBUTTONcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(REMPLIcpp) $(OBJMOBcpp) $(DECcpp) $(SELcpp) $(MAPcpp) $(CONScpp) $(POScpp) $(MAINcpp) \
