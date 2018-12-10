@@ -19,7 +19,7 @@ void remplissage(vector<AbstractButton*>* bouton)
   bouton->push_back(new ActionButton(FERMER, "FERMER", 200, 100, 110, 110, font, text)) ;
   bouton->push_back(new ActionButton(FIN_DU_TOUR, "Fin du tour", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, font, text)) ;
   bouton->push_back(new ActionButton(AFFICHAGE, "Tour de ", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, text, font)) ;
-  bouton->push_back(new ActionButton(CREATION, "Creation de :", LARGEUR_MENU2, HAUTEUR_MENU2, 110, 110, text, font, 15));
-  bouton->push_back(new ActionButton(CREER_UNITE, "Unite", LARGEUR_MENU2, HAUTEUR_MENU2, 110, 110, font, text, 15));
-  bouton->push_back(new ActionButton(CREER_CONSTRUCTION, "Construction", LARGEUR_MENU2, HAUTEUR_MENU2, 110, 110, font, text, 15));
+  bouton->push_back(new ActionButton(CREATION, "Creation de :", LARGEUR_MENU2, HAUTEUR_MENU2, 50, 50, text, font, 15));
+  bouton->push_back(new ActionButton(CREER_UNITE, "Unite", LARGEUR_MENU2, HAUTEUR_MENU2, 50, 50, font, text, 15));
+  bouton->push_back(new ActionButton(CREER_CONSTRUCTION, "Construction", LARGEUR_MENU2, HAUTEUR_MENU2, 50, 50, font, text, 15));
 }

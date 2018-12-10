@@ -57,7 +57,7 @@ MatriceGameGestion::MatriceGameGestion() :
     constructionButtons.push_back((*m_all_buttons)[CREATION]);
     constructionButtons.push_back((*m_all_buttons)[CREER_UNITE]);
     constructionButtons.push_back((*m_all_buttons)[CREER_CONSTRUCTION]);
-    m_saveMenu.push_back(new Menu (constructionButtons, 0, 0, font_menu, CREATION_MENU));
+    m_saveMenu.push_back(new Menu (constructionButtons, 0, 500, font_menu, CREATION_MENU));
     
     // On initialise tous les choix possibles
     Decision::init_list_of_choice() ;
