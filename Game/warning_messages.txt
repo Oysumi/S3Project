@@ -1,23 +1,89 @@
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructions.bmp qui n'existe pas
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()
+~SurfaceAffichage()

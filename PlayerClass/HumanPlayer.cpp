@@ -31,6 +31,7 @@ Decision HumanPlayer::takeDecision(
             SDL_Rect& scroll //Permet juste à la matrice de savoir où regarde le joueur
             )
 {
+
     bool changement ;
 
     SDL_Event event ; 
@@ -116,8 +117,6 @@ Decision HumanPlayer::takeDecision(
                         }
                         else if(Menu::getIdButtonOn(event.motion.x,event.motion.y)==FIN_DU_TOUR)
                             decision_retour.set_decision(DECISION_TOUR_SUIVANT) ;
-                        else
-                            cout << "MENU CLICK" << endl ;
                     }
                     else //GESTION CLICS SUR lA MAP
                     {

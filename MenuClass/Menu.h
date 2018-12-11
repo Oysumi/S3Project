@@ -11,6 +11,7 @@
 class Menu
 {
 	protected:
+		SurfaceAffichage* m_surface ;
 		std::vector<AbstractButton*> m_myButtons ;
 		unsigned short int m_height ;
 		unsigned short int m_width ;
@@ -26,7 +27,7 @@ class Menu
 		static std::vector<Menu*> allMenu ;
 
 	private:
-		void calculPosButton(std::vector<AbstractButton*> buttons) ;
+		void calculPosButton(std::vector<AbstractButton*> const& buttons) ;
 		bool clickIsOnThisMenu(unsigned int x, unsigned int y) ;
 		int receiveAction(unsigned int x, unsigned int y);
 	
@@ -34,16 +35,16 @@ class Menu
 		static std::vector <Menu*>* getAllMenu(std::vector <AbstractButton*> const& all_buttons, unsigned short const width, unsigned short const height) ;
 
 		Menu(); 
-		Menu(std::vector<AbstractButton*> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id) ;
-		SurfaceAffichage getMenu() ;
+		Menu(std::vector<AbstractButton*> const& buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id) ;
+		SurfaceAffichage const& getMenu() const ;
 		~Menu();
-		SDL_Color getColor() ;
+		SDL_Color getColor() const ;
 		unsigned short getPosX() const ;
 		unsigned short getPosY() const ;
-		void displayMenu(Fenetre& screen) ;
-		int getID() ;
+		void displayMenu(Fenetre& screen) const ;
+		int getID() const ;
 		void openCloseMenu();
-		bool isOpen() ;
+		bool isOpen() const ;
 		bool setTextButton(unsigned short nb, std::string const& text) ;
 		
 		static void openMenu(int id, Fenetre& screen) ;

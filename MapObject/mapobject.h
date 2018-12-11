@@ -21,7 +21,7 @@ class MapObject
 		virtual ~MapObject();
 		
 		//Récupérer la surface d'affichage pour éventuellement afficher l'objet sur la Map
-		virtual SurfaceAffichage getSurface() const = 0 ;
+		virtual SurfaceAffichage const& getSurface() const = 0 ;
 		//Retourne le type d'objet, construction, unité ...
 		virtual unsigned short type () const = 0 ;
 		virtual bool canMove () const = 0 ;

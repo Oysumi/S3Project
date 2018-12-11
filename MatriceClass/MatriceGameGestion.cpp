@@ -48,6 +48,8 @@ MatriceGameGestion::MatriceGameGestion() :
     m_scroll.h = SCREEN_HEIGHT ;
     m_scroll.w = SCREEN_WIDTH ;
 
+    debugage_message("Matrice construite") ;
+
 }
 
 //initialise la partie, génération du terrain, créations des unités et joueurs ...
@@ -68,6 +70,7 @@ void MatriceGameGestion::init()
 
     m_fin_de_la_partie = false ;
 
+    debugage_message("Matrice initialisée pour une partie") ;
 }
 
 void MatriceGameGestion::addPlayer(string name)
@@ -76,15 +79,15 @@ void MatriceGameGestion::addPlayer(string name)
     m_player_gold[m_player_list->back()] = BEGIN_GOLD ;
 
     //Création de quelques unités
-    for (unsigned short i = 0 ; i < 5 && m_map->nb_free_pos() > 0 ; i++)
-        m_map->add_unit( Unit(UNIT_CATAPULT,m_map->random_free_pos(),m_player_list->back() )) ;
+    for (unsigned short type = 0 ; type < NB_TYPE_UNIT && m_map->nb_free_pos() > 0 ; type++)
+        m_map->add_unit( Unit(type,m_map->random_free_pos(),m_player_list->back() )) ;
     
     //Création des batiments
     for (unsigned short type_construction = 0 ; type_construction < NB_TYPE_CONSTRUCTION && m_map->nb_free_pos() > 0 ; type_construction++)
     {
         MapPos pos (m_map->random_free_pos()) ;
         m_map->add_cons( Construction(type_construction, pos, m_player_list->back()) ) ;
-        m_map->add_unit( Unit(UNIT_CATAPULT,pos,m_player_list->back()) ) ;
+        m_map->add_unit( Unit(rand()%NB_TYPE_UNIT,pos,m_player_list->back()) ) ; //On ajoute aléatoirement une unité sur la map
     }
 
 }
@@ -117,8 +120,6 @@ void MatriceGameGestion::gameLoop()
             //Traitement des autres decisions
             else
             {
-                //if (DEBUG)
-                    //cout << d << endl ;
 
                 //SELECTION D'UNE NOUVELLE UNITE OU D'UNE NOUVELLE CONSTRUCTION
                 if (d.decision() == DECISION_CHANGE_SELECT_UNIT)
@@ -214,6 +215,7 @@ void MatriceGameGestion::verification_defaite()
 
 void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
 {
+
     if(m_current_player_turn != NULL)
         m_player_gold[m_current_player_turn] += GOLD_AUGMENTATION*m_map->nb_construction_of(m_current_player_turn) ;
 
@@ -310,14 +312,29 @@ void MatriceGameGestion::updateDisplay()
 {
     m_fenetre.ajouter(m_map->getSurface(),&m_scroll,0,0) ;
     if (validSelection(OBJECT_TYPE_UNIT))
-        m_fenetre.ajouter(Texte(string("Catapulte de "+m_current_selection->proprietaire_objet()->name())).surfaceAffichage(), 0, SCREEN_HEIGHT - 30) ;
+        afficherTexte("Catapulte de "+m_current_selection->proprietaire_objet()->name(), 0, SCREEN_HEIGHT - 30) ;
     if (validSelection(OBJECT_TYPE_CONSTRUCTION))
-        m_fenetre.ajouter(Texte(string("Construction de "+m_current_selection->proprietaire_objet()->name())).surfaceAffichage(), 0, SCREEN_HEIGHT - 30) ;
+        afficherTexte("Construction de "+m_current_selection->proprietaire_objet()->name(), 0, SCREEN_HEIGHT - 30) ;
     m_fenetre.ajouter(*m_all_symbol["gold"],1,0) ;
-    m_fenetre.ajouter(Texte(std::to_string(m_player_gold[m_current_player_turn]),SDL_Color({252, 210, 28})).surfaceAffichage(), 72, 1) ;
+    afficherTexte(std::to_string(m_player_gold[m_current_player_turn]), 72, 1, SDL_Color({252, 210, 28})) ;
     if (Menu::isAMenuOpened())
         Menu::keepOpened(m_fenetre);
     m_fenetre.actualiser() ;
+}
+
+//Gestion de la création et du stockage du texte affiché qui est très souvent le même pour ne pas charger sans cesse les mêmes graphismes
+void MatriceGameGestion::afficherTexte(string text, unsigned short w, unsigned short h, SDL_Color color)
+{
+    if(m_load_text.find(text) == m_load_text.end())
+        m_load_text[text] = new Texte(text, color) ;
+    m_fenetre.ajouter(m_load_text[text]->surfaceAffichage(), w, h) ; 
+}
+
+void MatriceGameGestion::clearLoadTexte()
+{
+    for (map<std::string,Texte*>::iterator it = m_load_text.begin() ; it != m_load_text.end() ; it++)
+        delete(it->second) ;
+    m_load_text.clear() ;
 }
 
 bool MatriceGameGestion::validSelection(short type) const
@@ -344,13 +361,14 @@ void MatriceGameGestion::deleteSelection()
 MatriceGameGestion::~MatriceGameGestion()
 {
     deleteSelection() ;
+    clearLoadTexte() ;
 
     for ( map<std::string,SurfaceAffichage*>::iterator it = m_all_symbol.begin() ; it != m_all_symbol.end() ; it++)
     {
         if(it->second != NULL)
             delete(it->second) ;
         else
-            warning_message("FUITE DE MEMOIRES : Impossible de supprimer it->second in ~MatriceGameGestion()") ;
+            warning_message("Potentielle fuite de mémoire : Impossible de supprimer it->second in ~MatriceGameGestion()") ;
     }
 
     //Suppression des joueurs de m_player_list
@@ -359,7 +377,7 @@ MatriceGameGestion::~MatriceGameGestion()
         if(m_player_list->back()!=NULL)
             delete(m_player_list->back()) ;
         else
-            warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_list_player->back() in ~MatriceGameGestion()") ;
+            warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_list_player->back() in ~MatriceGameGestion()") ;
         m_player_list->pop_back() ;
     }
 
@@ -370,7 +388,7 @@ MatriceGameGestion::~MatriceGameGestion()
         m_player_list = NULL ;
     }
     else
-        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_list_player in ~MatriceGameGestion()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_list_player in ~MatriceGameGestion()") ;
     
     //Suppression des menus de la mémoire de la matrice
     while(!m_saveMenu->empty())
@@ -378,7 +396,7 @@ MatriceGameGestion::~MatriceGameGestion()
         if(m_saveMenu->back() != NULL)
             delete(m_saveMenu->back()) ;
         else
-            warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_saveMenu->back() in ~MatriceGameGestion()") ;
+            warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_saveMenu->back() in ~MatriceGameGestion()") ;
         m_saveMenu->pop_back() ;
     }
 
@@ -389,7 +407,7 @@ MatriceGameGestion::~MatriceGameGestion()
         m_saveMenu = NULL ;
     }
     else 
-        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_saveMenu in ~MatriceGameGestion()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_saveMenu in ~MatriceGameGestion()") ;
 
     //Suppression des boutons de la mémoire de la matrice
     while(!m_all_buttons->empty())
@@ -397,7 +415,7 @@ MatriceGameGestion::~MatriceGameGestion()
         if (m_all_buttons->back() != NULL)
             delete(m_all_buttons->back()) ;
         else
-            warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_all_buttons->back() in ~MatriceGameGestion()") ;
+            warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_all_buttons->back() in ~MatriceGameGestion()") ;
         m_all_buttons->pop_back() ;
     }
 
@@ -408,7 +426,7 @@ MatriceGameGestion::~MatriceGameGestion()
         m_all_buttons = NULL ;
     }
     else 
-        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_all_buttons in ~MatriceGameGestion()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_all_buttons in ~MatriceGameGestion()") ;
 
     //La map est supprimée de la mémoire
     if(m_map != NULL)
@@ -417,7 +435,7 @@ MatriceGameGestion::~MatriceGameGestion()
         m_map = NULL ;
     }
     else
-        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_map in ~MatriceGameGestion()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_map in ~MatriceGameGestion()") ;
 
 
 }

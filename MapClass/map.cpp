@@ -28,7 +28,7 @@ Map::~Map()
 		m_graphic_map = NULL ;
 	}
 	else
-        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_graphic_map in ~Map()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_graphic_map in ~Map()") ;
 
 	//Suppression des unités de la mémoire
 	while(!m_list_unit.empty())
@@ -36,7 +36,7 @@ Map::~Map()
         if (m_list_unit.back() != NULL)
         	delete(m_list_unit.back()) ;
         else
-        	warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_list_unit.back() in ~Map()") ;
+        	warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_list_unit.back() in ~Map()") ;
         m_list_unit.pop_back() ;
     }
 
@@ -46,7 +46,7 @@ Map::~Map()
         if (m_list_cons.back() != NULL)
         	delete(m_list_cons.back()) ;
         else
-        	warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_list_cons.back() in ~Map()") ;
+        	warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_list_cons.back() in ~Map()") ;
         m_list_cons.pop_back() ;
     }
 
@@ -57,7 +57,7 @@ Map::~Map()
     	m_map_unit = NULL ;
     }
     else 
-        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_map_unit in ~Map()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_map_unit in ~Map()") ;
 
 
     if(m_map_cons != NULL)
@@ -66,7 +66,7 @@ Map::~Map()
     	m_map_cons = NULL ;
     }
     else 
-        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_map_cons in ~Map()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_map_cons in ~Map()") ;
 
 
     if(m_free_pos != NULL)
@@ -75,7 +75,7 @@ Map::~Map()
     	m_free_pos = NULL ;
     }
     else 
-        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_free_pos in ~Map()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_free_pos in ~Map()") ;
 
 }
 
@@ -346,13 +346,26 @@ void Map::actualiser (MapPos const& pos)
 
 void Map::ajouter_texture_objets(MapPos const& pos)
 {
+	Construction* pc = cons_on(pos) ;
 	Unit* pu = unit_on(pos) ;
 	if (pu != NULL)
-		add_unit_texture(*pu) ;
-
-	Construction* pc = cons_on(pos) ;
-	if (pc != NULL)
-		add_cons_texture(*pc) ;
+	{
+		if (pu->graphicEraseCons()) //Ordre d'affichage ?
+		{
+			if (pc != NULL)
+				add_cons_texture(*pc) ;
+			add_unit_texture(*pu) ;
+		}
+		else
+		{
+			add_unit_texture(*pu) ;
+			if (pc != NULL)
+				add_cons_texture(*pc) ;
+		}
+	}
+	else
+		if (pc != NULL)
+				add_cons_texture(*pc) ;
 }
 
 //La map affiche le terrain sur cette case ce qui écrase et supprime tous les graphismes présents sur cette case

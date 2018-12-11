@@ -35,7 +35,7 @@ Selection::~Selection()
     }
     else if (m_selection != NULL)
         if (m_selection->type() == OBJECT_TYPE_UNIT)
-            warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_possible_to_move in ~Selection()") ;
+            warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_possible_to_move in ~Selection()") ;
 }
 
 bool Selection::add_possible_move_for_select_unit(MapPos const& pos)

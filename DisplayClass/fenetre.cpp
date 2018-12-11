@@ -7,6 +7,8 @@ SurfaceAffichage* SurfaceAffichage::fenetre = NULL ;
 //CONSTRUCTEUR
 SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short const& height)
 {
+	if (DEBUG)
+		debugage_message("Surface d'affichage de dimension " + to_string(width) + ";" + to_string(height)) ;
 	m_height = height ;
 	m_width = width ;
 	m_surface = SDL_CreateRGBSurface(SDL_HWSURFACE, m_width, m_height, 32, 0, 0, 0, 0);
@@ -14,6 +16,8 @@ SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short c
 
 SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short const& height, SDL_Surface* surface)
 {
+	if (DEBUG)
+		debugage_message("Surface d'affichage (avec une surface déjà défnie) de dimension " + to_string(width) + ";" + to_string(height)) ;
 	m_height = height ;
 	m_width = width ;
 	m_surface = surface ;
@@ -21,6 +25,8 @@ SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short c
 
 SurfaceAffichage::SurfaceAffichage(Texture const& texture)
 {
+	if (DEBUG)
+		debugage_message("Surface d'affichage de " + texture.path()) ;
 	SDL_Surface* surf = texture.surface() ;
 
 	m_surface = SDL_CreateRGBSurface(surf->flags, surf->w, surf->h, 
@@ -44,7 +50,7 @@ SurfaceAffichage::~SurfaceAffichage()
 		m_surface = NULL;
 	}
 	else 
-        warning_message("FUITE DE MEMOIRES : Impossible de libérer m_surface avec SDL_FreeSurface in ~SurfaceAffichage()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de libérer m_surface avec SDL_FreeSurface in ~SurfaceAffichage()") ;
 }
 
 //ACCESSEURS
@@ -198,7 +204,7 @@ void SurfaceAffichage::ajouter (SpriteTexture const& s, SDL_Rect* pos, unsigned 
     	delete screct ;
     	screct = NULL ;
     }
-    else warning_message("FUITE DE MEMOIRES : Impossible de supprimer srect in void SurfaceAffichage::ajouter") ;
+    else warning_message("Potentielle fuite de mémoire : Impossible de supprimer srect in void SurfaceAffichage::ajouter") ;
 }
 void SurfaceAffichage::ajouter (SpriteTexture const& s, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur)
 {

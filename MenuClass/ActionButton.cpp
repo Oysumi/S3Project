@@ -1,4 +1,5 @@
 #include "ActionButton.h"
+#include "../DisplayClass/Texte.h"
 #include <string>
 
 using namespace std ;
@@ -12,11 +13,13 @@ using namespace std ;
 ActionButton::ActionButton()
 { 
 	m_id = 0 ;
+	m_surface = NULL ;
 }
 
 ActionButton::ActionButton(unsigned short int idToSet)
 { 
 	m_id = idToSet ;
+	m_surface = NULL ;
 }
 
 ActionButton::ActionButton(unsigned short int idToSet, const char * textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text, int size_text)
@@ -27,10 +30,23 @@ ActionButton::ActionButton(unsigned short int idToSet, string textToWrite, unsig
 {
 	m_id = idToSet ;
 	m_text = textToWrite ;
-  m_sizeText = size_text ;
+  	m_sizeText = size_text ;
 	this->setSize(width, height) ;
 	this->setPos(pos_x, pos_y) ;
 	this->setButtonColors(back, text) ;
+
+	m_surface = NULL ;
+	m_texte = NULL ;
+	setText(m_text) ;
+}
+
+void ActionButton::setText(std::string text)
+{
+	m_text = text ;
+	freeSurface() ;
+    m_surface = new SurfaceAffichage(m_width, m_height) ;
+	m_texte = new Texte(m_text,m_text_color,m_sizeText) ;
+
 }
 
 
@@ -54,17 +70,17 @@ void ActionButton::setPos(unsigned short int pos_x, unsigned short int pos_y)
 	m_posy = pos_y ;
 }
 
-void ActionButton::setTextColor(SDL_Color text)
+void ActionButton::setTextColor(SDL_Color const& text)
 {
 	m_text_color = text ;
 }
 
-void ActionButton::setBackgroundColor(SDL_Color back)
+void ActionButton::setBackgroundColor(SDL_Color const& back)
 {
 	m_back_color = back ;
 }
 
-void ActionButton::setButtonColors(SDL_Color background, SDL_Color text)
+void ActionButton::setButtonColors(SDL_Color const& background, SDL_Color const& text)
 {
 	this->setTextColor(text) ;
 	this->setBackgroundColor(background) ;
@@ -74,17 +90,19 @@ void ActionButton::setButtonColors(SDL_Color background, SDL_Color text)
  *                                                  GETTERS                                                   *
  **************************************************************************************************************/
 
-SurfaceAffichage ActionButton::getSurfaceAffichage()
+SurfaceAffichage const& ActionButton::getSurfaceAffichage() const
 {
-	SurfaceAffichage surface(m_width, m_height) ;
-
-	return surface ;
+	return *m_surface ;
 }
 
-void ActionButton::displayButton(Fenetre& screen)
+Texte const& ActionButton::getTexte() const
 {
-	SurfaceAffichage button = this->getSurfaceAffichage() ;
-	SDL_Surface* surface = button.surface() ;
+	return *m_texte ;
+}
+
+void ActionButton::displayButton(Fenetre& screen) const
+{
+	SDL_Surface* surface = m_surface->surface() ;
 	SDL_Rect* srcect = NULL ;
 	SDL_Rect* pos = (SDL_Rect*)malloc(sizeof(SDL_Rect)) ;
 	pos->x = this->getPosX() ;
@@ -99,5 +117,22 @@ void ActionButton::displayButton(Fenetre& screen)
     free(pos) ;
 }
 
+void ActionButton::freeSurface()
+{
+	if (m_surface!=NULL)
+    {
+        delete(m_surface) ;
+        m_surface = NULL ;
+    }
+    if (m_texte!=NULL)
+    {
+        delete(m_texte) ;
+        m_texte = NULL ;
+    }
+}
+
+
 ActionButton::~ActionButton()
-{ }
+{
+    freeSurface() ;
+}

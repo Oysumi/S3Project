@@ -25,7 +25,7 @@ class Construction : public MapObject
     	Construction(unsigned short type, MapPos const& pos, AbstractPlayer* const& player) ;
         Construction(Construction const& aCopier) ;
 
-        virtual SurfaceAffichage getSurface() const ;
+        virtual SurfaceAffichage const& getSurface() const ;
         virtual unsigned short type () const ;
         virtual bool canMove () const ;
 
@@ -33,6 +33,7 @@ class Construction : public MapObject
 
         static std::string sprite_construction_path ;
         static SpriteTexture* sprite_construction ;
+        static SurfaceAffichage*** construction_affichage ;
         static void initSprtiteTexture() ;
         static void deleteSprtiteTexture() ;
 

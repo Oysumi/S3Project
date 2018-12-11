@@ -134,7 +134,7 @@ Terrain::~Terrain()
         m_terrainComplet = NULL ;
     }
     else 
-        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_terrainComplet in ~Terrain()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_terrainComplet in ~Terrain()") ;
 
     if (m_sprite_representation != NULL)
     {
@@ -142,7 +142,7 @@ Terrain::~Terrain()
         m_sprite_representation = NULL ;
     }
     else 
-        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_sprite_representation in ~Terrain()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_sprite_representation in ~Terrain()") ;
 
 }
 

@@ -23,7 +23,7 @@ Texture::~Texture()
         //warning_message("libéreration de la texture \"" + m_path + "\" avec SDL_FreeSurface in ~Texture()") ;
     }
     else 
-        warning_message("FUITE DE MEMOIRES : Impossible de libérer la texture \"" + m_path + "\" avec SDL_FreeSurface in ~Texture()") ;
+        warning_message("Potentielle fuite de mémoire : Impossible de libérer la texture \"" + m_path + "\" avec SDL_FreeSurface in ~Texture()") ;
 }
 
 //ACCESSEURS

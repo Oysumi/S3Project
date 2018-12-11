@@ -62,10 +62,11 @@ vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, uns
 
 Menu::Menu(){
 	m_id = NOTHING ;
+	m_surface = NULL ;
 	allMenu.push_back(this) ;
 } ; // Est utile pour la création d'un vector de Menu dans MatriceGameGestion.cpp
 
-Menu::Menu(vector<AbstractButton*> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id)
+Menu::Menu(vector<AbstractButton*> const& buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id)
 {
 	m_pos_x = pos_x ;
 	m_pos_y = pos_y ;
@@ -74,6 +75,7 @@ Menu::Menu(vector<AbstractButton*> buttons, unsigned short int pos_x, unsigned s
 	m_open = false ;
 	this->calculPosButton(buttons) ;
 	allMenu.push_back(this) ;
+	m_surface = new SurfaceAffichage(m_width, m_height) ;
 }
 
 Menu::~Menu()
@@ -83,18 +85,22 @@ Menu::~Menu()
 		if(allMenu[i]==this)
 			allMenu.erase(allMenu.begin()+i) ;
 	}
+
+	if(m_surface!=NULL)
+	{
+		delete(m_surface) ;
+		m_surface = NULL ;
+	}
 }
 
-SDL_Color Menu::getColor()
+SDL_Color Menu::getColor() const
 {
 	return this->m_background ;
 }
 
-SurfaceAffichage Menu::getMenu()
+SurfaceAffichage const& Menu::getMenu() const
 {
-	SurfaceAffichage surface(m_width, m_height) ;
-
-	return surface ;
+	return *m_surface ;
 }
 
 unsigned short Menu::getPosX() const
@@ -121,7 +127,7 @@ bool Menu::clickIsOnThisMenu(unsigned int x, unsigned int y)
 		   getPosY() < y && y < getPosY()+m_height ;
 }
 
-void Menu::calculPosButton(vector<AbstractButton*> buttons)
+void Menu::calculPosButton(vector<AbstractButton*> const& buttons)
 {
 	/**
 	 * On calcule la taille du menu (lxL) en fonction des boutons qu'on suppose ici de taille fixe
@@ -152,10 +158,9 @@ void Menu::calculPosButton(vector<AbstractButton*> buttons)
 	}
 }
 
-void Menu::displayMenu(Fenetre& screen)
+void Menu::displayMenu(Fenetre& screen) const
 {
-	SurfaceAffichage menuAffichage = this->getMenu() ;
-	SDL_Surface* menuSurface = menuAffichage.surface() ;
+	SDL_Surface* menuSurface = m_surface->surface() ;
 	SDL_Color couleur = this->getColor() ;
 
 	if(SDL_FillRect(menuSurface, NULL, SDL_MapRGB(menuSurface->format, couleur.r, couleur.g, couleur.b)) != 0)
@@ -166,23 +171,20 @@ void Menu::displayMenu(Fenetre& screen)
 	unsigned int posX = this->getPosX() ;
 	unsigned int posY = this->getPosY() ;
 
-	screen.ajouter(menuAffichage, posX, posY) ;
+	screen.ajouter(*m_surface, posX, posY) ;
  
     for ( AbstractButton * b : m_myButtons )
     {
-    	SurfaceAffichage bouton = b->getSurfaceAffichage() ;
-    	SDL_Surface* boutonSurface = bouton.surface() ;
     	SDL_Color col = b->getBackColor() ;
 
     	posX = b->getPosX() ;
     	posY = b->getPosY() ;
 
-    	if(SDL_FillRect(boutonSurface, NULL, SDL_MapRGB(boutonSurface->format, col.r, col.g, col.b)) != 0)
+    	if(SDL_FillRect(b->getSurfaceAffichage().surface(), NULL, SDL_MapRGB(b->getSurfaceAffichage().surface()->format, col.r, col.g, col.b)) != 0)
 			erreur_message("Impossible de colorer l'un des boutons du menu :  " + string(SDL_GetError())) ;
 
-    	screen.ajouter(bouton, posX, posY) ;
-    	Texte text(b->getText(),b->getTextColor(), b->sizeText()) ;
-    	text.displayText(screen, b) ;
+    	screen.ajouter(b->getSurfaceAffichage(), posX, posY) ;
+    	b->getTexte().displayText(screen, *b) ;
     }
 
     screen.actualiser() ;
@@ -201,7 +203,7 @@ bool Menu::displayMenuWithId(int id, Fenetre& screen)
     return false ;
 }
 
-int Menu::getID()
+int Menu::getID() const
 {
 	return m_id ;
 }
@@ -211,7 +213,7 @@ void Menu::openCloseMenu()
 	m_open = ( m_open ) ? false : true ;
 }
 
-bool Menu::isOpen()
+bool Menu::isOpen() const
 {
 	return m_open;
 }
