@@ -4,9 +4,9 @@
 #include <string>
 #include <SDL/SDL.h>
 #include "../DisplayClass/fenetre.h"
+#include <vector>
 
 // We put the constructor in protected so that we can't instanciate this class in the main code, making it a sort of abstract class
-
 class AbstractButton
 {
 	protected:
@@ -21,6 +21,9 @@ class AbstractButton
 		SDL_Color m_text_color ;
 		
 	public:
+
+		static std::vector<AbstractButton*>* getAllButton() ;
+
 		//GETTERS
 		unsigned int getPosX() const ;
 		unsigned int getPosY() const ;
@@ -38,7 +41,7 @@ class AbstractButton
 		void setText(std::string text) ;
 
 		//Méthodes virtuelles pures
-		virtual void displayButton(Fenetre screen) = 0 ;
+		virtual void displayButton(Fenetre& screen) = 0 ;
 		virtual SurfaceAffichage getSurfaceAffichage() = 0 ;
 
 		// destructeur
@@ -46,5 +49,25 @@ class AbstractButton
 
 		// à définir méthode virtuelle qui renvoit la surface d'affichage du bouton
 };
+
+#define NOTHING 100
+
+#define RETOUR 0
+#define MUSIQUE 1
+#define QUITTER 2
+#define ATTAQUER 3
+#define DEFENDRE 4
+#define ALLER_A 5
+#define FERMER 6
+#define FIN_DU_TOUR 7
+#define AFFICHAGE 8
+#define CREATION 9
+#define CREER_UNITE 10
+#define CREER_CONSTRUCTION 11
+#define SELECTION 12
+#define ARCHER 13
+#define CATAPULTE 14
+#define CHATEAU 15
+#define FERME 16
 
 #endif // __ABSTRACTBUTTON_H__

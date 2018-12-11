@@ -43,6 +43,8 @@ SurfaceAffichage::~SurfaceAffichage()
 		SDL_FreeSurface(m_surface);
 		m_surface = NULL;
 	}
+	else 
+        warning_message("FUITE DE MEMOIRES : Impossible de libérer m_surface avec SDL_FreeSurface in ~SurfaceAffichage()") ;
 }
 
 //ACCESSEURS
@@ -111,13 +113,7 @@ Fenetre::Fenetre(std::string const& title, unsigned short const& width, unsigned
 //DESTRUCTEUR
 Fenetre::~Fenetre()
 {
-	if (fenetre!=NULL){
-		fenetre = NULL ;
-	}
-	if(m_surface!=NULL){
-		SDL_FreeSurface(m_surface);
-		m_surface = NULL;
-	}
+	//Après vérification le destructeur ~SurfaceAffichage() est appelé par défault donc rien ici
 }
 
 // PERMET DE METTRE LA SURFACE DE LA FENETRE A JOUR
@@ -200,7 +196,9 @@ void SurfaceAffichage::ajouter (SpriteTexture const& s, SDL_Rect* pos, unsigned 
         erreur_message("Impossible d'ajouter le sprite" + s.path() + " à la SurfaceAffichage : " + string(SDL_GetError())) ;
     if (screct != NULL){
     	delete screct ;
+    	screct = NULL ;
     }
+    else warning_message("FUITE DE MEMOIRES : Impossible de supprimer srect in void SurfaceAffichage::ajouter") ;
 }
 void SurfaceAffichage::ajouter (SpriteTexture const& s, unsigned short const& posx, unsigned int short const& posy, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur)
 {

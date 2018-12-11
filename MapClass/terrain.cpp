@@ -37,7 +37,6 @@ Terrain::Terrain(string const& fileMap, list <MapPos>* & free_pos) : m_sprite(na
     }
     free_pos = new list <MapPos> ;
     generer_le_terrain(texte, free_pos) ;
-    delete free_pos ;
 }
 
 //GENERATION ALEATOIRE D'UN TEXTE REPRESENTANT LE TERRAIN
@@ -134,11 +133,16 @@ Terrain::~Terrain()
         delete m_terrainComplet ;
         m_terrainComplet = NULL ;
     }
+    else 
+        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_terrainComplet in ~Terrain()") ;
 
-    if (m_sprite_representation != NULL){
+    if (m_sprite_representation != NULL)
+    {
         delete(m_sprite_representation) ;
         m_sprite_representation = NULL ;
     }
+    else 
+        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_sprite_representation in ~Terrain()") ;
 
 }
 

@@ -1,9 +1,6 @@
 #include "HumanPlayer.h"
 
 #include "../MenuClass/Menu.h"
-#include "../ID/idbuttons.h"
-#include "../ID/idmenus.h"
-#include "../MatriceClass/decisionID.h"
 
 #include <string>
 #include <iostream>

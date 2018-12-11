@@ -31,6 +31,8 @@ class Menu
 		int receiveAction(unsigned int x, unsigned int y);
 	
 	public:
+		static std::vector <Menu*>* getAllMenu(std::vector <AbstractButton*> const& all_buttons, unsigned short const width, unsigned short const height) ;
+
 		Menu(); 
 		Menu(std::vector<AbstractButton*> buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id) ;
 		SurfaceAffichage getMenu() ;
@@ -53,5 +55,18 @@ class Menu
 										 // Retourne l'ID du bouton
 		
 };
+
+#define ESCAPE_MENU 50
+#define ATTACK_MENU 51
+#define CREATION_MENU 52
+#define UNITES_MENU 53
+#define CONS_MENU 54
+
+#define LARGEUR_MENU1 450
+#define HAUTEUR_MENU1 100
+#define LARGEUR_MENU2 200
+#define HAUTEUR_MENU2 60
+#define LARGEUR_MENU3 200
+#define HAUTEUR_MENU3 60
 
 #endif // __MENU_H__

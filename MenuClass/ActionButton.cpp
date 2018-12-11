@@ -81,7 +81,7 @@ SurfaceAffichage ActionButton::getSurfaceAffichage()
 	return surface ;
 }
 
-void ActionButton::displayButton(Fenetre screen)
+void ActionButton::displayButton(Fenetre& screen)
 {
 	SurfaceAffichage button = this->getSurfaceAffichage() ;
 	SDL_Surface* surface = button.surface() ;

@@ -7,7 +7,6 @@
 #include <SDL/SDL_ttf.h>
 
 #include "../MatriceClass/MatriceGameGestion.h"
-#include "../Fonctions/fonctions.h"
 
 using namespace std;
 

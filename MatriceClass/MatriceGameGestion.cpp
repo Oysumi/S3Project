@@ -1,18 +1,18 @@
 #include "MatriceGameGestion.h"
 #include "../MenuClass/ActionButton.h"
 #include "../MenuClass/AbstractButton.h"
-#include "../ID/idbuttons.h"
-#include "../ID/idmenus.h"
 #include "../PlayerClass/HumanPlayer.h"
-#include "../MatriceClass/decisionID.h"
 #include "../DisplayClass/Texte.h"
 
 #include <iostream>
 
 using namespace std;
 
-#define SCREEN_WIDTH 1080
+#define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
+
+#define MAP_WIDTH 30
+#define MAP_HEIGHT 15
 
 #define SCROOL_ZONE 15
 #define TIME_BETWEEN_SCROLL_CHANGE 5
@@ -28,54 +28,19 @@ MatriceGameGestion::MatriceGameGestion() :
     m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN)
 {
     // Création des boutons
-    m_all_buttons = new vector<AbstractButton*> ;
-    remplissage(m_all_buttons) ;
-
-    //Création des menus
-    //Couleur de menu
-    SDL_Color font_menu = {0, 0, 0} ;
-
-    // Création et ajout dans la mémoire du menu principal (quand on appuie sur la touche escape)
-    vector<AbstractButton*> escapeButtons ;
-    escapeButtons.push_back((*m_all_buttons)[AFFICHAGE]);
-    escapeButtons.push_back((*m_all_buttons)[RETOUR]);
-    escapeButtons.push_back((*m_all_buttons)[FIN_DU_TOUR]);
-    escapeButtons.push_back((*m_all_buttons)[QUITTER]);
-    unsigned short int x(SCREEN_WIDTH/2 - LARGEUR_MENU1/2), y(SCREEN_HEIGHT/6) ;
-    m_saveMenu.push_back(new Menu (escapeButtons, x, y, font_menu, ESCAPE_MENU)) ;
-
-    // Création et ajout dans la mémoire du menu prise de décision (attaquer, défendre, aller à, ...)
-    vector<AbstractButton*> decisionButtons ;
-    decisionButtons.push_back((*m_all_buttons)[ATTAQUER]);
-    decisionButtons.push_back((*m_all_buttons)[DEFENDRE]);
-    decisionButtons.push_back((*m_all_buttons)[ALLER_A]);
-    decisionButtons.push_back((*m_all_buttons)[FERMER]);
-    m_saveMenu.push_back(new Menu (decisionButtons, 0, 0, font_menu, ATTACK_MENU)) ;
-
-    // Création et ajout dans la mémoire du menu création (construction, unité...)
-    vector<AbstractButton*> constructionButtons ;
-    constructionButtons.push_back((*m_all_buttons)[CREATION]);
-    constructionButtons.push_back((*m_all_buttons)[CREER_UNITE]);
-    constructionButtons.push_back((*m_all_buttons)[CREER_CONSTRUCTION]);
-    m_saveMenu.push_back(new Menu (constructionButtons, 0, 500, font_menu, CREATION_MENU));
+    m_all_buttons = AbstractButton::getAllButton() ;
+    m_saveMenu = Menu::getAllMenu(*m_all_buttons, SCREEN_WIDTH, SCREEN_HEIGHT) ;
     
-    // Création et ajout dans la mémoire du menu selection spécifique aux unités
-    vector<AbstractButton*> unitButtons ;
-    unitButtons.push_back((*m_all_buttons)[SELECTION]);
-    unitButtons.push_back((*m_all_buttons)[ARCHER]);
-    unitButtons.push_back((*m_all_buttons)[CATAPULTE]);
-    m_saveMenu.push_back(new Menu (unitButtons, 0, 500, font_menu, UNITES_MENU));
-
-    // Création et ajout dans la mémoire du menu selection spécifique aux constructions
-    vector<AbstractButton*> consButtons ;
-    consButtons.push_back((*m_all_buttons)[SELECTION]);
-    consButtons.push_back((*m_all_buttons)[CHATEAU]);
-    consButtons.push_back((*m_all_buttons)[FERME]);
-    m_saveMenu.push_back(new Menu (consButtons, 0, 500, font_menu, CONS_MENU));
     
     // On initialise tous les choix possibles
     Decision::init_list_of_choice() ;
     m_current_selection = NULL ;
+
+    m_all_symbol["red_circle"] = new SurfaceAffichage("../ressources/red_circle.bmp") ;
+    m_all_symbol["green_circle"] = new SurfaceAffichage("../ressources/green_circle.bmp") ;
+    m_all_symbol["gold"] = new SurfaceAffichage("../ressources/gold.bmp") ;
+    for ( map<std::string,SurfaceAffichage*>::iterator it = m_all_symbol.begin() ; it != m_all_symbol.end() ; it++)
+        it->second->rendre_transparente() ;
 
     //Représente la partie de la map affichée sur l'écran (par défaut en haut à gauche)
     m_scroll.x = 0 ;
@@ -89,7 +54,9 @@ MatriceGameGestion::MatriceGameGestion() :
 void MatriceGameGestion::init()
 {
     //Création de la map (et chargement de tout le terrain et etc...)
-    m_map = new Map (30,15) ;
+    //On adapate la taille de la Map pour qu'elle remplisse la fenetre si besoin !
+    m_map = new Map ( (MAP_WIDTH*MAP_CASE_SIZE > SCREEN_WIDTH) ? MAP_WIDTH : 2+SCREEN_WIDTH/MAP_CASE_SIZE,
+        (MAP_HEIGHT*MAP_CASE_SIZE > SCREEN_HEIGHT) ? MAP_HEIGHT : 2+SCREEN_HEIGHT/MAP_CASE_SIZE ) ;
 
     //Création des joueurs de la partie
     m_player_list = new std::vector <AbstractPlayer*> ;
@@ -150,7 +117,8 @@ void MatriceGameGestion::gameLoop()
             //Traitement des autres decisions
             else
             {
-                cout << d << endl ;
+                //if (DEBUG)
+                    //cout << d << endl ;
 
                 //SELECTION D'UNE NOUVELLE UNITE OU D'UNE NOUVELLE CONSTRUCTION
                 if (d.decision() == DECISION_CHANGE_SELECT_UNIT)
@@ -178,6 +146,7 @@ void MatriceGameGestion::gameLoop()
                         if (m_current_selection->unit()->proprietaire() == m_current_player_turn)
                         {
                             MapPos const pos (d.target()) ;
+                            
                             bool attaque = false ;
                             if (m_map->have_unit_on(pos)) //Si il y a une unité énnemie
                                 if(m_map->unit_on(pos)->proprietaire() != m_current_player_turn)
@@ -196,12 +165,11 @@ void MatriceGameGestion::gameLoop()
                                 if(siege) // En cas de siege on perd son unité
                                 {
                                     m_map->del_unit(*m_map->unit_on(pos)) ;
-                                    //Donc déselection
-                                    deleteSelection() ;
+                                    deleteSelection() ; //Donc déselection
                                 }
                                 else
                                 {
-                                    if(!siege && m_map->have_cons_on(pos))
+                                    if(!siege && m_map->have_cons_on(pos)) //CAPTURE DE LA CONSTRUCTION
                                     {
                                         m_map->cons_on(pos)->capture_by(m_current_player_turn) ;
                                         verification_defaite() ;
@@ -215,6 +183,7 @@ void MatriceGameGestion::gameLoop()
                             } 
                             else
                                 warning_message("Player as try to move select unit at invalid position") ;
+
                         }
                         else
                             warning_message("Player as try to move unit of another player") ;
@@ -233,12 +202,10 @@ void MatriceGameGestion::verification_defaite()
     for(unsigned short i = 0 ; i < m_player_list->size() ; i++)
     {
         nb_construction = m_map->nb_construction_of(m_player_list->at(i)) ;
-        cout << "Le joueur " << m_player_list->at(i)->name() << " a encore " << nb_construction << " constructions " << endl ;
-        
         if (nb_construction<=0)
         {
-            cout << endl << " ------------------------ " << endl ;
-            cout << m_player_list->at(i)->name() << " A PEDRU !!!" << endl ;
+            cout << " ------------------------ " << endl ;
+            cout << " VIVTOIRE DE " << m_player_list->at((i+1)%2)->name() << " !!!" << endl ;
             cout << " ------------------------ " << endl ;
             m_fin_de_la_partie = true ;
         }
@@ -259,15 +226,12 @@ void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
     m_current_player_turn = new_current_player ;
     m_map->reset_deplacement_all_unit (); //Les unités peuvent de nouveaux se déplacer
     deleteSelection() ; // On deselectionne l'unité en passant au joueur suivant
-    m_saveMenu[0]->setTextButton(0,"tour " + to_string(m_tour) + " de " + m_current_player_turn->name()) ;
+    m_saveMenu->at(0)->setTextButton(0,"tour " + to_string(m_tour) + " de " + m_current_player_turn->name()) ;
     updateDisplay() ; //On affiche la map
 }
 
 bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
 {
-    //On charge les symboles que la Matrice est susceptible de rajouter sur la Map
-    Texture selection_current_player ("../ressources/green_circle.bmp") ;
-    Texture selection_enemy ("../ressources/red_circle.bmp") ;
 
     MapObject* new_selection ;
     //Selection de la construction ou de l'unité ?
@@ -283,22 +247,18 @@ bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
 
     if (new_selection != NULL) // si il y a bien une unite ou une construction à cette position selectionee
     {
+        deleteSelection() ; //Supression de l'ancienne selection
+
         // a quel joueur appartient l'unite ou la construction selectionnée ?
         AbstractPlayer* select_player = new_selection->proprietaire() ;
 
-        SurfaceAffichage* selection_symbol ;
+        m_map->delete_all_symbol() ;
         if (select_player == m_current_player_turn) // cette unite ou cette construction appartient t-elle au joueur en train de faire son tour ?
-            selection_symbol = new SurfaceAffichage(selection_current_player) ;
+            m_map->add_symbol(*m_all_symbol["green_circle"],pos) ;
         else
-            selection_symbol = new SurfaceAffichage(selection_enemy) ;
+            m_map->add_symbol(*m_all_symbol["red_circle"],pos) ;
 
         m_current_selection = new Selection(new_selection) ;
-
-        // dans tous les cas on affiche le cercle de selection
-        selection_symbol->rendre_transparente() ;
-        m_map->delete_all_symbol() ;
-        m_map->add_symbol(*selection_symbol,pos) ;
-        delete(selection_symbol) ;
         return true ;
 
     }
@@ -307,11 +267,6 @@ bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
 
 void MatriceGameGestion::selection_unit()
 {
-    SurfaceAffichage deplacement (Texture("../ressources/green_circle.bmp")) ;
-    SurfaceAffichage attaque (Texture("../ressources/red_circle.bmp")) ;
-    deplacement.rendre_transparente() ;
-    attaque.rendre_transparente() ;
-
     if (validSelection(OBJECT_TYPE_UNIT))
         if (m_current_selection->unit()->proprietaire() == m_current_player_turn)
         {
@@ -338,12 +293,12 @@ void MatriceGameGestion::selection_unit()
                         if(!m_map->have_unit_on(pos))
                         {
                             m_current_selection->add_possible_move_for_select_unit(pos) ; //Mise à jour des déplacement possible pour le joueur
-                            m_map->add_symbol(deplacement, pos) ; //Et affichage
+                            m_map->add_symbol(*m_all_symbol["green_circle"], pos) ; //Et affichage
                         }
                         else if (m_map->unit_on(pos)->proprietaire() != m_current_player_turn)
                         {
                             m_current_selection->add_possible_move_for_select_unit(pos) ; //Mise à jour des déplacement possible pour le joueur
-                            m_map->add_symbol(attaque, pos) ; //Et affichage en rouge
+                            m_map->add_symbol(*m_all_symbol["red_circle"], pos) ; //Et affichage en rouge
                         }
                     }
             }
@@ -358,9 +313,7 @@ void MatriceGameGestion::updateDisplay()
         m_fenetre.ajouter(Texte(string("Catapulte de "+m_current_selection->proprietaire_objet()->name())).surfaceAffichage(), 0, SCREEN_HEIGHT - 30) ;
     if (validSelection(OBJECT_TYPE_CONSTRUCTION))
         m_fenetre.ajouter(Texte(string("Construction de "+m_current_selection->proprietaire_objet()->name())).surfaceAffichage(), 0, SCREEN_HEIGHT - 30) ;
-    SurfaceAffichage gold ("../ressources/metal.bmp") ;
-    gold.rendre_transparente() ;
-    m_fenetre.ajouter(gold,1,0) ;
+    m_fenetre.ajouter(*m_all_symbol["gold"],1,0) ;
     m_fenetre.ajouter(Texte(std::to_string(m_player_gold[m_current_player_turn]),SDL_Color({252, 210, 28})).surfaceAffichage(), 72, 1) ;
     if (Menu::isAMenuOpened())
         Menu::keepOpened(m_fenetre);
@@ -392,40 +345,79 @@ MatriceGameGestion::~MatriceGameGestion()
 {
     deleteSelection() ;
 
+    for ( map<std::string,SurfaceAffichage*>::iterator it = m_all_symbol.begin() ; it != m_all_symbol.end() ; it++)
+    {
+        if(it->second != NULL)
+            delete(it->second) ;
+        else
+            warning_message("FUITE DE MEMOIRES : Impossible de supprimer it->second in ~MatriceGameGestion()") ;
+    }
+
     //Suppression des joueurs de m_player_list
     while(!m_player_list->empty())
     {
-        delete(m_player_list->back()) ;
+        if(m_player_list->back()!=NULL)
+            delete(m_player_list->back()) ;
+        else
+            warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_list_player->back() in ~MatriceGameGestion()") ;
         m_player_list->pop_back() ;
     }
+
     //Suppresion du vecteur
     if (m_player_list!=NULL)
     {
         delete(m_player_list) ;
         m_player_list = NULL ;
     }
+    else
+        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_list_player in ~MatriceGameGestion()") ;
     
     //Suppression des menus de la mémoire de la matrice
-    while(!m_saveMenu.empty())
+    while(!m_saveMenu->empty())
     {
-        delete(m_saveMenu.back()) ;
-        m_saveMenu.pop_back() ;
+        if(m_saveMenu->back() != NULL)
+            delete(m_saveMenu->back()) ;
+        else
+            warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_saveMenu->back() in ~MatriceGameGestion()") ;
+        m_saveMenu->pop_back() ;
     }
+
+    //Suppression du vecteur
+    if (m_saveMenu!=NULL)
+    {
+        delete(m_saveMenu) ;
+        m_saveMenu = NULL ;
+    }
+    else 
+        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_saveMenu in ~MatriceGameGestion()") ;
 
     //Suppression des boutons de la mémoire de la matrice
     while(!m_all_buttons->empty())
     {
-        delete(m_all_buttons->back()) ;
+        if (m_all_buttons->back() != NULL)
+            delete(m_all_buttons->back()) ;
+        else
+            warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_all_buttons->back() in ~MatriceGameGestion()") ;
         m_all_buttons->pop_back() ;
     }
+
     //Suppression du vecteur
     if (m_all_buttons!=NULL)
     {
         delete(m_all_buttons) ;
         m_all_buttons = NULL ;
     }
+    else 
+        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_all_buttons in ~MatriceGameGestion()") ;
 
     //La map est supprimée de la mémoire
-    delete(m_map) ;
+    if(m_map != NULL)
+    {
+        delete(m_map) ;
+        m_map = NULL ;
+    }
+    else
+        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_map in ~MatriceGameGestion()") ;
+
 
 }

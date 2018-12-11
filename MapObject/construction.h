@@ -32,6 +32,9 @@ class Construction : public MapObject
         void capture_by (AbstractPlayer * new_propietaire) ;
 
         static std::string sprite_construction_path ;
+        static SpriteTexture* sprite_construction ;
+        static void initSprtiteTexture() ;
+        static void deleteSprtiteTexture() ;
 
     protected :
     	unsigned short m_type ;

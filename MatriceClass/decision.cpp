@@ -2,7 +2,6 @@
 using namespace std;
 
 #include "../Fonctions/fonctions.h"
-#include "../MatriceClass/decisionID.h"
 
 std::vector<std::pair<std::string,bool>> Decision::list_of_choice ;
 

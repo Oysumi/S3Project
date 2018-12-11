@@ -33,6 +33,9 @@ Selection::~Selection()
         delete(m_possible_to_move) ;
         m_possible_to_move = NULL ;
     }
+    else if (m_selection != NULL)
+        if (m_selection->type() == OBJECT_TYPE_UNIT)
+            warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_possible_to_move in ~Selection()") ;
 }
 
 bool Selection::add_possible_move_for_select_unit(MapPos const& pos)
@@ -55,9 +58,11 @@ bool Selection::possible_move_at (MapPos const& pos) const
     return false ;
 }
 
-unsigned short Selection::type () const
+short Selection::type () const
 {
-    return Selection::m_selection->type() ;
+    if (m_selection == NULL)
+        return -1 ;
+    return m_selection->type() ;
 }
 
 MapPos Selection::getPos () const

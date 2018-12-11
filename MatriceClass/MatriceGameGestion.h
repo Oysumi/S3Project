@@ -2,7 +2,6 @@
 #define __MATRICEGAMEGESTION_H__
 
 #include "../Fonctions/fonctions.h"
-#include "../Fonctions/remplissage.h"
 
 #include "../DisplayClass/fenetre.h"
 #include "../MenuClass/ActionButton.h"
@@ -26,8 +25,8 @@ class MatriceGameGestion
 
 	private :	
 		Fenetre m_fenetre ;
-		std::vector <Menu*> m_saveMenu ;
-		std::vector <AbstractButton*> * m_all_buttons ;
+		std::vector <Menu*>* m_saveMenu ;
+		std::vector <AbstractButton*>* m_all_buttons ;
 
 		Map* m_map ; //Contient la plupart des données du jeu
 		SDL_Rect m_scroll ; //Représente le rectangle de la map affichée sur la fenêtre
@@ -42,6 +41,8 @@ class MatriceGameGestion
 		bool m_fin_de_la_partie ;
 
 		Selection* m_current_selection ;
+
+		std::map <std::string, SurfaceAffichage*> m_all_symbol ;
 
 	private :
 		bool new_selection(MapPos const pos, bool force_unit = false) ;

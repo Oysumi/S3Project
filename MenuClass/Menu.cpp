@@ -2,14 +2,63 @@
 #include "ActionButton.h"
 #include "../Fonctions/fonctions.h"
 #include "../DisplayClass/Texte.h"
-#include "../ID/idbuttons.h"
-#include "../ID/idmenus.h"
 
 #include <iostream>
 
 using namespace std ;
 
 vector<Menu*> Menu::allMenu ;
+
+vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, unsigned short const width, unsigned short const height)
+{
+
+	vector <Menu*>* menu = new vector<Menu*> ;
+
+	//Création des menus
+    //Couleur de menu
+    SDL_Color font_menu = {0, 0, 0} ;
+
+    // Création et ajout dans la mémoire du menu principal (quand on appuie sur la touche escape)
+    vector<AbstractButton*> escapeButtons ;
+    escapeButtons.push_back(all_buttons[AFFICHAGE]);
+    escapeButtons.push_back(all_buttons[RETOUR]);
+    escapeButtons.push_back(all_buttons[FIN_DU_TOUR]);
+    escapeButtons.push_back(all_buttons[QUITTER]);
+    unsigned short int x(width/2 - LARGEUR_MENU1/2), y(height/6) ;
+    menu->push_back(new Menu (escapeButtons, x, y, font_menu, ESCAPE_MENU)) ;
+
+    // Création et ajout dans la mémoire du menu prise de décision (attaquer, défendre, aller à, ...)
+    vector<AbstractButton*> decisionButtons ;
+    decisionButtons.push_back(all_buttons[ATTAQUER]);
+    decisionButtons.push_back(all_buttons[DEFENDRE]);
+    decisionButtons.push_back(all_buttons[ALLER_A]);
+    decisionButtons.push_back(all_buttons[FERMER]);
+    menu->push_back(new Menu (decisionButtons, 0, 0, font_menu, ATTACK_MENU)) ;
+
+    // Création et ajout dans la mémoire du menu création (construction, unité...)
+    vector<AbstractButton*> constructionButtons ;
+    constructionButtons.push_back(all_buttons[CREATION]);
+    constructionButtons.push_back(all_buttons[CREER_UNITE]);
+    constructionButtons.push_back(all_buttons[CREER_CONSTRUCTION]);
+    menu->push_back(new Menu (constructionButtons, 0, 500, font_menu, CREATION_MENU));
+    
+    // Création et ajout dans la mémoire du menu selection spécifique aux unités
+    vector<AbstractButton*> unitButtons ;
+    unitButtons.push_back(all_buttons[SELECTION]);
+    unitButtons.push_back(all_buttons[ARCHER]);
+    unitButtons.push_back(all_buttons[CATAPULTE]);
+    menu->push_back(new Menu (unitButtons, 0, 500, font_menu, UNITES_MENU));
+
+    // Création et ajout dans la mémoire du menu selection spécifique aux constructions
+    vector<AbstractButton*> consButtons ;
+    consButtons.push_back(all_buttons[SELECTION]);
+    consButtons.push_back(all_buttons[CHATEAU]);
+    consButtons.push_back(all_buttons[FERME]);
+    menu->push_back(new Menu (consButtons, 0, 500, font_menu, CONS_MENU));
+
+    return menu ;
+
+}
 
 Menu::Menu(){
 	m_id = NOTHING ;

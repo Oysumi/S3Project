@@ -46,6 +46,9 @@ class SurfaceAffichage
         void ajouter (SpriteTexture const& s, unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur = 0) ;
 
     protected :
+        void free() ;
+
+    protected :
 
         SDL_Surface* m_surface ;
         unsigned short m_height ;

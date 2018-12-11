@@ -5,7 +5,6 @@
 #include <string>
 using namespace std;
 
-
 Erreur erreur_message ("erreur_messages.txt") ;
 Warning warning_message  ("warning_messages.txt");
 Debugage debugage_message ("debugage_messages.txt");
@@ -20,8 +19,10 @@ Erreur::Erreur(string const& nom_fichier)
 }
 Erreur::~Erreur()
 {
-
+    if (m_existence_fichier && DEBUG) //le fichier à été créé donc il y a une erreur, on le signale avant la fermeture du programme
+        cout << "Erreur survenue lors de l'éxécution, ouvrir le fichier " << m_nomFichier << " pour consulter la liste" << endl ;
 }
+
 void Erreur::operator()(string const& contenu)
 {
     if (!m_existence_fichier)
@@ -49,7 +50,8 @@ Warning::Warning(string const& nom_fichier, bool arret)
 }
 Warning::~Warning()
 {
-
+    if (m_existence_fichier && DEBUG) //le fichier à été créé donc il y a des warnings, on le signale avant la fermeture du programme
+        cout << "Un ou plusieurs Warning(s) lors de l'éxécution du programme, ouvrir le fichier " << m_nomFichier << " pour les consulter " << endl ;
 }
 void Warning::operator()(string const& contenu, bool arret)
 {

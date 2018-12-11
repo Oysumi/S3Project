@@ -14,6 +14,8 @@ au débogage du programme
 
 //Une classe foncteur pour chaque type de message car le traitement, d'une erreur_message, d'un warning et d'un message de débugage peut-être différent
 
+#define DEBUG true
+
 //Gestion des erreur_messages
 class Erreur{
 	

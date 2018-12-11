@@ -11,7 +11,7 @@ class Texture
     public:
 
         Texture(std::string const& path) ;
-        virtual ~Texture() ;
+        ~Texture() ;
 
         std::string path() const ;
         SDL_Surface* surface() const ;

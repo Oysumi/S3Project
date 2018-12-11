@@ -4,6 +4,7 @@
 using namespace std ;
 
 string Unit::sprite_unit_path = "../ressources/catapult.bmp" ;
+SpriteTexture* Unit::sprite_unit = NULL ;
 
 Unit::Unit(unsigned short type , MapPos const& pos, AbstractPlayer* const& player) :
 	MapObject(pos,player),
@@ -24,7 +25,7 @@ Unit::Unit(Unit const& aCopier) :
 SurfaceAffichage Unit::getSurface() const
 {
 	SurfaceAffichage s (MAP_CASE_SIZE,MAP_CASE_SIZE) ;
-	s.ajouter(SpriteTexture(sprite_unit_path,MAP_CASE_SIZE,NB_COLOR,NB_TYPE_UNIT), m_proprietaire->colorId()) ;
+	s.ajouter(*sprite_unit, m_proprietaire->colorId()) ;
 	s.rendre_transparente() ;
 	return s ;
 }
@@ -67,3 +68,20 @@ void Unit::changePos (MapPos const& new_pos)
 	m_pos = new_pos ;
 }
 
+
+
+//DEUX METHODES STATIQUES PERMETTANT D'ÉVITER DE MULTIPLE CREATION DE SPRITETEXTURE
+void Unit::initSprtiteTexture()
+{
+	sprite_unit = new SpriteTexture(sprite_unit_path,MAP_CASE_SIZE,NB_COLOR,NB_TYPE_UNIT) ;
+}
+void Unit::deleteSprtiteTexture()
+{
+	if(sprite_unit != NULL)
+	{
+		delete(sprite_unit) ;
+		sprite_unit = NULL ;
+	}
+	else
+        warning_message("FUITE DE MEMOIRES : Impossible de supprimer sprite_unit in void Unit::deleteSprtiteTexture") ;
+}

@@ -19,7 +19,6 @@ TEXTEh=../DisplayClass/Texte.h
 MAPh=../MapClass/map.h
 CONSh=../MapObject/construction.h
 POSh=../MapClass/position.h
-REMPLIh=../Fonctions/remplissage.h
 OBJMOBh=../MapObject/mapobject.h
 DECh=../MatriceClass/decision.h
 SELh=../MatriceClass/selection.h
@@ -40,7 +39,6 @@ TEXTEcpp=../DisplayClass/Texte.cpp
 MAPcpp=../MapClass/map.cpp
 CONScpp=../MapObject/construction.cpp
 POScpp=../MapClass/position.cpp
-REMPLIcpp=../Fonctions/remplissage.cpp
 OBJMOBcpp=../MapObject/mapobject.cpp
 DECcpp=../MatriceClass/decision.cpp
 SELcpp=../MatriceClass/selection.cpp
@@ -48,13 +46,13 @@ MAINcpp=main.cpp
 
 $(BIN): $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) \
 		$(HUMPLAYERh) $(ARTPLAYERh) $(ABUTTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) \
-		$(MATRICEh) $(TERRh) $(TEXTEh) $(MAPh) $(CONSh) $(POSh) $(REMPLIh) $(OBJMOBh) $(DECh) $(SELh) \
+		$(MATRICEh) $(TERRh) $(TEXTEh) $(MAPh) $(CONSh) $(POSh) $(OBJMOBh) $(DECh) $(SELh) \
 		$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(ACTBUTTONcpp) \
-		$(ABSBUTTONcpp) $(MENUcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(REMPLIcpp) $(MAINcpp)
+		$(ABSBUTTONcpp) $(MENUcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(MAINcpp)
 	g++ -std=c++11 -Wall -g -lSDL $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(UNITh) $(ABPLAYERh) $(HUMPLAYERh) $(ARTPLAYERh) \
-				    $(ACTBUTTONh) $(ABUTONh) $(SUBMENUh) $(MENUh) $(MATRICEh) $(TERRh) $(TEXTEh) $(REMPLIh) \
+				    $(ACTBUTTONh) $(ABUTONh) $(SUBMENUh) $(MENUh) $(MATRICEh) $(TERRh) $(TEXTEh) \
 					$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ABPLAYERcpp) $(UNITcpp) $(ARTPLAYERcpp) $(MENUcpp) \
-					$(ABSBUTTONcpp) $(ACTBUTTONcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(REMPLIcpp) $(OBJMOBcpp) $(DECcpp) $(SELcpp) $(MAPcpp) $(CONScpp) $(POScpp) $(MAINcpp) \
+					$(ABSBUTTONcpp) $(ACTBUTTONcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(OBJMOBcpp) $(DECcpp) $(SELcpp) $(MAPcpp) $(CONScpp) $(POScpp) $(MAINcpp) \
 		-I $(INSTL) \
 		-L $(LIB) \
 		-Wl,-rpath,$(LIB) \

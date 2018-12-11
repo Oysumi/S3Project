@@ -1,1 +1,1 @@
-Impssible de créer la fenetre Title : No video mode large enough for 2500x1600
+Impossible de charger la  texture ../ressources/gold.bmp : Couldn't open ../ressources/gold.bmp

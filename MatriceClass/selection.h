@@ -23,7 +23,7 @@ class Selection
 		bool valid () const ;
 
 		//méthodes constantes
-		unsigned short type () const ;
+		short type () const ;
 		MapPos getPos () const ;
 
 		//A utiliser si l'objet selectionné est une unité

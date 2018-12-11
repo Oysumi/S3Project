@@ -8,6 +8,9 @@ Map::Map(unsigned short x, unsigned short y) : m_terrain(x,y,m_free_pos)
 
 	m_graphic_map = new SurfaceAffichage(width(),height()) ;
 	m_graphic_map->ajouter(m_terrain.terrainComplet()) ;
+
+	Unit::initSprtiteTexture() ;
+	Construction::initSprtiteTexture() ;
 }
 
 Map::Map() : Map(5,5)
@@ -15,39 +18,64 @@ Map::Map() : Map(5,5)
 
 Map::~Map()
 {
+	Unit::deleteSprtiteTexture() ;
+	Construction::deleteSprtiteTexture() ;
+
 	//Suppression des graphismes de la map de la mémoire
 	if (m_graphic_map != NULL)
 	{
 		delete(m_graphic_map) ;
 		m_graphic_map = NULL ;
 	}
+	else
+        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_graphic_map in ~Map()") ;
 
 	//Suppression des unités de la mémoire
 	while(!m_list_unit.empty())
     {
-        delete(m_list_unit.back()) ;
+        if (m_list_unit.back() != NULL)
+        	delete(m_list_unit.back()) ;
+        else
+        	warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_list_unit.back() in ~Map()") ;
         m_list_unit.pop_back() ;
     }
 
     //Suppression des construction de la mémoire
 	while(!m_list_cons.empty())
     {
-        delete(m_list_cons.back()) ;
+        if (m_list_cons.back() != NULL)
+        	delete(m_list_cons.back()) ;
+        else
+        	warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_list_cons.back() in ~Map()") ;
         m_list_cons.pop_back() ;
     }
+
 
     if(m_map_unit != NULL)
     {
     	delete m_map_unit ;
     	m_map_unit = NULL ;
     }
+    else 
+        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_map_unit in ~Map()") ;
+
+
     if(m_map_cons != NULL)
     {
     	delete m_map_cons ;
     	m_map_cons = NULL ;
     }
+    else 
+        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_map_cons in ~Map()") ;
 
-    delete(m_free_pos) ;
+
+    if(m_free_pos != NULL)
+    {
+    	delete m_free_pos ;
+    	m_free_pos = NULL ;
+    }
+    else 
+        warning_message("FUITE DE MEMOIRES : Impossible de supprimer m_free_pos in ~Map()") ;
 
 }
 
@@ -147,10 +175,10 @@ bool Map::del_unit (Unit const& unit)
 		return false ;
 
 	Unit* pu = unit_on(pos); // On prend le pointeur de l'unité à cette position
-	
+
 	//Supression de la mémoire et du vecteur
 	bool suppression = false ;
-	for (vector<Unit*>::iterator it = m_list_unit.begin() ; it != m_list_unit.end() ; it++)
+	for (vector<Unit*>::iterator it = m_list_unit.begin() ; it != m_list_unit.end() && !suppression ; it++)
 		if(*it == pu)
 		{
 			if(!suppression)
@@ -158,10 +186,11 @@ bool Map::del_unit (Unit const& unit)
 			suppression = true ;
 			m_list_unit.erase(it) ;
 		}
+
 	//supression de l'association avec la position
 	m_map_unit->erase(pos) ;
 
-	//libération de la case si elle l'est
+	//cout << "			supression de l'association avec la position" << endl ;
 	if (!have_cons_on(pos) && m_terrain.sprite_code(pos)==GRASS) //Si la position est libre, on l'ajoute
 		m_free_pos->push_back(pos) ;
 
@@ -211,6 +240,7 @@ bool Map::move_unit_at(MapPos const& source, MapPos const& destination, bool era
 	bool result = u->move(destination) ;
 	if (!result) // L'unité ne peut pas effectuer ce déplacement
 		return false ;
+
 
 	//mise à jour map d'association
 	(*m_map_unit)[destination] = u ;

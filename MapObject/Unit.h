@@ -31,6 +31,9 @@ class Unit : public MapObject
 		void reset_deplacement() ;
 
 		static std::string sprite_unit_path ;
+		static SpriteTexture* sprite_unit ;
+		static void initSprtiteTexture() ;
+		static void deleteSprtiteTexture() ;
 
 	protected :
 		void changePos (MapPos const& new_pos) ;

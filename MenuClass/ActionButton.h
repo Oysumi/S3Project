@@ -16,7 +16,7 @@ class ActionButton : public AbstractButton
 
 		// Actions
 		virtual SurfaceAffichage getSurfaceAffichage() ;
-		virtual void displayButton(Fenetre screen) ; 
+		virtual void displayButton(Fenetre& screen) ; 
 
 	protected:
 		// Setters non publics

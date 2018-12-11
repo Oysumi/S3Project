@@ -13,15 +13,17 @@ Texture::Texture(string const& path) : m_path(path)
         erreur_message("Impossible de charger la  texture " + path + " (displayFormat Fail) : " + SDL_GetError()) ;
 }
 
-
-
 //DESTRUCTEUR
 Texture::~Texture()
 {
-    if(m_surface!=NULL){
+    if(m_surface!=NULL)
+    {
         SDL_FreeSurface(m_surface);
         m_surface = NULL ;
+        //warning_message("libéreration de la texture \"" + m_path + "\" avec SDL_FreeSurface in ~Texture()") ;
     }
+    else 
+        warning_message("FUITE DE MEMOIRES : Impossible de libérer la texture \"" + m_path + "\" avec SDL_FreeSurface in ~Texture()") ;
 }
 
 //ACCESSEURS
@@ -44,7 +46,10 @@ SpriteTexture::SpriteTexture (string const& path, unsigned short const& size_spr
 SDL_Rect SpriteTexture::getRect (unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const
 {
     if(numero_sprite_longueur >= m_nb_longueur || numero_sprite_largeur >= m_nb_largeur)
+    {
         warning_message("Demande d'accès à une case du Sprite " + path() + " qui n'existe pas") ;
+        cout << endl << endl << "ateiprieroi" << endl ;
+    }
     
     SDL_Rect image ;
     image.x = numero_sprite_longueur*m_taille ;
@@ -55,9 +60,7 @@ SDL_Rect SpriteTexture::getRect (unsigned short const& numero_sprite_longueur, u
 }
 
 //DESTRUCTEUR
-SpriteTexture::~SpriteTexture(){
-    if(m_surface!=NULL){
-        SDL_FreeSurface(m_surface);
-        m_surface = NULL ;
-    }
+SpriteTexture::~SpriteTexture()
+{
+    //Après vérification le destructeur ~Texture() est appelé par défault donc rien ici
 }
