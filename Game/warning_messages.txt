@@ -1,1 +1,1 @@
-Demande d'accès à une case du Sprite ../ressources/life.bmp qui n'existe pas
+Player as try to select unit or construction at empty pos

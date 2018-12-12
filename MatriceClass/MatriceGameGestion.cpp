@@ -146,7 +146,18 @@ void MatriceGameGestion::gameLoop()
                 //DEPLACEMENT DE L'UNITE SELECTIONNE
                 else if (d.decision() == DECISION_MOVE_SELECT_UNIT)
                 {
-                    move_select_unit(d.target()) ;
+                    if (isAnAttack(d.target()))
+                    {
+                        if (attaque(d.target())) //Si l'unité à gagné on déplace le vainqueur avec supression de la précedente
+                            move_select_unit(d.target(),true) ;
+                        else
+                        {
+                            new_selection(m_current_selection->getPos(),true) ;
+                            updateDisplay() ;
+                        }
+                    }
+                    else
+                        move_select_unit(d.target()) ;
                 }
             }
         }
@@ -233,94 +244,120 @@ bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
 
 void MatriceGameGestion::selection_unit()
 {
-    if (validSelection(OBJECT_TYPE_UNIT))
-        if (m_current_selection->unit()->proprietaire() == m_current_player_turn)
+    if (validSelection(OBJECT_TYPE_UNIT, m_current_player_turn))
+    {
+
+        MapPos const pos(m_current_selection->getPos()), out(m_map->posOut()) ;
+        vector <MapPos> adjacent ;
+
+        if(m_current_selection->unit()->canMove())
         {
+            if (pos.x() > 0)
+                adjacent.push_back(MapPos(pos.x()-1,pos.y())) ;
+            if (pos.x()+1 < out.x())
+                adjacent.push_back(MapPos(pos.x()+1,pos.y())) ;
+            if (pos.y() > 0)
+                adjacent.push_back(MapPos(pos.x(),pos.y()-1)) ;
+            if (pos.y()+1 < out.y())
+                adjacent.push_back(MapPos(pos.x(),pos.y()+1)) ;
 
-            MapPos const pos(m_current_selection->getPos()), out(m_map->posOut()) ;
-            vector <MapPos> adjacent ;
-
-            if(m_current_selection->unit()->canMove())
-            {
-                if (pos.x() > 0)
-                    adjacent.push_back(MapPos(pos.x()-1,pos.y())) ;
-                if (pos.x()+1 < out.x())
-                    adjacent.push_back(MapPos(pos.x()+1,pos.y())) ;
-                if (pos.y() > 0)
-                    adjacent.push_back(MapPos(pos.x(),pos.y()-1)) ;
-                if (pos.y()+1 < out.y())
-                    adjacent.push_back(MapPos(pos.x(),pos.y()+1)) ;
-
-                MapPos pos (0,0) ;
-                for (unsigned short i = 0 ; i < adjacent.size() ; i++)
-                    if (m_map->terrain_adapt_to_unit(adjacent[i], m_current_selection->seeUnit()))
+            MapPos pos (0,0) ;
+            for (unsigned short i = 0 ; i < adjacent.size() ; i++)
+                if (m_map->terrain_adapt_to_unit(adjacent[i], m_current_selection->seeUnit()))
+                {
+                    pos = adjacent[i] ;
+                    if(!m_map->have_unit_on(pos))
                     {
-                        pos = adjacent[i] ;
-                        if(!m_map->have_unit_on(pos))
-                        {
-                            m_current_selection->add_possible_move_for_select_unit(pos) ; //Mise à jour des déplacement possible pour le joueur
-                            m_map->add_symbol(*m_all_symbol["green_circle"], pos) ; //Et affichage
-                        }
-                        else if (m_map->unit_on(pos)->proprietaire() != m_current_player_turn)
-                        {
-                            m_current_selection->add_possible_move_for_select_unit(pos) ; //Mise à jour des déplacement possible pour le joueur
-                            m_map->add_symbol(*m_all_symbol["red_circle"], pos) ; //Et affichage en rouge
-                        }
+                        m_current_selection->add_possible_move_for_select_unit(pos) ; //Mise à jour des déplacement possible pour le joueur
+                        m_map->add_symbol(*m_all_symbol["green_circle"], pos) ; //Et affichage
                     }
-            }
+                    else if (m_map->unit_on(pos)->proprietaire() != m_current_player_turn)
+                    {
+                        m_current_selection->add_possible_move_for_select_unit(pos) ; //Mise à jour des déplacement possible pour le joueur
+                        m_map->add_symbol(*m_all_symbol["red_circle"], pos) ; //Et affichage en rouge
+                    }
+                }
         }
+    }
 }
 
-void MatriceGameGestion::move_select_unit(MapPos const& pos)
+void MatriceGameGestion::move_select_unit(MapPos const& pos, bool afterVictoryAttack)
 {
-    if (validSelection(OBJECT_TYPE_UNIT))
+    if (validSelection(OBJECT_TYPE_UNIT), m_current_player_turn)
     {
-        if (m_current_selection->unit()->proprietaire() == m_current_player_turn)
+        if (afterVictoryAttack)
+            cout << "victoire" << endl ;
+        //LE SIEGE EST LA DESTRUCTION D'UNE UNITE DANS UNE CONSTRUCTION ENNEMIE
+        bool siege = false ;
+        if (afterVictoryAttack && m_map->have_cons_on(pos)) //Si on est en terrain ennemi
+            if (m_map->cons_on(pos)->proprietaire() != m_current_player_turn)
+                siege = true ;
+
+        if (m_map->move_unit_at(m_current_selection->getPos(), pos, afterVictoryAttack))
         {
-            
-            bool attaque = false ;
-            if (m_map->have_unit_on(pos)) //Si il y a une unité énnemie
-                if(m_map->unit_on(pos)->proprietaire() != m_current_player_turn)
-                    attaque = true ;
 
-            //LE SIEGE EST LA DESTRUCTION D'UNE UNITE DANS UNE CONSTRUCTION ENNEMIE
-            bool siege = false ;
-
-            if (attaque && m_map->have_cons_on(pos)) //Si on est en terrain ennemi
-                if (m_map->cons_on(pos)->proprietaire() != m_current_player_turn)
-                    siege = true ;
-
-            if (m_map->move_unit_at(m_current_selection->getPos(), pos, attaque))
+            if(siege) // En cas de siege on perd son unité
             {
-
-                if(siege) // En cas de siege on perd son unité
-                {
-                    m_map->del_unit(*m_map->unit_on(pos)) ;
-                    deleteSelection() ; //Donc déselection
-                }
-                else
-                {
-                    if(!siege && m_map->have_cons_on(pos)) //CAPTURE DE LA CONSTRUCTION
-                    {
-                        m_map->cons_on(pos)->capture_by(m_current_player_turn) ;
-                        verification_defaite() ;
-                    }
-
-                    new_selection(m_current_selection->getPos(), true) ;
-                    selection_unit() ;
-                }
-
-                updateDisplay() ;
-            } 
+                m_map->del_unit(*m_map->unit_on(pos)) ;
+                deleteSelection() ; //Donc déselection
+            }
             else
-                warning_message("Player as try to move select unit at invalid position") ;
+            {
+                if(!siege && m_map->have_cons_on(pos)) //CAPTURE DE LA CONSTRUCTION
+                {
+                    m_map->cons_on(pos)->capture_by(m_current_player_turn) ;
+                    verification_defaite() ;
+                }
 
-        }
+                new_selection(m_current_selection->getPos(), true) ;
+                selection_unit() ;
+            }
+
+            updateDisplay() ;
+        } 
         else
-            warning_message("Player as try to move unit of another player") ;
+            warning_message("Player as try to move select unit at invalid position") ;
     }
     else
-        warning_message("Player as try to move select unit, but not unit selected") ;
+        warning_message("Matrice as try to move but not player unit are selected") ;
+}
+
+//Is an attack ?
+bool MatriceGameGestion::isAnAttack(MapPos const& target) const
+{
+    //Une unité nous appartenant est séléctionnée ?
+    if ((validSelection(OBJECT_TYPE_UNIT), m_current_player_turn))
+    {
+        //La position à attaquer est elle suffisament proche ?
+        if (m_current_selection->unit()->canAttack_at(target))
+        {
+            //Y a t'il une unité adverse à attaquer
+            if (m_map->have_unit_on(target)) //Si il y a une unité énnemie
+                if(m_map->unit_on(target)->proprietaire() != m_current_player_turn)
+                    return true ;
+            return false ;
+        }
+        else
+            return false ;
+    }
+    else
+        return false ;
+}
+
+//Retourne vrai en cas de victoire de l'attaque
+bool MatriceGameGestion::attaque(MapPos const& target)
+{
+    if (isAnAttack(target))
+    {
+        Unit* defenseur = m_map->unit_on(target) ;
+        defenseur->subirAttaque(m_current_selection->unit()) ;
+        return defenseur->isDead() ;
+    }
+    else
+    {
+        erreur_message("Matrice try an invalid attack") ;
+        return false ;
+    }
 }
 
 //Affiche simplement la partie de la map voulue (et définie par m_scroll) sur la fenetre du jeu
@@ -329,8 +366,8 @@ void MatriceGameGestion::updateDisplay()
     m_fenetre.ajouter(m_map->getSurface(),&m_scroll,0,0) ;
     if (validSelection())
         m_fenetre.ajouter(m_select_info->surfaceAffichage(), 2, SCREEN_HEIGHT-SMALL_FONT-2) ;
-    m_fenetre.ajouter(*m_all_symbol["gold"],1,0) ;
-    m_fenetre.ajouter(m_quantite_or->surfaceAffichage(), 72, 1) ;
+    m_fenetre.ajouter(*m_all_symbol["gold"], SCREEN_WIDTH-172 ,0) ;
+    m_fenetre.ajouter(m_quantite_or->surfaceAffichage(), SCREEN_WIDTH-100, 1) ;
     if (Menu::isAMenuOpened())
         Menu::keepOpened(m_fenetre);
     m_fenetre.actualiser() ;
@@ -351,15 +388,17 @@ void MatriceGameGestion::clearLoadTexte()
     m_load_text.clear() ;
 }
 
-bool MatriceGameGestion::validSelection(short type) const
+//Renvoi vrai si un objet du bon type appartient à proprietaire
+bool MatriceGameGestion::validSelection(short type, AbstractPlayer* proprietaire) const
 {
     if (m_current_selection == NULL)
         return false ;
     if (!m_current_selection->valid())
         return false ;
-    if (type < 0)
+    if (type < 0 && proprietaire == NULL)
         return true ;
-    return type == m_current_selection->type() ;
+    return (proprietaire == NULL || proprietaire==m_current_selection->proprietaire_objet())
+        && (type < 0 || type==m_current_selection->type()) ;
 }
 
 void MatriceGameGestion::deleteSelection()

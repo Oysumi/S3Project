@@ -304,6 +304,11 @@ bool Map::have_cons_on (MapPos const& pos) const
 }
 
 
+void Map::actualiser (MapPos const& pos)
+{
+	resest_texture(pos) ;
+	ajouter_texture_objets(pos) ;
+}
 
 
 
@@ -335,14 +340,6 @@ void Map::delete_all_symbol() //Supprime tous les symboles de la map
 }
 
 
-
-
-
-void Map::actualiser (MapPos const& pos)
-{
-	resest_texture(pos) ;
-	ajouter_texture_objets(pos) ;
-}
 
 void Map::ajouter_texture_objets(MapPos const& pos)
 {

@@ -28,6 +28,7 @@ class Unit : public MapObject
 	public:
 		Unit(unsigned short type, MapPos const& pos, AbstractPlayer* const& player) ;
 		Unit(Unit const& aCopier) ;
+		~Unit() ;
 
 		virtual SurfaceAffichage const& getSurface() const ;
 		virtual SurfaceAffichage const& getLifeSurface() const ;
@@ -38,10 +39,14 @@ class Unit : public MapObject
 		bool graphicEraseCons() const ;
 		std::string name() const ;
 
+		bool canAttack_at (MapPos const& pos) const ; //Position adjacente ?
 		bool canMove_at (MapPos const& pos) const ;
+		unsigned short degats () const ;
 		bool fullLife() const ;
+		bool isDead() const ;
 
 		bool move(MapPos const& pos) ;
+		bool subirAttaque(Unit* attaquant) ;
 		void reset_deplacement() ;
 
 		//stockage des surfaces d'affichage des unités pour ne pas les reconstruire à chaque affichage => grosse optimisation niveau mémoire
@@ -57,6 +62,8 @@ class Unit : public MapObject
 		static void deleteSprtiteTexture() ;
 
 	protected :
+		void newVictoryPos(MapPos const& pos) ;
+		void recevoirDegats(unsigned short nb_degats) ;
 		void changePos (MapPos const& new_pos) ;
 		void initCaracteristique () ;
 
@@ -72,6 +79,8 @@ class Unit : public MapObject
 		
 		unsigned short m_vie ;
 		unsigned short m_deplacement ;
+
+		MapPos* m_last_vitcory_pos ;
 } ;
 
 #endif // __UNIT_H__

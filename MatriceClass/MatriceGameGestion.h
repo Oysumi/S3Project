@@ -54,16 +54,20 @@ class MatriceGameGestion
 		void addPlayer(std::string name) ;
 
 		bool new_selection(MapPos const pos, bool force_unit = false) ;
-		void move_select_unit(MapPos const& pos) ;
+		void move_select_unit(MapPos const& pos, bool afterVictoryAttack = false) ;
 		void updateDisplay() ;
 		//void defeatPlayer() ;
 		//void winPlayer() ;
+
+		//Retourne vrai en cas de victoire de l'attaque
+		bool attaque(MapPos const& pos) ;
+		bool isAnAttack(MapPos const& target) const ;
 
 		void initNewTurn(AbstractPlayer* new_current_player) ;
 		void verification_defaite() ;
 		void deleteSelection() ;
 		void selection_unit() ;
-		bool validSelection(short type = -1) const ;
+		bool validSelection(short type = -1, AbstractPlayer* proprietaire = NULL) const ;
 
 		void afficherTexte(std::string text, unsigned short w, unsigned short h, SDL_Color color = {0,0,0}) ; //Gestion de la création et du stockage du texte affiché (voir m_load_text)
 		void clearLoadTexte() ;

@@ -36,21 +36,21 @@ class Map
         Map() ;
         ~Map() ;
 
-        //Accès aux données des unités et des construction (pointeurs <=> potenitelles modifications par la matrice)
-        Unit* unit_on (MapPos const& pos) ;
-        Construction* cons_on (MapPos const& pos) ;
+        //Ajouter une unités ou une construction sur la Map
+        bool add_unit (Unit const& unit) ;
+        bool add_cons (Construction const& cons) ;
+        bool del_unit (Unit const& unit) ;
+        bool move_unit_at(MapPos const& source, MapPos const& destination, bool erase_source_unit = false) ;
 
         //Reset déplacement all unit
         void reset_deplacement_all_unit () ;
 
-        //Ajouter une unités ou une construction sur la Map
-        bool add_unit (Unit const& unit) ;
-        bool add_cons (Construction const& cons) ;
+        //Accès aux données des unités et des construction (pointeurs <=> potenitelles modifications par la matrice)
+        Unit* unit_on (MapPos const& pos) ;
+        Construction* cons_on (MapPos const& pos) ;
 
-        bool del_unit (Unit const& unit) ;
-
-        bool move_unit_at(MapPos const& source, MapPos const& destination, bool erase_source_unit = false) ;
-
+        //Méthode permettant la mise à jour de graphisme par la matrice
+        void actualiser (MapPos const& pos) ;
         void add_symbol (SurfaceAffichage const& surface, MapPos const& pos, bool audessus = true) ;
         void delete_all_symbol() ;
 
@@ -79,7 +79,6 @@ class Map
     private : // III) Méthodes privées permettant surtout de gérer les différents affichages simplement
         void ajouter_texture_objets(MapPos const& pos) ;
 
-        void actualiser (MapPos const& pos) ;
         void resest_texture(MapPos const& pos) ; //affiche le terrain sur cette case ce qui écrase et supprime tous les graphismes présents sur cette case
         
         void add_unit_texture(Unit const& unit) ;

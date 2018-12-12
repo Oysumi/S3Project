@@ -66,13 +66,16 @@ Unit::Unit(unsigned short type , MapPos const& pos, AbstractPlayer* const& playe
 	m_type(type)
 {
 		initCaracteristique() ;
-		m_deplacement = m_vitesse ;
 
+
+		m_deplacement = m_vitesse ;
 		//Juste pour tester les barres de vies
 		if (rand()%3 == 0)
 			m_vie = rand()%m_vieMax ;
 		else
 			m_vie = m_vieMax ;
+
+		m_last_vitcory_pos = NULL ;
 }
 
 Unit::Unit(Unit const& aCopier) : 
@@ -88,6 +91,19 @@ Unit::Unit(Unit const& aCopier) :
 		
 	m_vie = aCopier.m_vie ;
 	m_deplacement = aCopier.m_deplacement ;
+
+	m_last_vitcory_pos = NULL ;
+	if (aCopier.m_last_vitcory_pos != NULL)
+		newVictoryPos(*aCopier.m_last_vitcory_pos) ;
+}
+
+Unit::~Unit()
+{
+	if (m_last_vitcory_pos != NULL)
+	{
+		delete(m_last_vitcory_pos) ;
+		m_last_vitcory_pos = NULL ;
+	}
 }
 
 SurfaceAffichage const& Unit::getSurface() const
@@ -105,6 +121,12 @@ bool Unit::fullLife() const
 	return m_vie == m_vieMax ;
 }
 
+bool Unit::isDead() const
+{
+	return m_vie <= 0 ;
+}
+
+
 string Unit::name() const
 {
 	return m_name ;
@@ -112,7 +134,7 @@ string Unit::name() const
 
 string Unit::info() const
 {
-	return m_name + " de " + m_proprietaire->name() + ", deplacement: " + to_string(m_deplacement) + "/" + to_string(m_vitesse) + ", vie: " + to_string(m_vie) + "/" + to_string(m_vieMax) ;
+	return m_name + " de " + m_proprietaire->name() + ", degats: " + to_string(m_degats) + ", deplacement: " + to_string(m_deplacement) + "/" + to_string(m_vitesse) + ", vie: " + to_string(m_vie) + "/" + to_string(m_vieMax) ;
 }
 
 unsigned short Unit::type () const
@@ -130,19 +152,65 @@ void Unit::reset_deplacement()
 	m_deplacement = m_vitesse ;
 }
 
+//Position adjacente ?
+bool Unit::canAttack_at (MapPos const& pos) const
+{
+	return m_pos.separation_value(pos) == 1 && m_deplacement > 0 ;
+}
+
+bool Unit::subirAttaque(Unit* attaquant)
+{
+	if (!attaquant->canAttack_at(m_pos))
+		return false ; // Pas d'attaque
+	
+	recevoirDegats( attaquant->degats() ) ;
+	attaquant->m_deplacement = 0 ;
+
+	if (isDead())
+		attaquant->newVictoryPos(m_pos) ;
+
+	return true ;
+}
+
+void Unit::recevoirDegats(unsigned short nb_degats)
+{
+	if (nb_degats > m_vie)
+		m_vie = 0 ;
+	else
+		m_vie -= nb_degats ;
+}
+
 bool Unit::canMove_at (MapPos const& pos) const
 {
 	if (pos != m_pos && pos.adjacent(m_pos, m_deplacement))
 		return true ;
+	if (m_last_vitcory_pos != NULL)
+		if (pos == *m_last_vitcory_pos)
+			return true ;
 	return false ;
+}
+
+unsigned short Unit::degats () const
+{
+	return m_degats ;
 }
 
 bool Unit::move(MapPos const& pos)
 {
 	if (canMove_at(pos))
 	{
+		if (m_last_vitcory_pos != NULL)
+			if (pos == *m_last_vitcory_pos) /*Aller à l'emplacement de la victoire après un combat est normal
+										bien que l'unité est perdue ses points de déplacement dans la bataille*/
+			{
+				delete(m_last_vitcory_pos) ;
+				m_last_vitcory_pos = NULL ;
+				changePos(pos) ;
+				return true ;
+			}
+
 		m_deplacement -= m_pos.separation_value(pos) ;
-		m_pos = pos ;
+		changePos(pos) ;
 		return true ;
 	}
 	return false ;
@@ -156,6 +224,13 @@ bool Unit::canMove () const
 void Unit::changePos (MapPos const& new_pos)
 {
 	m_pos = new_pos ;
+}
+
+void Unit::newVictoryPos(MapPos const& pos)
+{
+	if (m_last_vitcory_pos != NULL)
+		delete(m_last_vitcory_pos) ;
+	m_last_vitcory_pos = new MapPos(pos) ;
 }
 
 
