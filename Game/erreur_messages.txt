@@ -1,1 +1,1 @@
-Impossible de charger la  texture ../ressources/gold.bmp : Couldn't open ../ressources/gold.bmp
+Impossible d'ajouter le sprite../ressources/SpriteMap64.bmp à la SurfaceAffichage : SDL_UpperBlit: passed a NULL surface

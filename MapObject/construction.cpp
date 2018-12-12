@@ -34,6 +34,11 @@ bool Construction::canMove () const
 	return false ;
 }
 
+string Construction::info() const
+{
+	return "Construction de " + m_proprietaire->name() ;
+}
+
 unsigned short Construction::type () const
 {
 	return OBJECT_TYPE_CONSTRUCTION ;
@@ -45,7 +50,7 @@ unsigned short Construction::type () const
 //DEUX METHODES STATIQUES PERMETTANT D'ÉVITER DE MULTIPLE CREATION DE SPRITETEXTURE
 void Construction::initSprtiteTexture()
 {
-	sprite_construction = new SpriteTexture(sprite_construction_path,MAP_CASE_SIZE,NB_TYPE_CONSTRUCTION) ;
+	sprite_construction = new SpriteTexture(sprite_construction_path,MAP_CASE_SIZE,MAP_CASE_SIZE,NB_TYPE_CONSTRUCTION) ;
 
 	//Création d'un tableau servant au stockage des surfaces d'affichage des constructions pour ne pas les reconstruire à chaque affichage
     construction_affichage = (SurfaceAffichage***)malloc(NB_COLOR * sizeof(SurfaceAffichage**));

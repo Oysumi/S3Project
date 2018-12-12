@@ -11,16 +11,18 @@ using namespace std;
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
-#define MAP_WIDTH 30
+#define MAP_WIDTH 20
 #define MAP_HEIGHT 15
 
-#define SCROOL_ZONE 15
+#define SCROOL_ZONE 50
 #define TIME_BETWEEN_SCROLL_CHANGE 5
 #define TIME_LIMIT_TO_DISPLAY_MENU 500
 
 #define BEGIN_GOLD 200
 #define GOLD_AUGMENTATION 10
 #define PRIX_CATAPULTE 500
+
+#define SMALL_FONT 18
 
 
 //Initialise le programme, fenetre, menus, boutons ...
@@ -69,6 +71,9 @@ void MatriceGameGestion::init()
     m_tour = 0 ;
 
     m_fin_de_la_partie = false ;
+
+    m_quantite_or = NULL ;
+    m_select_info = NULL ;
 
     debugage_message("Matrice initialisée pour une partie") ;
 }
@@ -120,7 +125,6 @@ void MatriceGameGestion::gameLoop()
             //Traitement des autres decisions
             else
             {
-
                 //SELECTION D'UNE NOUVELLE UNITE OU D'UNE NOUVELLE CONSTRUCTION
                 if (d.decision() == DECISION_CHANGE_SELECT_UNIT)
                     if (new_selection(d.target()))
@@ -142,55 +146,7 @@ void MatriceGameGestion::gameLoop()
                 //DEPLACEMENT DE L'UNITE SELECTIONNE
                 else if (d.decision() == DECISION_MOVE_SELECT_UNIT)
                 {
-                    if (validSelection(OBJECT_TYPE_UNIT))
-                    {
-                        if (m_current_selection->unit()->proprietaire() == m_current_player_turn)
-                        {
-                            MapPos const pos (d.target()) ;
-                            
-                            bool attaque = false ;
-                            if (m_map->have_unit_on(pos)) //Si il y a une unité énnemie
-                                if(m_map->unit_on(pos)->proprietaire() != m_current_player_turn)
-                                    attaque = true ;
-
-                            //LE SIEGE EST LA DESTRUCTION D'UNE UNITE DANS UNE CONSTRUCTION ENNEMIE
-                            bool siege = false ;
-
-                            if (attaque && m_map->have_cons_on(pos)) //Si on est en terrain ennemi
-                                if (m_map->cons_on(pos)->proprietaire() != m_current_player_turn)
-                                    siege = true ;
-
-                            if (m_map->move_unit_at(m_current_selection->getPos(), pos, attaque))
-                            {
-
-                                if(siege) // En cas de siege on perd son unité
-                                {
-                                    m_map->del_unit(*m_map->unit_on(pos)) ;
-                                    deleteSelection() ; //Donc déselection
-                                }
-                                else
-                                {
-                                    if(!siege && m_map->have_cons_on(pos)) //CAPTURE DE LA CONSTRUCTION
-                                    {
-                                        m_map->cons_on(pos)->capture_by(m_current_player_turn) ;
-                                        verification_defaite() ;
-                                    }
-
-                                    new_selection(m_current_selection->getPos(), true) ;
-                                    selection_unit() ;
-                                }
-
-                                updateDisplay() ;
-                            } 
-                            else
-                                warning_message("Player as try to move select unit at invalid position") ;
-
-                        }
-                        else
-                            warning_message("Player as try to move unit of another player") ;
-                    }
-                    else
-                        warning_message("Player as try to move select unit, but not unit selected") ;
+                    move_select_unit(d.target()) ;
                 }
             }
         }
@@ -215,7 +171,6 @@ void MatriceGameGestion::verification_defaite()
 
 void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
 {
-
     if(m_current_player_turn != NULL)
         m_player_gold[m_current_player_turn] += GOLD_AUGMENTATION*m_map->nb_construction_of(m_current_player_turn) ;
 
@@ -226,6 +181,10 @@ void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
     }
 
     m_current_player_turn = new_current_player ;
+    if (m_quantite_or != NULL)
+        delete(m_quantite_or) ;
+    m_quantite_or = new Texte(to_string(m_player_gold[m_current_player_turn]), SDL_Color({252, 210, 28})) ;
+
     m_map->reset_deplacement_all_unit (); //Les unités peuvent de nouveaux se déplacer
     deleteSelection() ; // On deselectionne l'unité en passant au joueur suivant
     m_saveMenu->at(0)->setTextButton(0,"tour " + to_string(m_tour) + " de " + m_current_player_turn->name()) ;
@@ -249,6 +208,9 @@ bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
 
     if (new_selection != NULL) // si il y a bien une unite ou une construction à cette position selectionee
     {
+        if (m_select_info != NULL)
+            delete(m_select_info) ;
+
         deleteSelection() ; //Supression de l'ancienne selection
 
         // a quel joueur appartient l'unite ou la construction selectionnée ?
@@ -261,6 +223,8 @@ bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
             m_map->add_symbol(*m_all_symbol["red_circle"],pos) ;
 
         m_current_selection = new Selection(new_selection) ;
+        m_select_info = new Texte(m_current_selection->value()->info(), SDL_Color({0,0,0}), SMALL_FONT) ;
+
         return true ;
 
     }
@@ -307,16 +271,66 @@ void MatriceGameGestion::selection_unit()
         }
 }
 
+void MatriceGameGestion::move_select_unit(MapPos const& pos)
+{
+    if (validSelection(OBJECT_TYPE_UNIT))
+    {
+        if (m_current_selection->unit()->proprietaire() == m_current_player_turn)
+        {
+            
+            bool attaque = false ;
+            if (m_map->have_unit_on(pos)) //Si il y a une unité énnemie
+                if(m_map->unit_on(pos)->proprietaire() != m_current_player_turn)
+                    attaque = true ;
+
+            //LE SIEGE EST LA DESTRUCTION D'UNE UNITE DANS UNE CONSTRUCTION ENNEMIE
+            bool siege = false ;
+
+            if (attaque && m_map->have_cons_on(pos)) //Si on est en terrain ennemi
+                if (m_map->cons_on(pos)->proprietaire() != m_current_player_turn)
+                    siege = true ;
+
+            if (m_map->move_unit_at(m_current_selection->getPos(), pos, attaque))
+            {
+
+                if(siege) // En cas de siege on perd son unité
+                {
+                    m_map->del_unit(*m_map->unit_on(pos)) ;
+                    deleteSelection() ; //Donc déselection
+                }
+                else
+                {
+                    if(!siege && m_map->have_cons_on(pos)) //CAPTURE DE LA CONSTRUCTION
+                    {
+                        m_map->cons_on(pos)->capture_by(m_current_player_turn) ;
+                        verification_defaite() ;
+                    }
+
+                    new_selection(m_current_selection->getPos(), true) ;
+                    selection_unit() ;
+                }
+
+                updateDisplay() ;
+            } 
+            else
+                warning_message("Player as try to move select unit at invalid position") ;
+
+        }
+        else
+            warning_message("Player as try to move unit of another player") ;
+    }
+    else
+        warning_message("Player as try to move select unit, but not unit selected") ;
+}
+
 //Affiche simplement la partie de la map voulue (et définie par m_scroll) sur la fenetre du jeu
 void MatriceGameGestion::updateDisplay()
 {
     m_fenetre.ajouter(m_map->getSurface(),&m_scroll,0,0) ;
-    if (validSelection(OBJECT_TYPE_UNIT))
-        afficherTexte("Catapulte de "+m_current_selection->proprietaire_objet()->name(), 0, SCREEN_HEIGHT - 30) ;
-    if (validSelection(OBJECT_TYPE_CONSTRUCTION))
-        afficherTexte("Construction de "+m_current_selection->proprietaire_objet()->name(), 0, SCREEN_HEIGHT - 30) ;
+    if (validSelection())
+        m_fenetre.ajouter(m_select_info->surfaceAffichage(), 2, SCREEN_HEIGHT-SMALL_FONT-2) ;
     m_fenetre.ajouter(*m_all_symbol["gold"],1,0) ;
-    afficherTexte(std::to_string(m_player_gold[m_current_player_turn]), 72, 1, SDL_Color({252, 210, 28})) ;
+    m_fenetre.ajouter(m_quantite_or->surfaceAffichage(), 72, 1) ;
     if (Menu::isAMenuOpened())
         Menu::keepOpened(m_fenetre);
     m_fenetre.actualiser() ;
@@ -362,6 +376,12 @@ MatriceGameGestion::~MatriceGameGestion()
 {
     deleteSelection() ;
     clearLoadTexte() ;
+
+    if (m_select_info != NULL)
+        delete(m_select_info) ;
+
+    if (m_quantite_or != NULL)
+        delete(m_quantite_or) ;
 
     for ( map<std::string,SurfaceAffichage*>::iterator it = m_all_symbol.begin() ; it != m_all_symbol.end() ; it++)
     {

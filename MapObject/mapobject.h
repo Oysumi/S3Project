@@ -25,6 +25,7 @@ class MapObject
 		//Retourne le type d'objet, construction, unité ...
 		virtual unsigned short type () const = 0 ;
 		virtual bool canMove () const = 0 ;
+		virtual std::string info() const = 0 ;
 
 		//accesseurs
 		MapPos const& getPos() const ;

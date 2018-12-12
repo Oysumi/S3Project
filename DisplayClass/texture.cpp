@@ -37,8 +37,8 @@ string Texture::path() const
 }
 
 //CONSTRUCTEUR
-SpriteTexture::SpriteTexture (string const& path, unsigned short const& size_sprite, unsigned short const& nombre_de_sprite_longueur, unsigned short const& nombre_de_sprite_largeur)
-: Texture(path), m_taille(size_sprite), m_nb_longueur(nombre_de_sprite_longueur), m_nb_largeur(nombre_de_sprite_largeur)
+SpriteTexture::SpriteTexture (string const& path, unsigned short const& width, unsigned short const& height, unsigned short const& nombre_de_sprite_longueur, unsigned short const& nombre_de_sprite_largeur)
+: Texture(path), m_width(width), m_height(height), m_nb_longueur(nombre_de_sprite_longueur), m_nb_largeur(nombre_de_sprite_largeur)
 {
 }
 
@@ -48,14 +48,14 @@ SDL_Rect SpriteTexture::getRect (unsigned short const& numero_sprite_longueur, u
     if(numero_sprite_longueur >= m_nb_longueur || numero_sprite_largeur >= m_nb_largeur)
     {
         warning_message("Demande d'accès à une case du Sprite " + path() + " qui n'existe pas") ;
-        cout << endl << endl << "ateiprieroi" << endl ;
     }
     
     SDL_Rect image ;
-    image.x = numero_sprite_longueur*m_taille ;
-    image.y = numero_sprite_largeur*m_taille ;
-    image.h = m_taille ;
-    image.w = m_taille ;
+    image.x = numero_sprite_longueur*m_width ;
+    image.y = numero_sprite_largeur*m_height ;
+    image.h = m_height ;
+    image.w = m_width ;
+
     return image ;
 }
 

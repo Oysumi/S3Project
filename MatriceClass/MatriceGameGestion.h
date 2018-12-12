@@ -47,18 +47,23 @@ class MatriceGameGestion
 		//Stockage du texte affiché qui est très souvent le même pour ne pas charger sans cesse les mêmes graphismes
 		std::map <std::string, Texte*> m_load_text ;
 
+		Texte* m_quantite_or ;
+		Texte* m_select_info ;
+
 	private :
+		void addPlayer(std::string name) ;
+
 		bool new_selection(MapPos const pos, bool force_unit = false) ;
-		void selection_unit() ;
-		void verification_defaite() ;
+		void move_select_unit(MapPos const& pos) ;
+		void updateDisplay() ;
 		//void defeatPlayer() ;
 		//void winPlayer() ;
 
-		void updateDisplay() ;
-		void deleteSelection() ;
-		bool validSelection(short type = -1) const ;
-		void addPlayer(std::string name) ;
 		void initNewTurn(AbstractPlayer* new_current_player) ;
+		void verification_defaite() ;
+		void deleteSelection() ;
+		void selection_unit() ;
+		bool validSelection(short type = -1) const ;
 
 		void afficherTexte(std::string text, unsigned short w, unsigned short h, SDL_Color color = {0,0,0}) ; //Gestion de la création et du stockage du texte affiché (voir m_load_text)
 		void clearLoadTexte() ;

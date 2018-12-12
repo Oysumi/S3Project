@@ -6,6 +6,7 @@
 #include "../MapObject/mapobject.h"
 #include "../MapClass/terrain.h"
 #include <string>
+#include <vector>
 
 #define NB_TYPE_UNIT     5
 
@@ -29,13 +30,16 @@ class Unit : public MapObject
 		Unit(Unit const& aCopier) ;
 
 		virtual SurfaceAffichage const& getSurface() const ;
+		virtual SurfaceAffichage const& getLifeSurface() const ;
 		virtual unsigned short type () const ;
 		virtual bool canMove () const ;
+		virtual std::string info() const ;
 
 		bool graphicEraseCons() const ;
 		std::string name() const ;
 
 		bool canMove_at (MapPos const& pos) const ;
+		bool fullLife() const ;
 
 		bool move(MapPos const& pos) ;
 		void reset_deplacement() ;
@@ -44,6 +48,11 @@ class Unit : public MapObject
 		static std::string sprite_unit_path ;
 		static SpriteTexture* sprite_unit ;
 		static SurfaceAffichage*** unit_affichage ;
+
+		static std::string sprite_life_path ;
+		static SpriteTexture* sprite_life ;
+		static std::vector<SurfaceAffichage*> life_affichage ;
+
 		static void initSprtiteTexture() ;
 		static void deleteSprtiteTexture() ;
 
@@ -56,9 +65,13 @@ class Unit : public MapObject
 
 		std::string m_name ;
 		bool m_graphicEraseCons ;
-		unsigned short m_vitesse ;
 
-		unsigned short m_deplacement ;	
+		unsigned short m_vieMax ;
+		unsigned short m_vitesse ;
+		unsigned short m_degats ;	
+		
+		unsigned short m_vie ;
+		unsigned short m_deplacement ;
 } ;
 
 #endif // __UNIT_H__

@@ -28,6 +28,7 @@ class Construction : public MapObject
         virtual SurfaceAffichage const& getSurface() const ;
         virtual unsigned short type () const ;
         virtual bool canMove () const ;
+        virtual std::string info() const ;
 
         void capture_by (AbstractPlayer * new_propietaire) ;
 

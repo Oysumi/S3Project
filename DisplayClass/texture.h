@@ -30,13 +30,13 @@ class SpriteTexture : public Texture
 
     public:
 
-        SpriteTexture (std::string const& path, unsigned short const& size_sprite, unsigned short const& nombre_de_sprite_longueur, unsigned short const& nombre_de_sprite_largeur = 1) ;
+        SpriteTexture (std::string const& path, unsigned short const& width, unsigned short const& height, unsigned short const& nombre_de_sprite_longueur, unsigned short const& nombre_de_sprite_largeur = 1) ;
         SDL_Rect getRect (unsigned short const& numero_sprite_longueur, unsigned short const& numero_sprite_largeur) const ;
         ~SpriteTexture() ;
 
     private:
 
-        unsigned short m_taille ;
+        unsigned short m_width, m_height ;
     	unsigned short m_nb_longueur, m_nb_largeur ;
 
 };

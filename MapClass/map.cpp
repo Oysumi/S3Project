@@ -376,7 +376,10 @@ void Map::resest_texture(MapPos const& pos)
 
 void Map::add_unit_texture(Unit const& unit)
 {
-	ajouter(unit.getSurface(), unit.getPos()) ;
+	MapPos const pos (unit.getPos()) ;
+	ajouter(unit.getSurface(), pos) ;
+	if (!unit.fullLife()) //On affiche la barre de vie si l'unité est endommagée
+		m_graphic_map->ajouter(unit.getLifeSurface(), pos.x()*MAP_CASE_SIZE + 7, height()-(1+pos.y())*MAP_CASE_SIZE + 5) ;
 }
 
 void Map::add_cons_texture(Construction const& cons)
