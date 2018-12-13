@@ -1,5 +1,6 @@
 #include "AbstractButton.h"
 #include "ActionButton.h"
+#include "SubMenuButton.h"
 #include "Menu.h"
 
 using namespace std ;
@@ -7,28 +8,32 @@ using namespace std ;
 vector<AbstractButton*>* AbstractButton::getAllButton()
 {
 
-	SDL_Color font = {255,255,255};
-	SDL_Color text = {0,0,0};
+	SDL_Color white = {255,255,255};
+	SDL_Color black = {0,0,0};
 
 	vector<AbstractButton*>* bouton = new vector<AbstractButton*> ;
+	for (unsigned short i = 0 ; i < 45 ; i++)
+		bouton->push_back(NULL) ;
 
-	bouton->push_back(new ActionButton(RETOUR, "Retour", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, font, text)) ;
-	bouton->push_back(new ActionButton(MUSIQUE, "MUSIQUE", 200, 100, 110, 110, font, text)) ;
-	bouton->push_back(new ActionButton(QUITTER, "Quitter", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, font, text)) ;
-	bouton->push_back(new ActionButton(ATTAQUER, "ATATQUER", 200, 100, 110, 110, font, text)) ;
-	bouton->push_back(new ActionButton(DEFENDRE, "DEFENDRE", 200, 100, 110, 110, font, text)) ;
-	bouton->push_back(new ActionButton(ALLER_A, "ALLER_A", 200, 100, 110, 110, font, text)) ;
-	bouton->push_back(new ActionButton(FERMER, "FERMER", 200, 100, 110, 110, font, text)) ;
-	bouton->push_back(new ActionButton(FIN_DU_TOUR, "Fin du tour", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, font, text)) ;
-	bouton->push_back(new ActionButton(AFFICHAGE, "Tour de ", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, text, font)) ;
-	bouton->push_back(new ActionButton(CREATION, "Creation de :", LARGEUR_MENU2, HAUTEUR_MENU2, 50, 50, text, font, 15));
-	bouton->push_back(new ActionButton(CREER_UNITE, "Unite", LARGEUR_MENU2, HAUTEUR_MENU2, 50, 50, font, text, 15));
-	bouton->push_back(new ActionButton(CREER_CONSTRUCTION, "Construction", LARGEUR_MENU2, HAUTEUR_MENU2, 50, 50, font, text, 15));
-	bouton->push_back(new ActionButton(SELECTION, "Selection :", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, text, font, 15));
-	bouton->push_back(new ActionButton(ARCHER, "ARCHER", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, font, text, 15));
-	bouton->push_back(new ActionButton(CATAPULTE, "CATAPULTE", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, font, text, 15));
-	bouton->push_back(new ActionButton(CHATEAU, "CHATEAU", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, font, text, 15));
-	bouton->push_back(new ActionButton(FERME, "FERME", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, font, text, 15));
+	(*bouton)[RETOUR] = new ActionButton(RETOUR, "Retour", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, white, black) ;
+	(*bouton)[MUSIQUE] = new ActionButton(MUSIQUE, "MUSIQUE", 200, 100, 110, 110, white, black) ;
+	(*bouton)[QUITTER] = new ActionButton(QUITTER, "Quitter", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, white, black) ;
+	(*bouton)[FIN_DU_TOUR] = new ActionButton(FIN_DU_TOUR, "Fin du tour", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, white, black) ;
+	(*bouton)[AFFICHAGE] = new ActionButton(AFFICHAGE, "Tour de ", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, black, white) ;
+	
+	(*bouton)[ENTETE_CONSTRUCTION_UNITE] = new ActionButton(ENTETE_CONSTRUCTION_UNITE, "Construire ...", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, black, white, 15);
+	(*bouton)[BELIER] = new ActionButton(BELIER, "Belier", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
+	(*bouton)[CATAPULTE] = new ActionButton(CATAPULTE, "Catapulte", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
+	(*bouton)[RETOUR2] = new SubMenuButton(CHATEAU_MENU, "RETOUR", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
+	
+	(*bouton)[ENTETE_CONSTRUCTION_BATIMENT] = new ActionButton(ENTETE_CONSTRUCTION_BATIMENT, "Construire ...", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, black, white, 15);
+	(*bouton)[CHATEAU] = new ActionButton(CHATEAU, "Chateau", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
+	(*bouton)[FERME] = new ActionButton(FERME, "Ferme", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
+	(*bouton)[RETOUR3] = new SubMenuButton(CHATEAU_MENU, "RETOUR", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
+
+	(*bouton)[ENTETE_CONSTRUCTION] = new ActionButton(ENTETE_CONSTRUCTION, "Construire ...", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, black, white, 15);
+	(*bouton)[CONSTRUIRE_BATIMENT] = new SubMenuButton(CONSTRUCTION_BATIMENT_MENU, "Un batiment", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
+	(*bouton)[CONSTRUIRE_UNIT] = new SubMenuButton(CONSTRUCTION_UNIT_MENU, "Une unite", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
 
 	return bouton ;
 }

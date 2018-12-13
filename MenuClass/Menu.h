@@ -29,7 +29,7 @@ class Menu
 	private:
 		void calculPosButton(std::vector<AbstractButton*> const& buttons) ;
 		bool clickIsOnThisMenu(unsigned int x, unsigned int y) ;
-		int receiveAction(unsigned int x, unsigned int y);
+		AbstractButton* receiveAction(unsigned int x, unsigned int y) const ;
 	
 	public:
 		static std::vector <Menu*>* getAllMenu(std::vector <AbstractButton*> const& all_buttons, unsigned short const width, unsigned short const height) ;
@@ -47,6 +47,7 @@ class Menu
 		bool isOpen() const ;
 		bool setTextButton(unsigned short nb, std::string const& text) ;
 		
+		static Menu* getMenuById(int id) ;
 		static void openMenu(int id, Fenetre& screen) ;
 		static void keepOpened(Fenetre& screen);
 		static bool isAMenuOpened() ;
@@ -54,14 +55,14 @@ class Menu
 		static bool isOnOneMenu(unsigned int x, unsigned int y) ;
 		static int getIdButtonOn(unsigned int x, unsigned int y) ; // Reçoit des coordonnées qui seront comparées avec la position des boutons du menu
 										 // Retourne l'ID du bouton
+		static bool openSubAssocTo(unsigned int x, unsigned int y) ;
 		
 };
 
 #define ESCAPE_MENU 50
-#define ATTACK_MENU 51
-#define CREATION_MENU 52
-#define UNITES_MENU 53
-#define CONS_MENU 54
+#define CHATEAU_MENU 51
+#define CONSTRUCTION_UNIT_MENU 52
+#define CONSTRUCTION_BATIMENT_MENU 53
 
 #define LARGEUR_MENU1 450
 #define HAUTEUR_MENU1 100

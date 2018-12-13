@@ -27,7 +27,7 @@ using namespace std;
 
 //Initialise le programme, fenetre, menus, boutons ...
 MatriceGameGestion::MatriceGameGestion() :
-    m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN)
+    m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF)
 {
     // Création des boutons
     m_all_buttons = AbstractButton::getAllButton() ;
@@ -133,9 +133,9 @@ void MatriceGameGestion::gameLoop()
                             selection_unit() ;
                         else if(m_current_selection->type() == OBJECT_TYPE_CONSTRUCTION)
                         {
-                            /*
-                            ... Affichage d'un menu proposant plusieurs boutons permeetant de créer une catpaulte, de rencforcer le chateau, sa production en or ...
-                            */
+
+                            if (!Menu::getMenuById(CHATEAU_MENU)->isOpen())
+                                Menu::openMenu(CHATEAU_MENU, m_fenetre) ;
                         }
                         updateDisplay() ;
                     }
@@ -173,7 +173,7 @@ void MatriceGameGestion::verification_defaite()
         if (nb_construction<=0)
         {
             cout << " ------------------------ " << endl ;
-            cout << " VIVTOIRE DE " << m_player_list->at((i+1)%2)->name() << " !!!" << endl ;
+            cout << " VICTOIRE DE " << m_player_list->at((i+1)%2)->name() << " !!!" << endl ;
             cout << " ------------------------ " << endl ;
             m_fin_de_la_partie = true ;
         }
@@ -285,8 +285,6 @@ void MatriceGameGestion::move_select_unit(MapPos const& pos, bool afterVictoryAt
 {
     if (validSelection(OBJECT_TYPE_UNIT), m_current_player_turn)
     {
-        if (afterVictoryAttack)
-            cout << "victoire" << endl ;
         //LE SIEGE EST LA DESTRUCTION D'UNE UNITE DANS UNE CONSTRUCTION ENNEMIE
         bool siege = false ;
         if (afterVictoryAttack && m_map->have_cons_on(pos)) //Si on est en terrain ennemi
@@ -298,8 +296,8 @@ void MatriceGameGestion::move_select_unit(MapPos const& pos, bool afterVictoryAt
 
             if(siege) // En cas de siege on perd son unité
             {
-                m_map->del_unit(*m_map->unit_on(pos)) ;
                 deleteSelection() ; //Donc déselection
+                m_map->del_unit(*m_map->unit_on(pos)) ;
             }
             else
             {
@@ -364,8 +362,10 @@ bool MatriceGameGestion::attaque(MapPos const& target)
 void MatriceGameGestion::updateDisplay()
 {
     m_fenetre.ajouter(m_map->getSurface(),&m_scroll,0,0) ;
-    if (validSelection())
-        m_fenetre.ajouter(m_select_info->surfaceAffichage(), 2, SCREEN_HEIGHT-SMALL_FONT-2) ;
+    if (validSelection(OBJECT_TYPE_CONSTRUCTION))
+        m_fenetre.ajouter(m_select_info->surfaceAffichage(), LARGEUR_MENU2 + 15 , SCREEN_HEIGHT-SMALL_FONT-2) ;
+    else if (validSelection(OBJECT_TYPE_UNIT))
+        m_fenetre.ajouter(m_select_info->surfaceAffichage(), 2 , SCREEN_HEIGHT-SMALL_FONT-2) ;
     m_fenetre.ajouter(*m_all_symbol["gold"], SCREEN_WIDTH-172 ,0) ;
     m_fenetre.ajouter(m_quantite_or->surfaceAffichage(), SCREEN_WIDTH-100, 1) ;
     if (Menu::isAMenuOpened())
@@ -405,6 +405,15 @@ void MatriceGameGestion::deleteSelection()
 {
     if (m_current_selection != NULL)
     {
+        if (m_current_selection->type() == OBJECT_TYPE_CONSTRUCTION)
+        {
+            if (Menu::getMenuById(CHATEAU_MENU)->isOpen())
+                Menu::openMenu(CHATEAU_MENU, m_fenetre) ;
+            if (Menu::getMenuById(CONSTRUCTION_UNIT_MENU)->isOpen())
+                Menu::openMenu(CONSTRUCTION_UNIT_MENU, m_fenetre) ;
+            if (Menu::getMenuById(CONSTRUCTION_BATIMENT_MENU)->isOpen())
+                Menu::openMenu(CONSTRUCTION_BATIMENT_MENU, m_fenetre) ;
+        }
         delete(m_current_selection) ;
         m_current_selection = NULL ;
         m_map->delete_all_symbol() ;
@@ -473,8 +482,6 @@ MatriceGameGestion::~MatriceGameGestion()
     {
         if (m_all_buttons->back() != NULL)
             delete(m_all_buttons->back()) ;
-        else
-            warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_all_buttons->back() in ~MatriceGameGestion()") ;
         m_all_buttons->pop_back() ;
     }
 

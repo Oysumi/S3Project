@@ -11,6 +11,7 @@ HUMPLAYERh=../PlayerClass/HumanPlayer.h
 ARTPLAYERh=../PlayerClass/ArtificialPlayer.h
 ABUTTONh=../MenuClass/AbstractButton.h
 ACTBUTTONh=../MenuClass/ActionButton.h
+SUMBUTTONh=../MenuClass/SubMenuButton.h
 SUBMENUh=../MenuClass/SubMenuButton.h
 MENUh=../MenuClass/Menu.h
 MATRICEh=../MatriceClass/MatriceGameGestion.h
@@ -32,6 +33,7 @@ HUMPLAYERcpp=../PlayerClass/HumanPlayer.cpp
 ARTPLAYERcpp=../PlayerClass/ArtificialPlayer.cpp
 ABSBUTTONcpp=../MenuClass/AbstractButton.cpp
 ACTBUTTONcpp=../MenuClass/ActionButton.cpp
+SUMBUTTONcpp=../MenuClass/SubMenuButton.cpp
 MENUcpp=../MenuClass/Menu.cpp
 MATRICEcpp=../MatriceClass/MatriceGameGestion.cpp
 TERRcpp=../MapClass/terrain.cpp
@@ -48,11 +50,11 @@ $(BIN): $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(ABUNITh) $(ABPLAYERh) \
 		$(HUMPLAYERh) $(ARTPLAYERh) $(ABUTTONh) $(ACTBUTTONh) $(SUBMENUh) $(MENUh) \
 		$(MATRICEh) $(TERRh) $(TEXTEh) $(MAPh) $(CONSh) $(POSh) $(OBJMOBh) $(DECh) $(SELh) \
 		$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ARTPLAYERcpp) $(ACTBUTTONcpp) \
-		$(ABSBUTTONcpp) $(MENUcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(MAINcpp)
+		$(ABSBUTTONcpp) $(SUMBUTTONh) $(MENUcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(MAINcpp)
 	g++ -std=c++11 -Wall -g -lSDL $(TEXTUREh) $(FENETREh) $(FONCTIONSh) $(UNITh) $(ABPLAYERh) $(HUMPLAYERh) $(ARTPLAYERh) \
 				    $(ACTBUTTONh) $(ABUTONh) $(SUBMENUh) $(MENUh) $(MATRICEh) $(TERRh) $(TEXTEh) \
 					$(TEXTUREcpp) $(FENETREcpp) $(FONCTIONScpp) $(HUMPLAYERcpp) $(ABPLAYERcpp) $(UNITcpp) $(ARTPLAYERcpp) $(MENUcpp) \
-					$(ABSBUTTONcpp) $(ACTBUTTONcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(OBJMOBcpp) $(DECcpp) $(SELcpp) $(MAPcpp) $(CONScpp) $(POScpp) $(MAINcpp) \
+					$(ABSBUTTONcpp) $(ACTBUTTONcpp) $(SUMBUTTONcpp) $(MATRICEcpp) $(TERRcpp) $(TEXTEcpp) $(OBJMOBcpp) $(DECcpp) $(SELcpp) $(MAPcpp) $(CONScpp) $(POScpp) $(MAINcpp) \
 		-I $(INSTL) \
 		-L $(LIB) \
 		-Wl,-rpath,$(LIB) \

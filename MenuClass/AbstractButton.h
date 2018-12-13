@@ -55,23 +55,26 @@ class AbstractButton
 };
 
 #define NOTHING 100
+#define SUBMENU 200
 
 #define RETOUR 0
 #define MUSIQUE 1
 #define QUITTER 2
-#define ATTAQUER 3
-#define DEFENDRE 4
-#define ALLER_A 5
-#define FERMER 6
-#define FIN_DU_TOUR 7
-#define AFFICHAGE 8
-#define CREATION 9
-#define CREER_UNITE 10
-#define CREER_CONSTRUCTION 11
-#define SELECTION 12
-#define ARCHER 13
-#define CATAPULTE 14
-#define CHATEAU 15
-#define FERME 16
+#define FIN_DU_TOUR 3
+#define AFFICHAGE 4
+
+#define ENTETE_CONSTRUCTION_UNITE 10
+#define BELIER 11
+#define CATAPULTE 12
+#define RETOUR2 13
+
+#define ENTETE_CONSTRUCTION_BATIMENT 20
+#define CHATEAU 21
+#define FERME 22
+#define RETOUR3 23
+
+#define ENTETE_CONSTRUCTION 27
+#define CONSTRUIRE_UNIT 28
+#define CONSTRUIRE_BATIMENT 29
 
 #endif // __ABSTRACTBUTTON_H__

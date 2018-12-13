@@ -5,14 +5,6 @@ Surface d'affichage de dimension 200;100
 Surface d'affichage (avec une surface déjà défnie) de dimension 186;31
 Surface d'affichage de dimension 450;100
 Surface d'affichage (avec une surface déjà défnie) de dimension 167;31
-Surface d'affichage de dimension 200;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 224;31
-Surface d'affichage de dimension 200;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 224;31
-Surface d'affichage de dimension 200;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 192;31
-Surface d'affichage de dimension 200;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 170;31
 Surface d'affichage de dimension 450;100
 Surface d'affichage (avec une surface déjà défnie) de dimension 267;31
 Surface d'affichage de dimension 450;100
@@ -20,62 +12,67 @@ Surface d'affichage (avec une surface déjà défnie) de dimension 203;31
 Surface d'affichage de dimension 200;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 147;16
 Surface d'affichage de dimension 200;60
-Surface d'affichage (avec une surface déjà défnie) de dimension 57;16
+Surface d'affichage (avec une surface déjà défnie) de dimension 68;16
 Surface d'affichage de dimension 200;60
-Surface d'affichage (avec une surface déjà défnie) de dimension 141;16
-Surface d'affichage de dimension 200;60
-Surface d'affichage (avec une surface déjà défnie) de dimension 122;16
+Surface d'affichage (avec une surface déjà défnie) de dimension 109;16
 Surface d'affichage de dimension 200;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 84;16
 Surface d'affichage de dimension 200;60
-Surface d'affichage (avec une surface déjà défnie) de dimension 125;16
+Surface d'affichage (avec une surface déjà défnie) de dimension 147;16
 Surface d'affichage de dimension 200;60
-Surface d'affichage (avec une surface déjà défnie) de dimension 98;16
+Surface d'affichage (avec une surface déjà défnie) de dimension 86;16
 Surface d'affichage de dimension 200;60
-Surface d'affichage (avec une surface déjà défnie) de dimension 71;16
+Surface d'affichage (avec une surface déjà défnie) de dimension 63;16
+Surface d'affichage de dimension 200;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 84;16
+Surface d'affichage de dimension 200;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 147;16
+Surface d'affichage de dimension 200;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 130;16
+Surface d'affichage de dimension 200;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 105;16
 Surface d'affichage de dimension 470;450
-Surface d'affichage de dimension 220;450
 Surface d'affichage de dimension 220;220
-Surface d'affichage de dimension 220;220
-Surface d'affichage de dimension 220;220
+Surface d'affichage de dimension 220;290
+Surface d'affichage de dimension 220;290
 Surface d'affichage de ../ressources/red_circle.bmp
 Surface d'affichage de ../ressources/green_circle.bmp
 Surface d'affichage de ../ressources/gold.bmp
 Matrice construite
 map gènerée : 
-GGGGGGGGGGGGGGGGGGGGGG
-GGGGGGGGGGGGGGGGGWGGWW
-GGGGGGGGGGGGGGGGGGGGGW
-GGGGGGGGGGGGGGGGGGGGWW
-GGGGGGGGGGGGGGGGGGGGGG
-GGGGGGGGGGGGGGGGGWWGGG
-GGGGGGGGGGGGGGGGGWWGGW
-GGGGGGGGGGGGGGGGGWWGGW
-GGGWGGWWWWGGGWGGGGWGGW
-GGGGWGWWWWWWWWGGGGWGGG
+GWGWWGGGGGGGGGGGGGGGGG
+GWGWGGGGGGGGGGGGWWGGGG
+GGGGGGGGGGWGGGGGWGGGGG
+GGGGGGGGGGWWGGGGGGGGGG
+GWWWGGGGGGGWGGGGGGGGGG
+GGGGGGGGGGGWGGGGGGGGGG
+GGGGGGGGGGGGGGGWGGGGGG
+GGGGGGGGGGGGGWGWWWWGGG
+GGGGGGGGGGGGGWGGGWWGGG
+GGGGGGGGGGGWGGGGGWGGGG
+GGGGGGGGGGGWWWGGGWGGGG
+GGGWGGGGWWWWWGGGGWWGWG
+GGGGGGGGGWGWGGGGGGGWGG
+GGGGGGGGGWGWGGGGGGGWGG
 GGGGGGGGGWGGGGGGGGGGGG
-GGGGGGGGGWWGGGGGGGGGGG
-GWWGGGWGGGGGGGGGGGWWGG
-GWWGGGGGGGGGGGGGWGWGGG
-GGGGGWGGGGGGGGGGWWWWGG
 
 Vérification du format de la map et correction ...
 Représentation des sprites calculées : 
-GGGGGGGGGGGGGGGGGGGGGG
-GGGGGGGGGGGGGGGGGFGGD6
-GGGGGGGGGGGGGGGGGGGGGA
-GGGGGGGGGGGGGGGGGGGGD3
-GGGGGGGGGGGGGGGGGGGGGG
-GGGGGGGGGGGGGGGGGC6GGG
-GGGGGGGGGGGGGGGGG82GGE
-GGGGGGGGGGGGGGGGG92GGA
-GGGFGGC446GGGEGGGGAGGB
-GGGGFG91105553GGGGBGGG
-GGGGGGGGGAGGGGGGGGGGGG
-GGGGGGGGG97GGGGGGGGGGG
-GC6GGGFGGGGGGGGGGGC7GG
-G93GGGGGGGGGGGGGEGAGGG
-GGGGGFGGGGGGGGGG9517GG
+GEGC7GGGGGGGGGGGGGGGGG
+GBGBGGGGGGGGGGGGC7GGGG
+GGGGGGGGGGEGGGGGBGGGGG
+GGGGGGGGGG96GGGGGGGGGG
+GD57GGGGGGGAGGGGGGGGGG
+GGGGGGGGGGGBGGGGGGGGGG
+GGGGGGGGGGGGGGGEGGGGGG
+GGGGGGGGGGGGGEG9546GGG
+GGGGGGGGGGGGGBGGG83GGG
+GGGGGGGGGGGEGGGGGAGGGG
+GGGGGGGGGGG847GGGAGGGG
+GGGFGGGGD4503GGGG97GFG
+GGGGGGGGGAGAGGGGGGGEGG
+GGGGGGGGGAGBGGGGGGGBGG
+GGGGGGGGGBGGGGGGGGGGGG
 
 Surface d'affichage de dimension 1408;960
 Surface d'affichage de dimension 1408;960
@@ -154,258 +151,81 @@ Début du Jeu
 Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
 Surface d'affichage de dimension 450;100
 Surface d'affichage (avec une surface déjà défnie) de dimension 411;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 336;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 929;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 336;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 929;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 934;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 336;19
 Surface d'affichage (avec une surface déjà défnie) de dimension 341;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 862;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 911;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 975;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 909;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 336;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 911;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 341;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 874;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 869;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 874;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 341;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 862;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 934;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 862;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 975;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 911;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 970;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 970;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 970;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 975;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 899;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 899;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 899;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 975;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 975;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 980;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 980;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 975;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 975;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 975;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 341;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 341;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 28;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 28;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 56;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 56;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 75;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 75;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 75;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 75;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
 Surface d'affichage (avec une surface déjà défnie) de dimension 953;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 958;19
 Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
 Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 430;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 336;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 855;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 56;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 56;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 860;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 336;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 75;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 75;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 75;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 75;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 341;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 341;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage de dimension 450;100
-Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 341;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 336;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
 Surface d'affichage (avec une surface déjà défnie) de dimension 929;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 336;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 916;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 921;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 934;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 929;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 929;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 934;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 929;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 934;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 929;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 934;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 929;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 934;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 341;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 970;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 934;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 953;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 934;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 934;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 953;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 28;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 953;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 958;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 28;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 56;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 953;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 958;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 56;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 75;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 953;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 958;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 75;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 75;31
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 953;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 929;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 341;19

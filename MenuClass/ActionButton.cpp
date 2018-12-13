@@ -28,6 +28,8 @@ ActionButton::ActionButton(unsigned short int idToSet, const char * textToWrite,
 
 ActionButton::ActionButton(unsigned short int idToSet, string textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text, int size_text)
 {
+	if (idToSet == SUBMENU)
+		erreur_message("Try to create not SubMenuButton with id SUBMENU") ;
 	m_id = idToSet ;
 	m_text = textToWrite ;
   	m_sizeText = size_text ;
@@ -47,6 +49,11 @@ void ActionButton::setText(std::string text)
     m_surface = new SurfaceAffichage(m_width, m_height) ;
 	m_texte = new Texte(m_text,m_text_color,m_sizeText) ;
 
+}
+
+void ActionButton::addTexture (SurfaceAffichage const& surface, unsigned short x, unsigned short y)
+{
+	m_surface->ajouter(surface,x,y) ;
 }
 
 

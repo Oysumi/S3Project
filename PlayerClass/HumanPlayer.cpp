@@ -53,9 +53,9 @@ Decision HumanPlayer::takeDecision(
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym)
                     {
-                      case SDLK_x :
-                        Menu::openMenu(CONS_MENU, fenetre);
-                        break;
+                        case SDLK_x :
+                            changement = true ;
+                            break;
                         
                         case SDLK_ESCAPE: // Si le joueur ouvre le menu principal
                             changement = true ;
@@ -108,14 +108,24 @@ Decision HumanPlayer::takeDecision(
 
                     if (Menu::isOnOneMenu(event.motion.x,event.motion.y)) //GESTION CLICK SUR LES MENUS
                     {
-                        if(Menu::getIdButtonOn(event.motion.x,event.motion.y)==QUITTER)
+                        int id = Menu::getIdButtonOn(event.motion.x,event.motion.y) ;
+
+                        if (id == SUBMENU)
+                        {
+                            if (Menu::openSubAssocTo(event.motion.x,event.motion.y))
+                                decision_retour.set_decision(DECISION_UPDATE_GRAPHISME) ;
+                        }
+
+                        else if(id==QUITTER)
                             decision_retour.set_decision(DECISION_QUITTER) ; // Le joueur à decidé de quitter via le menu principal
-                        else if(Menu::getIdButtonOn(event.motion.x,event.motion.y)==RETOUR)
+                        
+                        else if(id==RETOUR)
                         {
                             changement = true ;
                             Menu::openMenu(ESCAPE_MENU, fenetre);
                         }
-                        else if(Menu::getIdButtonOn(event.motion.x,event.motion.y)==FIN_DU_TOUR)
+                        
+                        else if(id==FIN_DU_TOUR)
                             decision_retour.set_decision(DECISION_TOUR_SUIVANT) ;
                     }
                     else //GESTION CLICS SUR lA MAP

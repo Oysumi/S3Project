@@ -28,6 +28,7 @@ bool Selection::valid () const
 
 Selection::~Selection()
 {
+
     if (m_possible_to_move != NULL)
     {
         delete(m_possible_to_move) ;

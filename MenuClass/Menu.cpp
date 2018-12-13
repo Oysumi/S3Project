@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include "ActionButton.h"
+#include "SubMenuButton.h"
 #include "../Fonctions/fonctions.h"
 #include "../DisplayClass/Texte.h"
 
@@ -11,50 +12,47 @@ vector<Menu*> Menu::allMenu ;
 
 vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, unsigned short const width, unsigned short const height)
 {
-
-	vector <Menu*>* menu = new vector<Menu*> ;
-
 	//Création des menus
+	vector <Menu*>* menu = new vector<Menu*> ;
+	vector<AbstractButton*> buttons ;
+	
     //Couleur de menu
     SDL_Color font_menu = {0, 0, 0} ;
 
     // Création et ajout dans la mémoire du menu principal (quand on appuie sur la touche escape)
-    vector<AbstractButton*> escapeButtons ;
-    escapeButtons.push_back(all_buttons[AFFICHAGE]);
-    escapeButtons.push_back(all_buttons[RETOUR]);
-    escapeButtons.push_back(all_buttons[FIN_DU_TOUR]);
-    escapeButtons.push_back(all_buttons[QUITTER]);
+    buttons.push_back(all_buttons[AFFICHAGE]);
+    buttons.push_back(all_buttons[FIN_DU_TOUR]);
+    buttons.push_back(all_buttons[RETOUR]);
+    buttons.push_back(all_buttons[QUITTER]);
     unsigned short int x(width/2 - LARGEUR_MENU1/2), y(height/6) ;
-    menu->push_back(new Menu (escapeButtons, x, y, font_menu, ESCAPE_MENU)) ;
-
-    // Création et ajout dans la mémoire du menu prise de décision (attaquer, défendre, aller à, ...)
-    vector<AbstractButton*> decisionButtons ;
-    decisionButtons.push_back(all_buttons[ATTAQUER]);
-    decisionButtons.push_back(all_buttons[DEFENDRE]);
-    decisionButtons.push_back(all_buttons[ALLER_A]);
-    decisionButtons.push_back(all_buttons[FERMER]);
-    menu->push_back(new Menu (decisionButtons, 0, 0, font_menu, ATTACK_MENU)) ;
-
-    // Création et ajout dans la mémoire du menu création (construction, unité...)
-    vector<AbstractButton*> constructionButtons ;
-    constructionButtons.push_back(all_buttons[CREATION]);
-    constructionButtons.push_back(all_buttons[CREER_UNITE]);
-    constructionButtons.push_back(all_buttons[CREER_CONSTRUCTION]);
-    menu->push_back(new Menu (constructionButtons, 0, 500, font_menu, CREATION_MENU));
-    
-    // Création et ajout dans la mémoire du menu selection spécifique aux unités
-    vector<AbstractButton*> unitButtons ;
-    unitButtons.push_back(all_buttons[SELECTION]);
-    unitButtons.push_back(all_buttons[ARCHER]);
-    unitButtons.push_back(all_buttons[CATAPULTE]);
-    menu->push_back(new Menu (unitButtons, 0, 500, font_menu, UNITES_MENU));
+    menu->push_back(new Menu (buttons, x, y, font_menu, ESCAPE_MENU)) ;
+    buttons.clear() ;
 
     // Création et ajout dans la mémoire du menu selection spécifique aux constructions
-    vector<AbstractButton*> consButtons ;
-    consButtons.push_back(all_buttons[SELECTION]);
-    consButtons.push_back(all_buttons[CHATEAU]);
-    consButtons.push_back(all_buttons[FERME]);
-    menu->push_back(new Menu (consButtons, 0, 500, font_menu, CONS_MENU));
+    buttons.push_back(all_buttons[ENTETE_CONSTRUCTION]);
+    buttons.push_back(all_buttons[CONSTRUIRE_BATIMENT]);
+    buttons.push_back(all_buttons[CONSTRUIRE_UNIT]);
+    menu->push_back(new Menu (buttons, 0, 500, font_menu, CHATEAU_MENU));
+    buttons.clear() ;
+    
+    // Création et ajout dans la mémoire du menu
+    buttons.push_back(all_buttons[ENTETE_CONSTRUCTION_UNITE]);
+    buttons.push_back(all_buttons[BELIER]);
+    buttons.push_back(all_buttons[CATAPULTE]);
+    buttons.push_back(all_buttons[RETOUR2]);
+    menu->push_back(new Menu (buttons, 0, 450, font_menu, CONSTRUCTION_UNIT_MENU));
+    buttons.clear() ;
+
+    // Création et ajout dans la mémoire du menu
+    buttons.push_back(all_buttons[ENTETE_CONSTRUCTION_BATIMENT]);
+    buttons.push_back(all_buttons[CHATEAU]);
+    buttons.push_back(all_buttons[FERME]);
+    buttons.push_back(all_buttons[RETOUR3]);
+    menu->push_back(new Menu (buttons, 0, 450, font_menu, CONSTRUCTION_BATIMENT_MENU));
+    buttons.clear() ;
+
+	//Une fois que les menus sont crées on appelle cette méthode statique pour récupérer tous les pointeurs des Menu grâce à leurs ID
+    SubMenuButton::initAllSubMenu() ;
 
     return menu ;
 
@@ -186,8 +184,6 @@ void Menu::displayMenu(Fenetre& screen) const
     	screen.ajouter(b->getSurfaceAffichage(), posX, posY) ;
     	b->getTexte().displayText(screen, *b) ;
     }
-
-    screen.actualiser() ;
 }
 
 bool Menu::displayMenuWithId(int id, Fenetre& screen)
@@ -201,6 +197,15 @@ bool Menu::displayMenuWithId(int id, Fenetre& screen)
         }
     }
     return false ;
+}
+
+Menu* Menu::getMenuById(int id)
+{
+	for (unsigned short i = 0 ; i < allMenu.size() ; i++)
+        if (id == allMenu[i]->m_id)
+            return allMenu[i] ;
+    warning_message("Menu with id " + to_string(id) + "not find") ;
+    return NULL ;
 }
 
 int Menu::getID() const
@@ -218,48 +223,38 @@ bool Menu::isOpen() const
 	return m_open;
 }
 
-int Menu::receiveAction(unsigned int x, unsigned int y){
+AbstractButton* Menu::receiveAction(unsigned int x, unsigned int y) const
+{
 	unsigned int pos_x, pos_y, width, height ;
-	unsigned short int id = NOTHING ;
 
 	for (AbstractButton * b : m_myButtons)
 	{
-		if (id == NOTHING)
-		{
-			pos_x = b->getPosX();
-			pos_y = b->getPosY();
-			width = b->getWidth();
-			height = b->getHeight();
+		pos_x = b->getPosX();
+		pos_y = b->getPosY();
+		width = b->getWidth();
+		height = b->getHeight();
 
-			if (x >= pos_x && x <= pos_x + width && y >= pos_y && y <= pos_y + height)
-				id = b->getID(); 
-		}
+		if (x >= pos_x && x <= pos_x + width && y >= pos_y && y <= pos_y + height)
+			return b  ;
 	}
 
-
-	return id ;
+	return NULL ;
 }
 
 
-bool Menu::isAMenuOpened(){
-    bool menu_opened = false ;
-    unsigned short i = 0 ;
-    while (i < Menu::allMenu.size() && !menu_opened)
-    {
-        menu_opened = ( Menu::allMenu[i]->isOpen() ) ? true : false ;
-        i++ ;
-    }
-
-    return menu_opened ;
+bool Menu::isAMenuOpened()
+{
+    for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++)
+        if(Menu::allMenu[i]->isOpen())
+        	return true ;
+    return false ;
 }
 
 void Menu::keepOpened(Fenetre& screen)
 {
     for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++)
-    {
         if (Menu::allMenu[i]->isOpen())
             Menu::allMenu[i]->displayMenu(screen) ;
-    }
 }
 
 
@@ -270,10 +265,10 @@ void Menu::openMenu(int id, Fenetre& screen)
 	for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++)
 	{
         if (!done)
-			if (id == Menu::allMenu[i]->getID())
+			if (id == allMenu[i]->getID())
 			{
-				Menu::allMenu[i]->displayMenu(screen) ;
-                Menu::allMenu[i]->openCloseMenu() ;
+				allMenu[i]->displayMenu(screen) ;
+                allMenu[i]->openCloseMenu() ;
 				done = true ;
 			}
 	}
@@ -282,16 +277,34 @@ void Menu::openMenu(int id, Fenetre& screen)
 
 int Menu::getIdButtonOn(unsigned int x, unsigned int y)
 {
-	int id_button = NOTHING ;
-
     for (unsigned short i = 0 ; i < allMenu.size() ; i++)
-    {
-        if (allMenu[i]->isOpen() && allMenu[i]->clickIsOnThisMenu(x,y)){
-            id_button = allMenu[i]->receiveAction(x,y) ;
+        if (allMenu[i]->isOpen() && allMenu[i]->clickIsOnThisMenu(x,y))
+        {
+           	AbstractButton* b = allMenu[i]->receiveAction(x,y) ;
+            if (b != NULL)
+            	return b->getID() ;
         }
-    }
 
-    return id_button ;
+    return NOTHING ;
+}
+
+bool Menu::openSubAssocTo(unsigned int x, unsigned int y)
+{
+	for (unsigned short i = 0 ; i < allMenu.size() ; i++)
+        if (allMenu[i]->isOpen() && allMenu[i]->clickIsOnThisMenu(x,y))
+        {
+           	AbstractButton* b = allMenu[i]->receiveAction(x,y) ;
+            if (b != NULL)
+            {
+            	if (b->getID() == SUBMENU) //Si on arrive ici, c'est forcément un SubMenuButton
+            	{
+            		SubMenuButton* bsub = dynamic_cast<SubMenuButton*> (b) ;
+            		bsub->displayNewMenu(allMenu[i]) ;
+            		return true ;
+            	}
+            }
+        }
+    return false ;
 }
 
 bool Menu::isOnOneMenu(unsigned int x, unsigned int y)

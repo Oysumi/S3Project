@@ -21,6 +21,7 @@ class ActionButton : public AbstractButton
 		virtual void displayButton(Fenetre& screen) const ;
 
 		virtual void setText(std::string text) ;
+		void addTexture (SurfaceAffichage const& surface, unsigned short x, unsigned short y) ;
 
 	protected:
 		// Setters non publics
@@ -32,7 +33,7 @@ class ActionButton : public AbstractButton
 		void setButtonColors(SDL_Color const& background, SDL_Color const& text) ; // set the text and background color at the same time
 		void freeSurface() ;
 
-	private :
+	protected :
 		SurfaceAffichage* m_surface ;
 		Texte* m_texte ;
 };
