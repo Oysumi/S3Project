@@ -7,6 +7,9 @@
 #include "../DisplayClass/Texte.h"
 #include <vector>
 
+#define CENTER_TEXT 0
+#define LEFT_TEXT 1
+
 class Texte ;
 
 // We put the constructor in protected so that we can't instanciate this class in the main code, making it a sort of abstract class
@@ -15,10 +18,8 @@ class AbstractButton
 	protected:
 		unsigned int m_width ;
 		unsigned int m_height ;
-		unsigned int m_posx ;
-		unsigned int m_posy ;
 		int m_id ;
-    int m_sizeText ;  // Taille du texte pour les boutons
+    	int m_sizeText ;  // Taille du texte pour les boutons
 		std::string m_text ;
 		SDL_Color m_back_color ;
 		SDL_Color m_text_color ;
@@ -28,8 +29,6 @@ class AbstractButton
 		static std::vector<AbstractButton*>* getAllButton() ;
 
 		//GETTERS
-		unsigned int getPosX() const ;
-		unsigned int getPosY() const ;
 		unsigned int getWidth() const ;
 		unsigned int getHeight() const ;
 		int getID() const ;
@@ -39,19 +38,15 @@ class AbstractButton
     	int sizeText() const ;
 
 		//SETTERS
-		void setPosX(unsigned int x) ;
-		void setPosY(unsigned int y) ;
-		virtual void setText(std::string text) ;
+		virtual void setText(std::string text, std::string font = "montserrat-regular") = 0 ;
 
 		//Méthodes virtuelles pures
-		virtual void displayButton(Fenetre& screen) const = 0 ;
 		virtual SurfaceAffichage const& getSurfaceAffichage() const = 0 ;
 		virtual Texte const& getTexte() const = 0 ;
+		virtual void addTexture (SurfaceAffichage const& surface, unsigned short x, unsigned short y) = 0 ;
 
 		// destructeur
 		virtual ~AbstractButton() ;
-
-		// à définir méthode virtuelle qui renvoit la surface d'affichage du bouton
 };
 
 #define NOTHING 100
@@ -63,18 +58,30 @@ class AbstractButton
 #define FIN_DU_TOUR 3
 #define AFFICHAGE 4
 
-#define ENTETE_CONSTRUCTION_UNITE 10
-#define BELIER 11
-#define CATAPULTE 12
-#define RETOUR2 13
+#define CATAPULTE 11
+#define BALISTE 12
+#define BELIER 13
+#define TREBUCHET 14
+#define TOWERSIEGE 15
+#define RETOUR2 16
 
-#define ENTETE_CONSTRUCTION_BATIMENT 20
 #define CHATEAU 21
 #define FERME 22
-#define RETOUR3 23
+#define ARCHERIE 23
+#define TOWER 24
 
+#define ENTETE_CHATEAU 26
 #define ENTETE_CONSTRUCTION 27
 #define CONSTRUIRE_UNIT 28
 #define CONSTRUIRE_BATIMENT 29
+#define AMELIORATION_CHATEAU 30
+#define ENTETE_GOLD_CHATEAU 31
+#define ENTETE_FOOD_CHATEAU 32
+#define ENTETE_WOOD_CHATEAU 33
+
+#define AMELIORER 37
+#define UP_GOLD 38
+#define UP_FOOD 39
+#define UP_WOOD 40
 
 #endif // __ABSTRACTBUTTON_H__

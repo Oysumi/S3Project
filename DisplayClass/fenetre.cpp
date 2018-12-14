@@ -23,7 +23,7 @@ SurfaceAffichage::SurfaceAffichage(unsigned short const& width, unsigned short c
 	m_surface = surface ;
 }
 
-SurfaceAffichage::SurfaceAffichage(Texture const& texture)
+SurfaceAffichage::SurfaceAffichage(Texture const& texture, bool transparence)
 {
 	if (DEBUG)
 		debugage_message("Surface d'affichage de " + texture.path()) ;
@@ -37,9 +37,12 @@ SurfaceAffichage::SurfaceAffichage(Texture const& texture)
 
     m_height = surf->h ;
 	m_width = surf->w ;
+
+	if (transparence)
+		rendre_transparente() ;
 }
 
-SurfaceAffichage::SurfaceAffichage(string const& texture_path) : SurfaceAffichage(Texture(texture_path))
+SurfaceAffichage::SurfaceAffichage(string const& texture_path, bool transparence) : SurfaceAffichage(Texture(texture_path), transparence)
 {}
 
 //DESTRUCTEUR

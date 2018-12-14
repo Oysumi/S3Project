@@ -11,31 +11,39 @@ class ActionButton : public AbstractButton
 		// Constructors
 		ActionButton() ; 
 		ActionButton(unsigned short int idToSet) ;
-		ActionButton(unsigned short int idToSet, const char * textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text, int size_text = 30) ;
-		ActionButton(unsigned short int idToSet, std::string textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text, int size_text = 30) ;
+		
+		ActionButton(unsigned short int idToSet,
+					std::string textToWrite,
+					unsigned short int width,
+					unsigned short int height,
+					SDL_Color back, SDL_Color text,
+					int size_text = 30,
+					unsigned short pos_text_auto = LEFT_TEXT,
+					std::string font = "montserrat-regular") ;
+		
 		~ActionButton() ;
 
 		// Actions
 		virtual SurfaceAffichage const& getSurfaceAffichage() const ;
 		virtual Texte const& getTexte() const ;
-		virtual void displayButton(Fenetre& screen) const ;
 
-		virtual void setText(std::string text) ;
-		void addTexture (SurfaceAffichage const& surface, unsigned short x, unsigned short y) ;
+		virtual void setText(std::string text, std::string font = "montserrat-regular") ;
+		virtual void addTexture (SurfaceAffichage const& surface, unsigned short x, unsigned short y) ;
 
 	protected:
 		// Setters non publics
 		void setId(unsigned short int idToSet) ;
 		void setSize(unsigned short int width, unsigned short int height) ;
-		void setPos(unsigned short int pos_x, unsigned short int pos_y) ;
 		void setTextColor(SDL_Color const& text) ;
 		void setBackgroundColor(SDL_Color const& back) ;
 		void setButtonColors(SDL_Color const& background, SDL_Color const& text) ; // set the text and background color at the same time
 		void freeSurface() ;
+		void prepareSurface(std::string font) ;
 
 	protected :
 		SurfaceAffichage* m_surface ;
 		Texte* m_texte ;
+		unsigned short m_pos_text ;
 };
 
 #endif // __ACTIONBUTTON_H__

@@ -4,7 +4,15 @@ using namespace std ;
 
 std::list<SubMenuButton*> SubMenuButton::listSubMenuButton ;
 
-SubMenuButton::SubMenuButton (int menu_id, std::string textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text, int size_text)
+SubMenuButton::SubMenuButton( int menu_id,
+							  std::string textToWrite,
+							  unsigned short int width,
+							  unsigned short int height,
+							  SDL_Color back,
+							  SDL_Color text,
+							  int size_text,
+							  unsigned short pos_text_auto,
+							  string font)
 {
 	//ON APPELLE PAS LE CONSTRUCTEUR DE ACTIONBUTTON CAR IL NE RECOIT PAS D'ID = SUBMENU
 	//On est ainsi sur que seul les SubMenuButton ont un ID égal à SUBMENU
@@ -15,13 +23,13 @@ SubMenuButton::SubMenuButton (int menu_id, std::string textToWrite, unsigned sho
 
 	m_text = textToWrite ;
   	m_sizeText = size_text ;
+  	m_pos_text = pos_text_auto ;
 	this->setSize(width, height) ;
-	this->setPos(pos_x, pos_y) ;
 	this->setButtonColors(back, text) ;
 
 	m_surface = NULL ;
 	m_texte = NULL ;
-	setText(m_text) ;
+	setText(m_text, font) ;
 }
 
 SubMenuButton::~SubMenuButton ()

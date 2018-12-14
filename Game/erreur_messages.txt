@@ -1,1 +1,1 @@
-Try to create not SubMenuButton with id SUBMENU
+L'ajout d'une SurfaceAffichage dans une autre à échoué :  SDL_UpperBlit: passed a NULL surface

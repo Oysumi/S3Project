@@ -12,12 +12,13 @@ class Texte
 
 	public:
 		Texte() ;
-		Texte(std::string textToWrite, SDL_Color font_color = {0, 0, 0}, int size = 30) ;
+		Texte(std::string textToWrite, SDL_Color font_color = {0, 0, 0}, int size = 30, std::string font = "montserrat-regular") ;
 		void changeText (std::string textToWrite, SDL_Color font_color = {0, 0, 0}, int size = 30) ;
+		void addTexture (SurfaceAffichage const& surface, unsigned short x, unsigned short y) ;
 		int width() const ;
 		int height() const ;
 		SurfaceAffichage const& surfaceAffichage() const ;
-		void displayText(Fenetre& screen, AbstractButton const& b) const ;
+		void displayText(SurfaceAffichage& surf, AbstractButton const& b, unsigned short pos_font) const;
 		~Texte() ;
 
 	private :

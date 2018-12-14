@@ -9,7 +9,15 @@ class Menu ;
 class SubMenuButton : public ActionButton
 {
 	public:
-		SubMenuButton (int menu_id, std::string textToWrite, unsigned short int width, unsigned short int height, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, SDL_Color text, int size_text = 30) ;
+		SubMenuButton( int menu_id,
+					   std::string textToWrite,
+					   unsigned short int width,
+					   unsigned short int height,
+					   SDL_Color back, SDL_Color text,
+					   int size_text = 30,
+					   unsigned short pos_text_auto = LEFT_TEXT,
+					   std::string font = "montserrat-regular") ;
+
 		~SubMenuButton();
 
 		void displayNewMenu(Menu* to_replace = NULL) ;

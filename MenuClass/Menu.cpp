@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#define TRANSPARENCE_ALPHA 200
+
 using namespace std ;
 
 vector<Menu*> Menu::allMenu ;
@@ -24,31 +26,51 @@ vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, uns
     buttons.push_back(all_buttons[FIN_DU_TOUR]);
     buttons.push_back(all_buttons[RETOUR]);
     buttons.push_back(all_buttons[QUITTER]);
-    unsigned short int x(width/2 - LARGEUR_MENU1/2), y(height/6) ;
-    menu->push_back(new Menu (buttons, x, y, font_menu, ESCAPE_MENU)) ;
+    unsigned short int x((width-Menu::widthTakeBy(buttons))/2), y((height-Menu::heightTakeBy(buttons))/2) ;
+    menu->push_back(new Menu (buttons, x, y, font_menu, ESCAPE_MENU, 230, 15, 15)) ;
     buttons.clear() ;
 
     // Création et ajout dans la mémoire du menu selection spécifique aux constructions
-    buttons.push_back(all_buttons[ENTETE_CONSTRUCTION]);
+    buttons.push_back(all_buttons[ENTETE_CHATEAU]);
+    buttons.push_back(all_buttons[ENTETE_GOLD_CHATEAU]);
+    buttons.push_back(all_buttons[ENTETE_FOOD_CHATEAU]);
+    buttons.push_back(all_buttons[ENTETE_WOOD_CHATEAU]);
     buttons.push_back(all_buttons[CONSTRUIRE_BATIMENT]);
     buttons.push_back(all_buttons[CONSTRUIRE_UNIT]);
-    menu->push_back(new Menu (buttons, 0, 500, font_menu, CHATEAU_MENU));
+    buttons.push_back(all_buttons[AMELIORATION_CHATEAU]);
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, CHATEAU_MENU, TRANSPARENCE_ALPHA, 10));
     buttons.clear() ;
     
     // Création et ajout dans la mémoire du menu
-    buttons.push_back(all_buttons[ENTETE_CONSTRUCTION_UNITE]);
-    buttons.push_back(all_buttons[BELIER]);
+    buttons.push_back(all_buttons[ENTETE_CHATEAU]);
+    buttons.push_back(all_buttons[ENTETE_CONSTRUCTION]);
     buttons.push_back(all_buttons[CATAPULTE]);
+    buttons.push_back(all_buttons[BALISTE]);
+    buttons.push_back(all_buttons[BELIER]);
+    buttons.push_back(all_buttons[TREBUCHET]);
+    buttons.push_back(all_buttons[TOWERSIEGE]);
     buttons.push_back(all_buttons[RETOUR2]);
-    menu->push_back(new Menu (buttons, 0, 450, font_menu, CONSTRUCTION_UNIT_MENU));
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, CONSTRUCTION_UNIT_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 
     // Création et ajout dans la mémoire du menu
-    buttons.push_back(all_buttons[ENTETE_CONSTRUCTION_BATIMENT]);
+    buttons.push_back(all_buttons[ENTETE_CHATEAU]);
+    buttons.push_back(all_buttons[ENTETE_CONSTRUCTION]);
     buttons.push_back(all_buttons[CHATEAU]);
     buttons.push_back(all_buttons[FERME]);
-    buttons.push_back(all_buttons[RETOUR3]);
-    menu->push_back(new Menu (buttons, 0, 450, font_menu, CONSTRUCTION_BATIMENT_MENU));
+    buttons.push_back(all_buttons[ARCHERIE]);
+    buttons.push_back(all_buttons[TOWER]);
+    buttons.push_back(all_buttons[RETOUR2]);
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, CONSTRUCTION_BATIMENT_MENU, TRANSPARENCE_ALPHA, 5));
+    buttons.clear() ;
+
+    buttons.push_back(all_buttons[ENTETE_CHATEAU]);
+    buttons.push_back(all_buttons[AMELIORER]) ;
+	buttons.push_back(all_buttons[UP_GOLD]) ;
+	buttons.push_back(all_buttons[UP_FOOD]) ;
+	buttons.push_back(all_buttons[UP_WOOD]) ;
+	buttons.push_back(all_buttons[RETOUR2]);
+	menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, AMELIORER_CHATEAU_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 
 	//Une fois que les menus sont crées on appelle cette méthode statique pour récupérer tous les pointeurs des Menu grâce à leurs ID
@@ -58,14 +80,18 @@ vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, uns
 
 }
 
-Menu::Menu(){
+Menu::Menu() : m_alpha(255)
+{
 	m_id = NOTHING ;
 	m_surface = NULL ;
 	allMenu.push_back(this) ;
 } ; // Est utile pour la création d'un vector de Menu dans MatriceGameGestion.cpp
 
-Menu::Menu(vector<AbstractButton*> const& buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id)
+Menu::Menu(vector<AbstractButton*> const& buttons, unsigned short int pos_x, unsigned short int pos_y, SDL_Color back, int id, unsigned short const transparenceAlpha, unsigned short const separation_width, unsigned short const separation_height) :
+	m_alpha (transparenceAlpha%256)
 {
+	m_separation_width = separation_width ;
+	m_separation_height = separation_height ;
 	m_pos_x = pos_x ;
 	m_pos_y = pos_y ;
 	m_background = back ;
@@ -73,7 +99,8 @@ Menu::Menu(vector<AbstractButton*> const& buttons, unsigned short int pos_x, uns
 	m_open = false ;
 	this->calculPosButton(buttons) ;
 	allMenu.push_back(this) ;
-	m_surface = new SurfaceAffichage(m_width, m_height) ;
+	m_surface = NULL ;
+	prepareSurface() ;
 }
 
 Menu::~Menu()
@@ -89,6 +116,20 @@ Menu::~Menu()
 		delete(m_surface) ;
 		m_surface = NULL ;
 	}
+}
+
+void Menu::prepareSurface()
+{
+	if (m_surface != NULL)
+		delete(m_surface) ;
+
+	m_surface = new SurfaceAffichage(m_width, m_height) ;
+
+	if(SDL_FillRect(m_surface->surface(), NULL, SDL_MapRGB(m_surface->surface()->format, m_background.r, m_background.g, m_background.b)) != 0)
+		erreur_message("Impossible de colorer le menu :  " + string(SDL_GetError())) ;
+
+    for (unsigned short i = 0 ; i < m_myButtons.size() ; i++)
+    	m_surface->ajouter(m_myButtons[i]->getSurfaceAffichage(), m_buttonsPos[i].first, m_buttonsPos[i].second) ;
 }
 
 SDL_Color Menu::getColor() const
@@ -111,11 +152,14 @@ unsigned short Menu::getPosY() const
 	return this->m_pos_y ;
 }
 
-bool Menu::setTextButton(unsigned short nb, string const& text)
+bool Menu::setTextButton(Fenetre& screen, unsigned short nb, string const& text, std::string font)
 {
 	if (nb >= m_myButtons.size())
 		return false ;
-	m_myButtons[nb]->setText(text) ;
+	m_myButtons[nb]->setText(text, font) ;
+	prepareSurface() ;
+	if (isOpen())
+           displayMenu(screen) ;
 	return true ;
 }
 
@@ -128,62 +172,60 @@ bool Menu::clickIsOnThisMenu(unsigned int x, unsigned int y)
 void Menu::calculPosButton(vector<AbstractButton*> const& buttons)
 {
 	/**
-	 * On calcule la taille du menu (lxL) en fonction des boutons qu'on suppose ici de taille fixe
-	 * si l'on a une liste de x boutons, alors L = (x+1)*dx + x*largeur boutons + BANDE_MENU où dx est le shift avec le bord
-	 *                                         l = 2*dy + largeur boutons où dy est le shift avec le bord du menu
+	 * On calcule la taille du menu en fonction de la tailles des boutons
+	 * on a une liste de boutons
 	 */
-	int nbButton = buttons.size() ;
-	m_myButtons = vector<AbstractButton*>(nbButton) ;
-	int const LARGEUR = 10 ;
-	int const HAUTEUR = 10 ;
-
-	int boutonLargeur = buttons[0]->getWidth(); // on suppose ici que tous les boutons ont la même taille pour le moment
-	int boutonHauteur = buttons[0]->getHeight() ; // idem
-
-	m_height = nbButton*(HAUTEUR+boutonHauteur) + HAUTEUR ;
-	m_width = 2*LARGEUR + boutonLargeur ;
+	m_myButtons = vector<AbstractButton*>(buttons.size()) ;
 
 	/**
-	 * Placement des boutons sur l'écran
+	 * Calcul des positions des boutons
+	 * A l'intérieur de la Surface d'afichage du Menu
 	 */
 	int i = 0 ;
+	m_width = 0 ;
+	int compteur_hauteur = m_separation_height ;
 	for ( AbstractButton * b : buttons )
 	{
-		b->setPosX(m_pos_x + LARGEUR);
-		b->setPosY(m_pos_y + (i+1)*HAUTEUR + i*boutonHauteur);
+		if (b->getWidth() > m_width)
+			m_width = b->getWidth() ;
+		m_buttonsPos.push_back(std::make_pair(m_separation_width,compteur_hauteur)) ;
+		compteur_hauteur += b->getHeight() + m_separation_height ;
 		m_myButtons[i] = b ;
-		i++;
+		i++ ;
 	}
+	m_width += 2*m_separation_width ;
+	m_height = compteur_hauteur ;
+}
+
+unsigned short Menu::widthTakeBy(std::vector<AbstractButton*> const& buttons, unsigned short const separation_width)
+{
+	unsigned short width_max = 0, i = 0 ;
+	for ( AbstractButton * b : buttons )
+	{
+		if (b->getWidth() > width_max)
+			width_max = b->getWidth() ;
+		i++ ;
+	}
+	return width_max + 2*separation_width ;
+}
+
+unsigned short Menu::heightTakeBy(std::vector<AbstractButton*> const& buttons, unsigned short const separation_height)
+{
+	int i = 0 ;
+	int compteur_hauteur = separation_height ;
+	for ( AbstractButton * b : buttons )
+	{
+		compteur_hauteur += b->getHeight() + separation_height ;
+		i++ ;
+	}
+	return compteur_hauteur ;
 }
 
 void Menu::displayMenu(Fenetre& screen) const
 {
-	SDL_Surface* menuSurface = m_surface->surface() ;
-	SDL_Color couleur = this->getColor() ;
-
-	if(SDL_FillRect(menuSurface, NULL, SDL_MapRGB(menuSurface->format, couleur.r, couleur.g, couleur.b)) != 0)
-	{
-		erreur_message("Impossible de colorer le menu :  " + string(SDL_GetError())) ;
-	}
-
-	unsigned int posX = this->getPosX() ;
-	unsigned int posY = this->getPosY() ;
-
-	screen.ajouter(*m_surface, posX, posY) ;
- 
-    for ( AbstractButton * b : m_myButtons )
-    {
-    	SDL_Color col = b->getBackColor() ;
-
-    	posX = b->getPosX() ;
-    	posY = b->getPosY() ;
-
-    	if(SDL_FillRect(b->getSurfaceAffichage().surface(), NULL, SDL_MapRGB(b->getSurfaceAffichage().surface()->format, col.r, col.g, col.b)) != 0)
-			erreur_message("Impossible de colorer l'un des boutons du menu :  " + string(SDL_GetError())) ;
-
-    	screen.ajouter(b->getSurfaceAffichage(), posX, posY) ;
-    	b->getTexte().displayText(screen, *b) ;
-    }
+	if (m_alpha != 0 && m_alpha != 255)
+		SDL_SetAlpha(m_surface->surface(), SDL_SRCALPHA, m_alpha);
+	screen.ajouter(*m_surface,m_pos_x,m_pos_y) ;
 }
 
 bool Menu::displayMenuWithId(int id, Fenetre& screen)
@@ -227,12 +269,13 @@ AbstractButton* Menu::receiveAction(unsigned int x, unsigned int y) const
 {
 	unsigned int pos_x, pos_y, width, height ;
 
-	for (AbstractButton * b : m_myButtons)
+	for (unsigned short i = 0 ; i < m_myButtons.size() ; i++)
 	{
-		pos_x = b->getPosX();
-		pos_y = b->getPosY();
-		width = b->getWidth();
-		height = b->getHeight();
+		AbstractButton*  b = m_myButtons[i] ;
+		pos_x = m_pos_x + m_buttonsPos[i].first ;
+		pos_y = m_pos_y + m_buttonsPos[i].second ;
+		width = b->getWidth() ;
+		height = b->getHeight() ;
 
 		if (x >= pos_x && x <= pos_x + width && y >= pos_y && y <= pos_y + height)
 			return b  ;

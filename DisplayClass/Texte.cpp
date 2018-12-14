@@ -6,10 +6,10 @@ using namespace std ;
 #define TYPEFACE 30
 #define SHIFT_X 25
 
-Texte::Texte(string textToWrite, SDL_Color font_color, int size)
+Texte::Texte(string textToWrite, SDL_Color font_color, int size, std::string font)
 {
     m_size = size ;
-	m_font = TTF_OpenFont ("../font/04B_30__.TTF", size) ;
+	m_font = TTF_OpenFont (string("../font/"+font+".ttf").c_str(), size) ;
 	if(!m_font)
     	erreur_message("Impossible de charger la police d'écriture du Jeu" + string(TTF_GetError())) ;
 
@@ -32,6 +32,11 @@ void Texte::changeText (std::string textToWrite, SDL_Color font_color, int size)
 	m_text = TTF_RenderText_Blended(m_font,textToWrite.c_str(),font_color) ;
 	freeSurface() ;
 	m_surface = new SurfaceAffichage (m_text->w, m_text->h, this->m_text) ;
+}
+
+void Texte::addTexture (SurfaceAffichage const& surface, unsigned short x, unsigned short y)
+{
+	m_surface->ajouter(surface,x,y) ;
 }
 
 void Texte::freeSurface()
@@ -60,10 +65,10 @@ SurfaceAffichage const& Texte::surfaceAffichage() const
 	return *m_surface ;
 }
 
-void Texte::displayText(Fenetre& screen, AbstractButton const& b) const
+void Texte::displayText(SurfaceAffichage& surf, AbstractButton const& b, unsigned short pos_font) const
 {
-
-	int pos_x = b.getPosX() + ( b.getWidth() - m_text->w )/2  ;
-	int pos_y = b.getPosY() + ( b.getHeight() - m_text->h) /2 ;
-	screen.ajouter(*m_surface, pos_x, pos_y) ;
+	if (pos_font == LEFT_TEXT)
+		surf.ajouter(*m_surface, 0, (surf.height()-m_text->h)/2) ;
+	else
+		surf.ajouter(*m_surface, (surf.width()-m_text->w)/2, (surf.height()-m_text->h)/2) ;
 }

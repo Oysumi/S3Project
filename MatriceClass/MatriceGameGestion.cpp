@@ -27,7 +27,7 @@ using namespace std;
 
 //Initialise le programme, fenetre, menus, boutons ...
 MatriceGameGestion::MatriceGameGestion() :
-    m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF)
+    m_fenetre("Title", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN)
 {
     // Création des boutons
     m_all_buttons = AbstractButton::getAllButton() ;
@@ -131,9 +131,8 @@ void MatriceGameGestion::gameLoop()
                     {
                         if(m_current_selection->type() == OBJECT_TYPE_UNIT)
                             selection_unit() ;
-                        else if(m_current_selection->type() == OBJECT_TYPE_CONSTRUCTION)
+                        else if(validSelection(OBJECT_TYPE_CONSTRUCTION, m_current_player_turn))
                         {
-
                             if (!Menu::getMenuById(CHATEAU_MENU)->isOpen())
                                 Menu::openMenu(CHATEAU_MENU, m_fenetre) ;
                         }
@@ -194,11 +193,11 @@ void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
     m_current_player_turn = new_current_player ;
     if (m_quantite_or != NULL)
         delete(m_quantite_or) ;
-    m_quantite_or = new Texte(to_string(m_player_gold[m_current_player_turn]), SDL_Color({252, 210, 28})) ;
+    m_quantite_or = new Texte(to_string(m_player_gold[m_current_player_turn]), SDL_Color({252, 210, 28}), 30, "04B-30") ;
 
     m_map->reset_deplacement_all_unit (); //Les unités peuvent de nouveaux se déplacer
     deleteSelection() ; // On deselectionne l'unité en passant au joueur suivant
-    m_saveMenu->at(0)->setTextButton(0,"tour " + to_string(m_tour) + " de " + m_current_player_turn->name()) ;
+    m_saveMenu->at(0)->setTextButton(m_fenetre, 0,"tour " + to_string(m_tour) + " de " + m_current_player_turn->name(), "04B-30") ;
     updateDisplay() ; //On affiche la map
 }
 
@@ -219,9 +218,6 @@ bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
 
     if (new_selection != NULL) // si il y a bien une unite ou une construction à cette position selectionee
     {
-        if (m_select_info != NULL)
-            delete(m_select_info) ;
-
         deleteSelection() ; //Supression de l'ancienne selection
 
         // a quel joueur appartient l'unite ou la construction selectionnée ?
@@ -234,7 +230,9 @@ bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
             m_map->add_symbol(*m_all_symbol["red_circle"],pos) ;
 
         m_current_selection = new Selection(new_selection) ;
-        m_select_info = new Texte(m_current_selection->value()->info(), SDL_Color({0,0,0}), SMALL_FONT) ;
+
+        if(validSelection() && !validSelection(OBJECT_TYPE_CONSTRUCTION,m_current_player_turn))
+            m_select_info = new Texte(m_current_selection->value()->info(), SDL_Color({0,0,0}), SMALL_FONT) ;
 
         return true ;
 
@@ -362,9 +360,7 @@ bool MatriceGameGestion::attaque(MapPos const& target)
 void MatriceGameGestion::updateDisplay()
 {
     m_fenetre.ajouter(m_map->getSurface(),&m_scroll,0,0) ;
-    if (validSelection(OBJECT_TYPE_CONSTRUCTION))
-        m_fenetre.ajouter(m_select_info->surfaceAffichage(), LARGEUR_MENU2 + 15 , SCREEN_HEIGHT-SMALL_FONT-2) ;
-    else if (validSelection(OBJECT_TYPE_UNIT))
+    if (m_select_info!=NULL)
         m_fenetre.ajouter(m_select_info->surfaceAffichage(), 2 , SCREEN_HEIGHT-SMALL_FONT-2) ;
     m_fenetre.ajouter(*m_all_symbol["gold"], SCREEN_WIDTH-172 ,0) ;
     m_fenetre.ajouter(m_quantite_or->surfaceAffichage(), SCREEN_WIDTH-100, 1) ;
@@ -405,6 +401,10 @@ void MatriceGameGestion::deleteSelection()
 {
     if (m_current_selection != NULL)
     {
+        if (m_select_info != NULL)
+            delete(m_select_info) ;
+        m_select_info = NULL ;
+
         if (m_current_selection->type() == OBJECT_TYPE_CONSTRUCTION)
         {
             if (Menu::getMenuById(CHATEAU_MENU)->isOpen())
@@ -413,6 +413,8 @@ void MatriceGameGestion::deleteSelection()
                 Menu::openMenu(CONSTRUCTION_UNIT_MENU, m_fenetre) ;
             if (Menu::getMenuById(CONSTRUCTION_BATIMENT_MENU)->isOpen())
                 Menu::openMenu(CONSTRUCTION_BATIMENT_MENU, m_fenetre) ;
+            if (Menu::getMenuById(AMELIORER_CHATEAU_MENU)->isOpen())
+                Menu::openMenu(AMELIORER_CHATEAU_MENU, m_fenetre) ;
         }
         delete(m_current_selection) ;
         m_current_selection = NULL ;

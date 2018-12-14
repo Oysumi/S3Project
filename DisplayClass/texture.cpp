@@ -7,10 +7,10 @@ Texture::Texture(string const& path) : m_path(path)
 {
 	m_surface = SDL_LoadBMP(path.c_str()) ;
     if(m_surface == NULL)
-        erreur_message("Impossible de charger la  texture " + path + " : " + SDL_GetError()) ;
+        erreur_message("Impossible de charger la  texture " + path + " : " + string(SDL_GetError())) ;
     m_surface = SDL_DisplayFormat(m_surface) ;
     if (m_surface == NULL)
-        erreur_message("Impossible de charger la  texture " + path + " (displayFormat Fail) : " + SDL_GetError()) ;
+        erreur_message("Impossible de charger la  texture " + path + " (displayFormat Fail) : " + string(SDL_GetError())) ;
 }
 
 //DESTRUCTEUR

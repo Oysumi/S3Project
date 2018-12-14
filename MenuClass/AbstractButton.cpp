@@ -7,33 +7,63 @@ using namespace std ;
 
 vector<AbstractButton*>* AbstractButton::getAllButton()
 {
+	SurfaceAffichage gold(SurfaceAffichage("../ressources/icon/gold.bmp",TRANSPARENCE)) ,
+					 food(SurfaceAffichage("../ressources/icon/food.bmp",TRANSPARENCE)) ,
+					 wood(SurfaceAffichage("../ressources/icon/wood.bmp",TRANSPARENCE)) ;
 
-	SDL_Color white = {255,255,255};
-	SDL_Color black = {0,0,0};
+	SDL_Color white = {255,255,255} ;
+	SDL_Color black = {0,0,0} ;
+	SDL_Color grey = {127,127,127} ;
+	SDL_Color grey2 = {180,180,180} ;
 
 	vector<AbstractButton*>* bouton = new vector<AbstractButton*> ;
 	for (unsigned short i = 0 ; i < 45 ; i++)
 		bouton->push_back(NULL) ;
 
-	(*bouton)[RETOUR] = new ActionButton(RETOUR, "Retour", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, white, black) ;
-	(*bouton)[MUSIQUE] = new ActionButton(MUSIQUE, "MUSIQUE", 200, 100, 110, 110, white, black) ;
-	(*bouton)[QUITTER] = new ActionButton(QUITTER, "Quitter", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, white, black) ;
-	(*bouton)[FIN_DU_TOUR] = new ActionButton(FIN_DU_TOUR, "Fin du tour", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, white, black) ;
-	(*bouton)[AFFICHAGE] = new ActionButton(AFFICHAGE, "Tour de ", LARGEUR_MENU1, HAUTEUR_MENU1, 110, 110, black, white) ;
+	(*bouton)[RETOUR] = new ActionButton(RETOUR, "Retour", LARGEUR_MENU1, HAUTEUR_MENU1, white, black, 30, CENTER_TEXT, "04B-30") ;
+	(*bouton)[MUSIQUE] = new ActionButton(MUSIQUE, "MUSIQUE", 200, 100, white, black, 30, CENTER_TEXT, "04B-30") ;
+	(*bouton)[QUITTER] = new ActionButton(QUITTER, "Quitter", LARGEUR_MENU1, HAUTEUR_MENU1, white, black, 30, CENTER_TEXT, "04B-30") ;
+	(*bouton)[FIN_DU_TOUR] = new ActionButton(FIN_DU_TOUR, "Fin du tour", LARGEUR_MENU1, HAUTEUR_MENU1, white, black, 30, CENTER_TEXT, "04B-30") ;
+	(*bouton)[AFFICHAGE] = new ActionButton(AFFICHAGE, "Tour de ", LARGEUR_MENU1, HAUTEUR_MENU1, black, white, 30, CENTER_TEXT, "04B-30") ;
 	
-	(*bouton)[ENTETE_CONSTRUCTION_UNITE] = new ActionButton(ENTETE_CONSTRUCTION_UNITE, "Construire ...", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, black, white, 15);
-	(*bouton)[BELIER] = new ActionButton(BELIER, "Belier", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
-	(*bouton)[CATAPULTE] = new ActionButton(CATAPULTE, "Catapulte", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
-	(*bouton)[RETOUR2] = new SubMenuButton(CHATEAU_MENU, "RETOUR", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
-	
-	(*bouton)[ENTETE_CONSTRUCTION_BATIMENT] = new ActionButton(ENTETE_CONSTRUCTION_BATIMENT, "Construire ...", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, black, white, 15);
-	(*bouton)[CHATEAU] = new ActionButton(CHATEAU, "Chateau", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
-	(*bouton)[FERME] = new ActionButton(FERME, "Ferme", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
-	(*bouton)[RETOUR3] = new SubMenuButton(CHATEAU_MENU, "RETOUR", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
+	(*bouton)[ENTETE_CONSTRUCTION] = new ActionButton(ENTETE_CONSTRUCTION, "Construire ..       ", LARGEUR_MENU3, 20, black, grey, 15, CENTER_TEXT, "04B-30") ;
+	(*bouton)[RETOUR2] = new SubMenuButton(CHATEAU_MENU, "RETOUR", LARGEUR_MENU3, 25, grey, black, 15, CENTER_TEXT, "04B-30") ;
+	(*bouton)[CATAPULTE ] = new ActionButton(CATAPULTE,  "300              4         Catapulte", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[BALISTE   ] = new ActionButton(BALISTE  ,  "450              4         Baliste", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[BELIER    ] = new ActionButton(BELIER   ,  "650              5         Belier", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[TREBUCHET ] = new ActionButton(TREBUCHET,  "750              6         Trebuchet", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[TOWERSIEGE] = new ActionButton(TOWERSIEGE, "800             8         Tour de siege", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[CATAPULTE ]->addTexture(gold, 33, 3) ;
+	(*bouton)[CATAPULTE ]->addTexture(food, 96, 3) ;
+	(*bouton)[BALISTE   ]->addTexture(gold, 33, 3) ;
+	(*bouton)[BALISTE   ]->addTexture(food, 96, 3) ;
+	(*bouton)[BELIER    ]->addTexture(gold, 33, 3) ;
+	(*bouton)[BELIER    ]->addTexture(food, 96, 3) ;
+	(*bouton)[TREBUCHET ]->addTexture(gold, 33, 3) ;
+	(*bouton)[TREBUCHET ]->addTexture(food, 96, 3) ;
+	(*bouton)[TOWERSIEGE]->addTexture(gold, 33, 3) ;
+	(*bouton)[TOWERSIEGE]->addTexture(food, 96, 3) ;
 
-	(*bouton)[ENTETE_CONSTRUCTION] = new ActionButton(ENTETE_CONSTRUCTION, "Construire ...", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, black, white, 15);
-	(*bouton)[CONSTRUIRE_BATIMENT] = new SubMenuButton(CONSTRUCTION_BATIMENT_MENU, "Un batiment", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
-	(*bouton)[CONSTRUIRE_UNIT] = new SubMenuButton(CONSTRUCTION_UNIT_MENU, "Une unite", LARGEUR_MENU3, HAUTEUR_MENU3, 50, 50, white, black, 15);
+	(*bouton)[CHATEAU] = new ActionButton(CHATEAU, "Chateau", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[FERME] = new ActionButton(FERME, "Ferme", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[ARCHERIE] = new ActionButton(ARCHERIE, "Archerie", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[TOWER] = new ActionButton(TOWER, "Tour de defense", LARGEUR_MENU3, 20, grey2, black, 15) ;
+
+	(*bouton)[AMELIORER] = new ActionButton(AMELIORER, "Augmenter ..    ", LARGEUR_MENU3, 20, black, grey, 15, CENTER_TEXT, "04B-30") ;
+	(*bouton)[UP_GOLD] = new ActionButton(UP_GOLD, "la production d'OR", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[UP_FOOD] = new ActionButton(UP_FOOD, "la production de nourriture", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[UP_WOOD] = new ActionButton(UP_WOOD, "la production de bois", LARGEUR_MENU3, 20, grey2, black, 15) ;
+
+	(*bouton)[ENTETE_CHATEAU] = new ActionButton(ENTETE_CHATEAU, "Chateau", LARGEUR_MENU3, 30, black, grey, 15, CENTER_TEXT, "04B-30") ;
+	(*bouton)[ENTETE_GOLD_CHATEAU] = new ActionButton(ENTETE_GOLD_CHATEAU, "    +10", LARGEUR_MENU3, 20, black, white, 15) ;
+	(*bouton)[ENTETE_FOOD_CHATEAU] = new ActionButton(ENTETE_FOOD_CHATEAU, "    +20", LARGEUR_MENU3, 20, black, white, 15) ;
+	(*bouton)[ENTETE_WOOD_CHATEAU] = new ActionButton(ENTETE_WOOD_CHATEAU, "    +2", LARGEUR_MENU3, 20, black, white, 15) ;
+	(*bouton)[CONSTRUIRE_BATIMENT] = new SubMenuButton(CONSTRUCTION_BATIMENT_MENU, "Construire un batiment", LARGEUR_MENU3, 25, grey, black, 13, CENTER_TEXT, "04B-30") ;
+	(*bouton)[CONSTRUIRE_UNIT] = new SubMenuButton(CONSTRUCTION_UNIT_MENU, "Construire une unite", LARGEUR_MENU3, 25, grey, black, 13, CENTER_TEXT, "04B-30") ;
+	(*bouton)[AMELIORATION_CHATEAU] = new SubMenuButton(AMELIORER_CHATEAU_MENU, "Ameliorer le chateau", LARGEUR_MENU3, 25, grey, black, 13, CENTER_TEXT, "04B-30") ;
+	(*bouton)[ENTETE_GOLD_CHATEAU]->addTexture(gold, 45, 3) ;
+	(*bouton)[ENTETE_FOOD_CHATEAU]->addTexture(food, 48, 3) ;
+	(*bouton)[ENTETE_WOOD_CHATEAU]->addTexture(wood, 48, 3) ;
 
 	return bouton ;
 }
@@ -41,16 +71,6 @@ vector<AbstractButton*>* AbstractButton::getAllButton()
 /**************************************************************************************************************
  *                                                  GETTERS                                                   *
  **************************************************************************************************************/
-
-unsigned int AbstractButton::getPosX() const
-{
-	return this->m_posx ;
-}
-
-unsigned int AbstractButton::getPosY() const
-{
-	return this->m_posy ;
-}
 
 unsigned int AbstractButton::getWidth() const
 {
@@ -85,25 +105,6 @@ const char * AbstractButton::getText() const
 int AbstractButton::sizeText() const
 {
   return m_sizeText ;
-}
-
-/**************************************************************************************************************
- *                                                  SETTERS                                                   *
- **************************************************************************************************************/
-
-void AbstractButton::setPosX(unsigned int x)
-{
-	m_posx = x ;
-}
-
-void AbstractButton::setPosY(unsigned int y)
-{
-	m_posy = y ;
-}
-
-void AbstractButton::setText(std::string text)
-{
-	m_text = text ;
 }
 
 

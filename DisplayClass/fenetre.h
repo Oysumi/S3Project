@@ -8,6 +8,7 @@
 #include "../Fonctions/fonctions.h"
 
 #define SIZE_MIN 100
+#define TRANSPARENCE true
 
 class SurfaceAffichage
 {
@@ -16,8 +17,8 @@ class SurfaceAffichage
          * textes à afficher, nous devons utiliser une fonction autre que celle proposée par SDL_RGB */
         SurfaceAffichage(unsigned short const& width, unsigned short const& height) ;
         SurfaceAffichage(unsigned short const& width, unsigned short const& height, SDL_Surface* surface) ;
-        SurfaceAffichage(Texture const& texture) ;
-        SurfaceAffichage(std::string const& texture_path) ;
+        SurfaceAffichage(Texture const& texture, bool transparence = false) ;
+        SurfaceAffichage(std::string const& texture_path, bool transparence = false) ;
         virtual ~SurfaceAffichage() ;
 
         bool saveBMP(std::string const& name) const ;
