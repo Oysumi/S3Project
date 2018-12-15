@@ -54,12 +54,18 @@ class Unit : public MapObject
 		static SpriteTexture* sprite_unit ;
 		static SurfaceAffichage*** unit_affichage ;
 
+		static std::string sprite_unit_placement_path ;
+		static SurfaceAffichage*** unit_affichage_placement ;
+		static SpriteTexture* sprite_unit_placement ;
+
 		static std::string sprite_life_path ;
 		static SpriteTexture* sprite_life ;
 		static std::vector<SurfaceAffichage*> life_affichage ;
 
 		static void initSprtiteTexture() ;
 		static void deleteSprtiteTexture() ;
+
+		static SurfaceAffichage const& getSurfacePlacement(unsigned short type, bool correct) ;
 
 	protected :
 		void newVictoryPos(MapPos const& pos) ;

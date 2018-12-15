@@ -2,6 +2,7 @@
 #define __HUMANPLAYER_H__
 
 #include <string>
+#include "../DisplayClass/Texte.h"
 #include "AbstractPlayer.h"
 
 class HumanPlayer : public AbstractPlayer
@@ -14,14 +15,26 @@ class HumanPlayer : public AbstractPlayer
 		virtual Decision takeDecision(
 			Map const& map, //Ici la Map est une référence constante, ainsi le joueur est en lecture seule, il doit passer par la matrice pour tout changement
 			Selection const& selection, // Permet au joueur d'avoir des infos sur l'unité séléctionée, sans changer la sélécion
-			Fenetre& fenetre, //Passage par référence, une seule et même fenêtre dont le joueur peut changer le contenu pendant son tour
-			SDL_Rect& scroll //Permet juste à la matrice de savoir où regarde le joueur
+			Fenetre& fenetre //Passage par référence, une seule et même fenêtre dont le joueur peut changer le contenu pendant son tour
 			) ;
+
+	private :
+		void updateDisplay(Map const& map, Selection const& selection, Fenetre& fenetre) ;
+		void setConstructionCursor(Map const& map, Selection const& selection, Fenetre& fenetre, unsigned short x, unsigned short y) ;
+		void delConstructionCursor(Map const& map) ;
 
 	private :
 		bool m_gauche_ecran, m_droite_ecran, m_bas_ecran, m_haut_ecran ;
 		int m_temps_precedent ;
+		
+		int m_type_unit ;
+		int m_type_construction ;
+		MapPos* m_pos_construction ;
 
+		SDL_Rect m_scroll ; //Représente le rectangle de la map affichée sur la fenêtre
+		Texte* m_quantite_or ;
+		Texte* m_select_info ;
+		std::map <std::string, SurfaceAffichage*> m_all_symbol ;
 };
 
 #endif // __HUMANPLAYER_H__

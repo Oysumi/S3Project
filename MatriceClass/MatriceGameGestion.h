@@ -29,7 +29,6 @@ class MatriceGameGestion
 		std::vector <AbstractButton*>* m_all_buttons ;
 
 		Map* m_map ; //Contient la plupart des données du jeu
-		SDL_Rect m_scroll ; //Représente le rectangle de la map affichée sur la fenêtre
 		
 	/* 	Liste des joueurs dont le seul rôle est de prendre des décisions que la Matrice
 		de Gestion du jeu interprète. En fonction de ces décisions celle-ci modifie les
@@ -42,13 +41,8 @@ class MatriceGameGestion
 
 		Selection* m_current_selection ;
 
-		std::map <std::string, SurfaceAffichage*> m_all_symbol ;
-
 		//Stockage du texte affiché qui est très souvent le même pour ne pas charger sans cesse les mêmes graphismes
 		std::map <std::string, Texte*> m_load_text ;
-
-		Texte* m_quantite_or ;
-		Texte* m_select_info ;
 
 	private :
 		void addPlayer(std::string name) ;

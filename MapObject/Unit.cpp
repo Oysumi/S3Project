@@ -4,10 +4,13 @@
 using namespace std ;
 
 string Unit::sprite_unit_path = "../ressources/unit.bmp" ;
+string Unit::sprite_unit_placement_path = "../ressources/unitplacement.bmp" ;
 string Unit::sprite_life_path = "../ressources/life.bmp" ;
 SpriteTexture* Unit::sprite_unit = NULL ;
+SpriteTexture* Unit::sprite_unit_placement = NULL ;
 SpriteTexture* Unit::sprite_life = NULL ;
 SurfaceAffichage*** Unit::unit_affichage = NULL ;
+SurfaceAffichage*** Unit::unit_affichage_placement = NULL ;
 std::vector<SurfaceAffichage*> Unit::life_affichage ;
 
 #define NB_SPRITE_LIFE 48
@@ -25,14 +28,6 @@ void Unit::initCaracteristique()
 		m_vieMax = 100 ;
 		m_degats = 35 ;
 	}
-	else if (m_type == UNIT_SIEGE_TOWER)
-	{
-		m_name = "Tour de siege";
-		m_graphicEraseCons = true ;
-		m_vitesse = 1 ;
-		m_vieMax = 400 ;
-		m_degats = 85 ;
-	}
 	else if (m_type == UNIT_BALISTE)
 	{
 		m_name = "Baliste";
@@ -40,6 +35,14 @@ void Unit::initCaracteristique()
 		m_vitesse = 3 ;
 		m_vieMax = 75 ;
 		m_degats = 35 ;
+	}
+	else if (m_type == UNIT_SIEGE_RAW)
+	{
+		m_name = "Belier" ;
+		m_graphicEraseCons = false ;
+		m_vitesse = 2 ;
+		m_vieMax = 250 ;
+		m_degats = 50 ;
 	}
 	else if (m_type == UNIT_TREBUCHET)
 	{
@@ -49,13 +52,13 @@ void Unit::initCaracteristique()
 		m_vieMax = 200 ;
 		m_degats = 125 ;
 	}
-	else if (m_type == UNIT_SIEGE_RAW)
+	else if (m_type == UNIT_SIEGE_TOWER)
 	{
-		m_name = "Belier" ;
-		m_graphicEraseCons = false ;
-		m_vitesse = 2 ;
-		m_vieMax = 250 ;
-		m_degats = 50 ;
+		m_name = "Tour de siege";
+		m_graphicEraseCons = true ;
+		m_vitesse = 1 ;
+		m_vieMax = 400 ;
+		m_degats = 85 ;
 	}
 	else
 		warning_message("Unit without type") ;
@@ -66,7 +69,6 @@ Unit::Unit(unsigned short type , MapPos const& pos, AbstractPlayer* const& playe
 	m_type(type)
 {
 		initCaracteristique() ;
-
 
 		m_deplacement = m_vitesse ;
 		//Juste pour tester les barres de vies
@@ -234,6 +236,14 @@ void Unit::newVictoryPos(MapPos const& pos)
 }
 
 
+SurfaceAffichage const& Unit::getSurfacePlacement(unsigned short type, bool correct)
+{
+	if (correct)
+		return *unit_affichage_placement[0][type] ;
+	else
+		return *unit_affichage_placement[1][type] ;
+}
+
 
 //DEUX METHODES STATIQUES PERMETTANT D'ÉVITER DE MULTIPLE CREATION DE SPRITETEXTURE
 void Unit::initSprtiteTexture()
@@ -264,12 +274,40 @@ void Unit::initSprtiteTexture()
         }
     }
 
+    sprite_unit_placement = new SpriteTexture(sprite_unit_placement_path,MAP_CASE_SIZE,MAP_CASE_SIZE,2,NB_TYPE_UNIT) ;
+	//Création d'un tableau servant au stockage des surfaces d'affichage des unités pour ne pas les reconstruire à chaque affichage
+    unit_affichage_placement = (SurfaceAffichage***)malloc(2 * sizeof(SurfaceAffichage**));
+    for (unsigned short i = 0 ; i < 2 ; i++)
+    {
+        unit_affichage_placement[i] = (SurfaceAffichage**)malloc(NB_TYPE_UNIT * sizeof(SurfaceAffichage*));
+    }
+    for (unsigned short color = 0 ; color < 2 ; color++)
+    {
+        for (unsigned short type = 0 ; type < NB_TYPE_UNIT ; type++)
+        {
+            unit_affichage_placement[color][type] = new SurfaceAffichage (MAP_CASE_SIZE,MAP_CASE_SIZE) ;
+			unit_affichage_placement[color][type]->ajouter(*sprite_unit_placement, color, type) ;
+			unit_affichage_placement[color][type]->rendre_transparente() ;
+			SDL_SetAlpha(unit_affichage_placement[color][type]->surface(), SDL_SRCALPHA, 200 - color*72) ;
+        }
+    }
+
 
 }
 
 
 void Unit::deleteSprtiteTexture()
 {
+
+	//Destruction du tableau de Surface d'affichage
+	for (unsigned short color = 0 ; color < 2 ; color++)
+        for (unsigned short type = 0 ; type < NB_TYPE_UNIT ; type++)
+            delete(unit_affichage_placement[color][type]) ;
+    for (unsigned short i = 0 ; i < 2 ; i++)
+        free(unit_affichage_placement[i]) ;
+    free(unit_affichage_placement) ;
+
+
 	//Destruction du tableau de Surface d'affichage
 	for (unsigned short color = 0 ; color < NB_COLOR ; color++)
         for (unsigned short type = 0 ; type < NB_TYPE_UNIT ; type++)

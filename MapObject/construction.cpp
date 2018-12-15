@@ -29,6 +29,14 @@ void Construction::capture_by (AbstractPlayer * new_propietaire)
 	m_proprietaire = new_propietaire ;
 }
 
+bool Construction::isInRangeOfConstruction(MapPos const& pos)
+{
+	if (m_type <= CONSTRUCTION_CASTLE2)
+		return (m_pos.separation_value(pos) <= 3);
+	else
+		return (m_pos.separation_value(pos) <= 1);
+}
+
 bool Construction::canMove () const
 {
 	return false ;

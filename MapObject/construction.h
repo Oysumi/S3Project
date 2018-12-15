@@ -30,6 +30,7 @@ class Construction : public MapObject
         virtual bool canMove () const ;
         virtual std::string info() const ;
 
+        bool isInRangeOfConstruction(MapPos const& pos) ;
         void capture_by (AbstractPlayer * new_propietaire) ;
 
         static std::string sprite_construction_path ;

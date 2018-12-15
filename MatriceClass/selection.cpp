@@ -59,6 +59,16 @@ bool Selection::possible_move_at (MapPos const& pos) const
     return false ;
 }
 
+bool Selection::isObjectOf(AbstractPlayer* player) const
+{
+    return m_selection->proprietaire() == player ;
+}
+
+string Selection::info () const
+{
+    return m_selection->info() ;
+}
+
 short Selection::type () const
 {
     if (m_selection == NULL)

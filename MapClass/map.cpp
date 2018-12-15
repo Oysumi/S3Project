@@ -6,6 +6,8 @@ Map::Map(unsigned short x, unsigned short y) : m_terrain(x,y,m_free_pos)
 	m_map_unit = new map <MapPos, Unit*> ;
     m_map_cons  = new map <MapPos, Construction*> ;
 
+    m_list_pos_symbol = new std::vector <MapPos> ;
+
 	m_graphic_map = new SurfaceAffichage(width(),height()) ;
 	m_graphic_map->ajouter(m_terrain.terrainComplet()) ;
 
@@ -20,6 +22,14 @@ Map::~Map()
 {
 	Unit::deleteSprtiteTexture() ;
 	Construction::deleteSprtiteTexture() ;
+
+	if (m_list_pos_symbol != NULL)
+	{
+		delete(m_list_pos_symbol) ;
+		m_list_pos_symbol = NULL ;
+	}
+	else
+        warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_list_pos_symbol in ~Map()") ;
 
 	//Suppression des graphismes de la map de la mémoire
 	if (m_graphic_map != NULL)
@@ -132,6 +142,11 @@ bool Map::terrain_adapt_to_unit(MapPos const& pos, Unit const& unit) const
 	return m_terrain.sprite_code(pos) == GRASS ;
 }
 
+bool Map::terrain_adapt_to_unit(MapPos const& pos) const
+{
+	return m_terrain.sprite_code(pos) == GRASS ;
+}
+
 unsigned short Map::nb_construction_of(AbstractPlayer* player) const
 {
 	unsigned short compt = 0 ;
@@ -141,6 +156,18 @@ unsigned short Map::nb_construction_of(AbstractPlayer* player) const
 	return compt ;
 }
 
+bool Map::canConstructAt(MapPos const& pos, AbstractPlayer* player) const
+{
+	if (have_unit_on(pos)) //Il y a déjà une unité ici
+		return false ;
+	if (have_cons_on(pos)) //Construction, impossible d'y placer l'unité
+		return false ;
+
+	for (unsigned short i = 0 ; i < m_list_cons.size() ; i++) //Dans la porté de construction d'un chateau ?
+		if (m_list_cons[i]->proprietaire() == player && m_list_cons[i]->isInRangeOfConstruction(pos))
+			return true ;
+	return false ;
+}
 
 
 bool Map::add_unit (Unit const& unit)
@@ -303,39 +330,77 @@ bool Map::have_cons_on (MapPos const& pos) const
     return (m_map_cons->at(pos) != NULL) ;
 }
 
-
-void Map::actualiser (MapPos const& pos)
+Unit const& Map::see_unit_on (MapPos const& pos) const
 {
-	resest_texture(pos) ;
-	ajouter_texture_objets(pos) ;
+	if (m_map_unit->at(pos) == NULL)
+		erreur_message("try to see unit at empty pos") ;
+	return *m_map_unit->at(pos) ;
+}
+
+Construction const& Map::see_cons_on (MapPos const& pos) const
+{
+	if (m_map_unit->at(pos) == NULL)
+		erreur_message("try to see construction at empty pos") ;
+	return *m_map_cons->at(pos) ;
 }
 
 
-
-
-
-void Map::add_symbol (SurfaceAffichage const& surface, MapPos const& pos, bool audessus)
+void Map::actualiser (MapPos const& pos) const // On actualise la case
 {
-	m_list_pos_symbol.push_back(pos) ;
-	if (!audessus)
+	//Ici on doit tout refaire à la main car impossible d'appeler les sous méthodes non constantes
+
+	m_graphic_map->ajouter(m_terrain.sprite(), pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE, m_terrain.sprite_code(pos)) ; //Réecriture du terrain (effacer)
+	
+	Construction* pc = NULL ;
+	if (m_map_cons->find(pos) != m_map_cons->end())
+		pc = m_map_cons->at(pos) ;
+
+	Unit* pu = NULL ;
+	if (m_map_unit->find(pos) != m_map_unit->end()) //Rien d'enregistré à cette position
+		pu = m_map_unit->at(pos) ;
+
+
+	if (pu != NULL)
 	{
-		resest_texture(pos) ;
-		m_graphic_map->ajouter(surface) ;
-		ajouter_texture_objets(pos) ;
+		if (pu->graphicEraseCons()) //Ordre d'affichage ?
+		{
+			if (pc != NULL)
+				m_graphic_map->ajouter(pc->getSurface(), pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE) ;
+			m_graphic_map->ajouter(pu->getSurface(), pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE) ;
+			if (!pu->fullLife()) //On affiche la barre de vie si l'unité est endommagée
+				m_graphic_map->ajouter(pu->getLifeSurface(), pos.x()*MAP_CASE_SIZE + 7, height()-(1+pos.y())*MAP_CASE_SIZE + 5) ;
+		}
+		else
+		{
+			m_graphic_map->ajouter(pu->getSurface(), pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE) ;
+			if (!pu->fullLife()) //On affiche la barre de vie si l'unité est endommagée
+				m_graphic_map->ajouter(pu->getLifeSurface(), pos.x()*MAP_CASE_SIZE + 7, height()-(1+pos.y())*MAP_CASE_SIZE + 5) ;
+			if (pc != NULL)
+				m_graphic_map->ajouter(pc->getSurface(), pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE) ;
+		}
 	}
 	else
-		ajouter(surface,pos) ;
+		if (pc != NULL)
+			m_graphic_map->ajouter(pc->getSurface(), pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE) ;
 }
 
-void Map::delete_all_symbol() //Supprime tous les symboles de la map
+
+void Map::add_symbol (SurfaceAffichage const& surface, MapPos const& pos) const
+{
+	m_graphic_map->ajouter(surface, pos.x()*MAP_CASE_SIZE, height()-(1+pos.y())*MAP_CASE_SIZE) ;
+	m_list_pos_symbol->push_back(pos) ;
+}
+
+
+
+void Map::delete_all_symbol() const //Supprime tous les symboles de la map
 {
 	MapPos pos (0,0) ;
-	while(!m_list_pos_symbol.empty())
+	while(!m_list_pos_symbol->empty())
 	{
-		pos = m_list_pos_symbol.back() ;
-		resest_texture(pos) ;
-		ajouter_texture_objets(pos) ;
-		m_list_pos_symbol.pop_back() ;
+		pos = m_list_pos_symbol->back() ;
+		actualiser(pos) ;
+		m_list_pos_symbol->pop_back() ;
 	}
 }
 
@@ -362,7 +427,7 @@ void Map::ajouter_texture_objets(MapPos const& pos)
 	}
 	else
 		if (pc != NULL)
-				add_cons_texture(*pc) ;
+			add_cons_texture(*pc) ;
 }
 
 //La map affiche le terrain sur cette case ce qui écrase et supprime tous les graphismes présents sur cette case

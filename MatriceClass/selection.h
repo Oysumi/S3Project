@@ -25,11 +25,13 @@ class Selection
 		//méthodes constantes
 		short type () const ;
 		MapPos getPos () const ;
+		std::string info () const ;
 
 		//A utiliser si l'objet selectionné est une unité
 		Unit const& seeUnit() const ;
 		std::vector <MapPos> possible_move_for_unit () const ;
 		bool possible_move_at (MapPos const& pos) const ;
+		bool isObjectOf(AbstractPlayer*) const ;
 		
 		//Méthodes pour la matrice
 		Unit* unit() ;

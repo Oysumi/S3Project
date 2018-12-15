@@ -49,13 +49,8 @@ class Map
         Unit* unit_on (MapPos const& pos) ;
         Construction* cons_on (MapPos const& pos) ;
 
-        //Méthode permettant la mise à jour de graphisme par la matrice
-        void actualiser (MapPos const& pos) ;
-        void add_symbol (SurfaceAffichage const& surface, MapPos const& pos, bool audessus = true) ;
-        void delete_all_symbol() ;
-
     public : // II) Méthodes constantes, les seules utilisables pour une map en lecture seule, pour les joueurs
-        
+
         unsigned short height() const ;
         unsigned short width() const ;
 
@@ -69,12 +64,22 @@ class Map
         bool have_unit_on (MapPos const& pos) const ;
         bool have_cons_on (MapPos const& pos) const ;
 
+        Unit const& see_unit_on (MapPos const& pos) const ;
+        Construction const& see_cons_on (MapPos const& pos) const ;
+
         MapPos random_free_pos () const ;
         unsigned int nb_free_pos () const ;
 
         bool terrain_adapt_to_unit(MapPos const& pos, Unit const& unit) const ;
+        bool terrain_adapt_to_unit(MapPos const& pos) const ;
 
+        bool canConstructAt(MapPos const& pos, AbstractPlayer* player) const ;
         unsigned short nb_construction_of(AbstractPlayer* player) const ;
+
+        //Méthode permettant la mise à jour de graphisme par la matrice
+        void actualiser (MapPos const& pos) const ;
+        void add_symbol (SurfaceAffichage const& surface, MapPos const& pos) const ;
+        void delete_all_symbol() const ;
 
     private : // III) Méthodes privées permettant surtout de gérer les différents affichages simplement
         void ajouter_texture_objets(MapPos const& pos) ;
@@ -110,7 +115,7 @@ class Map
         std::list <MapPos>* m_free_pos ;
 
         //Contient la liste des symboles (affiché) par la matrice par dessus le terrain, les constructions et les unités
-        std::vector <MapPos> m_list_pos_symbol ;
+        std::vector <MapPos>* m_list_pos_symbol ;
 
         //Permet la génération et le stockage de toutes les données liées au terrain
         Terrain m_terrain ;
