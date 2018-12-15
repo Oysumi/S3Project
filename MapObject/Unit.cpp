@@ -20,6 +20,7 @@ std::vector<SurfaceAffichage*> Unit::life_affichage ;
 void Unit::initCaracteristique()
 {
 	m_type = m_type % NB_TYPE_UNIT ;
+	m_prix = prix(m_type) ;
 	if (m_type == UNIT_CATAPULT)
 	{
 		m_name = "Catapulte" ;
@@ -64,6 +65,21 @@ void Unit::initCaracteristique()
 		warning_message("Unit without type") ;
 }
 
+Ressource Unit::prix (unsigned short type)
+{
+	type = type % NB_TYPE_UNIT ;
+	if (type == UNIT_CATAPULT)
+		return Ressource(300,0,4) ;
+	else if (type == UNIT_BALISTE)
+		return Ressource(450,0,4) ;
+	else if (type == UNIT_SIEGE_RAW)
+		return Ressource(650,0,5) ;
+	else if (type == UNIT_TREBUCHET)
+		return Ressource(750,0,6) ;
+	else
+		return Ressource(800,0,8) ;
+}
+
 Unit::Unit(unsigned short type , MapPos const& pos, AbstractPlayer* const& player) :
 	MapObject(pos,player),
 	m_type(type)
@@ -89,7 +105,8 @@ Unit::Unit(Unit const& aCopier) :
 
 	m_vieMax = aCopier.m_vieMax ;
 	m_vitesse = aCopier.m_vitesse ;
-	m_degats = aCopier.m_degats ;	
+	m_degats = aCopier.m_degats ;
+	m_prix = aCopier.m_prix ;
 		
 	m_vie = aCopier.m_vie ;
 	m_deplacement = aCopier.m_deplacement ;
@@ -136,7 +153,7 @@ string Unit::name() const
 
 string Unit::info() const
 {
-	return m_name + " de " + m_proprietaire->name() + ", degats: " + to_string(m_degats) + ", deplacement: " + to_string(m_deplacement) + "/" + to_string(m_vitesse) + ", vie: " + to_string(m_vie) + "/" + to_string(m_vieMax) ;
+	return m_name + " de " + m_proprietaire->name() + "\n degats: " + to_string(m_degats) + "\n deplacement: " + to_string(m_deplacement) + "/" + to_string(m_vitesse) + "\n vie: " + to_string(m_vie) + "/" + to_string(m_vieMax) ;
 }
 
 unsigned short Unit::type () const
@@ -195,6 +212,19 @@ bool Unit::canMove_at (MapPos const& pos) const
 unsigned short Unit::degats () const
 {
 	return m_degats ;
+}
+
+Ressource const& Unit::prix () const
+{
+	return m_prix ;
+}
+
+bool Unit::canBuyWith (unsigned short type, Ressource const& res, unsigned short population_use)
+{
+	type = type % NB_TYPE_UNIT ;
+	return res.gold() >= prix(type).gold() &&
+        res.wood() >= prix(type).wood() &&
+        res.food() >= prix(type).food() + population_use ;
 }
 
 bool Unit::move(MapPos const& pos)

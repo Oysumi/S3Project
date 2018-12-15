@@ -6,6 +6,7 @@
 #include "../MapClass/position.h"
 #include "../MapObject/mapobject.h"
 #include "../MapClass/terrain.h"
+#include "../MatriceClass/Ressource.h"
 
 
 #define NB_TYPE_CONSTRUCTION 6
@@ -32,6 +33,7 @@ class Construction : public MapObject
 
         bool isInRangeOfConstruction(MapPos const& pos) ;
         void capture_by (AbstractPlayer * new_propietaire) ;
+        Ressource const& apport () const ;
 
         static std::string sprite_construction_path ;
         static SpriteTexture* sprite_construction ;
@@ -40,7 +42,14 @@ class Construction : public MapObject
         static void deleteSprtiteTexture() ;
 
     protected :
+        void initCaracteristique() ;
+
+    protected :
     	unsigned short m_type ;
+        std::string m_name ;
+
+        unsigned short m_defense ;
+        Ressource m_apport ;
 };
 
 

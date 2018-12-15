@@ -83,5 +83,6 @@ class AbstractButton
 #define UP_GOLD 38
 #define UP_FOOD 39
 #define UP_WOOD 40
+#define UP_RANGE 41
 
 #endif // __ABSTRACTBUTTON_H__

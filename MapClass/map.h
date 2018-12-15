@@ -6,6 +6,7 @@
 #include <map>
 #include <list>
 
+#include "../MatriceClass/Ressource.h"
 #include "../MapObject/construction.h"
 #include "../MapClass/terrain.h"
 #include "../MapObject/Unit.h"
@@ -80,6 +81,10 @@ class Map
         void actualiser (MapPos const& pos) const ;
         void add_symbol (SurfaceAffichage const& surface, MapPos const& pos) const ;
         void delete_all_symbol() const ;
+
+        // Ressource player earn on one turn with construcions
+        Ressource ressourceApport (AbstractPlayer* player) const ;
+        unsigned short population (AbstractPlayer* player) const ;
 
     private : // III) Méthodes privées permettant surtout de gérer les différents affichages simplement
         void ajouter_texture_objets(MapPos const& pos) ;

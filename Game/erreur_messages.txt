@@ -1,1 +1,1 @@
-L'ajout d'une SurfaceAffichage dans une autre à échoué :  SDL_UpperBlit: passed a NULL surface
+Impossible de charger la police d'écriture du JeuCouldn't open ../font/.ttf

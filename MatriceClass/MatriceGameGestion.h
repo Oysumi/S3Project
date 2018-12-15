@@ -11,6 +11,7 @@
 #include "../MapObject/construction.h"
 #include "../MapClass/map.h"
 #include "../MatriceClass/selection.h"
+#include "Ressource.h"
 
 #include <vector>
 
@@ -34,7 +35,7 @@ class MatriceGameGestion
 		de Gestion du jeu interprète. En fonction de ces décisions celle-ci modifie les
 		données de la Map que le joueur ne peut pas modifier directement mais seulement lire */
 		std::vector <AbstractPlayer*> * m_player_list ;
-		std::map <AbstractPlayer*, unsigned short> m_player_gold ;
+		std::map <AbstractPlayer*, Ressource> m_ressource ;
 		AbstractPlayer* m_current_player_turn ;
 		unsigned short m_tour ;
 		bool m_fin_de_la_partie ;

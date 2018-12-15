@@ -8,6 +8,12 @@ using namespace std ;
 
 Texte::Texte(string textToWrite, SDL_Color font_color, int size, std::string font)
 {
+	//Simplification noms des polices dans le programme princpial
+	if (font == "bold")
+		font = "montserrat-bold" ;
+	if (font == "extra")
+		font = "04B-30" ;
+
     m_size = size ;
 	m_font = TTF_OpenFont (string("../font/"+font+".ttf").c_str(), size) ;
 	if(!m_font)

@@ -7,16 +7,65 @@ std::string Construction::sprite_construction_path = "../ressources/construction
 SpriteTexture* Construction::sprite_construction = NULL ;
 SurfaceAffichage*** Construction::construction_affichage = NULL ;
 
+void Construction::initCaracteristique()
+{
+	m_type = m_type % NB_TYPE_CONSTRUCTION ;
+	if (m_type == CONSTRUCTION_CASTLE1)
+	{
+		m_name = "Petit chateau" ;
+		m_apport = Ressource(40,5,10) ;
+		m_defense = 40 ;
+	}
+	else if (m_type == CONSTRUCTION_CASTLE2)
+	{
+		m_name = "Grand chateau";
+		m_apport = Ressource(50,10,20) ;
+		m_defense = 60 ;
+	}
+	else if (m_type == CONSTRUCTION_ARCHERY1)
+	{
+		m_name = "Archerie niveau 1" ;
+		m_apport = Ressource(20,-2,-5) ;
+		m_defense = 25 ;
+	}
+	else if (m_type == CONSTRUCTION_ARCHERY2)
+	{
+		m_name = "Archerie niveau 2" ;
+		m_apport = Ressource(60,-4,-10) ;
+		m_defense = 30 ;
+	}
+	else if (m_type == CONSTRUCTION_FARM)
+	{
+		m_name = "Ferme";
+		m_apport = Ressource(5,0,15) ;
+		m_defense = 15 ;
+	}
+	else if (m_type == CONSTRUCTION_TOWER)
+	{
+		m_name = "Tour de defense";
+		m_apport = Ressource(0,-1,-2) ;
+		m_defense = 40 ;
+	}
+	else
+		warning_message("Construction without type") ;
+}
+
+
+
 Construction::Construction(unsigned short type , MapPos const& pos, AbstractPlayer* const& player) :
 	MapObject(pos,player),
 	m_type(type%NB_TYPE_CONSTRUCTION)
 	{
+		initCaracteristique() ;
 	}
 
 Construction::Construction(Construction const& aCopier) : 
 	MapObject(aCopier),
 	m_type(aCopier.m_type)
 	{
+		m_name = aCopier.m_name ;
+		m_apport = aCopier.m_apport ;
+		m_defense = aCopier.m_defense ;
 	}
 
 SurfaceAffichage const& Construction::getSurface() const
@@ -27,6 +76,11 @@ SurfaceAffichage const& Construction::getSurface() const
 void Construction::capture_by (AbstractPlayer * new_propietaire)
 {
 	m_proprietaire = new_propietaire ;
+}
+
+Ressource const& Construction::apport () const
+{
+	return m_apport ;
 }
 
 bool Construction::isInRangeOfConstruction(MapPos const& pos)
@@ -44,7 +98,7 @@ bool Construction::canMove () const
 
 string Construction::info() const
 {
-	return "Construction de " + m_proprietaire->name() ;
+	return m_name + " de " + m_proprietaire->name() + ", defense : " + to_string(m_defense) ;
 }
 
 unsigned short Construction::type () const

@@ -64,12 +64,13 @@ vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, uns
     menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, CONSTRUCTION_BATIMENT_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 
-    buttons.push_back(all_buttons[ENTETE_CHATEAU]);
+    buttons.push_back(all_buttons[ENTETE_CHATEAU]) ;
     buttons.push_back(all_buttons[AMELIORER]) ;
 	buttons.push_back(all_buttons[UP_GOLD]) ;
 	buttons.push_back(all_buttons[UP_FOOD]) ;
 	buttons.push_back(all_buttons[UP_WOOD]) ;
-	buttons.push_back(all_buttons[RETOUR2]);
+	buttons.push_back(all_buttons[UP_RANGE]) ;
+	buttons.push_back(all_buttons[RETOUR2]) ;
 	menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, AMELIORER_CHATEAU_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 

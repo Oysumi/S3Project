@@ -3,8 +3,9 @@
 
 #include "../DisplayClass/fenetre.h"
 #include "../MatriceClass/selection.h"
-#include "../MapClass/map.h"
 #include "../MatriceClass/decision.h"
+#include "../MatriceClass/Ressource.h"
+#include "../MapClass/map.h"
 
 class AbstractPlayer
 {
@@ -18,6 +19,7 @@ class AbstractPlayer
 		virtual Decision takeDecision(
 			Map const& map, //Ici la Map est une référence constante, ainsi le joueur est en lecture seule, il doit passer par la matrice pour tout changement
 			Selection const& selection, // Permet au joueur d'avoir des infos sur l'unité séléctionée, sans changer la sélécion
+			Ressource const& ressource, //Permet au joueur de connaître ses ressources pour prendre ses décisions (sans les modifier)
 			Fenetre& fenetre //Passage par référence, une seule et même fenêtre dont le joueur peut changer le contenu pendant son tour
 			) = 0 ;
 		

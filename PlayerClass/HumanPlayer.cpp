@@ -18,9 +18,14 @@ HumanPlayer::HumanPlayer(string name, unsigned short color_id) : AbstractPlayer(
     m_bas_ecran = false ;
     m_haut_ecran = false ;
     m_temps_precedent = 0 ;
-    m_quantite_or = NULL ;
-    m_select_info = NULL ;
+
     m_pos_construction = NULL ;
+
+    //Le texte est nul au début du premir tour
+    m_quantite_gold = NULL ;
+    m_quantite_wood = NULL ;
+    m_quantite_food = NULL ;
+    m_select_info = NULL ;
 
     //Représente la partie de la map affichée sur l'écran (par défaut en haut à gauche)
     m_scroll.x = 0 ;
@@ -29,17 +34,15 @@ HumanPlayer::HumanPlayer(string name, unsigned short color_id) : AbstractPlayer(
     m_all_symbol["red_circle"] = new SurfaceAffichage("../ressources/red_circle.bmp") ;
     m_all_symbol["green_circle"] = new SurfaceAffichage("../ressources/green_circle.bmp") ;
     m_all_symbol["gold"] = new SurfaceAffichage("../ressources/gold.bmp") ;
+    m_all_symbol["wood"] = new SurfaceAffichage("../ressources/wood.bmp") ;
+    m_all_symbol["food"] = new SurfaceAffichage("../ressources/food.bmp") ;
     for ( map<std::string,SurfaceAffichage*>::iterator it = m_all_symbol.begin() ; it != m_all_symbol.end() ; it++)
         it->second->rendre_transparente() ;
 }
 
 HumanPlayer::~HumanPlayer()
 {
-    if (m_select_info != NULL)
-        delete(m_select_info) ;
-
-    if (m_quantite_or != NULL)
-        delete(m_quantite_or) ;
+    deleteTexte() ;
 
     if (m_pos_construction != NULL)
         delete(m_pos_construction) ;
@@ -56,13 +59,26 @@ HumanPlayer::~HumanPlayer()
 //Affiche simplement la partie de la map voulue (et définie par m_m_scroll) sur la fenetre du jeu
 void HumanPlayer::updateDisplay(Map const& map, Selection const& selection, Fenetre& fenetre)
 {
+    //afichage de la Map
     fenetre.ajouter(map.getSurface(),&m_scroll,0,0) ;
-    if (m_select_info)
+    
+    //Info de séléction si aucun menu ouvert
+    if (m_select_info != NULL)
         fenetre.ajouter(m_select_info->surfaceAffichage(), 10 , fenetre.height()-30) ;
-    fenetre.ajouter(*m_all_symbol["gold"], fenetre.width()-172 ,0) ;
-    fenetre.ajouter(m_quantite_or->surfaceAffichage(), fenetre.width()-100, 1) ;
+    
+    //Ajout des ressources sur la fenetre
+    fenetre.ajouter(m_quantite_gold->surfaceAffichage(), fenetre.width()-200, 2) ;
+    fenetre.ajouter(*m_all_symbol["gold"], fenetre.width()-272 ,0) ;
+    fenetre.ajouter(m_quantite_wood->surfaceAffichage(), fenetre.width()-408, 2) ;
+    fenetre.ajouter(*m_all_symbol["wood"], fenetre.width()-470 ,0) ;
+    fenetre.ajouter(m_quantite_food->surfaceAffichage(), fenetre.width()-580, 2) ;
+    fenetre.ajouter(*m_all_symbol["food"], fenetre.width()-632 ,0) ;
+
+    //Les menus ouverts son réafficher
     if (Menu::isAMenuOpened())
         Menu::keepOpened(fenetre);
+
+    //On actualise l'écran
     fenetre.actualiser() ;
 }
 
@@ -70,6 +86,7 @@ void HumanPlayer::updateDisplay(Map const& map, Selection const& selection, Fene
 Decision HumanPlayer::takeDecision(
             Map const& map, //Ici la Map est une référence constante, ainsi le joueur est en lecture seule, il doit passer par la matrice pour tout changement
             Selection const& selection, // Permet au joueur d'avoir des infos sur l'unité séléctionée, sans changer la sélécion
+            Ressource const& ressource, //Permet au joueur de connaître ses ressources pour prendre ses décisions (sans les modifier)
             Fenetre& fenetre //Passage par référence, une seule et même fenêtre dont le joueur peut changer le contenu pendant son tour
             )
 {
@@ -77,24 +94,21 @@ Decision HumanPlayer::takeDecision(
     m_scroll.h = fenetre.height() ;
     m_scroll.w = fenetre.width() ;
 
-    //On met à jour le texte des ressources
-    if (m_quantite_or != NULL)
-        delete(m_quantite_or) ;
-    m_quantite_or = new Texte(to_string(200), SDL_Color({252, 210, 28}), 30, "04B-30") ;
-
-    //Supression des infos en bas a gauche
-    if (m_select_info != NULL)
-        delete(m_select_info) ;
-
+    //On supprime le curseur de construction
     delConstructionCursor(map) ;
     //Le choix de la construction actuel redevient num
     m_type_unit = -1 ;
     m_type_construction = -1 ;
-
-    //On efface les symbole
+        
+    //On met à jour le texte des ressources
+    deleteTexte() ;
+    m_quantite_gold = new Texte(to_string(ressource.gold()) + "(+" + to_string(map.ressourceApport(this).gold()) + ")", SDL_Color({252, 210, 28}), 20, "extra") ;
+    m_quantite_wood = new Texte(to_string(ressource.wood()) + "(+" + to_string(map.ressourceApport(this).wood()) + ")", SDL_Color({0, 0, 0}), 20, "extra") ;
+    m_quantite_food = new Texte(to_string(map.population(this)) + "/" + to_string(ressource.food()), SDL_Color({0, 0, 0}), 20, "extra") ;
+        
+    //On efface les symboles de la map
     map.delete_all_symbol() ;
-    m_select_info = NULL ;
-
+        
     //On ferme les menus
     if (Menu::getMenuById(CHATEAU_MENU)->isOpen())
         Menu::openMenu(CHATEAU_MENU, fenetre) ;
@@ -104,8 +118,8 @@ Decision HumanPlayer::takeDecision(
         Menu::openMenu(CONSTRUCTION_BATIMENT_MENU, fenetre) ;
     if (Menu::getMenuById(AMELIORER_CHATEAU_MENU)->isOpen())
         Menu::openMenu(AMELIORER_CHATEAU_MENU, fenetre) ;
-
-
+    
+    //Affichage si quelque chose est sélectioné par le joueur
     if(selection.valid())
     {
         MapPos pos = selection.getPos() ;
@@ -117,14 +131,13 @@ Decision HumanPlayer::takeDecision(
             if (!Menu::getMenuById(CHATEAU_MENU)->isOpen())
                 Menu::openMenu(CHATEAU_MENU, fenetre) ;
 
-
         //Affichage du cercle de selection
         if (selection.isObjectOf(this)) // cette unite ou cette construction appartient t-elle au joueur en train de faire son tour ?
             map.add_symbol(*m_all_symbol["green_circle"],pos) ;
         else
             map.add_symbol(*m_all_symbol["red_circle"],pos) ;
 
-        //Affichage symbole indiquant les déplacement possible
+        //Affichage symbole indiquant les déplacement possibles
         if (selection.isObjectOf(this) && selection.type()==OBJECT_TYPE_UNIT)
         {
             std::vector <MapPos> moves = selection.possible_move_for_unit() ;
@@ -141,6 +154,8 @@ Decision HumanPlayer::takeDecision(
 
     // On actualise l'écran
     updateDisplay(map,selection,fenetre) ;
+
+    debugage_message("Interface de " + m_name + " initialisée, il va maintenant prendre une décision") ;
 
     bool changement ;
     SDL_Event event ; 
@@ -296,11 +311,24 @@ Decision HumanPlayer::takeDecision(
                             decision_retour.set_decision(DECISION_CHANGE_SELECT_UNIT, &pos) ;
                         else
                             if (m_type_unit >= 0 && m_pos_construction != NULL) //Si l'on est en train de construire une unité
-                                if (map.canConstructAt(*m_pos_construction, this) && map.terrain_adapt_to_unit(*m_pos_construction))
+                                if (map.canConstructAt(*m_pos_construction, this)  &&
+                                    map.terrain_adapt_to_unit(*m_pos_construction))
+                                {
+                                    if (Unit::canBuyWith(m_type_unit, ressource, map.population(this)))
                                     {
                                         decision_retour.set_decision(DECISION_CONSTRUIRE_UNIT, &pos, &m_type_unit) ;
                                         return decision_retour ;
                                     }
+                                    else
+                                    {
+                                        delConstructionCursor(map) ;
+                                        m_type_unit = -1 ;
+                                        m_type_construction = -1 ;
+                                        if (!Menu::getMenuById(CHATEAU_MENU)->isOpen())
+                                            Menu::openMenu(CHATEAU_MENU, fenetre) ;
+                                        updateDisplay(map,selection,fenetre) ;
+                                    }
+                                }
                     }
                     break ;
             }
@@ -370,4 +398,24 @@ void HumanPlayer::delConstructionCursor(Map const& map)
         delete(m_pos_construction) ;
     }
     m_pos_construction = NULL ;
+}
+
+void HumanPlayer::deleteTexte()
+{
+    if (m_quantite_gold != NULL)
+        delete(m_quantite_gold) ;
+
+    if (m_quantite_wood != NULL)
+        delete(m_quantite_wood) ;
+
+    if (m_quantite_food != NULL)
+        delete(m_quantite_food) ;
+
+    if (m_select_info != NULL)
+        delete(m_select_info) ;
+
+    m_quantite_gold = NULL ;
+    m_quantite_wood = NULL ;
+    m_quantite_food = NULL ;
+    m_select_info = NULL ;
 }

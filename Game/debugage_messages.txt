@@ -37,19 +37,21 @@ Surface d'affichage (avec une surface déjà défnie) de dimension 123;19
 Surface d'affichage de dimension 250;20
 Surface d'affichage (avec une surface déjà défnie) de dimension 183;16
 Surface d'affichage de dimension 250;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 143;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 135;19
 Surface d'affichage de dimension 250;20
 Surface d'affichage (avec une surface déjà défnie) de dimension 206;19
 Surface d'affichage de dimension 250;20
 Surface d'affichage (avec une surface déjà défnie) de dimension 161;19
+Surface d'affichage de dimension 250;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 192;19
 Surface d'affichage de dimension 250;30
-Surface d'affichage (avec une surface déjà défnie) de dimension 86;16
+Surface d'affichage (avec une surface déjà défnie) de dimension 153;16
 Surface d'affichage de dimension 250;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 41;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 28;19
 Surface d'affichage de dimension 250;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 44;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 18;19
 Surface d'affichage de dimension 250;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 34;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 25;19
 Surface d'affichage de dimension 250;25
 Surface d'affichage (avec une surface déjà défnie) de dimension 233;14
 Surface d'affichage de dimension 250;25
@@ -60,42 +62,42 @@ Surface d'affichage de dimension 480;475
 Surface d'affichage de dimension 270;189
 Surface d'affichage de dimension 260;202
 Surface d'affichage de dimension 260;179
-Surface d'affichage de dimension 260;156
+Surface d'affichage de dimension 260;179
 Matrice construite
 map gènerée : 
-GGGWWWGGGGGGGGGGGGGGGG
-GGGGWWGWWWWWWGGGGGWWWW
-GGGGWGWGWWGGGGGGGGWGWG
-GGGGGGGGWGGGGGGGGGWGGG
-GGWGGGGGWWWGGGGGGGWWGG
-GGWWGGGGWWWGGGGGGGGWGG
-GGWGGGGGWGWGGGGGGGGGGG
-GGWGGGGGGGGGGGGGGGGWGG
-GGGGWWWGGGGGGGGGGGGGGG
-GGGGGWGGGGGGWWWGGGGGGG
-GGGGGGGGGGGGWWWGGGGGGG
-GGGGGGGGGGGGWWGGGGGGGG
-GGGGGGGGGGGGWGGGGGGGGG
-WWGGGGGGGGGGWGGGGGGGGG
 GGGGGGGGGGGGGGGGGGGGGG
+GGGGGGGGGGGGGGGGGGWGGG
+GGGGGGGGGGWGGGGGGGGGGG
+GGGGGGGGGGGGGWWGGGGGGG
+GGGGGGGGGGGGGWWGGGGGGG
+GGGGGGWGGGGGGGGGGGGGGG
+GGGGGGWGGGGGGGGGGGGGGG
+GGGGGGGGGGGGGGGGGGGGGG
+GGGGGGGGGGGGGGGGGGGGGG
+WWWWGGGGGGGWWGWGGGGGGG
+GGWWWWGGGGWGWGWWWWGGGW
+GGWWGWWWGGWGGGGWGGGGGW
+GGGWGGGGGGWWGGWGGGGGGG
+GGGWGGGGGGGWWWWGGGGGGG
+GGWGGGGGGGGWGGWGGGGGGG
 
 Vérification du format de la map et correction ...
 Représentation des sprites calculées : 
-GGGD46GGGGGGGGGGGGGGGG
-GGGG83GD44557GGGGGC547
-GGGGBGFG83GGGGGGGGAGBG
-GGGGGGGGAGGGGGGGGGAGGG
-GGEGGGGG846GGGGGGG96GG
-GG87GGGG812GGGGGGGGBGG
-GGAGGGGGBGBGGGGGGGGGGG
-GGBGGGGGGGGGGGGGGGGFGG
-GGGGD47GGGGGGGGGGGGGGG
-GGGGGBGGGGGGC46GGGGGGG
-GGGGGGGGGGGG803GGGGGGG
-GGGGGGGGGGGG83GGGGGGGG
-GGGGGGGGGGGGAGGGGGGGGG
-D7GGGGGGGGGGBGGGGGGGGG
 GGGGGGGGGGGGGGGGGGGGGG
+GGGGGGGGGGGGGGGGGGFGGG
+GGGGGGGGGGFGGGGGGGGGGG
+GGGGGGGGGGGGGC6GGGGGGG
+GGGGGGGGGGGGG93GGGGGGG
+GGGGGGEGGGGGGGGGGGGGGG
+GGGGGGBGGGGGGGGGGGGGGG
+GGGGGGGGGGGGGGGGGGGGGG
+GGGGGGGGGGGGGGGGGGGGGG
+D546GGGGGGGD6GEGGGGGGG
+GG8056GGGGEGBG9457GGGE
+GG92G957GGAGGGGBGGGGGB
+GGGAGGGGGG96GGEGGGGGGG
+GGGBGGGGGGG8552GGGGGGG
+GGFGGGGGGGGBGGBGGGGGGG
 
 Surface d'affichage de dimension 1408;960
 Surface d'affichage de dimension 1408;960
@@ -182,9 +184,15 @@ Surface d'affichage de dimension 64;64
 Surface d'affichage de ../ressources/red_circle.bmp
 Surface d'affichage de ../ressources/green_circle.bmp
 Surface d'affichage de ../ressources/gold.bmp
+Surface d'affichage de ../ressources/wood.bmp
+Surface d'affichage de ../ressources/food.bmp
+ajout du joueur player1
 Surface d'affichage de ../ressources/red_circle.bmp
 Surface d'affichage de ../ressources/green_circle.bmp
 Surface d'affichage de ../ressources/gold.bmp
+Surface d'affichage de ../ressources/wood.bmp
+Surface d'affichage de ../ressources/food.bmp
+ajout du joueur player2
 Matrice initialisée pour une partie
 Début du Jeu
 Surface d'affichage de dimension 450;100
@@ -192,73 +200,901 @@ Surface d'affichage (avec une surface déjà défnie) de dimension 411;31
 Surface d'affichage de dimension 480;475
 Début du tour de player1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 132;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 674;26
+Surface d'affichage (avec une surface déjà défnie) de dimension 132;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 374;26
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 239;26
+Surface d'affichage (avec une surface déjà défnie) de dimension 132;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 239;26
+Surface d'affichage (avec une surface déjà défnie) de dimension 132;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 389;26
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 239;26
+Surface d'affichage (avec une surface déjà défnie) de dimension 132;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 132;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 641;26
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 132;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 408;26
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 604;26
+Surface d'affichage (avec une surface déjà défnie) de dimension 132;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 641;26
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 132;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 151;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 151;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 151;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 94;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 151;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 94;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 151;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 151;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 151;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 151;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 151;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 151;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 158;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 158;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 420;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 429;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 430;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 107;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 107;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 113;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 439;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 457;31
+Surface d'affichage de dimension 480;475
+Début du tour de player2
+En attente d'une decision de player2
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player2 initialisée, il va maintenant prendre une décision
+Décison : 1 / valide :1
+Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 448;31
+Surface d'affichage de dimension 480;475
+Début du tour de player1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 604;26
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 389;26
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 604;26
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 389;26
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 4 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 76;21
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 4 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Décison : 4 / valide :1
-En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 89;21
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 582;26
-Décison : 3 / valide :1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 89;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 408;26
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 582;26
-Décison : 3 / valide :1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 89;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 641;26
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 578;26
-Décison : 3 / valide :1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 89;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 408;26
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
 En attente d'une decision de player1
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;31
-Surface d'affichage (avec une surface déjà défnie) de dimension 584;26
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 89;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 641;26
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 89;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 408;26
+Interface de player1 initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
+En attente d'une decision de player1
+Surface d'affichage (avec une surface déjà défnie) de dimension 164;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 119;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 89;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 641;26
+Interface de player1 initialisée, il va maintenant prendre une décision
 Décison : 0 / valide :1

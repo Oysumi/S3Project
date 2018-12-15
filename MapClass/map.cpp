@@ -15,7 +15,7 @@ Map::Map(unsigned short x, unsigned short y) : m_terrain(x,y,m_free_pos)
 	Construction::initSprtiteTexture() ;
 }
 
-Map::Map() : Map(5,5)
+Map::Map() : Map(45,20)
 {}
 
 Map::~Map()
@@ -154,6 +154,24 @@ unsigned short Map::nb_construction_of(AbstractPlayer* player) const
 		if (m_list_cons[i]->proprietaire() == player)
 			compt ++ ;
 	return compt ;
+}
+
+Ressource Map::ressourceApport(AbstractPlayer* player) const
+{
+	Ressource ressource ; // Ressource player earn on one turn with construcions
+	for (unsigned short i = 0 ; i < m_list_cons.size() ; i++)
+		if (m_list_cons[i]->proprietaire() == player)
+			ressource += m_list_cons[i]->apport() ;
+	return ressource ;
+}
+
+unsigned short Map::population (AbstractPlayer* player) const
+{
+	unsigned short pop = 0 ; // Ressource player earn on one turn with construcions
+	for (unsigned short i = 0 ; i < m_list_unit.size() ; i++)
+		if (m_list_unit[i]->proprietaire() == player)
+			pop += m_list_unit[i]->prix().food() ;
+	return pop ;
 }
 
 bool Map::canConstructAt(MapPos const& pos, AbstractPlayer* player) const

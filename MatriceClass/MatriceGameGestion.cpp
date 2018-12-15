@@ -18,8 +18,8 @@ using namespace std;
 #define TIME_BETWEEN_SCROLL_CHANGE 5
 #define TIME_LIMIT_TO_DISPLAY_MENU 500
 
-#define BEGIN_GOLD 200
-#define GOLD_AUGMENTATION 10
+#define BEGIN_GOLD 50
+#define GOLD_AUGMENTATION 100
 #define PRIX_CATAPULTE 500
 
 #define SMALL_FONT 18
@@ -66,20 +66,21 @@ void MatriceGameGestion::init()
 void MatriceGameGestion::addPlayer(string name)
 {
     m_player_list->push_back(new HumanPlayer(name, m_player_list->size())) ;
-    m_player_gold[m_player_list->back()] = BEGIN_GOLD ;
 
     //Création de quelques unités
-    for (unsigned short type = 0 ; type < NB_TYPE_UNIT && m_map->nb_free_pos() > 0 ; type++)
+    for (unsigned short type = 0 ; type < 1 && m_map->nb_free_pos() > 0 ; type++)
         m_map->add_unit( Unit(type,m_map->random_free_pos(),m_player_list->back() )) ;
     
     //Création des batiments
     for (unsigned short type_construction = 0 ; type_construction < NB_TYPE_CONSTRUCTION && m_map->nb_free_pos() > 0 ; type_construction++)
     {
         MapPos pos (m_map->random_free_pos()) ;
-        m_map->add_cons( Construction(type_construction, pos, m_player_list->back()) ) ;
-        m_map->add_unit( Unit(rand()%NB_TYPE_UNIT,pos,m_player_list->back()) ) ; //On ajoute aléatoirement une unité sur la map
+        m_map->add_cons( Construction(type_construction%NB_TYPE_CONSTRUCTION, pos, m_player_list->back()) ) ;
+        //m_map->add_unit( Unit(rand()%NB_TYPE_UNIT,pos,m_player_list->back()) ) ; //On ajoute aléatoirement une unité sur la map
     }
 
+    m_ressource[m_player_list->back()] = Ressource(BEGIN_GOLD,0,m_map->ressourceApport(m_player_list->back()).food()) ;
+    debugage_message("ajout du joueur " + name) ;
 }
 
 void MatriceGameGestion::gameLoop()
@@ -101,7 +102,10 @@ void MatriceGameGestion::gameLoop()
             debugage_message("En attente d'une decision de " + m_current_player_turn->name()) ;
             if (m_current_selection == NULL)
                 m_current_selection = new Selection() ;
-            d = m_current_player_turn->takeDecision(*m_map, *m_current_selection, m_fenetre)  ;
+
+            //On attends la décision du joueur
+            d = m_current_player_turn->takeDecision(*m_map, *m_current_selection, m_ressource[m_current_player_turn], m_fenetre)  ;
+            
             debugage_message("Décison : " + to_string(d.decision()) + " / valide :" + to_string(d.is_valid())) ;
 
             if (!d.is_valid()) // Le joueur n'a pas réellement pris de décision, ce n'est pas normal
@@ -112,6 +116,7 @@ void MatriceGameGestion::gameLoop()
             {
                 //SELECTION D'UNE NOUVELLE UNITE OU D'UNE NOUVELLE CONSTRUCTION
                 if (d.decision() == DECISION_CHANGE_SELECT_UNIT)
+                {
                     if (new_selection(d.target()))
                     {
                         if(m_current_selection->type() == OBJECT_TYPE_UNIT)
@@ -122,9 +127,9 @@ void MatriceGameGestion::gameLoop()
                                 Menu::openMenu(CHATEAU_MENU, m_fenetre) ;
                         }
                     }
-                    else //La selection a la position demandée n'est pas possible
-                        warning_message("Player as try to select unit or construction at empty pos") ;
-
+                    //La selection a la position demandée n'est pas possible
+                    //else warning_message("Player as try to select unit or construction at empty pos") ;
+                }
 
                 //DEPLACEMENT DE L'UNITE SELECTIONNE
                 else if (d.decision() == DECISION_MOVE_SELECT_UNIT)
@@ -140,10 +145,17 @@ void MatriceGameGestion::gameLoop()
                         move_select_unit(d.target()) ;
                 }
 
+                //CONSTRUCTION D'UNE UNITE
                 else if (d.decision() == DECISION_CONSTRUIRE_UNIT)
                 {
-                    if(m_map->canConstructAt(d.target(), m_current_player_turn) && m_map->terrain_adapt_to_unit(d.target()))
-                        m_map->add_unit( Unit(d.id()%NB_TYPE_UNIT,d.target(),m_current_player_turn) ) ;
+                    if(m_map->canConstructAt(d.target(), m_current_player_turn)
+                        && m_map->terrain_adapt_to_unit(d.target())
+                        && Unit::canBuyWith(d.id(), m_ressource[m_current_player_turn], m_map->population(m_current_player_turn)))
+                        {
+                            m_map->add_unit( Unit(d.id(),d.target(),m_current_player_turn)) ;
+                            m_ressource[m_current_player_turn].del_gold(Unit::prix(d.id()).gold()) ;
+                            m_ressource[m_current_player_turn].del_wood(Unit::prix(d.id()).wood()) ;
+                        }
                 }
             }
         }
@@ -169,16 +181,16 @@ void MatriceGameGestion::verification_defaite()
 void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
 {
     if(m_current_player_turn != NULL)
-        m_player_gold[m_current_player_turn] += GOLD_AUGMENTATION*m_map->nb_construction_of(m_current_player_turn) ;
-
-    if (m_player_gold[m_current_player_turn] >= PRIX_CATAPULTE && m_map->nb_free_pos() > 0)
     {
-        m_map->add_unit( Unit(UNIT_CATAPULT,m_map->random_free_pos(),m_current_player_turn)) ;
-        m_player_gold[m_current_player_turn] -= PRIX_CATAPULTE ;
+        Ressource apport (m_map->ressourceApport(m_current_player_turn)) ;
+        apport.set_food(0) ;
+        m_ressource[m_current_player_turn] += apport ;
     }
 
-    m_current_player_turn = new_current_player ;
+    //On supprime les symbole que le joueurs précéédents à ajouté à la map
+    m_map->delete_all_symbol() ;
 
+    m_current_player_turn = new_current_player ;
     m_map->reset_deplacement_all_unit (); //Les unités peuvent de nouveaux se déplacer
     deleteSelection() ; // On deselectionne l'unité en passant au joueur suivant
     m_saveMenu->at(0)->setTextButton(m_fenetre, 0,"tour " + to_string(m_tour) + " de " + m_current_player_turn->name(), "04B-30") ;
@@ -305,7 +317,6 @@ bool MatriceGameGestion::attaque(MapPos const& target)
 {
     if (isAnAttack(target))
     {
-        cout << "attaque" << endl ;
         Unit* defenseur = m_map->unit_on(target) ;
         defenseur->subirAttaque(m_current_selection->unit()) ;
         return defenseur->isDead() ;
@@ -351,7 +362,6 @@ void MatriceGameGestion::deleteSelection()
     {
         delete(m_current_selection) ;
         m_current_selection = NULL ;
-        m_map->delete_all_symbol() ;
     }
 }
 

@@ -5,6 +5,7 @@
 #include "../MapClass/position.h"
 #include "../MapObject/mapobject.h"
 #include "../MapClass/terrain.h"
+#include "../MatriceClass/Ressource.h"
 #include <string>
 #include <vector>
 
@@ -36,6 +37,9 @@ class Unit : public MapObject
 		virtual bool canMove () const ;
 		virtual std::string info() const ;
 
+		static Ressource prix (unsigned short type) ;
+		static bool canBuyWith (unsigned short type, Ressource const& res, unsigned short population_use) ;
+		Ressource const& prix () const ;
 		bool graphicEraseCons() const ;
 		std::string name() const ;
 
@@ -79,6 +83,7 @@ class Unit : public MapObject
 		std::string m_name ;
 		bool m_graphicEraseCons ;
 
+		Ressource m_prix ;
 		unsigned short m_vieMax ;
 		unsigned short m_vitesse ;
 		unsigned short m_degats ;	
