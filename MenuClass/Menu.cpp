@@ -57,8 +57,8 @@ vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, uns
     buttons.push_back(all_buttons[ENTETE_CHATEAU]);
     buttons.push_back(all_buttons[ENTETE_CONSTRUCTION]);
     buttons.push_back(all_buttons[CHATEAU]);
-    buttons.push_back(all_buttons[FERME]);
     buttons.push_back(all_buttons[ARCHERIE]);
+    buttons.push_back(all_buttons[FERME]);
     buttons.push_back(all_buttons[TOWER]);
     buttons.push_back(all_buttons[RETOUR2]);
     menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, CONSTRUCTION_BATIMENT_MENU, TRANSPARENCE_ALPHA, 5));

@@ -31,13 +31,13 @@ HumanPlayer::HumanPlayer(string name, unsigned short color_id) : AbstractPlayer(
     m_scroll.x = 0 ;
     m_scroll.y = 0 ;
 
-    m_all_symbol["red_circle"] = new SurfaceAffichage("../ressources/red_circle.bmp") ;
-    m_all_symbol["green_circle"] = new SurfaceAffichage("../ressources/green_circle.bmp") ;
-    m_all_symbol["gold"] = new SurfaceAffichage("../ressources/gold.bmp") ;
-    m_all_symbol["wood"] = new SurfaceAffichage("../ressources/wood.bmp") ;
-    m_all_symbol["food"] = new SurfaceAffichage("../ressources/food.bmp") ;
-    for ( map<std::string,SurfaceAffichage*>::iterator it = m_all_symbol.begin() ; it != m_all_symbol.end() ; it++)
-        it->second->rendre_transparente() ;
+    //On charge une unique fois les textures
+    m_all_symbol["red_circle"] = new SurfaceAffichage("../ressources/red_circle.bmp", TRANSPARENCE) ;
+    m_all_symbol["green_circle"] = new SurfaceAffichage("../ressources/green_circle.bmp", TRANSPARENCE) ;
+    m_all_symbol["gold"] = new SurfaceAffichage("../ressources/gold.bmp", TRANSPARENCE) ;
+    m_all_symbol["wood"] = new SurfaceAffichage("../ressources/wood.bmp", TRANSPARENCE) ;
+    m_all_symbol["food"] = new SurfaceAffichage("../ressources/food.bmp", TRANSPARENCE) ;
+    
 }
 
 HumanPlayer::~HumanPlayer()
@@ -287,6 +287,19 @@ Decision HumanPlayer::takeDecision(
 
                         else if(id==TOWERSIEGE)
                             m_type_unit = UNIT_SIEGE_TOWER ;
+
+                        else if(id==CHATEAU)
+                            m_type_construction = CONSTRUCTION_CASTLE1 ;
+
+                        else if(id==FERME)
+                            m_type_construction = CONSTRUCTION_FARM ;
+
+                        else if(id==ARCHERIE)
+                            m_type_construction = CONSTRUCTION_ARCHERY1 ;
+
+                        else if(id==TOWER)
+                            m_type_construction = CONSTRUCTION_TOWER ;
+
              
                         else if(id==FIN_DU_TOUR)
                             decision_retour.set_decision(DECISION_TOUR_SUIVANT) ;
@@ -296,6 +309,13 @@ Decision HumanPlayer::takeDecision(
                         {
                             m_type_unit %= NB_TYPE_UNIT ;
                             setConstructionCursor(map,selection,fenetre, event.motion.x, event.motion.y) ;
+                            updateDisplay(map,selection,fenetre) ;
+                        }
+
+                        else if (m_type_construction >= 0)
+                        {
+                            m_type_unit %= NB_TYPE_CONSTRUCTION ;
+                            setConstructionCursor(map,selection,fenetre,event.motion.x,event.motion.y) ;
                             updateDisplay(map,selection,fenetre) ;
                         }
                     }
@@ -310,16 +330,33 @@ Decision HumanPlayer::takeDecision(
                         else if(map.have_unit_on(pos) || map.have_cons_on(pos)) //Si il y a quelque chose à selectionner sur cette case
                             decision_retour.set_decision(DECISION_CHANGE_SELECT_UNIT, &pos) ;
                         else
-                            if (m_type_unit >= 0 && m_pos_construction != NULL) //Si l'on est en train de construire une unité
+                            if ((m_type_unit >= 0 || m_type_construction >= 0) && m_pos_construction != NULL) //Si l'on est en train de construire une unité
                                 if (map.canConstructAt(*m_pos_construction, this)  &&
                                     map.terrain_adapt_to_unit(*m_pos_construction))
                                 {
-                                    if (Unit::canBuyWith(m_type_unit, ressource, map.population(this)))
+                                    bool manque_ressource = false ;
+                                    if (m_type_unit >= 0)
                                     {
-                                        decision_retour.set_decision(DECISION_CONSTRUIRE_UNIT, &pos, &m_type_unit) ;
-                                        return decision_retour ;
+                                        if (Unit::canBuyWith(m_type_unit, ressource, map.population(this)))
+                                        {
+                                            decision_retour.set_decision(DECISION_CONSTRUIRE_UNIT, &pos, &m_type_unit) ;
+                                            return decision_retour ;
+                                        }
+                                        else
+                                            manque_ressource = true ;
                                     }
-                                    else
+                                    else if (m_type_construction >= 0)
+                                    {
+                                        if (Construction::canBuyWith(m_type_construction, ressource, map.population(this)))
+                                        {
+                                            decision_retour.set_decision(DECISION_CONSTRUIRE_BATIMENT, &pos, &m_type_construction) ;
+                                            return decision_retour ;
+                                        }
+                                        else
+                                            manque_ressource = true ;
+                                    }
+
+                                    if (manque_ressource)
                                     {
                                         delConstructionCursor(map) ;
                                         m_type_unit = -1 ;
@@ -376,7 +413,10 @@ void HumanPlayer::setConstructionCursor(Map const& map, Selection const& selecti
         m_pos_construction = new MapPos(map.mapPos_of_click(m_scroll,x,y)) ;
 
     bool valid = map.canConstructAt(*m_pos_construction, this) && map.terrain_adapt_to_unit(*m_pos_construction) ;
-    map.add_symbol(Unit::getSurfacePlacement(m_type_unit, valid), *m_pos_construction) ;
+    if (m_type_unit >= 0)
+        map.add_symbol(Unit::getSurfacePlacement(m_type_unit, valid), *m_pos_construction) ;
+    else
+        map.add_symbol(Construction::getSurfacePlacement(m_type_construction, valid), *m_pos_construction) ;
     
     //On ferme les menus
     if (Menu::getMenuById(CHATEAU_MENU)->isOpen())

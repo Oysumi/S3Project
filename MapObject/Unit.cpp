@@ -76,7 +76,7 @@ Ressource Unit::prix (unsigned short type)
 		return Ressource(650,0,5) ;
 	else if (type == UNIT_TREBUCHET)
 		return Ressource(750,0,6) ;
-	else
+	else // CONSTRUCTION SIEGE TOWER
 		return Ressource(800,0,8) ;
 }
 
@@ -86,12 +86,8 @@ Unit::Unit(unsigned short type , MapPos const& pos, AbstractPlayer* const& playe
 {
 		initCaracteristique() ;
 
-		m_deplacement = m_vitesse ;
-		//Juste pour tester les barres de vies
-		if (rand()%3 == 0)
-			m_vie = rand()%m_vieMax ;
-		else
-			m_vie = m_vieMax ;
+		m_deplacement = 0 ;
+		m_vie = m_vieMax ;
 
 		m_last_vitcory_pos = NULL ;
 }
@@ -177,12 +173,18 @@ bool Unit::canAttack_at (MapPos const& pos) const
 	return m_pos.separation_value(pos) == 1 && m_deplacement > 0 ;
 }
 
-bool Unit::subirAttaque(Unit* attaquant)
+bool Unit::subirAttaque(Unit* attaquant, unsigned short pourcentage_reduction)
 {
 	if (!attaquant->canAttack_at(m_pos))
 		return false ; // Pas d'attaque
+
+	if (pourcentage_reduction > 99)
+	{
+		warning_message("try to do attack with reduction percentage more than 99") ;
+		return false ;
+	}
 	
-	recevoirDegats( attaquant->degats() ) ;
+	recevoirDegats( ((100-pourcentage_reduction)*attaquant->degats())/100 ) ;
 	attaquant->m_deplacement = 0 ;
 
 	if (isDead())
@@ -275,7 +277,9 @@ SurfaceAffichage const& Unit::getSurfacePlacement(unsigned short type, bool corr
 }
 
 
-//DEUX METHODES STATIQUES PERMETTANT D'ÉVITER DE MULTIPLE CREATION DE SPRITETEXTURE
+
+
+//DEUX METHODES STATIQUES PERMETTANT D'ÉVITER DE MULTIPLE CREATION DE SPRITETEXTURE & SURFACE D'AFFICHAGE POUR CHAQUE INSTANCE
 void Unit::initSprtiteTexture()
 {
 	sprite_life = new SpriteTexture(sprite_life_path,SPRITE_LIFE_WIDTH,SPRITE_LIFE_HEIGHT,1,NB_SPRITE_LIFE) ;

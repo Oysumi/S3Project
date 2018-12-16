@@ -88,9 +88,9 @@ class Menu
 
 #define LARGEUR_MENU1 450
 #define HAUTEUR_MENU1 100
-#define LARGEUR_MENU2 200
+#define LARGEUR_MENU2 245
 #define HAUTEUR_MENU2 60
-#define LARGEUR_MENU3 250
+#define LARGEUR_MENU3 255
 #define HAUTEUR_MENU3 60
 
 #endif // __MENU_H__

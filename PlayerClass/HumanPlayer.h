@@ -25,7 +25,8 @@ class HumanPlayer : public AbstractPlayer
 		void delConstructionCursor(Map const& map) ;
 		void deleteTexte() ;
 
-	private :
+	private : //NE CONTIENT AUCUNE DONNES DU JEU MAIS SEULEMENT DES ATTRIBUTS UTILISES PAR L'INTERFACE DU JOUEUR HUMAIN
+
 		bool m_gauche_ecran, m_droite_ecran, m_bas_ecran, m_haut_ecran ;
 		int m_temps_precedent ;
 		

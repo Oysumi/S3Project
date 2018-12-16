@@ -31,15 +31,28 @@ class Construction : public MapObject
         virtual bool canMove () const ;
         virtual std::string info() const ;
 
+        static Ressource prix (unsigned short type) ;
+        static bool canBuyWith (unsigned short type, Ressource const& res, unsigned short population_use) ;
+        Ressource const& prix () const ;
+
         bool isInRangeOfConstruction(MapPos const& pos) ;
         void capture_by (AbstractPlayer * new_propietaire) ;
         Ressource const& apport () const ;
+        unsigned short defense () const ;
 
         static std::string sprite_construction_path ;
         static SpriteTexture* sprite_construction ;
         static SurfaceAffichage*** construction_affichage ;
+
+        static std::string sprite_construction_placement_path ;
+        static SurfaceAffichage*** construction_affichage_placement ;
+        static SpriteTexture* sprite_construction_placement ;
+
+        //DEUX METHODES STATIQUES PERMETTANT D'ÉVITER DE MULTIPLE CREATION DE SPRITETEXTURE & SURFACE D'AFFICHAGE POUR CHAQUE INSTANCE
         static void initSprtiteTexture() ;
         static void deleteSprtiteTexture() ;
+
+        static SurfaceAffichage const& getSurfacePlacement(unsigned short type, bool correct) ;
 
     protected :
         void initCaracteristique() ;
@@ -50,6 +63,7 @@ class Construction : public MapObject
 
         unsigned short m_defense ;
         Ressource m_apport ;
+        Ressource m_prix ;
 };
 
 

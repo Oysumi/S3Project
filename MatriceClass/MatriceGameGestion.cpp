@@ -157,6 +157,21 @@ void MatriceGameGestion::gameLoop()
                             m_ressource[m_current_player_turn].del_wood(Unit::prix(d.id()).wood()) ;
                         }
                 }
+
+                else if (d.decision() == DECISION_CONSTRUIRE_BATIMENT)
+                {
+                    if(m_map->canConstructAt(d.target(), m_current_player_turn)
+                        && m_map->terrain_adapt_to_unit(d.target())
+                        && Construction::canBuyWith(d.id(), m_ressource[m_current_player_turn], m_map->population(m_current_player_turn)))
+                        {
+                            m_map->add_cons( Construction(d.id(),d.target(),m_current_player_turn)) ;
+                            m_ressource[m_current_player_turn].del_gold(Construction::prix(d.id()).gold()) ;
+                            m_ressource[m_current_player_turn].del_wood(Construction::prix(d.id()).wood()) ;
+                            
+                            //On met à jour la nourriture / population
+                            m_ressource[m_current_player_turn].set_food(m_map->ressourceApport(m_current_player_turn).food()) ;
+                        }
+                }
             }
         }
     }
@@ -182,9 +197,13 @@ void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
 {
     if(m_current_player_turn != NULL)
     {
+        //On ajoute les ressources au précédent, car il a fini son tour
         Ressource apport (m_map->ressourceApport(m_current_player_turn)) ;
         apport.set_food(0) ;
         m_ressource[m_current_player_turn] += apport ;
+
+        //On met à jour la nourriture / population
+        m_ressource[m_current_player_turn].set_food(m_map->ressourceApport(m_current_player_turn).food()) ;
     }
 
     //On supprime les symbole que le joueurs précéédents à ajouté à la map
@@ -317,8 +336,14 @@ bool MatriceGameGestion::attaque(MapPos const& target)
 {
     if (isAnAttack(target))
     {
+        unsigned short pourcentage_reduction = 0 ;
+
+        if (m_map->have_cons_on(target))
+            if (m_map->cons_on(target)->proprietaire() != m_current_player_turn) //Si on est en terrain ennemi
+                pourcentage_reduction = m_map->cons_on(target)->defense() ;
+
         Unit* defenseur = m_map->unit_on(target) ;
-        defenseur->subirAttaque(m_current_selection->unit()) ;
+        defenseur->subirAttaque(m_current_selection->unit(), pourcentage_reduction) ;
         return defenseur->isDead() ;
     }
     else

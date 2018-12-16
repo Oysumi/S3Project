@@ -50,7 +50,7 @@ class Unit : public MapObject
 		bool isDead() const ;
 
 		bool move(MapPos const& pos) ;
-		bool subirAttaque(Unit* attaquant) ;
+		bool subirAttaque(Unit* attaquant, unsigned short pourcentage_reduction = 0) ;
 		void reset_deplacement() ;
 
 		//stockage des surfaces d'affichage des unités pour ne pas les reconstruire à chaque affichage => grosse optimisation niveau mémoire
@@ -66,6 +66,7 @@ class Unit : public MapObject
 		static SpriteTexture* sprite_life ;
 		static std::vector<SurfaceAffichage*> life_affichage ;
 
+		//DEUX METHODES STATIQUES PERMETTANT D'ÉVITER DE MULTIPLE CREATION DE SPRITETEXTURE & SURFACE D'AFFICHAGE POUR CHAQUE INSTANCE
 		static void initSprtiteTexture() ;
 		static void deleteSprtiteTexture() ;
 
