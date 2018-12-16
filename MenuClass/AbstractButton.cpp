@@ -44,35 +44,39 @@ vector<AbstractButton*>* AbstractButton::getAllButton()
 	(*bouton)[TOWERSIEGE]->addTexture(gold, 42, 3) ;
 	(*bouton)[TOWERSIEGE]->addTexture(food, 106, 3) ;
 
-	(*bouton)[CHATEAU ] = new ActionButton(CHATEAU , " 1000            25         Chateau", LARGEUR_MENU3, 20, grey2, black, 14) ;
-	(*bouton)[ARCHERIE] = new ActionButton(ARCHERIE, "  650             10         Archerie", LARGEUR_MENU3, 20, grey2, black, 14) ;
-	(*bouton)[FERME   ] = new ActionButton(FERME   , "  400             8          Ferme", LARGEUR_MENU3, 20, grey2, black, 14) ;
-	(*bouton)[TOWER   ] = new ActionButton(TOWER   , "  300             5          Tour de defense", LARGEUR_MENU3, 20, grey2, black, 14) ;
-	(*bouton)[CHATEAU ]->addTexture(gold, 41, 3) ;
-	(*bouton)[CHATEAU ]->addTexture(wood, 106, 3) ;
-	(*bouton)[ARCHERIE]->addTexture(gold, 41, 3) ;
-	(*bouton)[ARCHERIE]->addTexture(wood, 106, 3) ;
-	(*bouton)[FERME   ]->addTexture(gold, 41, 3) ;
-	(*bouton)[FERME   ]->addTexture(wood, 106, 3) ;
-	(*bouton)[TOWER   ]->addTexture(gold, 41, 3) ;
-	(*bouton)[TOWER   ]->addTexture(wood, 106, 3) ;
+	(*bouton)[CHATEAU1 ] = new ActionButton(CHATEAU1 , " 1000            40         Chateau", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[CHATEAU2 ] = new ActionButton(CHATEAU2 , " 1200            65         Grand Chateau", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[ARCHERIE1] = new ActionButton(ARCHERIE1, "  650             20         Archerie", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[ARCHERIE2] = new ActionButton(ARCHERIE2, "  750             25         Grande Archerie", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[FERME    ] = new ActionButton(FERME    , "  400             10          Ferme", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[TOWER    ] = new ActionButton(TOWER    , "  300             8          Tour de defense", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[CHATEAU1 ]->addTexture(gold, 41, 3) ;
+	(*bouton)[CHATEAU1 ]->addTexture(wood, 106, 3) ;
+	(*bouton)[CHATEAU2 ]->addTexture(gold, 41, 3) ;
+	(*bouton)[CHATEAU2 ]->addTexture(wood, 106, 3) ;
+	(*bouton)[ARCHERIE1]->addTexture(gold, 41, 3) ;
+	(*bouton)[ARCHERIE1]->addTexture(wood, 106, 3) ;
+	(*bouton)[ARCHERIE2]->addTexture(gold, 41, 3) ;
+	(*bouton)[ARCHERIE2]->addTexture(wood, 106, 3) ;
+	(*bouton)[FERME    ]->addTexture(gold, 41, 3) ;
+	(*bouton)[FERME    ]->addTexture(wood, 106, 3) ;
+	(*bouton)[TOWER    ]->addTexture(gold, 41, 3) ;
+	(*bouton)[TOWER    ]->addTexture(wood, 106, 3) ;
 
 	(*bouton)[AMELIORER] = new ActionButton(AMELIORER, "Augmenter ..    ", LARGEUR_MENU3, 20, black, grey, 15, CENTER_TEXT, "extra") ;
-	(*bouton)[UP_GOLD] = new ActionButton(UP_GOLD, "la production d'or", LARGEUR_MENU3, 20, grey2, black, 15, CENTER_TEXT) ;
-	(*bouton)[UP_FOOD] = new ActionButton(UP_FOOD, "la production de nourriture", LARGEUR_MENU3, 20, grey2, black, 15, CENTER_TEXT) ;
-	(*bouton)[UP_WOOD] = new ActionButton(UP_WOOD, "la production de bois", LARGEUR_MENU3, 20, grey2, black, 15, CENTER_TEXT) ;
-	(*bouton)[UP_RANGE] = new ActionButton(UP_RANGE, "la portee de construction", LARGEUR_MENU3, 20, grey2, black, 15, CENTER_TEXT) ;
+	(*bouton)[UP_GOLD] = new ActionButton(UP_GOLD, "  la production d'or (+3)", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[UP_FOOD] = new ActionButton(UP_FOOD, "  la production de nourriture (+1)", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[UP_WOOD] = new ActionButton(UP_WOOD, "  la production de bois (+1)", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[UP_DEFENSE] = new ActionButton(UP_DEFENSE, "  la defense du batiment (+2)", LARGEUR_MENU3, 20, grey2, black, 15) ;
 
-	(*bouton)[ENTETE_CHATEAU] = new ActionButton(ENTETE_CHATEAU, "Petit chateau", LARGEUR_MENU2, 30, black, grey, 15, CENTER_TEXT, "extra") ;
-	(*bouton)[ENTETE_GOLD_CHATEAU] = new ActionButton(ENTETE_GOLD_CHATEAU, "+40", LARGEUR_MENU2, 20, black, grey, 15, CENTER_TEXT, "bold") ;
-	(*bouton)[ENTETE_FOOD_CHATEAU] = new ActionButton(ENTETE_FOOD_CHATEAU, "+5", LARGEUR_MENU2, 20, black, grey, 15, CENTER_TEXT, "bold") ;
-	(*bouton)[ENTETE_WOOD_CHATEAU] = new ActionButton(ENTETE_WOOD_CHATEAU, "+10", LARGEUR_MENU2, 20, black, grey, 15, CENTER_TEXT, "bold") ;
+	(*bouton)[ENTETE_BATIMENT] = new ActionButton(ENTETE_BATIMENT, "construction", LARGEUR_MENU2, 30, black, grey, 15, CENTER_TEXT, "extra") ;
+	(*bouton)[ENTETE_GOLD] = new ActionButton(ENTETE_GOLD, "+", LARGEUR_MENU2, 20, black, grey, 15, CENTER_TEXT, "bold") ;
+	(*bouton)[ENTETE_FOOD] = new ActionButton(ENTETE_FOOD, "+", LARGEUR_MENU2, 20, black, grey, 15, CENTER_TEXT, "bold") ;
+	(*bouton)[ENTETE_WOOD] = new ActionButton(ENTETE_WOOD, "+", LARGEUR_MENU2, 20, black, grey, 15, CENTER_TEXT, "bold") ;
 	(*bouton)[CONSTRUIRE_BATIMENT] = new SubMenuButton(CONSTRUCTION_BATIMENT_MENU, "Construire un batiment", LARGEUR_MENU2, 25, grey, black, 13, CENTER_TEXT, "extra") ;
 	(*bouton)[CONSTRUIRE_UNIT] = new SubMenuButton(CONSTRUCTION_UNIT_MENU, "Construire une unite", LARGEUR_MENU2, 25, grey, black, 13, CENTER_TEXT, "extra") ;
+	(*bouton)[AMELIORATION_BATIMENT] = new SubMenuButton(AMELIORER_MENU, "Ameliorer le batiment", LARGEUR_MENU2, 25, grey, black, 13, CENTER_TEXT, "extra") ;
 	(*bouton)[AMELIORATION_CHATEAU] = new SubMenuButton(AMELIORER_CHATEAU_MENU, "Ameliorer le chateau", LARGEUR_MENU2, 25, grey, black, 13, CENTER_TEXT, "extra") ;
-	(*bouton)[ENTETE_GOLD_CHATEAU]->addTexture(gold, 45, 3) ;
-	(*bouton)[ENTETE_FOOD_CHATEAU]->addTexture(food, 48, 3) ;
-	(*bouton)[ENTETE_WOOD_CHATEAU]->addTexture(wood, 48, 3) ;
 
 	return bouton ;
 }

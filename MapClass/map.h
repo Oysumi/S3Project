@@ -44,7 +44,7 @@ class Map
         bool move_unit_at(MapPos const& source, MapPos const& destination, bool erase_source_unit = false) ;
 
         //Reset déplacement all unit
-        void reset_deplacement_all_unit () ;
+        void reset_player_object () ;
 
         //Accès aux données des unités et des construction (pointeurs <=> potenitelles modifications par la matrice)
         Unit* unit_on (MapPos const& pos) ;
@@ -75,6 +75,9 @@ class Map
         bool terrain_adapt_to_unit(MapPos const& pos) const ;
 
         bool canConstructAt(MapPos const& pos, AbstractPlayer* player) const ;
+        unsigned short nb_unit_of(AbstractPlayer* player) const ;
+        unsigned short nb_unit_with_deplacement_of(AbstractPlayer* player) const ;
+        unsigned short nb_construction_canDoAction_of(AbstractPlayer* player) const ;
         unsigned short nb_construction_of(AbstractPlayer* player) const ;
 
         //Méthode permettant la mise à jour de graphisme par la matrice

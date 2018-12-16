@@ -36,12 +36,12 @@ class Unit : public MapObject
 		virtual unsigned short type () const ;
 		virtual bool canMove () const ;
 		virtual std::string info() const ;
+		virtual std::string name() const ;
 
 		static Ressource prix (unsigned short type) ;
 		static bool canBuyWith (unsigned short type, Ressource const& res, unsigned short population_use) ;
 		Ressource const& prix () const ;
 		bool graphicEraseCons() const ;
-		std::string name() const ;
 
 		bool canAttack_at (MapPos const& pos) const ; //Position adjacente ?
 		bool canMove_at (MapPos const& pos) const ;

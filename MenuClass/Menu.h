@@ -35,7 +35,6 @@ class Menu
 		static std::vector<Menu*> allMenu ;
 
 	private:
-		void prepareSurface() ;
 		void calculPosButton(std::vector<AbstractButton*> const& buttons) ;
 		bool clickIsOnThisMenu(unsigned int x, unsigned int y) ;
 		AbstractButton* receiveAction(unsigned int x, unsigned int y) const ;
@@ -63,7 +62,12 @@ class Menu
 		void openCloseMenu();
 		bool isOpen() const ;
 
-		bool setTextButton(Fenetre& screen, unsigned short nb, std::string const& text, std::string font = "montserrat-regular") ;
+		//Méthodes de modification des menu après leur création / Ne pas oublier d'appeler prepareSurface() pour recharger les modifications dans la Surface du Menu
+		bool changeAssocTo(unsigned short nb_button, unsigned short id_menu) ; //modifie le menu associé du SubMenuButton numéro nb
+		bool setTextButton(unsigned short nb, std::string const& text, std::string font = "") ; 
+		bool setColorButton(unsigned short nb, SDL_Color* background, SDL_Color* text = NULL) ;
+		AbstractButton* button (unsigned short nb) ;
+		void prepareSurface() ;  //Actualise la surface d'Affichage du Menu
 		
 		static unsigned short widthTakeBy(std::vector<AbstractButton*> const& buttons, unsigned short const separation_width = DEFAULT_SEPARATION_W) ;
 		static unsigned short heightTakeBy(std::vector<AbstractButton*> const& buttons, unsigned short const separation_height = DEFAULT_SEPARATION_H) ;
@@ -84,7 +88,11 @@ class Menu
 #define CHATEAU_MENU 51
 #define CONSTRUCTION_UNIT_MENU 52
 #define CONSTRUCTION_BATIMENT_MENU 53
-#define AMELIORER_CHATEAU_MENU 54
+#define AMELIORER_MENU 54
+#define AMELIORER_CHATEAU_MENU 55
+#define ARCHERIE_MENU 56
+#define FERME_MENU 57
+#define TOWER_MENU 58
 
 #define LARGEUR_MENU1 450
 #define HAUTEUR_MENU1 100

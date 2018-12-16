@@ -21,6 +21,8 @@ class SubMenuButton : public ActionButton
 		~SubMenuButton();
 
 		void displayNewMenu(Menu* to_replace = NULL) ;
+		void changeMenuAssociation(unsigned short menu_id) ;
+		
 		static void initAllSubMenu() ;
 	protected:
 		Menu* m_menu ;

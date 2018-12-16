@@ -18,38 +18,44 @@ void Construction::initCaracteristique()
 	if (m_type == CONSTRUCTION_CASTLE1)
 	{
 		m_name = "Petit chateau" ;
-		m_apport = Ressource(40,5,10) ;
+		m_apport = Ressource(40,3,10) ;
 		m_defense = 40 ;
+		m_range = 1 ;
 	}
 	else if (m_type == CONSTRUCTION_CASTLE2)
 	{
 		m_name = "Grand chateau";
-		m_apport = Ressource(50,10,20) ;
+		m_apport = Ressource(50,5,20) ;
 		m_defense = 60 ;
+		m_range = 2 ;
 	}
 	else if (m_type == CONSTRUCTION_ARCHERY1)
 	{
 		m_name = "Archerie niveau 1" ;
 		m_apport = Ressource(20,-2,-5) ;
 		m_defense = 25 ;
+		m_range = 1 ;
 	}
 	else if (m_type == CONSTRUCTION_ARCHERY2)
 	{
 		m_name = "Archerie niveau 2" ;
 		m_apport = Ressource(60,-4,-10) ;
 		m_defense = 30 ;
+		m_range = 1 ;
 	}
 	else if (m_type == CONSTRUCTION_FARM)
 	{
 		m_name = "Ferme";
 		m_apport = Ressource(5,0,15) ;
 		m_defense = 15 ;
+		m_range = 1 ;
 	}
 	else if (m_type == CONSTRUCTION_TOWER)
 	{
 		m_name = "Tour de defense";
 		m_apport = Ressource(0,-1,-2) ;
 		m_defense = 40 ;
+		m_range = 1 ;
 	}
 	else
 		warning_message("Construction without type") ;
@@ -59,17 +65,17 @@ Ressource Construction::prix (unsigned short type)
 {
 	type = type % NB_TYPE_CONSTRUCTION ;
 	if (type == CONSTRUCTION_CASTLE1)
-		return Ressource(1000,25,0) ;
+		return Ressource(1000,40,0) ;
 	else if (type == CONSTRUCTION_CASTLE2)
-		return Ressource(1200,40,0) ;
+		return Ressource(1200,65,0) ;
 	else if (type == CONSTRUCTION_ARCHERY1)
-		return Ressource(400,10,0) ;
+		return Ressource(400,20,0) ;
 	else if (type == CONSTRUCTION_ARCHERY2)
-		return Ressource(750,20,0) ;
+		return Ressource(750,25,0) ;
 	else if (type == CONSTRUCTION_FARM)
-		return Ressource(650,8,0) ;
+		return Ressource(650,10,0) ;
 	else // CONSTRUCTION TOWER
-		return Ressource(300,5,0) ;
+		return Ressource(300,8,0) ;
 }
 
 Construction::Construction(unsigned short type , MapPos const& pos, AbstractPlayer* const& player) :
@@ -77,6 +83,8 @@ Construction::Construction(unsigned short type , MapPos const& pos, AbstractPlay
 	m_type(type%NB_TYPE_CONSTRUCTION)
 	{
 		initCaracteristique() ;
+		m_action_possible = false ;
+		m_defense_max = m_defense + 20 ; //La défense peut-être améliorée de 30
 	}
 
 Construction::Construction(Construction const& aCopier) : 
@@ -87,6 +95,9 @@ Construction::Construction(Construction const& aCopier) :
 		m_apport = aCopier.m_apport ;
 		m_defense = aCopier.m_defense ;
 		m_prix = aCopier.m_prix ;
+		m_action_possible = aCopier.m_action_possible ;
+		m_range = aCopier.m_range ;
+		m_defense_max = aCopier.m_defense_max ;
 	}
 
 SurfaceAffichage const& Construction::getSurface() const
@@ -94,9 +105,58 @@ SurfaceAffichage const& Construction::getSurface() const
 	return *construction_affichage[m_proprietaire->colorId()][m_type] ;
 }
 
+unsigned short Construction::constructionType () const
+{
+	return m_type ;
+}
+
+std::string Construction::name() const
+{
+	return m_name ;
+}
+
 void Construction::capture_by (AbstractPlayer * new_propietaire)
 {
 	m_proprietaire = new_propietaire ;
+}
+
+void Construction::reset_action_turn ()
+{
+	m_action_possible = true ;
+}
+
+void Construction::up_apport (Ressource to_add_at_apport_turn)
+{
+	m_apport += to_add_at_apport_turn ;
+}
+
+void Construction::up_range (unsigned short ajout)
+{
+	m_range += ajout ;
+}
+
+void Construction::up_defense (unsigned short ajout)
+{
+	m_defense += ajout ;
+	if (m_defense > m_defense_max)
+		m_defense = m_defense_max ;
+}
+
+void Construction::up_defense_max (unsigned short ajout)
+{
+	m_defense_max += ajout ;
+	if (m_defense_max > 99)
+		m_defense_max = 99 ;
+}
+
+bool Construction::canDoAction () const
+{
+	return m_action_possible ;
+}
+
+void Construction::noMoreAction()
+{
+	m_action_possible = false ;
 }
 
 Ressource const& Construction::apport () const
@@ -117,12 +177,9 @@ bool Construction::canBuyWith (unsigned short type, Ressource const& res, unsign
         // && res.food() - prix(type).food() <= population_use ;
 }
 
-bool Construction::isInRangeOfConstruction(MapPos const& pos)
+bool Construction::isInRangeOfConstruction(MapPos const& pos) const
 {
-	if (m_type <= CONSTRUCTION_CASTLE2)
-		return (m_pos.separation_value(pos) <= 3);
-	else
-		return (m_pos.separation_value(pos) <= 1);
+	return (m_pos.separation_value(pos) <= m_range) ;
 }
 
 bool Construction::canMove () const
@@ -152,6 +209,11 @@ SurfaceAffichage const& Construction::getSurfacePlacement(unsigned short type, b
 unsigned short Construction::defense () const
 {
 	return m_defense ;
+}
+
+unsigned short Construction::defense_max () const
+{
+	return m_defense_max ;
 }
 
 

@@ -26,6 +26,8 @@ HumanPlayer::HumanPlayer(string name, unsigned short color_id) : AbstractPlayer(
     m_quantite_wood = NULL ;
     m_quantite_food = NULL ;
     m_select_info = NULL ;
+    m_info_unit_deplacement = NULL ;
+    m_info_batiment_action = NULL ;
 
     //Représente la partie de la map affichée sur l'écran (par défaut en haut à gauche)
     m_scroll.x = 0 ;
@@ -37,7 +39,9 @@ HumanPlayer::HumanPlayer(string name, unsigned short color_id) : AbstractPlayer(
     m_all_symbol["gold"] = new SurfaceAffichage("../ressources/gold.bmp", TRANSPARENCE) ;
     m_all_symbol["wood"] = new SurfaceAffichage("../ressources/wood.bmp", TRANSPARENCE) ;
     m_all_symbol["food"] = new SurfaceAffichage("../ressources/food.bmp", TRANSPARENCE) ;
-    
+    m_all_symbol["gold_icon"] = new SurfaceAffichage("../ressources/icon/gold.bmp", TRANSPARENCE) ;
+    m_all_symbol["wood_icon"] = new SurfaceAffichage("../ressources/icon/wood.bmp", TRANSPARENCE) ;
+    m_all_symbol["food_icon"] = new SurfaceAffichage("../ressources/icon/food.bmp",TRANSPARENCE) ;
 }
 
 HumanPlayer::~HumanPlayer()
@@ -61,10 +65,36 @@ void HumanPlayer::updateDisplay(Map const& map, Selection const& selection, Fene
 {
     //afichage de la Map
     fenetre.ajouter(map.getSurface(),&m_scroll,0,0) ;
-    
-    //Info de séléction si aucun menu ouvert
+
+    //Info de séléction pouur les sélection qui n'ont pas de Menu
     if (m_select_info != NULL)
         fenetre.ajouter(m_select_info->surfaceAffichage(), 10 , fenetre.height()-30) ;
+
+    //On affiche les actions restantes à faire dans ce tour pour le joueur
+    short decalage_x = 0 ;
+    short decalage_y = 0 ;
+    if (selection.valid())
+    {
+        decalage_y = 30 ;
+        if (selection.isObjectOf(this) && selection.type()==OBJECT_TYPE_CONSTRUCTION)
+        {
+            decalage_x = 260 ;
+            decalage_y = 0 ;
+        }
+    }
+    if (m_info_batiment_action != NULL)
+    {
+        SDL_SetAlpha(m_info_batiment_action->surfaceAffichage().surface(), SDL_SRCALPHA, 150) ;
+        fenetre.ajouter(m_info_batiment_action->surfaceAffichage(),10+decalage_x,fenetre.height()-20-decalage_y) ;
+    }
+    else
+        decalage_y -= 20 ;
+
+    if (m_info_unit_deplacement != NULL)
+    {
+        SDL_SetAlpha(m_info_unit_deplacement->surfaceAffichage().surface(), SDL_SRCALPHA, 150) ;
+        fenetre.ajouter(m_info_unit_deplacement->surfaceAffichage(),10+decalage_x,fenetre.height()-40-decalage_y) ;
+    }
     
     //Ajout des ressources sur la fenetre
     fenetre.ajouter(m_quantite_gold->surfaceAffichage(), fenetre.width()-200, 2) ;
@@ -82,17 +112,17 @@ void HumanPlayer::updateDisplay(Map const& map, Selection const& selection, Fene
     fenetre.actualiser() ;
 }
 
-//Fonction utilisée par la matrice pour demander au joueur de prendre une décision, seul interraction d'un joueur
-Decision HumanPlayer::takeDecision(
-            Map const& map, //Ici la Map est une référence constante, ainsi le joueur est en lecture seule, il doit passer par la matrice pour tout changement
-            Selection const& selection, // Permet au joueur d'avoir des infos sur l'unité séléctionée, sans changer la sélécion
-            Ressource const& ressource, //Permet au joueur de connaître ses ressources pour prendre ses décisions (sans les modifier)
-            Fenetre& fenetre //Passage par référence, une seule et même fenêtre dont le joueur peut changer le contenu pendant son tour
-            )
+//Initialisation de toute l'interface qui permet la prise de décision du Joueur
+void HumanPlayer::initialiserInterface(Map const& map, Selection const& selection, Ressource const& ressource, Fenetre& fenetre)
 {
-
     m_scroll.h = fenetre.height() ;
     m_scroll.w = fenetre.width() ;
+
+    //Definissons quelques couleurs
+    SDL_Color grey2 = {180,180,180} ;
+    SDL_Color red = {180,120,120} ;
+    SDL_Color red2 = {35,0,0} ;
+    //SDL_Color green = {134,104,15} ;
 
     //On supprime le curseur de construction
     delConstructionCursor(map) ;
@@ -105,31 +135,98 @@ Decision HumanPlayer::takeDecision(
     m_quantite_gold = new Texte(to_string(ressource.gold()) + "(+" + to_string(map.ressourceApport(this).gold()) + ")", SDL_Color({252, 210, 28}), 20, "extra") ;
     m_quantite_wood = new Texte(to_string(ressource.wood()) + "(+" + to_string(map.ressourceApport(this).wood()) + ")", SDL_Color({0, 0, 0}), 20, "extra") ;
     m_quantite_food = new Texte(to_string(map.population(this)) + "/" + to_string(ressource.food()), SDL_Color({0, 0, 0}), 20, "extra") ;
-        
+
+    //Permet au joueur de savoir si il lui reste des unités à déplacer et des actions dans les batiments à faire avant de passer au tour suivant
+    unsigned short unit = map.nb_unit_of(this) ;
+    unsigned short unit_restant = map.nb_unit_with_deplacement_of(this) ;
+    if (unit_restant != 0)
+        m_info_unit_deplacement = new Texte("Encore " + to_string(unit_restant) + "/" + to_string(unit) + " unite(s) a deplacer", red2, 15) ;
+
+    unsigned short batiment = map.nb_construction_of(this) ;
+    unsigned short batiment_restant = map.nb_construction_canDoAction_of(this) ;
+    if (batiment_restant != 0)
+        m_info_batiment_action = new Texte("Encore " + to_string(batiment_restant) + "/" + to_string(batiment) + " batiment(s) peuvent effectuer une action", red2, 15) ;
+
     //On efface les symboles de la map
     map.delete_all_symbol() ;
-        
-    //On ferme les menus
-    if (Menu::getMenuById(CHATEAU_MENU)->isOpen())
-        Menu::openMenu(CHATEAU_MENU, fenetre) ;
-    if (Menu::getMenuById(CONSTRUCTION_UNIT_MENU)->isOpen())
-        Menu::openMenu(CONSTRUCTION_UNIT_MENU, fenetre) ;
-    if (Menu::getMenuById(CONSTRUCTION_BATIMENT_MENU)->isOpen())
-        Menu::openMenu(CONSTRUCTION_BATIMENT_MENU, fenetre) ;
-    if (Menu::getMenuById(AMELIORER_CHATEAU_MENU)->isOpen())
-        Menu::openMenu(AMELIORER_CHATEAU_MENU, fenetre) ;
+    
+    //On ferme tous les menus sauf le principal
+    closeSelectMenu(fenetre) ;
     
     //Affichage si quelque chose est sélectioné par le joueur
     if(selection.valid())
     {
         MapPos pos = selection.getPos() ;
 
-        //Affichage des infos en bas à gauche
-        if (!selection.isObjectOf(this) || selection.type()!=OBJECT_TYPE_CONSTRUCTION)
-            m_select_info = new Texte(selection.info(), SDL_Color({0,0,0}), 20) ;
-        else // Ou le menu pour nos constructions
-            if (!Menu::getMenuById(CHATEAU_MENU)->isOpen())
-                Menu::openMenu(CHATEAU_MENU, fenetre) ;
+         // GESTION DES MENUS DES CONSTRUCTIONS
+        if (selection.isObjectOf(this) && selection.type()==OBJECT_TYPE_CONSTRUCTION)
+        {
+            //On prend un menu de batiment quelconque pour y changer les bouttons communs à tous les batiments
+            Menu* menu = Menu::getMenuById(CHATEAU_MENU) ;
+
+            //Pour toutes les constructions
+
+            //On ajoute les ressources apportées par la construction dans l'entete
+            int gold = selection.seeConstruction().apport().gold() ;
+            int wood = selection.seeConstruction().apport().wood() ;
+            int food = selection.seeConstruction().apport().food() ;
+            menu->setTextButton(0, selection.see().name()) ;
+            menu->setTextButton(1,((gold>=0)?"+":"")+to_string(gold)) ;
+            menu->setTextButton(2,((wood>=0)?"+":"")+to_string(wood)) ;
+            menu->setTextButton(3,((food>=0)?"+":"")+to_string(food)) ;
+            menu->button(1)->addTexture(*m_all_symbol["gold_icon"], 45, 3) ;
+            menu->button(2)->addTexture(*m_all_symbol["wood_icon"], 48, 3) ;
+            menu->button(3)->addTexture(*m_all_symbol["food_icon"], 48, 3) ;
+
+            //On adapte la couleurs des bouttons si le batiment peut ou non faire une action
+            if (selection.seeConstruction().canDoAction())
+            {
+                menu->setColorButton(6, &grey2) ;
+                Menu::getMenuById(FERME_MENU)->setColorButton(4, &grey2) ;
+            }
+            else
+            {
+                menu->setColorButton(6, &red) ;
+                Menu::getMenuById(FERME_MENU)->setColorButton(4, &red) ;
+            }
+
+            // Peut on encore améliorer la défense
+            if (selection.seeConstruction().defense() < selection.seeConstruction().defense_max())
+                Menu::getMenuById(AMELIORER_CHATEAU_MENU)->setColorButton(5, &grey2) ;
+            else
+                Menu::getMenuById(AMELIORER_CHATEAU_MENU)->setColorButton(5, &red) ;
+
+            //Quel menu de batiment doit être ouvert ?
+            m_id_menu_to_open = CHATEAU_MENU ;
+            if (  selection.seeConstruction().constructionType() == CONSTRUCTION_ARCHERY1
+               || selection.seeConstruction().constructionType() == CONSTRUCTION_ARCHERY2)
+                m_id_menu_to_open = ARCHERIE_MENU ;
+
+            else if (  selection.seeConstruction().constructionType() == CONSTRUCTION_FARM)
+                m_id_menu_to_open = FERME_MENU ;
+
+            else if (  selection.seeConstruction().constructionType() == CONSTRUCTION_TOWER)
+                m_id_menu_to_open = TOWER_MENU ;
+
+            //On change le lien du boutton RETOUR2 pour qu'il ramène au menu associé au bon batiment
+            //Le bouton retour 2 est le 7 eme bouton du menu de construction des unités
+            Menu::getMenuById(CONSTRUCTION_UNIT_MENU)->changeAssocTo(7, m_id_menu_to_open) ;
+
+            //On actualise la surface du Menu et on l'ajoute à la fenetre
+            Menu::getMenuById(m_id_menu_to_open)->prepareSurface() ;
+            if (!Menu::getMenuById(m_id_menu_to_open)->isOpen())
+                Menu::openMenu(m_id_menu_to_open, fenetre) ;
+
+            //On actualise aussi l'entete des Menus d'amélioration et de constrution même si il ne sont pas ouverts
+            Menu::getMenuById(AMELIORER_MENU)->prepareSurface() ;
+            Menu::getMenuById(AMELIORER_CHATEAU_MENU)->prepareSurface() ;
+            Menu::getMenuById(CONSTRUCTION_UNIT_MENU)->prepareSurface() ;
+            Menu::getMenuById(CONSTRUCTION_BATIMENT_MENU)->prepareSurface() ;
+        }
+        else // Si aucun menu prévu pour ce qui est sélectionné on affiche les infos en bas à gauche
+        {
+            m_select_info = new Texte(selection.info(), SDL_Color({0,0,0}), 20, "bold") ;
+        }
 
         //Affichage du cercle de selection
         if (selection.isObjectOf(this)) // cette unite ou cette construction appartient t-elle au joueur en train de faire son tour ?
@@ -154,8 +251,20 @@ Decision HumanPlayer::takeDecision(
 
     // On actualise l'écran
     updateDisplay(map,selection,fenetre) ;
-
     debugage_message("Interface de " + m_name + " initialisée, il va maintenant prendre une décision") ;
+}
+
+
+//Fonction utilisée par la matrice pour demander au joueur de prendre une décision, seul interraction d'un joueur
+Decision HumanPlayer::takeDecision(
+            Map const& map, //Ici la Map est une référence constante, ainsi le joueur est en lecture seule, il doit passer par la matrice pour tout changement
+            Selection const& selection, // Permet au joueur d'avoir des infos sur l'unité séléctionée, sans changer la sélécion
+            Ressource const& ressource, //Permet au joueur de connaître ses ressources pour prendre ses décisions (sans les modifier)
+            Fenetre& fenetre //Passage par référence, une seule et même fenêtre dont le joueur peut changer le contenu pendant son tour
+            )
+{
+    //Initialisation de toute l'interface qui permet la prise de décision du Joueur
+    initialiserInterface(map,selection,ressource,fenetre) ;
 
     bool changement ;
     SDL_Event event ; 
@@ -188,8 +297,8 @@ Decision HumanPlayer::takeDecision(
                                 m_type_construction = -1 ;
                                 m_type_unit = -1 ;
                                 delConstructionCursor(map) ;
-                                if(!Menu::getMenuById(CHATEAU_MENU)->isOpen())
-                                    Menu::openMenu(CHATEAU_MENU, fenetre) ;
+                                if(!Menu::getMenuById(m_id_menu_to_open)->isOpen())
+                                    Menu::openMenu(m_id_menu_to_open, fenetre) ;
                                 updateDisplay(map,selection,fenetre) ;
                             }
                             else
@@ -273,37 +382,39 @@ Decision HumanPlayer::takeDecision(
                             changement = true ;
                             Menu::openMenu(ESCAPE_MENU, fenetre);
                         }
-                        else if(id==CATAPULTE)
-                            m_type_unit = UNIT_CATAPULT ;
-
-                        else if(id==BALISTE)
-                            m_type_unit = UNIT_BALISTE ;
-
-                        else if(id==BELIER)
-                            m_type_unit = UNIT_SIEGE_RAW ;
-
-                        else if(id==TREBUCHET)
-                            m_type_unit = UNIT_TREBUCHET ;
-
-                        else if(id==TOWERSIEGE)
-                            m_type_unit = UNIT_SIEGE_TOWER ;
-
-                        else if(id==CHATEAU)
-                            m_type_construction = CONSTRUCTION_CASTLE1 ;
-
-                        else if(id==FERME)
-                            m_type_construction = CONSTRUCTION_FARM ;
-
-                        else if(id==ARCHERIE)
-                            m_type_construction = CONSTRUCTION_ARCHERY1 ;
-
-                        else if(id==TOWER)
-                            m_type_construction = CONSTRUCTION_TOWER ;
-
-             
                         else if(id==FIN_DU_TOUR)
                             decision_retour.set_decision(DECISION_TOUR_SUIVANT) ;
 
+                        else if(id==CATAPULTE)
+                            m_type_unit = UNIT_CATAPULT ;
+                        else if(id==BALISTE)
+                            m_type_unit = UNIT_BALISTE ;
+                        else if(id==BELIER)
+                            m_type_unit = UNIT_SIEGE_RAW ;
+                        else if(id==TREBUCHET)
+                            m_type_unit = UNIT_TREBUCHET ;
+                        else if(id==TOWERSIEGE)
+                            m_type_unit = UNIT_SIEGE_TOWER ;
+
+                        else if(id==CHATEAU1)
+                            m_type_construction = CONSTRUCTION_CASTLE1 ;
+                        else if(id==CHATEAU2)
+                            m_type_construction = CONSTRUCTION_CASTLE2 ;
+                        else if(id==FERME)
+                            m_type_construction = CONSTRUCTION_FARM ;
+                        else if(id==ARCHERIE1)
+                            m_type_construction = CONSTRUCTION_ARCHERY1 ;
+                        else if(id==ARCHERIE2)
+                            m_type_construction = CONSTRUCTION_ARCHERY2 ;
+                        else if(id==TOWER)
+                            m_type_construction = CONSTRUCTION_TOWER ;
+
+                        else if(id==UP_GOLD || id==UP_WOOD || id==UP_FOOD || id==UP_DEFENSE)
+                            if(selection.type() == OBJECT_TYPE_CONSTRUCTION)
+                                if(selection.seeConstruction().canDoAction())
+                                    if (id!=UP_DEFENSE || selection.seeConstruction().defense() < selection.seeConstruction().defense_max())
+                                        if(decision_retour.set_decision(DECISION_AMELIORER_BATIMENT,&id))
+                                            return decision_retour ;
 
                         if (m_type_unit >= 0)
                         {
@@ -361,8 +472,8 @@ Decision HumanPlayer::takeDecision(
                                         delConstructionCursor(map) ;
                                         m_type_unit = -1 ;
                                         m_type_construction = -1 ;
-                                        if (!Menu::getMenuById(CHATEAU_MENU)->isOpen())
-                                            Menu::openMenu(CHATEAU_MENU, fenetre) ;
+                                        if (!Menu::getMenuById(m_id_menu_to_open)->isOpen())
+                                            Menu::openMenu(m_id_menu_to_open, fenetre) ;
                                         updateDisplay(map,selection,fenetre) ;
                                     }
                                 }
@@ -405,7 +516,6 @@ Decision HumanPlayer::takeDecision(
     return decision_retour ;
 }
 
-
 void HumanPlayer::setConstructionCursor(Map const& map, Selection const& selection, Fenetre& fenetre, unsigned short x, unsigned short y)
 {
 
@@ -419,14 +529,7 @@ void HumanPlayer::setConstructionCursor(Map const& map, Selection const& selecti
         map.add_symbol(Construction::getSurfacePlacement(m_type_construction, valid), *m_pos_construction) ;
     
     //On ferme les menus
-    if (Menu::getMenuById(CHATEAU_MENU)->isOpen())
-         Menu::openMenu(CHATEAU_MENU, fenetre) ;
-    if (Menu::getMenuById(CONSTRUCTION_UNIT_MENU)->isOpen())
-        Menu::openMenu(CONSTRUCTION_UNIT_MENU, fenetre) ;
-    if (Menu::getMenuById(CONSTRUCTION_BATIMENT_MENU)->isOpen())
-        Menu::openMenu(CONSTRUCTION_BATIMENT_MENU, fenetre) ;
-    if (Menu::getMenuById(AMELIORER_CHATEAU_MENU)->isOpen())
-        Menu::openMenu(AMELIORER_CHATEAU_MENU, fenetre) ;
+    closeSelectMenu(fenetre) ;
 }
 
 void HumanPlayer::delConstructionCursor(Map const& map)
@@ -442,6 +545,12 @@ void HumanPlayer::delConstructionCursor(Map const& map)
 
 void HumanPlayer::deleteTexte()
 {
+    if (m_info_unit_deplacement != NULL)
+        delete(m_info_unit_deplacement) ;
+
+    if (m_info_batiment_action != NULL)
+        delete(m_info_batiment_action) ;
+
     if (m_quantite_gold != NULL)
         delete(m_quantite_gold) ;
 
@@ -454,8 +563,38 @@ void HumanPlayer::deleteTexte()
     if (m_select_info != NULL)
         delete(m_select_info) ;
 
+    m_info_unit_deplacement = NULL ;
+    m_info_batiment_action = NULL ;
     m_quantite_gold = NULL ;
     m_quantite_wood = NULL ;
     m_quantite_food = NULL ;
     m_select_info = NULL ;
+}
+
+void HumanPlayer::closeSelectMenu(Fenetre& fenetre)
+{
+    //On ferme les menus
+    if (Menu::getMenuById(CHATEAU_MENU)->isOpen())
+        Menu::openMenu(CHATEAU_MENU, fenetre) ;
+
+    if (Menu::getMenuById(AMELIORER_CHATEAU_MENU)->isOpen())
+        Menu::openMenu(AMELIORER_CHATEAU_MENU, fenetre) ;
+
+    if (Menu::getMenuById(CONSTRUCTION_UNIT_MENU)->isOpen())
+        Menu::openMenu(CONSTRUCTION_UNIT_MENU, fenetre) ;
+
+    if (Menu::getMenuById(CONSTRUCTION_BATIMENT_MENU)->isOpen())
+        Menu::openMenu(CONSTRUCTION_BATIMENT_MENU, fenetre) ;
+
+    if (Menu::getMenuById(AMELIORER_MENU)->isOpen())
+        Menu::openMenu(AMELIORER_MENU, fenetre) ;
+
+    if (Menu::getMenuById(ARCHERIE_MENU)->isOpen())
+        Menu::openMenu(ARCHERIE_MENU, fenetre) ;
+
+    if (Menu::getMenuById(FERME_MENU)->isOpen())
+        Menu::openMenu(FERME_MENU, fenetre) ;
+
+    if (Menu::getMenuById(TOWER_MENU)->isOpen())
+        Menu::openMenu(TOWER_MENU, fenetre) ;
 }

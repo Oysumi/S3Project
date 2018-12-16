@@ -49,15 +49,17 @@ void MatriceGameGestion::init()
     //On adapate la taille de la Map pour qu'elle remplisse la fenetre si besoin !
     m_map = new Map ( (MAP_WIDTH*MAP_CASE_SIZE > SCREEN_WIDTH) ? MAP_WIDTH : 2+SCREEN_WIDTH/MAP_CASE_SIZE,
         (MAP_HEIGHT*MAP_CASE_SIZE > SCREEN_HEIGHT) ? MAP_HEIGHT : 2+SCREEN_HEIGHT/MAP_CASE_SIZE ) ;
+    debugage_message("Construction de la map terminée") ;
 
     //Création des joueurs de la partie
     m_player_list = new std::vector <AbstractPlayer*> ;
     addPlayer("player1") ;
     addPlayer("player2") ;
+    debugage_message("Ajout des joueurs") ;
+
 
     m_current_player_turn = NULL ;
     m_tour = 0 ;
-
     m_fin_de_la_partie = false ;
 
     debugage_message("Matrice initialisée pour une partie") ;
@@ -172,6 +174,37 @@ void MatriceGameGestion::gameLoop()
                             m_ressource[m_current_player_turn].set_food(m_map->ressourceApport(m_current_player_turn).food()) ;
                         }
                 }
+
+                else if (d.decision() == DECISION_AMELIORER_BATIMENT)
+                {
+                    if(validSelection(OBJECT_TYPE_CONSTRUCTION, m_current_player_turn))
+                    {
+                        if (m_current_selection->seeConstruction().canDoAction())
+                        {
+                            bool upgrade = true ;
+                            Construction* cons = m_current_selection->construction() ;
+                            if(d.id() == UP_GOLD)
+                                cons->up_apport(Ressource(3,0,0)) ;
+                            else if(d.id() == UP_WOOD)
+                                cons->up_apport(Ressource(0,1,0)) ;
+                            else if(d.id() == UP_FOOD)
+                                cons->up_apport(Ressource(0,0,1)) ;
+                            else if(d.id() == UP_DEFENSE && cons->defense() < cons->defense_max())
+                                cons->up_defense(2) ;
+                            else
+                                upgrade = false ;
+
+                            if (upgrade)
+                                cons->noMoreAction() ;
+                        }
+                        else
+                            warning_message("Player have try to upgrades construction but upgrade is define for this turn") ;
+                    }
+                    else
+                        warning_message("Player have try to upgrades selection but it's not construction of player current turn") ;
+                }
+
+                
             }
         }
     }
@@ -210,9 +243,9 @@ void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
     m_map->delete_all_symbol() ;
 
     m_current_player_turn = new_current_player ;
-    m_map->reset_deplacement_all_unit (); //Les unités peuvent de nouveaux se déplacer
+    m_map->reset_player_object() ; //Les unités peuvent de nouveaux se déplacer et les batiments construire
     deleteSelection() ; // On deselectionne l'unité en passant au joueur suivant
-    m_saveMenu->at(0)->setTextButton(m_fenetre, 0,"tour " + to_string(m_tour) + " de " + m_current_player_turn->name(), "04B-30") ;
+    m_saveMenu->at(0)->setTextButton(0,"tour " + to_string(m_tour) + " de " + m_current_player_turn->name(), "04B-30") ;
 }
 
 bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)

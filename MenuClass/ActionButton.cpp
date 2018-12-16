@@ -43,20 +43,33 @@ ActionButton::ActionButton( unsigned short int idToSet,
 
 	m_surface = NULL ;
 	m_texte = NULL ;
+	if(font == "")
+		m_font = "montserrat-regular" ;
 	setText(m_text,font) ;
+}
+
+void ActionButton::setColor(SDL_Color* background, SDL_Color* text)
+{
+	if (background != NULL)
+		m_back_color = *background ;
+	if (text != NULL)
+		m_text_color = *text ;
+	prepareSurface() ;
 }
 
 void ActionButton::setText(std::string text, string font)
 {
+	if (font != "")
+		m_font = font ;
 	m_text = text ;
-	prepareSurface(font) ;
+	prepareSurface() ;
 }
 
-void ActionButton::prepareSurface(string font)
+void ActionButton::prepareSurface()
 {
 	freeSurface() ;
     m_surface = new SurfaceAffichage(m_width, m_height) ;
-	m_texte = new Texte(m_text,m_text_color,m_sizeText,font) ;
+	m_texte = new Texte(m_text,m_text_color,m_sizeText,m_font) ;
 	if(SDL_FillRect(m_surface->surface(), NULL, SDL_MapRGB(m_surface->surface()->format, m_back_color.r, m_back_color.g, m_back_color.b)) != 0)
 		erreur_message("Impossible de colorer l'un des boutons du menu :  " + string(SDL_GetError())) ;
 	m_texte->displayText(*m_surface, *this, m_pos_text) ;

@@ -27,7 +27,8 @@ class ActionButton : public AbstractButton
 		virtual SurfaceAffichage const& getSurfaceAffichage() const ;
 		virtual Texte const& getTexte() const ;
 
-		virtual void setText(std::string text, std::string font = "montserrat-regular") ;
+		virtual void setText(std::string text, std::string font = "") ;
+		virtual void setColor(SDL_Color* background, SDL_Color* text = NULL) ;
 		virtual void addTexture (SurfaceAffichage const& surface, unsigned short x, unsigned short y) ;
 
 	protected:
@@ -38,12 +39,13 @@ class ActionButton : public AbstractButton
 		void setBackgroundColor(SDL_Color const& back) ;
 		void setButtonColors(SDL_Color const& background, SDL_Color const& text) ; // set the text and background color at the same time
 		void freeSurface() ;
-		void prepareSurface(std::string font) ;
+		void prepareSurface() ;
 
 	protected :
 		SurfaceAffichage* m_surface ;
 		Texte* m_texte ;
 		unsigned short m_pos_text ;
+		std::string m_font ;
 };
 
 #endif // __ACTIONBUTTON_H__

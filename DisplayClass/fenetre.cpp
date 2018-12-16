@@ -76,9 +76,10 @@ bool SurfaceAffichage::saveBMP(std::string const& name) const
 	return (SDL_SaveBMP(m_surface, name.c_str()) == 0) ;
 }
 
-void SurfaceAffichage::rendre_transparente()
+SurfaceAffichage* SurfaceAffichage::rendre_transparente()
 {
 	SDL_SetColorKey(m_surface, SDL_SRCCOLORKEY, SDL_MapRGB(m_surface->format, 255, 255, 255)); //Ajout de la transparence
+	return this ;
 }
 
 //CONSTRUCTEUR FENETRE

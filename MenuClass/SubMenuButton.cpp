@@ -29,7 +29,9 @@ SubMenuButton::SubMenuButton( int menu_id,
 
 	m_surface = NULL ;
 	m_texte = NULL ;
-	setText(m_text, font) ;
+	if(font == "")
+		m_font = "montserrat-regular" ;
+	setText(m_text,font) ;
 }
 
 SubMenuButton::~SubMenuButton ()
@@ -37,7 +39,13 @@ SubMenuButton::~SubMenuButton ()
 	listSubMenuButton.remove(this) ;
 }
 
-void SubMenuButton::displayNewMenu(Menu* to_replace)
+void SubMenuButton::changeMenuAssociation(unsigned short menu_id)
+{
+	m_menu_id = menu_id ;
+	m_menu = Menu::getMenuById(m_menu_id) ;
+}
+
+void SubMenuButton::displayNewMenu(Menu* to_replace) // To replace est le menu d'ou vient le clic à remplacer et fermer
 {
 	if (to_replace != NULL)
 		if (to_replace->isOpen())

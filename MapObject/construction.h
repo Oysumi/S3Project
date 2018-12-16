@@ -28,17 +28,28 @@ class Construction : public MapObject
 
         virtual SurfaceAffichage const& getSurface() const ;
         virtual unsigned short type () const ;
-        virtual bool canMove () const ;
+        virtual bool canMove () const ; // Renvoie false pour les constructions
         virtual std::string info() const ;
+        virtual std::string name() const ;
 
         static Ressource prix (unsigned short type) ;
         static bool canBuyWith (unsigned short type, Ressource const& res, unsigned short population_use) ;
+        
         Ressource const& prix () const ;
-
-        bool isInRangeOfConstruction(MapPos const& pos) ;
-        void capture_by (AbstractPlayer * new_propietaire) ;
+        bool isInRangeOfConstruction(MapPos const& pos) const ;
         Ressource const& apport () const ;
         unsigned short defense () const ;
+        unsigned short defense_max () const ;
+        bool canDoAction () const ;
+        unsigned short constructionType () const ;
+
+        void capture_by (AbstractPlayer * new_propietaire) ;
+        void reset_action_turn () ;
+        void up_apport (Ressource to_add_at_apport_turn) ;
+        void up_range (unsigned short ajout) ;
+        void up_defense (unsigned short ajout) ;
+        void up_defense_max (unsigned short ajout) ;
+        void noMoreAction() ;
 
         static std::string sprite_construction_path ;
         static SpriteTexture* sprite_construction ;
@@ -62,8 +73,11 @@ class Construction : public MapObject
         std::string m_name ;
 
         unsigned short m_defense ;
+        unsigned short m_defense_max ; // Jusqu'a combien la défense peut-être améliorée
         Ressource m_apport ;
         Ressource m_prix ;
+        bool m_action_possible ;
+        unsigned short m_range ;
 };
 
 

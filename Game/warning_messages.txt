@@ -1,8 +1,1 @@
-Demande d'accès à une case du Sprite ../ressources/constructionsplacement.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructionsplacement.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructionsplacement.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructionsplacement.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructionsplacement.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructionsplacement.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructionsplacement.bmp qui n'existe pas
-Demande d'accès à une case du Sprite ../ressources/constructionsplacement.bmp qui n'existe pas
+Player have try to upgrades selection but it's not construction of player current turn

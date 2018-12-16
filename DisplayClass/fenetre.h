@@ -27,7 +27,7 @@ class SurfaceAffichage
         unsigned short height() const ; 
         SDL_Surface* surface() const ;
 
-        void rendre_transparente() ;
+        SurfaceAffichage* rendre_transparente() ;
 
         //Affichage d'une texture
         void ajouter (Texture const& t, SDL_Rect* srcect, SDL_Rect* pos) ;

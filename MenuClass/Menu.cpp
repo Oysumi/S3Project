@@ -31,18 +31,45 @@ vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, uns
     buttons.clear() ;
 
     // Création et ajout dans la mémoire du menu selection spécifique aux constructions
-    buttons.push_back(all_buttons[ENTETE_CHATEAU]);
-    buttons.push_back(all_buttons[ENTETE_GOLD_CHATEAU]);
-    buttons.push_back(all_buttons[ENTETE_FOOD_CHATEAU]);
-    buttons.push_back(all_buttons[ENTETE_WOOD_CHATEAU]);
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]);
+    buttons.push_back(all_buttons[ENTETE_GOLD]);
+    buttons.push_back(all_buttons[ENTETE_FOOD]);
+    buttons.push_back(all_buttons[ENTETE_WOOD]);
     buttons.push_back(all_buttons[CONSTRUIRE_BATIMENT]);
     buttons.push_back(all_buttons[CONSTRUIRE_UNIT]);
     buttons.push_back(all_buttons[AMELIORATION_CHATEAU]);
     menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, CHATEAU_MENU, TRANSPARENCE_ALPHA, 10));
     buttons.clear() ;
+
+    // Création et ajout dans la mémoire du menu selection spécifique aux constructions
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]);
+    buttons.push_back(all_buttons[ENTETE_GOLD]);
+    buttons.push_back(all_buttons[ENTETE_FOOD]);
+    buttons.push_back(all_buttons[ENTETE_WOOD]);
+    buttons.push_back(all_buttons[AMELIORATION_BATIMENT]);
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, ARCHERIE_MENU, TRANSPARENCE_ALPHA, 10));
+    buttons.clear() ;
+
+    // Création et ajout dans la mémoire du menu selection spécifique aux constructions
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]);
+    buttons.push_back(all_buttons[ENTETE_GOLD]);
+    buttons.push_back(all_buttons[ENTETE_FOOD]);
+    buttons.push_back(all_buttons[ENTETE_WOOD]);
+    buttons.push_back(all_buttons[AMELIORATION_BATIMENT]);
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, FERME_MENU, TRANSPARENCE_ALPHA, 10));
+    buttons.clear() ;
+
+    // Création et ajout dans la mémoire du menu selection spécifique aux constructions
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]);
+    buttons.push_back(all_buttons[ENTETE_GOLD]);
+    buttons.push_back(all_buttons[ENTETE_FOOD]);
+    buttons.push_back(all_buttons[ENTETE_WOOD]);
+    buttons.push_back(all_buttons[AMELIORATION_BATIMENT]);
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, TOWER_MENU, TRANSPARENCE_ALPHA, 10));
+    buttons.clear() ;
     
     // Création et ajout dans la mémoire du menu
-    buttons.push_back(all_buttons[ENTETE_CHATEAU]);
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]);
     buttons.push_back(all_buttons[ENTETE_CONSTRUCTION]);
     buttons.push_back(all_buttons[CATAPULTE]);
     buttons.push_back(all_buttons[BALISTE]);
@@ -54,24 +81,35 @@ vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, uns
     buttons.clear() ;
 
     // Création et ajout dans la mémoire du menu
-    buttons.push_back(all_buttons[ENTETE_CHATEAU]);
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]);
     buttons.push_back(all_buttons[ENTETE_CONSTRUCTION]);
-    buttons.push_back(all_buttons[CHATEAU]);
-    buttons.push_back(all_buttons[ARCHERIE]);
+    buttons.push_back(all_buttons[CHATEAU1]);
+    buttons.push_back(all_buttons[CHATEAU2]);
+    buttons.push_back(all_buttons[ARCHERIE1]);
+    buttons.push_back(all_buttons[ARCHERIE2]);
     buttons.push_back(all_buttons[FERME]);
     buttons.push_back(all_buttons[TOWER]);
     buttons.push_back(all_buttons[RETOUR2]);
     menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, CONSTRUCTION_BATIMENT_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 
-    buttons.push_back(all_buttons[ENTETE_CHATEAU]) ;
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]) ;
     buttons.push_back(all_buttons[AMELIORER]) ;
 	buttons.push_back(all_buttons[UP_GOLD]) ;
 	buttons.push_back(all_buttons[UP_FOOD]) ;
 	buttons.push_back(all_buttons[UP_WOOD]) ;
-	buttons.push_back(all_buttons[UP_RANGE]) ;
+	buttons.push_back(all_buttons[UP_DEFENSE]) ;
 	buttons.push_back(all_buttons[RETOUR2]) ;
 	menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, AMELIORER_CHATEAU_MENU, TRANSPARENCE_ALPHA, 5));
+    buttons.clear() ;
+
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]) ;
+    buttons.push_back(all_buttons[AMELIORER]) ;
+	buttons.push_back(all_buttons[UP_GOLD]) ;
+	buttons.push_back(all_buttons[UP_FOOD]) ;
+	buttons.push_back(all_buttons[UP_DEFENSE]) ;
+	buttons.push_back(all_buttons[RETOUR2]) ;
+	menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, AMELIORER_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 
 	//Une fois que les menus sont crées on appelle cette méthode statique pour récupérer tous les pointeurs des Menu grâce à leurs ID
@@ -133,6 +171,13 @@ void Menu::prepareSurface()
     	m_surface->ajouter(m_myButtons[i]->getSurfaceAffichage(), m_buttonsPos[i].first, m_buttonsPos[i].second) ;
 }
 
+AbstractButton* Menu::button (unsigned short nb)
+{
+	if (nb >= m_myButtons.size())
+		return NULL ;
+	return m_myButtons[nb] ;
+}
+
 SDL_Color Menu::getColor() const
 {
 	return this->m_background ;
@@ -153,14 +198,11 @@ unsigned short Menu::getPosY() const
 	return this->m_pos_y ;
 }
 
-bool Menu::setTextButton(Fenetre& screen, unsigned short nb, string const& text, std::string font)
+bool Menu::setTextButton(unsigned short nb, string const& text, std::string font)
 {
 	if (nb >= m_myButtons.size())
 		return false ;
 	m_myButtons[nb]->setText(text, font) ;
-	prepareSurface() ;
-	if (isOpen())
-           displayMenu(screen) ;
 	return true ;
 }
 
@@ -285,6 +327,28 @@ AbstractButton* Menu::receiveAction(unsigned int x, unsigned int y) const
 	return NULL ;
 }
 
+bool Menu::setColorButton(unsigned short nb, SDL_Color* background, SDL_Color* text)
+{
+	if (nb >= m_myButtons.size())
+		return false ;
+
+	m_myButtons[nb]->setColor(background,text) ;
+	return true ;
+}
+
+bool Menu::changeAssocTo(unsigned short nb_button, unsigned short id_menu)
+{
+	AbstractButton* b = m_myButtons[nb_button] ;
+    if (b != NULL)
+    	if (b->getID() == SUBMENU) //Si on arrive ici, c'est forcément un SubMenuButton
+    	{
+    		SubMenuButton* bsub = dynamic_cast<SubMenuButton*> (b) ;
+    		bsub->changeMenuAssociation(id_menu) ;
+    		return true ;
+    	}
+    return false ;
+}
+
 
 bool Menu::isAMenuOpened()
 {
@@ -343,7 +407,7 @@ bool Menu::openSubAssocTo(unsigned int x, unsigned int y)
             	if (b->getID() == SUBMENU) //Si on arrive ici, c'est forcément un SubMenuButton
             	{
             		SubMenuButton* bsub = dynamic_cast<SubMenuButton*> (b) ;
-            		bsub->displayNewMenu(allMenu[i]) ;
+            		bsub->displayNewMenu(allMenu[i]) ;  // allMenu[i] est le menu d'ou vient le clic à remplacer et fermer
             		return true ;
             	}
             }

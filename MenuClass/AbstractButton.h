@@ -38,7 +38,8 @@ class AbstractButton
     	int sizeText() const ;
 
 		//SETTERS
-		virtual void setText(std::string text, std::string font = "montserrat-regular") = 0 ;
+		virtual void setText(std::string text, std::string font = "") = 0 ;
+		virtual void setColor(SDL_Color* background, SDL_Color* text = NULL) = 0 ;
 
 		//Méthodes virtuelles pures
 		virtual SurfaceAffichage const& getSurfaceAffichage() const = 0 ;
@@ -65,24 +66,27 @@ class AbstractButton
 #define TOWERSIEGE 15
 #define RETOUR2 16
 
-#define CHATEAU 21
-#define FERME 22
-#define ARCHERIE 23
+#define CHATEAU1 19
+#define CHATEAU2 20
+#define ARCHERIE1 21
+#define ARCHERIE2 22
+#define FERME 23
 #define TOWER 24
 
-#define ENTETE_CHATEAU 26
+#define ENTETE_BATIMENT 26
 #define ENTETE_CONSTRUCTION 27
 #define CONSTRUIRE_UNIT 28
 #define CONSTRUIRE_BATIMENT 29
-#define AMELIORATION_CHATEAU 30
-#define ENTETE_GOLD_CHATEAU 31
-#define ENTETE_FOOD_CHATEAU 32
-#define ENTETE_WOOD_CHATEAU 33
+#define AMELIORATION_BATIMENT 30
+#define AMELIORATION_CHATEAU 31
+#define ENTETE_GOLD 32
+#define ENTETE_FOOD 33
+#define ENTETE_WOOD 34
 
 #define AMELIORER 37
 #define UP_GOLD 38
 #define UP_FOOD 39
 #define UP_WOOD 40
-#define UP_RANGE 41
+#define UP_DEFENSE 41
 
 #endif // __ABSTRACTBUTTON_H__

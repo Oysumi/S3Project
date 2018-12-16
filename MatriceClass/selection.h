@@ -26,15 +26,20 @@ class Selection
 		short type () const ;
 		MapPos getPos () const ;
 		std::string info () const ;
+		MapObject const& see () const ;
 
 		//A utiliser si l'objet selectionné est une unité
+		Unit* unit() ;
 		Unit const& seeUnit() const ;
 		std::vector <MapPos> possible_move_for_unit () const ;
 		bool possible_move_at (MapPos const& pos) const ;
 		bool isObjectOf(AbstractPlayer*) const ;
+
+		//A utiliser si l'objet selectionné est une construction
+		Construction* construction() ;
+		Construction const& seeConstruction() const ;
 		
 		//Méthodes pour la matrice
-		Unit* unit() ;
 		MapObject* value() ; //Permet de modifier l'unité du pointeur donc méthode non constante
 		AbstractPlayer* proprietaire_objet() ;
 		bool add_possible_move_for_select_unit(MapPos const& pos) ;
@@ -43,6 +48,7 @@ class Selection
 		MapObject* m_selection ;
 		std::vector <MapPos>* m_possible_to_move ;
 		Unit* m_select_unit ;
+		Construction* m_select_construction ;
 		bool m_valid ;
 };
 

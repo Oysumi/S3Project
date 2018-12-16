@@ -151,8 +151,39 @@ unsigned short Map::nb_construction_of(AbstractPlayer* player) const
 {
 	unsigned short compt = 0 ;
 	for (unsigned short i = 0 ; i < m_list_cons.size() ; i++)
-		if (m_list_cons[i]->proprietaire() == player)
-			compt ++ ;
+		if(m_list_cons[i]!=NULL)
+			if (m_list_cons[i]->proprietaire() == player)
+				compt ++ ;
+	return compt ;
+}
+
+unsigned short Map::nb_construction_canDoAction_of(AbstractPlayer* player) const
+{
+	unsigned short compt = 0 ;
+	for (unsigned short i = 0 ; i < m_list_cons.size() ; i++)
+		if(m_list_cons[i]!=NULL)
+			if (m_list_cons[i]->proprietaire() == player && m_list_cons[i]->canDoAction())
+				compt ++ ;
+	return compt ;
+}
+
+unsigned short Map::nb_unit_of(AbstractPlayer* player) const
+{
+	unsigned short compt = 0 ;
+	for (unsigned short i = 0 ; i < m_list_unit.size() ; i++)
+		if(m_list_unit[i]!=NULL)
+			if (m_list_unit[i]->proprietaire() == player)
+				compt ++ ;
+	return compt ;
+}
+
+unsigned short Map::nb_unit_with_deplacement_of(AbstractPlayer* player) const
+{
+	unsigned short compt = 0 ;
+	for (unsigned short i = 0 ; i < m_list_unit.size() ; i++)
+		if(m_list_unit[i]!=NULL)
+			if (m_list_unit[i]->proprietaire() == player && m_list_unit[i]->canMove())
+				compt ++ ;
 	return compt ;
 }
 
@@ -181,7 +212,7 @@ bool Map::canConstructAt(MapPos const& pos, AbstractPlayer* player) const
 	if (have_cons_on(pos)) //Construction, impossible d'y placer l'unité
 		return false ;
 
-	for (unsigned short i = 0 ; i < m_list_cons.size() ; i++) //Dans la porté de construction d'un chateau ?
+	for (unsigned short i = 0 ; i < m_list_cons.size() ; i++) //Dans la portée de construction d'un chateau ?
 		if (m_list_cons[i]->proprietaire() == player && m_list_cons[i]->isInRangeOfConstruction(pos))
 			return true ;
 	return false ;
@@ -317,12 +348,18 @@ Construction* Map::cons_on (MapPos const& pos)
     return m_map_cons->at(pos) ;
 }
 
-void Map::reset_deplacement_all_unit ()
+void Map::reset_player_object ()
 {
 	for (unsigned int i = 0 ; i < m_list_unit.size() ; i++)
 	{
 		if(m_list_unit[i] != NULL)
 			m_list_unit[i]->reset_deplacement() ;
+	}
+
+	for (unsigned int i = 0 ; i < m_list_cons.size() ; i++)
+	{
+		if(m_list_cons[i] != NULL)
+			m_list_cons[i]->reset_action_turn() ;
 	}
 }
 
