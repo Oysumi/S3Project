@@ -250,6 +250,9 @@ void HumanPlayer::initialiserInterface(Map const& map, Selection const& selectio
         }
     }
 
+    Menu::getMenuById(ESCAPE_MENU)->setTextButton(0 , "Tour de " + m_name) ;
+    Menu::getMenuById(ESCAPE_MENU)->prepareSurface() ;
+
     // On actualise l'écran
     updateDisplay(map,selection,fenetre) ;
     debugage_message("Interface de " + m_name + " initialisée, il va maintenant prendre une décision") ;
