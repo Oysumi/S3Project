@@ -11,7 +11,7 @@ using namespace std;
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
-#define MAP_WIDTH 20
+#define MAP_WIDTH 25
 #define MAP_HEIGHT 15
 
 #define SCROOL_ZONE 50
@@ -23,7 +23,6 @@ using namespace std;
 #define PRIX_CATAPULTE 500
 
 #define SMALL_FONT 18
-
 
 //Initialise le programme, fenetre, menus, boutons ...
 MatriceGameGestion::MatriceGameGestion() :
@@ -39,7 +38,6 @@ MatriceGameGestion::MatriceGameGestion() :
     m_current_selection = NULL ;
 
     debugage_message("Matrice construite") ;
-
 }
 
 //initialise la partie, génération du terrain, créations des unités et joueurs ...
@@ -65,16 +63,34 @@ void MatriceGameGestion::init()
     debugage_message("Matrice initialisée pour une partie") ;
 }
 
+void MatriceGameGestion::set_upgrades_for_last_player_add()
+{
+    add_upgrades(DEPLACEMENTPLUS,Ressource(500,0,0)) ;
+}
+
+void MatriceGameGestion::add_upgrades(unsigned short id, Ressource const& res)
+{
+    m_upgrades [make_pair(m_player_list->back(), id)] = make_pair(Ressource(res), false) ;
+}
+
+bool MatriceGameGestion::player_have_upgrade(unsigned short id)
+{
+    //Cette amélioration n'existe pas
+    if (m_upgrades.find(make_pair(m_current_player_turn, id)) == m_upgrades.end())
+        return false ;
+    return m_upgrades[make_pair(m_current_player_turn, id)].second ;
+}
+
 void MatriceGameGestion::addPlayer(string name)
 {
     m_player_list->push_back(new HumanPlayer(name, m_player_list->size())) ;
 
     //Création de quelques unités
-    for (unsigned short type = 0 ; type < 1 && m_map->nb_free_pos() > 0 ; type++)
-        m_map->add_unit( Unit(type,m_map->random_free_pos(),m_player_list->back() )) ;
+    //for (unsigned short type = 0 ; type < 1 && m_map->nb_free_pos() > 0 ; type++)
+        //m_map->add_unit( Unit(type,m_map->random_free_pos(),m_player_list->back() )) ;
     
     //Création des batiments
-    for (unsigned short type_construction = 0 ; type_construction < NB_TYPE_CONSTRUCTION && m_map->nb_free_pos() > 0 ; type_construction++)
+    for (unsigned short type_construction = 0 ; type_construction < 1 && m_map->nb_free_pos() > 0 ; type_construction++)
     {
         MapPos pos (m_map->random_free_pos()) ;
         m_map->add_cons( Construction(type_construction%NB_TYPE_CONSTRUCTION, pos, m_player_list->back()) ) ;
@@ -82,6 +98,9 @@ void MatriceGameGestion::addPlayer(string name)
     }
 
     m_ressource[m_player_list->back()] = Ressource(BEGIN_GOLD,0,m_map->ressourceApport(m_player_list->back()).food()) ;
+
+    set_upgrades_for_last_player_add() ;
+
     debugage_message("ajout du joueur " + name) ;
 }
 
@@ -184,7 +203,7 @@ void MatriceGameGestion::gameLoop()
                             bool upgrade = true ;
                             Construction* cons = m_current_selection->construction() ;
                             if(d.id() == UP_GOLD)
-                                cons->up_apport(Ressource(3,0,0)) ;
+                                cons->up_apport(Ressource(1,0,0)) ;
                             else if(d.id() == UP_WOOD)
                                 cons->up_apport(Ressource(0,1,0)) ;
                             else if(d.id() == UP_FOOD)
@@ -204,6 +223,11 @@ void MatriceGameGestion::gameLoop()
                         warning_message("Player have try to upgrades selection but it's not construction of player current turn") ;
                 }
 
+
+                else if (d.decision() == DECISION_AMELIORATION)
+                {
+                    new_upgrade(d) ;  
+                }
                 
             }
         }
@@ -248,6 +272,46 @@ void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
     m_saveMenu->at(0)->setTextButton(0,"tour " + to_string(m_tour) + " de " + m_current_player_turn->name(), "04B-30") ;
 }
 
+bool MatriceGameGestion::new_upgrade(Decision const d)
+{
+    if(validSelection(OBJECT_TYPE_CONSTRUCTION, m_current_player_turn))
+    {
+        if(m_current_selection->seeConstruction().constructionType() == CONSTRUCTION_ARCHERY1
+        || m_current_selection->seeConstruction().constructionType() == CONSTRUCTION_ARCHERY2)
+        {
+            if (m_current_selection->seeConstruction().canDoAction())
+            {
+                if (m_upgrades.find(make_pair(m_current_player_turn, d.id())) != m_upgrades.end())
+                {
+                    pair <Ressource, bool> upgrade_info = m_upgrades[make_pair(m_current_player_turn, d.id())] ;
+                    if (!upgrade_info.second
+                      && upgrade_info.first.gold() <= m_ressource[m_current_player_turn].gold()
+                      && upgrade_info.first.wood() <= m_ressource[m_current_player_turn].wood())
+                    {
+                        //Amélioration effectuée
+                        debugage_message(m_current_player_turn->name() + " have do upgrade with id " + to_string(d.id())) ;
+                        m_upgrades[make_pair(m_current_player_turn, d.id())].second = true ;
+                        m_ressource[m_current_player_turn].del_gold(upgrade_info.first.gold()) ;
+                        m_ressource[m_current_player_turn].del_wood(upgrade_info.first.wood()) ;
+                        return true ;
+                    }
+                    else
+                        warning_message("Player have try to do upgrades but no have ressources or upgrades already made") ;
+                }
+                else
+                    warning_message("Player have try to do upgrades but id not correspond") ;
+            }
+            else
+                warning_message("Player have try to do upgrades but action is define for turn of archery select") ;
+        }
+        else
+        warning_message("Player have try to upgrades with selection but it's not archery") ;
+    }
+    else
+        warning_message("Player have try to upgrades with selection but it's not constructions of player current turn") ;
+    return false ;
+}
+
 bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
 {
 
@@ -290,6 +354,18 @@ void MatriceGameGestion::selection_unit()
                 adjacent.push_back(MapPos(pos.x(),pos.y()-1)) ;
             if (pos.y()+1 < out.y())
                 adjacent.push_back(MapPos(pos.x(),pos.y()+1)) ;
+
+        if (player_have_upgrade(DEPLACEMENTPLUS)) //On ajoute les cases en diagonale
+        {
+            if (pos.x() > 0)
+                adjacent.push_back(MapPos(pos.x()-1,pos.y()-1)) ;
+            if (pos.x()+1 < out.x())
+                adjacent.push_back(MapPos(pos.x()+1,pos.y()+1)) ;
+            if (pos.y() > 0)
+                adjacent.push_back(MapPos(pos.x()+1,pos.y()-1)) ;
+            if (pos.y()+1 < out.y())
+                adjacent.push_back(MapPos(pos.x()-1,pos.y()+1)) ;
+        }
 
             MapPos pos (0,0) ;
             for (unsigned short i = 0 ; i < adjacent.size() ; i++)

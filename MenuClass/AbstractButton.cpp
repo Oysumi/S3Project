@@ -17,7 +17,7 @@ vector<AbstractButton*>* AbstractButton::getAllButton()
 	SDL_Color grey2 = {180,180,180} ;
 
 	vector<AbstractButton*>* bouton = new vector<AbstractButton*> ;
-	for (unsigned short i = 0 ; i < 45 ; i++)
+	for (unsigned short i = 0 ; i < 95 ; i++)
 		bouton->push_back(NULL) ;
 
 	(*bouton)[RETOUR] = new ActionButton(RETOUR, "Retour", LARGEUR_MENU1, HAUTEUR_MENU1, white, black, 30, CENTER_TEXT, "extra") ;
@@ -44,12 +44,12 @@ vector<AbstractButton*>* AbstractButton::getAllButton()
 	(*bouton)[TOWERSIEGE]->addTexture(gold, 42, 3) ;
 	(*bouton)[TOWERSIEGE]->addTexture(food, 106, 3) ;
 
-	(*bouton)[CHATEAU1 ] = new ActionButton(CHATEAU1 , " 1000            40         Chateau", LARGEUR_MENU3, 20, grey2, black, 14) ;
-	(*bouton)[CHATEAU2 ] = new ActionButton(CHATEAU2 , " 1200            65         Grand Chateau", LARGEUR_MENU3, 20, grey2, black, 14) ;
-	(*bouton)[ARCHERIE1] = new ActionButton(ARCHERIE1, "  650             20         Archerie", LARGEUR_MENU3, 20, grey2, black, 14) ;
-	(*bouton)[ARCHERIE2] = new ActionButton(ARCHERIE2, "  750             25         Grande Archerie", LARGEUR_MENU3, 20, grey2, black, 14) ;
-	(*bouton)[FERME    ] = new ActionButton(FERME    , "  400             10          Ferme", LARGEUR_MENU3, 20, grey2, black, 14) ;
-	(*bouton)[TOWER    ] = new ActionButton(TOWER    , "  300             8          Tour de defense", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[CHATEAU1 ] = new ActionButton(CHATEAU1 , " 1000            80         Chateau", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[CHATEAU2 ] = new ActionButton(CHATEAU2 , " 1200           100         Grand Chateau", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[ARCHERIE1] = new ActionButton(ARCHERIE1, "  100             40         Archerie", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[ARCHERIE2] = new ActionButton(ARCHERIE2, "  200             50         Grande Archerie", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[FERME    ] = new ActionButton(FERME    , "  650             20          Ferme", LARGEUR_MENU3, 20, grey2, black, 14) ;
+	(*bouton)[TOWER    ] = new ActionButton(TOWER    , "  300             15          Tour de defense", LARGEUR_MENU3, 20, grey2, black, 14) ;
 	(*bouton)[CHATEAU1 ]->addTexture(gold, 41, 3) ;
 	(*bouton)[CHATEAU1 ]->addTexture(wood, 106, 3) ;
 	(*bouton)[CHATEAU2 ]->addTexture(gold, 41, 3) ;
@@ -64,7 +64,7 @@ vector<AbstractButton*>* AbstractButton::getAllButton()
 	(*bouton)[TOWER    ]->addTexture(wood, 106, 3) ;
 
 	(*bouton)[AMELIORER] = new ActionButton(AMELIORER, "Augmenter ..    ", LARGEUR_MENU3, 20, black, grey, 15, CENTER_TEXT, "extra") ;
-	(*bouton)[UP_GOLD] = new ActionButton(UP_GOLD, "  la production d'or (+3)", LARGEUR_MENU3, 20, grey2, black, 15) ;
+	(*bouton)[UP_GOLD] = new ActionButton(UP_GOLD, "  la production d'or (+1)", LARGEUR_MENU3, 20, grey2, black, 15) ;
 	(*bouton)[UP_FOOD] = new ActionButton(UP_FOOD, "  la production de nourriture (+1)", LARGEUR_MENU3, 20, grey2, black, 15) ;
 	(*bouton)[UP_WOOD] = new ActionButton(UP_WOOD, "  la production de bois (+1)", LARGEUR_MENU3, 20, grey2, black, 15) ;
 	(*bouton)[UP_DEFENSE] = new ActionButton(UP_DEFENSE, "  la defense du batiment (+2)", LARGEUR_MENU3, 20, grey2, black, 15) ;
@@ -77,6 +77,9 @@ vector<AbstractButton*>* AbstractButton::getAllButton()
 	(*bouton)[CONSTRUIRE_UNIT] = new SubMenuButton(CONSTRUCTION_UNIT_MENU, "Construire une unite", LARGEUR_MENU2, 25, grey, black, 13, CENTER_TEXT, "extra") ;
 	(*bouton)[AMELIORATION_BATIMENT] = new SubMenuButton(AMELIORER_MENU, "Ameliorer le batiment", LARGEUR_MENU2, 25, grey, black, 13, CENTER_TEXT, "extra") ;
 	(*bouton)[AMELIORATION_CHATEAU] = new SubMenuButton(AMELIORER_CHATEAU_MENU, "Ameliorer le chateau", LARGEUR_MENU2, 25, grey, black, 13, CENTER_TEXT, "extra") ;
+	
+	(*bouton)[UPGRADES] = new SubMenuButton(UPGRADES_MENU, "Ameliorations", LARGEUR_MENU2, 25, grey, black, 13, CENTER_TEXT, "extra") ;
+	(*bouton)[DEPLACEMENTPLUS] = new ActionButton(DEPLACEMENTPLUS, "Deplacement en diagonale", LARGEUR_MENU3, 20, grey2, black, 15) ;
 
 	return bouton ;
 }

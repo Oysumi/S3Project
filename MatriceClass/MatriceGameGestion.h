@@ -45,10 +45,17 @@ class MatriceGameGestion
 		//Stockage du texte affiché qui est très souvent le même pour ne pas charger sans cesse les mêmes graphismes
 		std::map <std::string, Texte*> m_load_text ;
 
+		//Réprésente les améliorations des joueurs, si elles sont faites, leur id et leur prix
+		std::map < std::pair<AbstractPlayer*,unsigned short>, std::pair<Ressource,bool>> m_upgrades ;
+
 	private :
 		void addPlayer(std::string name) ;
+		void set_upgrades_for_last_player_add() ;
+		void add_upgrades(unsigned short id, Ressource const& res) ;
 
 		bool new_selection(MapPos const pos, bool force_unit = false) ;
+		bool new_upgrade(Decision const d) ;
+		bool player_have_upgrade(unsigned short id) ;
 		void move_select_unit(MapPos const& pos, bool afterVictoryAttack = false) ;
 		void updateDisplay() ;
 		//void defeatPlayer() ;

@@ -15,6 +15,7 @@
 #define DECISION_CONSTRUIRE_UNIT         4
 #define DECISION_CONSTRUIRE_BATIMENT     5
 #define DECISION_AMELIORER_BATIMENT      6
+#define DECISION_AMELIORATION            7
 
 class Decision
 {

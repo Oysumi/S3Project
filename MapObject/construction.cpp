@@ -18,28 +18,28 @@ void Construction::initCaracteristique()
 	if (m_type == CONSTRUCTION_CASTLE1)
 	{
 		m_name = "Petit chateau" ;
-		m_apport = Ressource(40,3,10) ;
+		m_apport = Ressource(5,0,5) ;
 		m_defense = 40 ;
 		m_range = 1 ;
 	}
 	else if (m_type == CONSTRUCTION_CASTLE2)
 	{
 		m_name = "Grand chateau";
-		m_apport = Ressource(50,5,20) ;
+		m_apport = Ressource(10,0,1) ;
 		m_defense = 60 ;
 		m_range = 2 ;
 	}
 	else if (m_type == CONSTRUCTION_ARCHERY1)
 	{
 		m_name = "Archerie niveau 1" ;
-		m_apport = Ressource(20,-2,-5) ;
+		m_apport = Ressource(30,-2,-5) ;
 		m_defense = 25 ;
 		m_range = 1 ;
 	}
 	else if (m_type == CONSTRUCTION_ARCHERY2)
 	{
 		m_name = "Archerie niveau 2" ;
-		m_apport = Ressource(60,-4,-10) ;
+		m_apport = Ressource(65,-4,-10) ;
 		m_defense = 30 ;
 		m_range = 1 ;
 	}
@@ -65,17 +65,17 @@ Ressource Construction::prix (unsigned short type)
 {
 	type = type % NB_TYPE_CONSTRUCTION ;
 	if (type == CONSTRUCTION_CASTLE1)
-		return Ressource(1000,40,0) ;
+		return Ressource(1000,80,0) ;
 	else if (type == CONSTRUCTION_CASTLE2)
-		return Ressource(1200,65,0) ;
+		return Ressource(1200,100,0) ;
 	else if (type == CONSTRUCTION_ARCHERY1)
-		return Ressource(400,20,0) ;
+		return Ressource(100,40,0) ;
 	else if (type == CONSTRUCTION_ARCHERY2)
-		return Ressource(750,25,0) ;
+		return Ressource(200,50,0) ;
 	else if (type == CONSTRUCTION_FARM)
-		return Ressource(650,10,0) ;
+		return Ressource(650,20,0) ;
 	else // CONSTRUCTION TOWER
-		return Ressource(300,8,0) ;
+		return Ressource(300,15,0) ;
 }
 
 Construction::Construction(unsigned short type , MapPos const& pos, AbstractPlayer* const& player) :

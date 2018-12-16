@@ -112,9 +112,15 @@ vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, uns
 	menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, AMELIORER_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]) ;
+    buttons.push_back(all_buttons[AMELIORER]) ;
+    buttons.push_back(all_buttons[DEPLACEMENTPLUS]) ;
+	buttons.push_back(all_buttons[RETOUR2]) ;
+	menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, UPGRADES_MENU, TRANSPARENCE_ALPHA, 5));
+    buttons.clear() ;
+
 	//Une fois que les menus sont crées on appelle cette méthode statique pour récupérer tous les pointeurs des Menu grâce à leurs ID
     SubMenuButton::initAllSubMenu() ;
-
     return menu ;
 
 }

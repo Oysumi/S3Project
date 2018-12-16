@@ -89,4 +89,7 @@ class AbstractButton
 #define UP_WOOD 40
 #define UP_DEFENSE 41
 
+#define UPGRADES 60
+#define DEPLACEMENTPLUS 61
+
 #endif // __ABSTRACTBUTTON_H__

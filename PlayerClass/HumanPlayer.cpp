@@ -219,6 +219,7 @@ void HumanPlayer::initialiserInterface(Map const& map, Selection const& selectio
 
             //On actualise aussi l'entete des Menus d'amélioration et de constrution même si il ne sont pas ouverts
             Menu::getMenuById(AMELIORER_MENU)->prepareSurface() ;
+            Menu::getMenuById(UPGRADES_MENU)->prepareSurface() ;
             Menu::getMenuById(AMELIORER_CHATEAU_MENU)->prepareSurface() ;
             Menu::getMenuById(CONSTRUCTION_UNIT_MENU)->prepareSurface() ;
             Menu::getMenuById(CONSTRUCTION_BATIMENT_MENU)->prepareSurface() ;
@@ -416,6 +417,10 @@ Decision HumanPlayer::takeDecision(
                                         if(decision_retour.set_decision(DECISION_AMELIORER_BATIMENT,&id))
                                             return decision_retour ;
 
+                        if (id==DEPLACEMENTPLUS)
+                            if(decision_retour.set_decision(DECISION_AMELIORATION,&id))
+                                return decision_retour ;
+
                         if (m_type_unit >= 0)
                         {
                             m_type_unit %= NB_TYPE_UNIT ;
@@ -597,4 +602,7 @@ void HumanPlayer::closeSelectMenu(Fenetre& fenetre)
 
     if (Menu::getMenuById(TOWER_MENU)->isOpen())
         Menu::openMenu(TOWER_MENU, fenetre) ;
+
+    if (Menu::getMenuById(UPGRADES_MENU)->isOpen())
+        Menu::openMenu(UPGRADES_MENU, fenetre) ;
 }
