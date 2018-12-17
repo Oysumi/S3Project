@@ -53,43 +53,60 @@ class AbstractButton
 #define NOTHING 100
 #define SUBMENU 200
 
+//Menu principal
 #define RETOUR 0
 #define MUSIQUE 1
 #define QUITTER 2
 #define FIN_DU_TOUR 3
 #define AFFICHAGE 4
+#define CAPTURE 5
+#define ENREGISTRER 6
 
+//Construction unitées
 #define CATAPULTE 11
 #define BALISTE 12
 #define BELIER 13
 #define TREBUCHET 14
 #define TOWERSIEGE 15
-#define RETOUR2 16
 
-#define CHATEAU1 19
-#define CHATEAU2 20
-#define ARCHERIE1 21
-#define ARCHERIE2 22
-#define FERME 23
-#define TOWER 24
+//Construction batiments
+#define CHATEAU1 22
+#define CHATEAU2 23
+#define ATELIER1 24
+#define ATELIER2 25
+#define FERME 26
+#define TOWER 27
 
-#define ENTETE_BATIMENT 26
-#define ENTETE_CONSTRUCTION 27
-#define CONSTRUIRE_UNIT 28
-#define CONSTRUIRE_BATIMENT 29
-#define AMELIORATION_BATIMENT 30
-#define AMELIORATION_CHATEAU 31
-#define ENTETE_GOLD 32
-#define ENTETE_FOOD 33
-#define ENTETE_WOOD 34
+//Entete menu de tous les batiments
+#define ENTETE_BATIMENT 32
+#define ENTETE_GOLD 33
+#define ENTETE_FOOD 34
+#define ENTETE_WOOD 35
+#define ENTETE_DEFENSE 36
+#define RETOUR2 37
 
-#define AMELIORER 37
-#define UP_GOLD 38
-#define UP_FOOD 39
-#define UP_WOOD 40
-#define UP_DEFENSE 41
+//Entete Construction unités et batiments
+#define ENTETE_CONSTRUCTION 47
+#define CONSTRUIRE_PETIT_BATIMENT 48
+#define CONSTRUIRE_GRAND_BATIMENT 49
+#define CONSTRUIRE_PETITE_UNITE 50
+#define CONSTRUIRE_GRANDE_UNITE 51
 
-#define UPGRADES 60
-#define DEPLACEMENTPLUS 61
+#define AMELIORATION_CHATEAU 60
+#define AMELIORATION_FERME 61
 
+#define AMELIORER 66
+#define UP_GOLD 67
+#define UP_FOOD 68
+#define UP_WOOD 69
+#define UP_DEFENSE 70
+
+#define RECHERCHE 79
+#define UPGRADES_UNIT 80
+#define DEPLACEMENTPLUS 81
+#define MOREDEGATS 82
+
+#define UPGRADES_CONS 90
+#define MOREGOLD 91
+#define MOREDEFENSE 92
 #endif // __ABSTRACTBUTTON_H__

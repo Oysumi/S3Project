@@ -178,12 +178,17 @@ SurfaceAffichage const& Terrain::terrainComplet() const
 	return *m_terrainComplet ;
 }
 
-
+string Terrain::to_string() const
+{
+    return m_map_to_string ;
+}
 
 void Terrain::generer_le_terrain (string const& terrain_representation, std::list <MapPos>* free_pos)
 {
 
-	//Création d'un tableau réprésentant les textures du terrain
+	m_map_to_string = terrain_representation ;
+
+    //Création d'un tableau réprésentant les textures du terrain
     debugage_message("Vérification du format de la map et correction ...") ;
     char ** terrainTab ;
     terrainTab = 0 ;

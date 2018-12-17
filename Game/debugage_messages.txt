@@ -2,20 +2,20 @@ Surface d'affichage de dimension 1280;720
 Surface d'affichage de ../ressources/icon/gold.bmp
 Surface d'affichage de ../ressources/icon/food.bmp
 Surface d'affichage de ../ressources/icon/wood.bmp
-Surface d'affichage de dimension 450;100
+Surface d'affichage de dimension 450;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 153;31
+Surface d'affichage de dimension 450;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 433;28
+Surface d'affichage de dimension 450;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 419;25
 Surface d'affichage de dimension 200;100
 Surface d'affichage (avec une surface déjà défnie) de dimension 186;31
-Surface d'affichage de dimension 450;100
+Surface d'affichage de dimension 450;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 167;31
-Surface d'affichage de dimension 450;100
+Surface d'affichage de dimension 450;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 267;31
-Surface d'affichage de dimension 450;100
+Surface d'affichage de dimension 450;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 203;31
-Surface d'affichage de dimension 255;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 225;16
-Surface d'affichage de dimension 255;25
-Surface d'affichage (avec une surface déjà défnie) de dimension 84;16
 Surface d'affichage de dimension 255;20
 Surface d'affichage (avec une surface déjà défnie) de dimension 212;19
 Surface d'affichage de dimension 255;20
@@ -27,17 +27,43 @@ Surface d'affichage (avec une surface déjà défnie) de dimension 215;19
 Surface d'affichage de dimension 255;20
 Surface d'affichage (avec une surface déjà défnie) de dimension 238;19
 Surface d'affichage de dimension 255;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 201;18
+Surface d'affichage (avec une surface déjà défnie) de dimension 202;18
 Surface d'affichage de dimension 255;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 248;18
+Surface d'affichage (avec une surface déjà défnie) de dimension 254;18
 Surface d'affichage de dimension 255;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 200;18
+Surface d'affichage (avec une surface déjà défnie) de dimension 190;18
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 235;18
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 192;18
 Surface d'affichage de dimension 255;20
 Surface d'affichage (avec une surface déjà défnie) de dimension 259;18
+Surface d'affichage de dimension 245;30
+Surface d'affichage (avec une surface déjà défnie) de dimension 139;16
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 9;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 9;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 9;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 9;19
+Surface d'affichage de dimension 255;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 84;16
 Surface d'affichage de dimension 255;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 191;18
-Surface d'affichage de dimension 255;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 256;18
+Surface d'affichage (avec une surface déjà défnie) de dimension 225;16
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 233;14
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 233;14
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 211;14
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 211;14
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 214;14
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 192;14
 Surface d'affichage de dimension 255;20
 Surface d'affichage (avec une surface déjà défnie) de dimension 183;16
 Surface d'affichage de dimension 255;20
@@ -48,71 +74,70 @@ Surface d'affichage de dimension 255;20
 Surface d'affichage (avec une surface déjà défnie) de dimension 198;19
 Surface d'affichage de dimension 255;20
 Surface d'affichage (avec une surface déjà défnie) de dimension 215;19
-Surface d'affichage de dimension 245;30
-Surface d'affichage (avec une surface déjà défnie) de dimension 139;16
-Surface d'affichage de dimension 245;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 9;19
-Surface d'affichage de dimension 245;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 9;19
-Surface d'affichage de dimension 245;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 9;19
 Surface d'affichage de dimension 245;25
-Surface d'affichage (avec une surface déjà défnie) de dimension 233;14
+Surface d'affichage (avec une surface déjà défnie) de dimension 170;14
 Surface d'affichage de dimension 245;25
-Surface d'affichage (avec une surface déjà défnie) de dimension 211;14
-Surface d'affichage de dimension 245;25
-Surface d'affichage (avec une surface déjà défnie) de dimension 220;14
-Surface d'affichage de dimension 245;25
-Surface d'affichage (avec une surface déjà défnie) de dimension 214;14
-Surface d'affichage de dimension 245;25
-Surface d'affichage (avec une surface déjà défnie) de dimension 133;14
+Surface d'affichage (avec une surface déjà défnie) de dimension 228;13
 Surface d'affichage de dimension 255;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 204;19
-Surface d'affichage de dimension 480;475
-Surface d'affichage de dimension 265;189
-Surface d'affichage de dimension 265;133
-Surface d'affichage de dimension 265;133
-Surface d'affichage de dimension 265;133
-Surface d'affichage de dimension 265;202
-Surface d'affichage de dimension 265;225
-Surface d'affichage de dimension 265;179
+Surface d'affichage (avec une surface déjà défnie) de dimension 236;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 231;16
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 228;13
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 239;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 262;16
+Surface d'affichage de dimension 480;465
+Surface d'affichage de dimension 265;184
+Surface d'affichage de dimension 265;212
 Surface d'affichage de dimension 265;156
-Surface d'affichage de dimension 265;110
+Surface d'affichage de dimension 265;184
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;128
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;202
+Surface d'affichage de dimension 265;179
+Surface d'affichage de dimension 265;225
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;133
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 265;138
 Matrice construite
 map gènerée : 
 GGGGGGGGGGGGGGGGGGGGGGGGG
-GGGGGGGGGGGGGGGGGGGGGGGGW
-GGGGGWWWGGGGGGGGWGGGGWGGG
-GGGGGWGGGGGGGGGGWGGGGGGGG
-GGGGGWWGGGGGGGGGGGGGGGGGG
-GGGWGGGGGGGGGGGGGGGGGGGWW
-GGGWGGGGGGGGGGGGGGGWWWWWG
-GGGGGGGGGGGGGGGGGGGGWGWGG
-GGGGGGGGGGGGGGGWGGGGGGGGG
-GGGGGGGGGGGWWWGWGGGGGGGGG
-GWWGGGGGGGGGGWGWWGGGGGGGG
-GGGGGGGGGGGGGGGWGGGGGGGGG
-GGGGGGGGGGGGGGWGGGGGGGGGG
-GWGGGGGGGGGGGGGGWWGGWWGGG
-GWWWGGGGGGGGGGGGGWGGGWGGG
+GGGGWWGGGGGGGGGGGGGGGGGGG
+GGGGWGWGGGGGGGGGGGGGGGGGG
+GGGGWGGGGGGGGGGGGGGGGGGGG
+GGGWGGGWGGGGGGGWGGGGGGGGG
+GGGGWGGWGGGGWGGWGGGGGGGGG
+GGGGWWGGGGGGGGGWWGWWGGGGG
+GGGGGGGGGGGGGGWWGGGGGGGGG
+GGGGGGGGGGWGGGGWWGGGGGGGG
+GGGGGGGGGGWGGGGWWGGGGGGGG
+GGGGGGGGGGWWGWWWGGGGGGGGG
+GGGGGGGGGGGGWGGGWWWGGGGGG
+GGGWWWWGGGGGGGGGGWGGGGGGG
+GGGGGWWGGGGGGGGGGWWWGGGGG
+GGGGGGGGGGGWWWWWWGGGGGGWG
 
 Vérification du format de la map et correction ...
 Représentation des sprites calculées : 
 GGGGGGGGGGGGGGGGGGGGGGGGG
-GGGGGGGGGGGGGGGGGGGGGGGGF
-GGGGGC57GGGGGGGGEGGGGFGGG
-GGGGGAGGGGGGGGGGBGGGGGGGG
-GGGGG97GGGGGGGGGGGGGGGGGG
-GGGEGGGGGGGGGGGGGGGGGGGC7
-GGGBGGGGGGGGGGGGGGGD4543G
-GGGGGGGGGGGGGGGGGGGGBGBGG
-GGGGGGGGGGGGGGGEGGGGGGGGG
-GGGGGGGGGGGD56GAGGGGGGGGG
-GD7GGGGGGGGGGBG87GGGGGGGG
-GGGGGGGGGGGGGGGBGGGGGGGGG
-GGGGGGGGGGGGGGFGGGGGGGGGG
-GEGGGGGGGGGGGGGGD6GGD6GGG
-G957GGGGGGGGGGGGGBGGGBGGG
+GGGGC7GGGGGGGGGGGGGGGGGGG
+GGGGAGFGGGGGGGGGGGGGGGGGG
+GGGGBGGGGGGGGGGGGGGGGGGGG
+GGGFGGGEGGGGGGGEGGGGGGGGG
+GGGGEGGBGGGGFGGAGGGGGGGGG
+GGGG97GGGGGGGGG87GD7GGGGG
+GGGGGGGGGGGGGGD2GGGGGGGGG
+GGGGGGGGGGEGGGG86GGGGGGGG
+GGGGGGGGGGAGGGG83GGGGGGGG
+GGGGGGGGGG97GD53GGGGGGGGG
+GGGGGGGGGGGGFGGGD47GGGGGG
+GGGD546GGGGGGGGGGAGGGGGGG
+GGGGG93GGGGGGGGGG957GGGGG
+GGGGGGGGGGGD55557GGGGGGFG
 
 Surface d'affichage de dimension 1600;960
 Surface d'affichage de dimension 1600;960
@@ -217,7 +242,7 @@ Surface d'affichage de ../ressources/food.bmp
 Surface d'affichage de ../ressources/icon/gold.bmp
 Surface d'affichage de ../ressources/icon/wood.bmp
 Surface d'affichage de ../ressources/icon/food.bmp
-ajout du joueur player1
+ajout du joueur Antoine
 Surface d'affichage de ../ressources/red_circle.bmp
 Surface d'affichage de ../ressources/green_circle.bmp
 Surface d'affichage de ../ressources/gold.bmp
@@ -226,39 +251,47 @@ Surface d'affichage de ../ressources/food.bmp
 Surface d'affichage de ../ressources/icon/gold.bmp
 Surface d'affichage de ../ressources/icon/wood.bmp
 Surface d'affichage de ../ressources/icon/food.bmp
-ajout du joueur player2
+ajout du joueur Alexis
 Ajout des joueurs
 Matrice initialisée pour une partie
 Début du Jeu
-Surface d'affichage de dimension 450;100
+Surface d'affichage de dimension 450;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 411;31
-Début du tour de player1
-En attente d'une decision de player1
+Début du tour de Antoine
+En attente d'une decision de Antoine
 Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
-Surface d'affichage de dimension 450;100
+Surface d'affichage de dimension 450;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
-Surface d'affichage de dimension 480;475
-Interface de player1 initialisée, il va maintenant prendre une décision
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
-En attente d'une decision de player1
+En attente d'une decision de Antoine
 Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 381;26
-Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 363;26
+Surface d'affichage de dimension 450;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
-Surface d'affichage de dimension 480;475
-Interface de player1 initialisée, il va maintenant prendre une décision
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
-En attente d'une decision de player1
+En attente d'une decision de Antoine
 Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 236;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 231;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 239;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 262;16
 Surface d'affichage de dimension 245;30
 Surface d'affichage (avec une surface déjà défnie) de dimension 153;16
 Surface d'affichage de dimension 245;20
@@ -266,40 +299,51 @@ Surface d'affichage (avec une surface déjà défnie) de dimension 18;19
 Surface d'affichage de dimension 245;20
 Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
 Surface d'affichage de dimension 245;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 18;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 171;19
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 233;14
 Surface d'affichage de dimension 245;25
 Surface d'affichage (avec une surface déjà défnie) de dimension 214;14
-Surface d'affichage de dimension 245;25
-Surface d'affichage (avec une surface déjà défnie) de dimension 220;14
-Surface d'affichage de dimension 255;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 215;19
-Surface d'affichage de dimension 265;189
-Surface d'affichage de dimension 265;156
-Surface d'affichage de dimension 265;110
+Surface d'affichage de dimension 265;184
 Surface d'affichage de dimension 265;179
-Surface d'affichage de dimension 265;202
 Surface d'affichage de dimension 265;225
-Surface d'affichage de dimension 450;100
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;202
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;133
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 450;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
-Surface d'affichage de dimension 480;475
-Interface de player1 initialisée, il va maintenant prendre une décision
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
-En attente d'une decision de player1
+En attente d'une decision de Antoine
 Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
-Surface d'affichage (avec une surface déjà défnie) de dimension 381;26
-Surface d'affichage de dimension 450;100
+Surface d'affichage (avec une surface déjà défnie) de dimension 363;26
+Surface d'affichage de dimension 450;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
-Surface d'affichage de dimension 480;475
-Interface de player1 initialisée, il va maintenant prendre une décision
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
 Décison : 2 / valide :1
-En attente d'une decision de player1
+En attente d'une decision de Antoine
 Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
 Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 236;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 231;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 239;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 262;16
 Surface d'affichage de dimension 245;30
 Surface d'affichage (avec une surface déjà défnie) de dimension 153;16
 Surface d'affichage de dimension 245;20
@@ -307,21 +351,232 @@ Surface d'affichage (avec une surface déjà défnie) de dimension 18;19
 Surface d'affichage de dimension 245;20
 Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
 Surface d'affichage de dimension 245;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 18;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 171;19
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 233;14
 Surface d'affichage de dimension 245;25
 Surface d'affichage (avec une surface déjà défnie) de dimension 214;14
-Surface d'affichage de dimension 245;25
-Surface d'affichage (avec une surface déjà défnie) de dimension 220;14
-Surface d'affichage de dimension 255;20
-Surface d'affichage (avec une surface déjà défnie) de dimension 215;19
-Surface d'affichage de dimension 265;189
-Surface d'affichage de dimension 265;156
-Surface d'affichage de dimension 265;110
+Surface d'affichage de dimension 265;184
 Surface d'affichage de dimension 265;179
-Surface d'affichage de dimension 265;202
 Surface d'affichage de dimension 265;225
-Surface d'affichage de dimension 450;100
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;202
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;133
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 450;60
 Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
-Surface d'affichage de dimension 480;475
-Interface de player1 initialisée, il va maintenant prendre une décision
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
+En attente d'une decision de Antoine
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 363;26
+Surface d'affichage de dimension 450;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
+En attente d'une decision de Antoine
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 236;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 231;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 239;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 262;16
+Surface d'affichage de dimension 245;30
+Surface d'affichage (avec une surface déjà défnie) de dimension 153;16
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 18;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 171;19
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 233;14
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 214;14
+Surface d'affichage de dimension 265;184
+Surface d'affichage de dimension 265;179
+Surface d'affichage de dimension 265;225
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;202
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;133
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 450;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
+En attente d'une decision de Antoine
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 363;26
+Surface d'affichage de dimension 450;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
+En attente d'une decision de Antoine
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 236;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 231;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 239;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 262;16
+Surface d'affichage de dimension 245;30
+Surface d'affichage (avec une surface déjà défnie) de dimension 153;16
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 18;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 171;19
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 233;14
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 214;14
+Surface d'affichage de dimension 265;184
+Surface d'affichage de dimension 265;179
+Surface d'affichage de dimension 265;225
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;202
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;133
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 450;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
+En attente d'une decision de Antoine
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 363;26
+Surface d'affichage de dimension 450;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
+En attente d'une decision de Antoine
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 236;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 231;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 239;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 262;16
+Surface d'affichage de dimension 245;30
+Surface d'affichage (avec une surface déjà défnie) de dimension 153;16
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 18;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 171;19
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 233;14
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 214;14
+Surface d'affichage de dimension 265;184
+Surface d'affichage de dimension 265;179
+Surface d'affichage de dimension 265;225
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;202
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;133
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 450;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
+En attente d'une decision de Antoine
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
+Surface d'affichage (avec une surface déjà défnie) de dimension 363;26
+Surface d'affichage de dimension 450;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
+Décison : 2 / valide :1
+En attente d'une decision de Antoine
+Surface d'affichage (avec une surface déjà défnie) de dimension 100;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 81;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 57;21
+Surface d'affichage (avec une surface déjà défnie) de dimension 396;19
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 236;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 231;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 239;16
+Surface d'affichage de dimension 255;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 262;16
+Surface d'affichage de dimension 245;30
+Surface d'affichage (avec une surface déjà défnie) de dimension 153;16
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 18;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 19;19
+Surface d'affichage de dimension 245;20
+Surface d'affichage (avec une surface déjà défnie) de dimension 171;19
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 233;14
+Surface d'affichage de dimension 245;25
+Surface d'affichage (avec une surface déjà défnie) de dimension 214;14
+Surface d'affichage de dimension 265;184
+Surface d'affichage de dimension 265;179
+Surface d'affichage de dimension 265;225
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;202
+Surface d'affichage de dimension 265;156
+Surface d'affichage de dimension 265;133
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 265;138
+Surface d'affichage de dimension 450;60
+Surface d'affichage (avec une surface déjà défnie) de dimension 370;31
+Surface d'affichage de dimension 480;465
+Interface de Antoine initialisée, il va maintenant prendre une décision
 Décison : 0 / valide :1

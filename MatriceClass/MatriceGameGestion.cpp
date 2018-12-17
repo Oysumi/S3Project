@@ -51,8 +51,8 @@ void MatriceGameGestion::init()
 
     //Création des joueurs de la partie
     m_player_list = new std::vector <AbstractPlayer*> ;
-    addPlayer("player1") ;
-    addPlayer("player2") ;
+    addPlayer("Antoine") ;
+    addPlayer("Alexis") ;
     debugage_message("Ajout des joueurs") ;
 
 
@@ -63,24 +63,16 @@ void MatriceGameGestion::init()
     debugage_message("Matrice initialisée pour une partie") ;
 }
 
+//ENSEMBLE DES AMELIORATIONS
 void MatriceGameGestion::set_upgrades_for_last_player_add()
 {
-    add_upgrades(DEPLACEMENTPLUS,Ressource(500,0,0)) ;
+    add_upgrades(DEPLACEMENTPLUS,Ressource(1500,0,0)) ;
+    add_upgrades(MOREDEGATS,Ressource(1500,0,0)) ;
+    add_upgrades(MOREGOLD,Ressource(1250,0,0)) ;
+    add_upgrades(MOREDEFENSE,Ressource(1600,0,0)) ;
 }
 
-void MatriceGameGestion::add_upgrades(unsigned short id, Ressource const& res)
-{
-    m_upgrades [make_pair(m_player_list->back(), id)] = make_pair(Ressource(res), false) ;
-}
-
-bool MatriceGameGestion::player_have_upgrade(unsigned short id)
-{
-    //Cette amélioration n'existe pas
-    if (m_upgrades.find(make_pair(m_current_player_turn, id)) == m_upgrades.end())
-        return false ;
-    return m_upgrades[make_pair(m_current_player_turn, id)].second ;
-}
-
+//AJOUT ET INITIALISATION D'UN JOUEUR
 void MatriceGameGestion::addPlayer(string name)
 {
     m_player_list->push_back(new HumanPlayer(name, m_player_list->size())) ;
@@ -90,12 +82,7 @@ void MatriceGameGestion::addPlayer(string name)
         //m_map->add_unit( Unit(type,m_map->random_free_pos(),m_player_list->back() )) ;
     
     //Création des batiments
-    for (unsigned short type_construction = 0 ; type_construction < 1 && m_map->nb_free_pos() > 0 ; type_construction++)
-    {
-        MapPos pos (m_map->random_free_pos()) ;
-        m_map->add_cons( Construction(type_construction%NB_TYPE_CONSTRUCTION, pos, m_player_list->back()) ) ;
-        //m_map->add_unit( Unit(rand()%NB_TYPE_UNIT,pos,m_player_list->back()) ) ; //On ajoute aléatoirement une unité sur la map
-    }
+    m_map->add_cons( Construction(CONSTRUCTION_CHATEAU1, m_map->random_free_pos(), m_player_list->back()) ) ;
 
     m_ressource[m_player_list->back()] = Ressource(BEGIN_GOLD,0,m_map->ressourceApport(m_player_list->back()).food()) ;
 
@@ -109,6 +96,7 @@ void MatriceGameGestion::gameLoop()
     init() ; //initialise la partie, génération du terrain, créations des unités et joueurs ...
     
     Decision d ;
+    int compteur_capture_ecran = 0 ;
     debugage_message("Début du Jeu") ;
     for( unsigned short i = 0 ; d.decision() != DECISION_QUITTER && !m_fin_de_la_partie ; i= (i+1) % m_player_list->size())
     {
@@ -121,11 +109,12 @@ void MatriceGameGestion::gameLoop()
         {
             //Attente d'une decision de la part du joueur qu'il soit un Humain ou IA
             debugage_message("En attente d'une decision de " + m_current_player_turn->name()) ;
+            
             if (m_current_selection == NULL)
                 m_current_selection = new Selection() ;
 
             //On attends la décision du joueur
-            d = m_current_player_turn->takeDecision(*m_map, *m_current_selection, m_ressource[m_current_player_turn], m_fenetre)  ;
+            d = m_current_player_turn->takeDecision(*m_map, *m_current_selection, m_ressource[m_current_player_turn], upgradesOf(m_current_player_turn), m_fenetre)  ;
             
             debugage_message("Décison : " + to_string(d.decision()) + " / valide :" + to_string(d.is_valid())) ;
 
@@ -142,11 +131,6 @@ void MatriceGameGestion::gameLoop()
                     {
                         if(m_current_selection->type() == OBJECT_TYPE_UNIT)
                             selection_unit() ;
-                        else if(validSelection(OBJECT_TYPE_CONSTRUCTION, m_current_player_turn))
-                        {
-                            if (!Menu::getMenuById(CHATEAU_MENU)->isOpen())
-                                Menu::openMenu(CHATEAU_MENU, m_fenetre) ;
-                        }
                     }
                     //La selection a la position demandée n'est pas possible
                     //else warning_message("Player as try to select unit or construction at empty pos") ;
@@ -169,29 +153,13 @@ void MatriceGameGestion::gameLoop()
                 //CONSTRUCTION D'UNE UNITE
                 else if (d.decision() == DECISION_CONSTRUIRE_UNIT)
                 {
-                    if(m_map->canConstructAt(d.target(), m_current_player_turn)
-                        && m_map->terrain_adapt_to_unit(d.target())
-                        && Unit::canBuyWith(d.id(), m_ressource[m_current_player_turn], m_map->population(m_current_player_turn)))
-                        {
-                            m_map->add_unit( Unit(d.id(),d.target(),m_current_player_turn)) ;
-                            m_ressource[m_current_player_turn].del_gold(Unit::prix(d.id()).gold()) ;
-                            m_ressource[m_current_player_turn].del_wood(Unit::prix(d.id()).wood()) ;
-                        }
+                    build_unit(d) ;
                 }
 
+                //CONSTRUCTION D'UN BATIMENT
                 else if (d.decision() == DECISION_CONSTRUIRE_BATIMENT)
                 {
-                    if(m_map->canConstructAt(d.target(), m_current_player_turn)
-                        && m_map->terrain_adapt_to_unit(d.target())
-                        && Construction::canBuyWith(d.id(), m_ressource[m_current_player_turn], m_map->population(m_current_player_turn)))
-                        {
-                            m_map->add_cons( Construction(d.id(),d.target(),m_current_player_turn)) ;
-                            m_ressource[m_current_player_turn].del_gold(Construction::prix(d.id()).gold()) ;
-                            m_ressource[m_current_player_turn].del_wood(Construction::prix(d.id()).wood()) ;
-                            
-                            //On met à jour la nourriture / population
-                            m_ressource[m_current_player_turn].set_food(m_map->ressourceApport(m_current_player_turn).food()) ;
-                        }
+                    build_cons(d) ;
                 }
 
                 else if (d.decision() == DECISION_AMELIORER_BATIMENT)
@@ -223,17 +191,38 @@ void MatriceGameGestion::gameLoop()
                         warning_message("Player have try to upgrades selection but it's not construction of player current turn") ;
                 }
 
-
-                else if (d.decision() == DECISION_AMELIORATION)
+                else if (d.decision() == DECISION_AMELIORATION_UNIT)
                 {
-                    new_upgrade(d) ;  
+                    new_upgrade(d,OBJECT_TYPE_UNIT) ;  
                 }
+
+                else if (d.decision() == DECISION_AMELIORATION_CONS)
+                {
+                    new_upgrade(d,OBJECT_TYPE_CONSTRUCTION) ;  
+                }
+
+                else if (d.decision() == DECISION_ENREGISTRER)
+                {
+                    std::ofstream m_fichier ("terrain.txt") ;
+                    m_fichier << m_map->terrain_to_string() << endl ;
+                    m_fichier.close() ;
+                }
+
+                else if (d.decision() == DECISION_CAPTURE)
+                {
+                    compteur_capture_ecran++ ;
+                    m_map->getSurface().saveBMP("capture" + to_string(compteur_capture_ecran)) ;
+                }
+
+                //On met à jour la nourriture / population
+                m_ressource[m_current_player_turn].set_food(m_map->ressourceApport(m_current_player_turn).food()) ;
                 
             }
         }
     }
 }
 
+//VERIFICATION DE LA DEFAITE
 void MatriceGameGestion::verification_defaite()
 {
     unsigned short nb_construction ;
@@ -250,6 +239,7 @@ void MatriceGameGestion::verification_defaite()
     }
 }
 
+//INITIALISATION DU TOUR D'UN JOUEUR
 void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
 {
     if(m_current_player_turn != NULL)
@@ -258,8 +248,6 @@ void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
         Ressource apport (m_map->ressourceApport(m_current_player_turn)) ;
         apport.set_food(0) ;
         m_ressource[m_current_player_turn] += apport ;
-
-        //On met à jour la nourriture / population
         m_ressource[m_current_player_turn].set_food(m_map->ressourceApport(m_current_player_turn).food()) ;
     }
 
@@ -272,49 +260,117 @@ void MatriceGameGestion::initNewTurn(AbstractPlayer* new_current_player)
     m_saveMenu->at(0)->setTextButton(0,"tour " + to_string(m_tour) + " de " + m_current_player_turn->name(), "04B-30") ;
 }
 
-bool MatriceGameGestion::new_upgrade(Decision const d)
+//CONSTRUCTION D'UN BATIMENT
+bool MatriceGameGestion::build_cons (Decision const& d)
 {
-    if(validSelection(OBJECT_TYPE_CONSTRUCTION, m_current_player_turn))
+    if (selectionCanConstruct(OBJECT_TYPE_CONSTRUCTION))
     {
-        if(m_current_selection->seeConstruction().constructionType() == CONSTRUCTION_ARCHERY1
-        || m_current_selection->seeConstruction().constructionType() == CONSTRUCTION_ARCHERY2)
+        if(m_map->canConstructAt(d.target(), m_current_player_turn)
+        && m_map->terrain_adapt_to_unit(d.target())
+        && Construction::canBuyWith(d.id(), m_ressource[m_current_player_turn], m_map->population(m_current_player_turn)))
         {
-            if (m_current_selection->seeConstruction().canDoAction())
+            m_map->add_cons( Construction(d.id(),d.target(),m_current_player_turn)) ;
+            if (player_have_upgrade(MOREGOLD))
             {
-                if (m_upgrades.find(make_pair(m_current_player_turn, d.id())) != m_upgrades.end())
-                {
-                    pair <Ressource, bool> upgrade_info = m_upgrades[make_pair(m_current_player_turn, d.id())] ;
-                    if (!upgrade_info.second
-                      && upgrade_info.first.gold() <= m_ressource[m_current_player_turn].gold()
-                      && upgrade_info.first.wood() <= m_ressource[m_current_player_turn].wood())
-                    {
-                        //Amélioration effectuée
-                        debugage_message(m_current_player_turn->name() + " have do upgrade with id " + to_string(d.id())) ;
-                        m_upgrades[make_pair(m_current_player_turn, d.id())].second = true ;
-                        m_ressource[m_current_player_turn].del_gold(upgrade_info.first.gold()) ;
-                        m_ressource[m_current_player_turn].del_wood(upgrade_info.first.wood()) ;
-                        return true ;
-                    }
-                    else
-                        warning_message("Player have try to do upgrades but no have ressources or upgrades already made") ;
-                }
-                else
-                    warning_message("Player have try to do upgrades but id not correspond") ;
+                m_map->cons_on(d.target())->up_apport(Ressource(15,0,0)) ;
             }
-            else
-                warning_message("Player have try to do upgrades but action is define for turn of archery select") ;
+            if (player_have_upgrade(MOREDEFENSE))
+            {
+                m_map->cons_on(d.target())->up_defense_max(10) ;
+                m_map->cons_on(d.target())->up_defense(10) ;
+            }
+            m_ressource[m_current_player_turn].del_gold(Construction::prix(d.id()).gold()) ;
+            m_ressource[m_current_player_turn].del_wood(Construction::prix(d.id()).wood()) ;
+            m_current_selection->construction()->noMoreAction() ;
+            return true ;
         }
-        else
-        warning_message("Player have try to upgrades with selection but it's not archery") ;
     }
-    else
-        warning_message("Player have try to upgrades with selection but it's not constructions of player current turn") ;
     return false ;
 }
 
+//CONSTRUCTION D'UNE UNITE
+bool MatriceGameGestion::build_unit (Decision const& d)
+{
+    if (selectionCanConstruct(OBJECT_TYPE_UNIT))
+    {
+        if(m_map->canConstructAt(d.target(), m_current_player_turn)
+        && m_map->terrain_adapt_to_unit(d.target())
+        && Unit::canBuyWith(d.id(), m_ressource[m_current_player_turn], m_map->population(m_current_player_turn)))
+        {
+            m_map->add_unit( Unit(d.id(),d.target(),m_current_player_turn)) ;
+            if (player_have_upgrade(MOREDEGATS))
+                m_map->unit_on(d.target())->up_degats(15) ;
+            m_ressource[m_current_player_turn].del_gold(Unit::prix(d.id()).gold()) ;
+            m_ressource[m_current_player_turn].del_wood(Unit::prix(d.id()).wood()) ;
+            m_current_selection->construction()->noMoreAction() ;
+            return true ;
+        }
+    }
+    return false ;
+}
+
+//NOUVELLE AMELIORATION
+bool MatriceGameGestion::new_upgrade(Decision const d, unsigned short object_type)
+{
+    if (selectionCanConstruct(object_type)) //Si ce batiment permet de construire des unités
+    {
+        if ((object_type == OBJECT_TYPE_UNIT && m_current_selection->seeConstruction().constructionType() == CONSTRUCTION_ATELIER2)
+        ||  (object_type == OBJECT_TYPE_CONSTRUCTION && m_current_selection->seeConstruction().constructionType() == CONSTRUCTION_CHATEAU2))
+        {
+            if (m_upgrades.find(make_pair(m_current_player_turn, d.id())) != m_upgrades.end())
+            {
+                pair <Ressource, bool> upgrade_info = m_upgrades[make_pair(m_current_player_turn, d.id())] ;
+                if (!upgrade_info.second
+                  && upgrade_info.first.gold() <= m_ressource[m_current_player_turn].gold()
+                  && upgrade_info.first.wood() <= m_ressource[m_current_player_turn].wood())
+                {
+                    //Amélioration effectuée
+                    debugage_message(m_current_player_turn->name() + " have do upgrade with id " + to_string(d.id())) ;
+                    m_upgrades[make_pair(m_current_player_turn, d.id())].second = true ;
+                    m_ressource[m_current_player_turn].del_gold(upgrade_info.first.gold()) ;
+                    m_ressource[m_current_player_turn].del_wood(upgrade_info.first.wood()) ;
+                    apply_upgrades(d.id()) ;
+                    m_current_selection->construction()->noMoreAction() ;
+                    return true ;
+                }
+                else
+                {
+                    warning_message("Player have try to do upgrades but no have ressources or upgrades already made") ;
+                    return false ;
+                }
+            }
+            else
+            {
+                warning_message("Player try to do an existant upgrade") ;
+                return false ;
+            }
+        }
+    }
+    warning_message("Player have try to do upgrade with incorrect selection") ;
+    return false ;
+}
+
+//LA SELECTION ACTUELLE PERMET TELLE DE CONSTRUIRE UNE UNITE OU UN BATIMENT
+bool MatriceGameGestion::selectionCanConstruct(unsigned short object_type)
+{
+    if(validSelection(OBJECT_TYPE_CONSTRUCTION, m_current_player_turn))
+    {
+        Construction const cons (m_current_selection->seeConstruction()) ;
+        unsigned short batiment = cons.constructionType() ;
+        if (cons.canDoAction())
+            return   // Il faut un chateau pour faire un batiment
+                (object_type == OBJECT_TYPE_CONSTRUCTION &&
+                (batiment == CONSTRUCTION_CHATEAU1 || batiment == CONSTRUCTION_CHATEAU2))
+                ||   // Ou un atelier pour une unitée
+                (object_type == OBJECT_TYPE_UNIT &&
+                (batiment == CONSTRUCTION_ATELIER1 || batiment == CONSTRUCTION_ATELIER2)) ;
+    }
+    return false ;
+}
+
+//NOUVELLE SELECTION
 bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
 {
-
     MapObject* new_selection ;
     //Selection de la construction ou de l'unité ?
     if (m_map->unit_on(pos) != NULL)
@@ -326,7 +382,6 @@ bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
         if (m_map->cons_on(pos) == m_current_selection->value())
             new_selection = m_map->unit_on(pos) ;
 
-
     if (new_selection != NULL) // si il y a bien une unite ou une construction à cette position selectionee
     {
         deleteSelection() ; //Supression de l'ancienne selection
@@ -336,6 +391,7 @@ bool MatriceGameGestion::new_selection(MapPos const pos, bool force_unit)
     return false ;
 }
 
+//LA NOUVELLE SELECTION EST UNE UNITE, ON REGARDE DU COTE DES DEPLACEMENTS
 void MatriceGameGestion::selection_unit()
 {
     if (validSelection(OBJECT_TYPE_UNIT, m_current_player_turn))
@@ -357,13 +413,13 @@ void MatriceGameGestion::selection_unit()
 
         if (player_have_upgrade(DEPLACEMENTPLUS)) //On ajoute les cases en diagonale
         {
-            if (pos.x() > 0)
+            if (pos.x() > 0 && pos.y() > 0)
                 adjacent.push_back(MapPos(pos.x()-1,pos.y()-1)) ;
-            if (pos.x()+1 < out.x())
+            if (pos.x()+1 < out.x() && pos.y()+1 < out.y())
                 adjacent.push_back(MapPos(pos.x()+1,pos.y()+1)) ;
-            if (pos.y() > 0)
+            if (pos.x()+1 < out.x() && pos.y() > 0)
                 adjacent.push_back(MapPos(pos.x()+1,pos.y()-1)) ;
-            if (pos.y()+1 < out.y())
+            if (pos.x() > 0 && pos.y()+1 < out.y())
                 adjacent.push_back(MapPos(pos.x()-1,pos.y()+1)) ;
         }
 
@@ -381,6 +437,7 @@ void MatriceGameGestion::selection_unit()
     }
 }
 
+//FAIRE BOUGER UNE UNITE A UNE POSITION. SI ELLE EST OCCUPÉE PAR UN ENNEMI, C'EST UNE ATTAQUE
 void MatriceGameGestion::move_select_unit(MapPos const& pos, bool afterVictoryAttack)
 {
     if (validSelection(OBJECT_TYPE_UNIT), m_current_player_turn)
@@ -391,9 +448,8 @@ void MatriceGameGestion::move_select_unit(MapPos const& pos, bool afterVictoryAt
             if (m_map->cons_on(pos)->proprietaire() != m_current_player_turn)
                 siege = true ;
 
-        if (m_map->move_unit_at(m_current_selection->getPos(), pos, afterVictoryAttack))
+        if (m_map->move_unit_at(m_current_selection->getPos(), pos, afterVictoryAttack, player_have_upgrade(DEPLACEMENTPLUS)))
         {
-
             if(siege) // En cas de siege on perd son unité
             {
                 deleteSelection() ; //Donc déselection
@@ -490,6 +546,7 @@ bool MatriceGameGestion::validSelection(short type, AbstractPlayer* proprietaire
         && (type < 0 || type==m_current_selection->type()) ;
 }
 
+//SUPRIME L'OBJET ACTUELLEMENT SELECTIONE PAR LE JOUEUR
 void MatriceGameGestion::deleteSelection()
 {
     if (m_current_selection != NULL)
@@ -499,6 +556,61 @@ void MatriceGameGestion::deleteSelection()
     }
 }
 
+//ON APPLIQUE LES CHANGEMENTS DE L'AMELIORATION RECHERCHEE SI ELLE A UN EFFET DIRECT
+void MatriceGameGestion::add_upgrades(unsigned short id, Ressource const& res)
+{
+    m_upgrades [make_pair(m_player_list->back(), id)] = make_pair(Ressource(res), false) ;
+}
+
+//AJOUTER UNE AMELIORATION A RACHERCHER / LORS DE L'INITIALISATION DE LA MATRICE
+void MatriceGameGestion::apply_upgrades(unsigned short id)
+{
+    if (id == MOREDEGATS)
+    {
+        for (unsigned short i = 0 ; i < m_map->nb_unit() ; i++)
+            if (m_map->unit_n(i) != NULL)
+                if (m_map->unit_n(i)->proprietaire() == m_current_player_turn)
+                    m_map->unit_n(i)->up_degats(15) ;
+    }
+    else if (id == MOREGOLD)
+    {
+        for (unsigned short i = 0 ; i < m_map->nb_construction() ; i++)
+            if (m_map->cons_n(i) != NULL)
+                if (m_map->cons_n(i)->proprietaire() == m_current_player_turn)
+                    m_map->cons_n(i)->up_apport(Ressource(15,0,0)) ;
+    }
+    else if (id == MOREDEFENSE)
+    {
+        for (unsigned short i = 0 ; i < m_map->nb_construction() ; i++)
+            if (m_map->cons_n(i) != NULL)
+                if (m_map->cons_n(i)->proprietaire() == m_current_player_turn)
+                {
+                    m_map->cons_n(i)->up_defense_max(10) ;
+                    m_map->cons_n(i)->up_defense(10) ;
+                }
+    }
+}
+
+//LE JOUEUR POSSEDE T'IL CETTE AMELIORATION ?
+bool MatriceGameGestion::player_have_upgrade(unsigned short id)
+{
+    //Cette amélioration n'existe pas
+    if (m_upgrades.find(make_pair(m_current_player_turn, id)) == m_upgrades.end())
+        return false ;
+    return m_upgrades[make_pair(m_current_player_turn, id)].second ;
+}
+
+//EXTRAIRE LES INFOS SUR LES AMELIORATION D'UN UNIQUE JOUEUR
+std::map <unsigned short,std::pair<Ressource,bool>> MatriceGameGestion::upgradesOf(AbstractPlayer* player)
+{
+    std::map <unsigned short,std::pair<Ressource,bool>> retour ;
+    for (std::map < std::pair<AbstractPlayer*,unsigned short>, std::pair<Ressource,bool>>::iterator it = m_upgrades.begin() ; it != m_upgrades.end() ; it++)
+        if (it->first.first == player)
+            retour [it->first.second] = make_pair(it->second.first,it->second.second) ;
+    return retour ;
+}
+
+//LIBERATION MEMOIRE DE LA MATRICE
 MatriceGameGestion::~MatriceGameGestion()
 {
     deleteSelection() ;
@@ -567,6 +679,5 @@ MatriceGameGestion::~MatriceGameGestion()
     }
     else
         warning_message("Potentielle fuite de mémoire : Impossible de supprimer m_map in ~MatriceGameGestion()") ;
-
-
 }
+

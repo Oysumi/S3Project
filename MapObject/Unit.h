@@ -44,14 +44,15 @@ class Unit : public MapObject
 		bool graphicEraseCons() const ;
 
 		bool canAttack_at (MapPos const& pos) const ; //Position adjacente ?
-		bool canMove_at (MapPos const& pos) const ;
+		bool canMove_at (MapPos const& pos, bool diagonale = false) const ;
 		unsigned short degats () const ;
 		bool fullLife() const ;
 		bool isDead() const ;
 
-		bool move(MapPos const& pos) ;
+		bool move(MapPos const& pos, bool diagonale = false) ;
 		bool subirAttaque(Unit* attaquant, unsigned short pourcentage_reduction = 0) ;
 		void reset_deplacement() ;
+		void up_degats(unsigned short quantite) ;
 
 		//stockage des surfaces d'affichage des unités pour ne pas les reconstruire à chaque affichage => grosse optimisation niveau mémoire
 		static std::string sprite_unit_path ;

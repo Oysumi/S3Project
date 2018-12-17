@@ -167,6 +167,11 @@ void Unit::reset_deplacement()
 	m_deplacement = m_vitesse ;
 }
 
+void Unit::up_degats(unsigned short quantite)
+{
+	m_degats += quantite ;
+}
+
 //Position adjacente ?
 bool Unit::canAttack_at (MapPos const& pos) const
 {
@@ -201,13 +206,24 @@ void Unit::recevoirDegats(unsigned short nb_degats)
 		m_vie -= nb_degats ;
 }
 
-bool Unit::canMove_at (MapPos const& pos) const
+bool Unit::canMove_at (MapPos const& pos, bool diagonale) const
 {
-	if (pos != m_pos && pos.adjacent(m_pos, m_deplacement))
+	if (pos != m_pos && pos.adjacent(m_pos, 1))
 		return true ;
 	if (m_last_vitcory_pos != NULL)
 		if (pos == *m_last_vitcory_pos)
 			return true ;
+	if (diagonale)
+	{		
+       	if (m_pos == MapPos(pos.x()-1,pos.y()-1))
+            return true ;
+        if (m_pos == MapPos(pos.x()+1,pos.y()+1))
+        	return true ;
+        if (m_pos == MapPos(pos.x()+1,pos.y()-1))
+        	return true ;
+        if (m_pos == MapPos(pos.x()-1,pos.y()+1))
+        	return true ;
+    }
 	return false ;
 }
 
@@ -229,9 +245,9 @@ bool Unit::canBuyWith (unsigned short type, Ressource const& res, unsigned short
         res.food() >= prix(type).food() + population_use ;
 }
 
-bool Unit::move(MapPos const& pos)
+bool Unit::move(MapPos const& pos, bool diagonale)
 {
-	if (canMove_at(pos))
+	if (canMove_at(pos, diagonale))
 	{
 		if (m_last_vitcory_pos != NULL)
 			if (pos == *m_last_vitcory_pos) /*Aller à l'emplacement de la victoire après un combat est normal
@@ -243,7 +259,7 @@ bool Unit::move(MapPos const& pos)
 				return true ;
 			}
 
-		m_deplacement -= m_pos.separation_value(pos) ;
+		m_deplacement -= 1 ;
 		changePos(pos) ;
 		return true ;
 	}

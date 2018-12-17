@@ -16,12 +16,13 @@ class HumanPlayer : public AbstractPlayer
 			Map const& map, //Ici la Map est une référence constante, ainsi le joueur est en lecture seule, il doit passer par la matrice pour tout changement
 			Selection const& selection, // Permet au joueur d'avoir des infos sur l'unité séléctionée, sans changer la sélécion directement pour autant
 			Ressource const& ressource, //Permet au joueur de connaître ses ressources pour prendre ses décisions (sans les modifier)
+			std::map <unsigned short,std::pair<Ressource,bool>> upgrades,
 			Fenetre& fenetre //Passage par référence, une seule et même fenêtre dont le joueur peut changer le contenu pendant son tour
 			) ;
 
 	private :
 		//Initialisation de toute l'interface qui permet la prise de décision du Joueur
-		void initialiserInterface(Map const& map, Selection const& selection, Ressource const& ressource, Fenetre& fenetre) ;
+		void initialiserInterface(Map const& map, Selection const& selection, Ressource const& ressource, std::map <unsigned short,std::pair<Ressource,bool>>& upgrades, Fenetre& fenetre) ;
 
 		void updateDisplay(Map const& map, Selection const& selection, Fenetre& fenetre) ;
 		void setConstructionCursor(Map const& map, Selection const& selection, Fenetre& fenetre, unsigned short x, unsigned short y) ;
@@ -39,7 +40,7 @@ class HumanPlayer : public AbstractPlayer
 		MapPos* m_pos_construction ;
 
 		SDL_Rect m_scroll ; //Représente le rectangle de la map affichée sur la fenêtre
-		unsigned short m_id_menu_to_open ;
+		int m_id_menu_to_open ;
 		Texte* m_quantite_gold ;
 		Texte* m_quantite_wood ;
 		Texte* m_quantite_food ;
@@ -47,6 +48,7 @@ class HumanPlayer : public AbstractPlayer
 		Texte* m_info_unit_deplacement ;
     	Texte* m_info_batiment_action ;
 		std::map <std::string, SurfaceAffichage*> m_all_symbol ;
+		std::map <MapPos, unsigned short> m_save_amelioration_batiment ;
 };
 
 #endif // __HUMANPLAYER_H__

@@ -15,7 +15,10 @@
 #define DECISION_CONSTRUIRE_UNIT         4
 #define DECISION_CONSTRUIRE_BATIMENT     5
 #define DECISION_AMELIORER_BATIMENT      6
-#define DECISION_AMELIORATION            7
+#define DECISION_AMELIORATION_UNIT       7
+#define DECISION_AMELIORATION_CONS       8
+#define DECISION_ENREGISTRER             9
+#define DECISION_CAPTURE                10
 
 class Decision
 {

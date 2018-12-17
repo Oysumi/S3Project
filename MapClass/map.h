@@ -41,7 +41,7 @@ class Map
         bool add_unit (Unit const& unit) ;
         bool add_cons (Construction const& cons) ;
         bool del_unit (Unit const& unit) ;
-        bool move_unit_at(MapPos const& source, MapPos const& destination, bool erase_source_unit = false) ;
+        bool move_unit_at(MapPos const& source, MapPos const& destination, bool erase_source_unit = false, bool diagonale = false) ;
 
         //Reset déplacement all unit
         void reset_player_object () ;
@@ -49,6 +49,9 @@ class Map
         //Accès aux données des unités et des construction (pointeurs <=> potenitelles modifications par la matrice)
         Unit* unit_on (MapPos const& pos) ;
         Construction* cons_on (MapPos const& pos) ;
+
+        Unit* unit_n (unsigned short numero) ;
+        Construction* cons_n (unsigned short numero) ;
 
     public : // II) Méthodes constantes, les seules utilisables pour une map en lecture seule, pour les joueurs
 
@@ -73,8 +76,11 @@ class Map
 
         bool terrain_adapt_to_unit(MapPos const& pos, Unit const& unit) const ;
         bool terrain_adapt_to_unit(MapPos const& pos) const ;
+        std::string terrain_to_string() const ;
 
         bool canConstructAt(MapPos const& pos, AbstractPlayer* player) const ;
+        unsigned short nb_unit() const ;
+        unsigned short nb_construction() const ;
         unsigned short nb_unit_of(AbstractPlayer* player) const ;
         unsigned short nb_unit_with_deplacement_of(AbstractPlayer* player) const ;
         unsigned short nb_construction_canDoAction_of(AbstractPlayer* player) const ;

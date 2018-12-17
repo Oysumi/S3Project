@@ -147,6 +147,11 @@ bool Map::terrain_adapt_to_unit(MapPos const& pos) const
 	return m_terrain.sprite_code(pos) == GRASS ;
 }
 
+string Map::terrain_to_string() const
+{
+	return m_terrain.to_string() ;
+}
+
 unsigned short Map::nb_construction_of(AbstractPlayer* player) const
 {
 	unsigned short compt = 0 ;
@@ -185,6 +190,16 @@ unsigned short Map::nb_unit_with_deplacement_of(AbstractPlayer* player) const
 			if (m_list_unit[i]->proprietaire() == player && m_list_unit[i]->canMove())
 				compt ++ ;
 	return compt ;
+}
+
+unsigned short Map::nb_unit() const
+{
+	return m_list_unit.size() ;
+}
+
+unsigned short Map::nb_construction() const
+{
+	return m_list_cons.size() ;
 }
 
 Ressource Map::ressourceApport(AbstractPlayer* player) const
@@ -299,7 +314,7 @@ bool Map::add_cons(Construction const& cons)
 	return true ;
 }
 
-bool Map::move_unit_at(MapPos const& source, MapPos const& destination, bool erase_source_unit)
+bool Map::move_unit_at(MapPos const& source, MapPos const& destination, bool erase_source_unit, bool diagonale)
 {
 	if (!have_unit_on(source)) // Y a t-il une unité ?
 		return false ;
@@ -307,13 +322,13 @@ bool Map::move_unit_at(MapPos const& source, MapPos const& destination, bool era
 	Unit* u = unit_on(source) ; // Si oui on prend cette unité
 	
 	//Si l'unité peut bouger et doit détruire l'autre à son arrivée
-	if (u->canMove_at(destination) && erase_source_unit && have_unit_on(destination))
+	if (u->canMove_at(destination, diagonale) && erase_source_unit && have_unit_on(destination))
 		del_unit(*unit_on(destination)) ; //Alors on la supprime avant d'y placer la nouvelle unité
 
 	if (have_unit_on(destination)) // Déjà une unité à l'emplacement de destination
 		return false ;
 
-	bool result = u->move(destination) ;
+	bool result = u->move(destination, diagonale) ;
 	if (!result) // L'unité ne peut pas effectuer ce déplacement
 		return false ;
 
@@ -346,6 +361,17 @@ Construction* Map::cons_on (MapPos const& pos)
 	if (m_map_cons->find(pos) == m_map_cons->end()) //Rien d'enregistré à cette position
 		return NULL ;
     return m_map_cons->at(pos) ;
+}
+
+Unit* Map::unit_n (unsigned short numero)
+{
+	numero %= m_list_unit.size() ;
+	return m_list_unit[numero] ;
+}
+Construction* Map::cons_n (unsigned short numero)
+{
+	numero %= m_list_cons.size() ;
+	return m_list_cons[numero] ;
 }
 
 void Map::reset_player_object ()

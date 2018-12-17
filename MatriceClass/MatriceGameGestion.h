@@ -54,8 +54,10 @@ class MatriceGameGestion
 		void add_upgrades(unsigned short id, Ressource const& res) ;
 
 		bool new_selection(MapPos const pos, bool force_unit = false) ;
-		bool new_upgrade(Decision const d) ;
+		bool new_upgrade(Decision const d, unsigned short object_type) ;
 		bool player_have_upgrade(unsigned short id) ;
+		void apply_upgrades(unsigned short id) ;
+		std::map <unsigned short,std::pair<Ressource,bool>> upgradesOf(AbstractPlayer* player) ;
 		void move_select_unit(MapPos const& pos, bool afterVictoryAttack = false) ;
 		void updateDisplay() ;
 		//void defeatPlayer() ;
@@ -64,6 +66,10 @@ class MatriceGameGestion
 		//Retourne vrai en cas de victoire de l'attaque
 		bool attaque(MapPos const& pos) ;
 		bool isAnAttack(MapPos const& target) const ;
+
+		bool build_cons (Decision const& d) ;
+		bool build_unit (Decision const& d) ;
+		bool selectionCanConstruct(unsigned short object_type) ;
 
 		void initNewTurn(AbstractPlayer* new_current_player) ;
 		void verification_defaite() ;

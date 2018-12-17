@@ -61,6 +61,7 @@ class Menu
 		int getID() const ;
 		void openCloseMenu();
 		bool isOpen() const ;
+		unsigned short nb_button () const ;
 
 		//Méthodes de modification des menu après leur création / Ne pas oublier d'appeler prepareSurface() pour recharger les modifications dans la Surface du Menu
 		bool changeAssocTo(unsigned short nb_button, unsigned short id_menu) ; //modifie le menu associé du SubMenuButton numéro nb
@@ -72,6 +73,7 @@ class Menu
 		static unsigned short widthTakeBy(std::vector<AbstractButton*> const& buttons, unsigned short const separation_width = DEFAULT_SEPARATION_W) ;
 		static unsigned short heightTakeBy(std::vector<AbstractButton*> const& buttons, unsigned short const separation_height = DEFAULT_SEPARATION_H) ;
 
+		static AbstractButton* getButtonById(int id) ;
 		static Menu* getMenuById(int id) ;
 		static void openMenu(int id, Fenetre& screen) ;
 		static void keepOpened(Fenetre& screen);
@@ -85,18 +87,28 @@ class Menu
 };
 
 #define ESCAPE_MENU 150
-#define CHATEAU_MENU 151
-#define CONSTRUCTION_UNIT_MENU 152
-#define CONSTRUCTION_BATIMENT_MENU 153
-#define AMELIORER_MENU 154
-#define AMELIORER_CHATEAU_MENU 155
-#define ARCHERIE_MENU 156
-#define FERME_MENU 157
-#define TOWER_MENU 158
-#define UPGRADES_MENU 159
+
+#define PETIT_CHATEAU_MENU 151
+#define GRAND_CHATEAU_MENU 152
+#define FERME_MENU 153
+#define PETIT_ATELIER_MENU 154
+#define GRAND_ATELIER_MENU 155
+#define TOWER_MENU 156
+
+#define PETIT_BATIMENT_MENU 160
+#define GRAND_BATIMENT_MENU 161
+
+#define PETITE_UNITE_MENU 162
+#define GRANDE_UNITE_MENU 163
+
+#define AMELIORER_CHATEAU_MENU 164
+#define AMELIORER_FERME_MENU 165
+
+#define UPGRADES_CHATEAU_MENU 170
+#define UPGRADES_ATELIER_MENU 171
 
 #define LARGEUR_MENU1 450
-#define HAUTEUR_MENU1 100
+#define HAUTEUR_MENU1 60
 #define LARGEUR_MENU2 245
 #define HAUTEUR_MENU2 60
 #define LARGEUR_MENU3 255

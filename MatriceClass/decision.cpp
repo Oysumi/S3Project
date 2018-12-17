@@ -20,7 +20,10 @@ void Decision::init_list_of_choice()
 	add_choice(    "CONSTRUIRE_UNIT",        NEED_POS,      NEED_ID   ) ;
 	add_choice(    "CONSTRUIRE_BATIMENT",    NEED_POS,      NEED_ID   ) ;
 	add_choice(    "AMELIORER_BATIMENT",     WITHOUT_POS,   NEED_ID   ) ;
-	add_choice(    "AMELIORATION",           WITHOUT_POS,   NEED_ID   ) ;
+	add_choice(    "AMELIORATION_UNIT",      WITHOUT_POS,   NEED_ID   ) ;
+	add_choice(    "AMELIORATION_CONS",      WITHOUT_POS,   NEED_ID   ) ;
+	add_choice(    "ENREGISTRER_PARTIE",     WITHOUT_POS,   WITHOUT_ID) ;
+	add_choice(    "CAPTURE_ECRAN_PARTIE",   WITHOUT_POS,   WITHOUT_ID) ;
 }
 
 void Decision::add_choice(string name, bool choice_need_pos, bool choice_need_id)

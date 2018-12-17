@@ -24,51 +24,95 @@ vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, uns
     // Création et ajout dans la mémoire du menu principal (quand on appuie sur la touche escape)
     buttons.push_back(all_buttons[AFFICHAGE]);
     buttons.push_back(all_buttons[FIN_DU_TOUR]);
+    buttons.push_back(all_buttons[ENREGISTRER]);
+    buttons.push_back(all_buttons[CAPTURE]);
     buttons.push_back(all_buttons[RETOUR]);
     buttons.push_back(all_buttons[QUITTER]);
-    unsigned short int x((width-Menu::widthTakeBy(buttons))/2), y((height-Menu::heightTakeBy(buttons))/2) ;
+    unsigned short int x((width-Menu::widthTakeBy(buttons,15))/2), y((height-Menu::heightTakeBy(buttons,15))/2) ;
     menu->push_back(new Menu (buttons, x, y, font_menu, ESCAPE_MENU, 230, 15, 15)) ;
     buttons.clear() ;
 
-    // Création et ajout dans la mémoire du menu selection spécifique aux constructions
+
+    #define PETIT_CHATEAU_MENU 151
+	#define GRAND_CHATEAU_MENU 152
+
+	#define PETIT_CHATEAU_CONSTRUCTION_MENU 153
+	#define GRAND_CHATEAU_CONSTRUCTION_MENU 154
+
+    // Création Menu Petit Chateau
     buttons.push_back(all_buttons[ENTETE_BATIMENT]);
     buttons.push_back(all_buttons[ENTETE_GOLD]);
     buttons.push_back(all_buttons[ENTETE_FOOD]);
     buttons.push_back(all_buttons[ENTETE_WOOD]);
-    buttons.push_back(all_buttons[CONSTRUIRE_BATIMENT]);
-    buttons.push_back(all_buttons[CONSTRUIRE_UNIT]);
+    buttons.push_back(all_buttons[ENTETE_DEFENSE]);
+    buttons.push_back(all_buttons[CONSTRUIRE_PETIT_BATIMENT]);
     buttons.push_back(all_buttons[AMELIORATION_CHATEAU]);
-    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, CHATEAU_MENU, TRANSPARENCE_ALPHA, 10));
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, PETIT_CHATEAU_MENU, TRANSPARENCE_ALPHA, 10));
     buttons.clear() ;
 
-    // Création et ajout dans la mémoire du menu selection spécifique aux constructions
+    // Création Menu Grand Chateau
     buttons.push_back(all_buttons[ENTETE_BATIMENT]);
     buttons.push_back(all_buttons[ENTETE_GOLD]);
     buttons.push_back(all_buttons[ENTETE_FOOD]);
     buttons.push_back(all_buttons[ENTETE_WOOD]);
-    buttons.push_back(all_buttons[AMELIORATION_BATIMENT]);
-    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, ARCHERIE_MENU, TRANSPARENCE_ALPHA, 10));
+    buttons.push_back(all_buttons[ENTETE_DEFENSE]);
+    buttons.push_back(all_buttons[CONSTRUIRE_GRAND_BATIMENT]);
+    buttons.push_back(all_buttons[AMELIORATION_CHATEAU]);
+    buttons.push_back(all_buttons[UPGRADES_CONS]);
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, GRAND_CHATEAU_MENU, TRANSPARENCE_ALPHA, 10));
     buttons.clear() ;
 
-    // Création et ajout dans la mémoire du menu selection spécifique aux constructions
+    // Création Menu Petit Atelier
     buttons.push_back(all_buttons[ENTETE_BATIMENT]);
     buttons.push_back(all_buttons[ENTETE_GOLD]);
     buttons.push_back(all_buttons[ENTETE_FOOD]);
     buttons.push_back(all_buttons[ENTETE_WOOD]);
-    buttons.push_back(all_buttons[AMELIORATION_BATIMENT]);
+    buttons.push_back(all_buttons[ENTETE_DEFENSE]);
+    buttons.push_back(all_buttons[CONSTRUIRE_PETITE_UNITE]);
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, PETIT_ATELIER_MENU, TRANSPARENCE_ALPHA, 10));
+    buttons.clear() ;
+
+    // Création Menu Grand Atelier
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]);
+    buttons.push_back(all_buttons[ENTETE_GOLD]);
+    buttons.push_back(all_buttons[ENTETE_FOOD]);
+    buttons.push_back(all_buttons[ENTETE_WOOD]);
+    buttons.push_back(all_buttons[ENTETE_DEFENSE]);
+    buttons.push_back(all_buttons[CONSTRUIRE_GRANDE_UNITE]);
+    buttons.push_back(all_buttons[UPGRADES_UNIT]);
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, GRAND_ATELIER_MENU, TRANSPARENCE_ALPHA, 10));
+    buttons.clear() ;
+
+    // Création Menu Ferme
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]);
+    buttons.push_back(all_buttons[ENTETE_GOLD]);
+    buttons.push_back(all_buttons[ENTETE_FOOD]);
+    buttons.push_back(all_buttons[ENTETE_WOOD]);
+    buttons.push_back(all_buttons[ENTETE_DEFENSE]);
+    buttons.push_back(all_buttons[AMELIORATION_FERME]);
     menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, FERME_MENU, TRANSPARENCE_ALPHA, 10));
     buttons.clear() ;
 
-    // Création et ajout dans la mémoire du menu selection spécifique aux constructions
+    // Création Menu Tower
     buttons.push_back(all_buttons[ENTETE_BATIMENT]);
     buttons.push_back(all_buttons[ENTETE_GOLD]);
     buttons.push_back(all_buttons[ENTETE_FOOD]);
     buttons.push_back(all_buttons[ENTETE_WOOD]);
-    buttons.push_back(all_buttons[AMELIORATION_BATIMENT]);
+    buttons.push_back(all_buttons[ENTETE_DEFENSE]);
     menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, TOWER_MENU, TRANSPARENCE_ALPHA, 10));
     buttons.clear() ;
     
-    // Création et ajout dans la mémoire du menu
+    // Création Menu Petites Unitées
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]);
+    buttons.push_back(all_buttons[ENTETE_CONSTRUCTION]);
+    buttons.push_back(all_buttons[CATAPULTE]);
+    buttons.push_back(all_buttons[BALISTE]);
+    buttons.push_back(all_buttons[BELIER]);
+    buttons.push_back(all_buttons[RETOUR2]);
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, PETITE_UNITE_MENU, TRANSPARENCE_ALPHA, 5));
+    buttons.clear() ;
+
+    // Création Menu Grandes Unitées
     buttons.push_back(all_buttons[ENTETE_BATIMENT]);
     buttons.push_back(all_buttons[ENTETE_CONSTRUCTION]);
     buttons.push_back(all_buttons[CATAPULTE]);
@@ -77,52 +121,73 @@ vector<Menu*>* Menu::getAllMenu(vector <AbstractButton*> const& all_buttons, uns
     buttons.push_back(all_buttons[TREBUCHET]);
     buttons.push_back(all_buttons[TOWERSIEGE]);
     buttons.push_back(all_buttons[RETOUR2]);
-    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, CONSTRUCTION_UNIT_MENU, TRANSPARENCE_ALPHA, 5));
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, GRANDE_UNITE_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 
-    // Création et ajout dans la mémoire du menu
+    // Création Menu Petits Batiments
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]);
+    buttons.push_back(all_buttons[ENTETE_CONSTRUCTION]);
+    buttons.push_back(all_buttons[CHATEAU1]);
+    buttons.push_back(all_buttons[ATELIER1]);
+    buttons.push_back(all_buttons[FERME]);
+    buttons.push_back(all_buttons[CHATEAU2]);
+    buttons.push_back(all_buttons[RETOUR2]);
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, PETIT_BATIMENT_MENU, TRANSPARENCE_ALPHA, 5));
+    buttons.clear() ;
+
+    // Création Menu Grandss Batiments
     buttons.push_back(all_buttons[ENTETE_BATIMENT]);
     buttons.push_back(all_buttons[ENTETE_CONSTRUCTION]);
     buttons.push_back(all_buttons[CHATEAU1]);
     buttons.push_back(all_buttons[CHATEAU2]);
-    buttons.push_back(all_buttons[ARCHERIE1]);
-    buttons.push_back(all_buttons[ARCHERIE2]);
+    buttons.push_back(all_buttons[ATELIER1]);
+    buttons.push_back(all_buttons[ATELIER2]);
     buttons.push_back(all_buttons[FERME]);
     buttons.push_back(all_buttons[TOWER]);
     buttons.push_back(all_buttons[RETOUR2]);
-    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, CONSTRUCTION_BATIMENT_MENU, TRANSPARENCE_ALPHA, 5));
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, GRAND_BATIMENT_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 
+    //Création Menu Amélioration Chateau
     buttons.push_back(all_buttons[ENTETE_BATIMENT]) ;
     buttons.push_back(all_buttons[AMELIORER]) ;
 	buttons.push_back(all_buttons[UP_GOLD]) ;
-	buttons.push_back(all_buttons[UP_FOOD]) ;
 	buttons.push_back(all_buttons[UP_WOOD]) ;
 	buttons.push_back(all_buttons[UP_DEFENSE]) ;
 	buttons.push_back(all_buttons[RETOUR2]) ;
 	menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, AMELIORER_CHATEAU_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 
+    //Création Menu Amélioration FERME
     buttons.push_back(all_buttons[ENTETE_BATIMENT]) ;
     buttons.push_back(all_buttons[AMELIORER]) ;
 	buttons.push_back(all_buttons[UP_GOLD]) ;
 	buttons.push_back(all_buttons[UP_FOOD]) ;
-	buttons.push_back(all_buttons[UP_DEFENSE]) ;
 	buttons.push_back(all_buttons[RETOUR2]) ;
-	menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, AMELIORER_MENU, TRANSPARENCE_ALPHA, 5));
+	menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, AMELIORER_FERME_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 
+    //Création Menu Amélioration sur toutes les unités
     buttons.push_back(all_buttons[ENTETE_BATIMENT]) ;
-    buttons.push_back(all_buttons[AMELIORER]) ;
+    buttons.push_back(all_buttons[RECHERCHE]) ;
     buttons.push_back(all_buttons[DEPLACEMENTPLUS]) ;
-	buttons.push_back(all_buttons[RETOUR2]) ;
-	menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, UPGRADES_MENU, TRANSPARENCE_ALPHA, 5));
+    buttons.push_back(all_buttons[MOREDEGATS]) ;
+    buttons.push_back(all_buttons[RETOUR2]) ;
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, UPGRADES_ATELIER_MENU, TRANSPARENCE_ALPHA, 5));
+    buttons.clear() ;
+
+    //Création Menu Amélioration sur toutes les constructions
+    buttons.push_back(all_buttons[ENTETE_BATIMENT]) ;
+    buttons.push_back(all_buttons[RECHERCHE]) ;
+    buttons.push_back(all_buttons[MOREGOLD]) ;
+    buttons.push_back(all_buttons[MOREDEFENSE]) ;
+    buttons.push_back(all_buttons[RETOUR2]) ;
+    menu->push_back(new Menu (buttons, 0, height-Menu::heightTakeBy(buttons), font_menu, UPGRADES_CHATEAU_MENU, TRANSPARENCE_ALPHA, 5));
     buttons.clear() ;
 
 	//Une fois que les menus sont crées on appelle cette méthode statique pour récupérer tous les pointeurs des Menu grâce à leurs ID
     SubMenuButton::initAllSubMenu() ;
     return menu ;
-
 }
 
 Menu::Menu() : m_alpha(255)
@@ -187,6 +252,11 @@ AbstractButton* Menu::button (unsigned short nb)
 SDL_Color Menu::getColor() const
 {
 	return this->m_background ;
+}
+
+unsigned short Menu::nb_button () const
+{
+	return m_myButtons.size() ;
 }
 
 SurfaceAffichage const& Menu::getMenu() const
@@ -353,6 +423,18 @@ bool Menu::changeAssocTo(unsigned short nb_button, unsigned short id_menu)
     		return true ;
     	}
     return false ;
+}
+
+
+AbstractButton* Menu::getButtonById(int id)
+{
+    for (unsigned short i = 0 ; i < Menu::allMenu.size() ; i++)
+        for (unsigned short i2 = 0 ; i2 < allMenu[i]->m_myButtons.size() ; i2++)
+            if (allMenu[i]->m_myButtons[i2]->getID() == id)
+                return allMenu[i]->m_myButtons[i2] ;
+
+    warning_message("Not find button with id : " + to_string(id) + "in list of menu") ;
+    return NULL;
 }
 
 

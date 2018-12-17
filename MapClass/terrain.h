@@ -32,6 +32,7 @@ class Terrain
         bool saveBMP (std::string const& fileName) const ;
         SurfaceAffichage const& terrainComplet() const ;
         static std::string nameSpriteTexture ;
+        std::string to_string() const ;
         
     private : // Fonctions internes
         unsigned short assocCodeToCaseSprite (char const& c) const ;
@@ -43,6 +44,7 @@ class Terrain
         unsigned short m_nb_height_sprite ;
         SurfaceAffichage* m_terrainComplet ;
         std::map <MapPos, char> * m_sprite_representation ;
+        std::string m_map_to_string ;
 };
 
 

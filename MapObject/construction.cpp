@@ -15,47 +15,53 @@ void Construction::initCaracteristique()
 {
 	m_type = m_type % NB_TYPE_CONSTRUCTION ;
 	m_prix = prix(m_type) ;
-	if (m_type == CONSTRUCTION_CASTLE1)
+	if (m_type == CONSTRUCTION_CHATEAU1)
 	{
 		m_name = "Petit chateau" ;
-		m_apport = Ressource(5,0,5) ;
-		m_defense = 40 ;
-		m_range = 1 ;
-	}
-	else if (m_type == CONSTRUCTION_CASTLE2)
-	{
-		m_name = "Grand chateau";
-		m_apport = Ressource(10,0,1) ;
-		m_defense = 60 ;
+		m_apport = Ressource(5,0,0) ;
+		m_defense = 10 ;
+		m_defense_max = 70 ;
 		m_range = 2 ;
 	}
-	else if (m_type == CONSTRUCTION_ARCHERY1)
+	else if (m_type == CONSTRUCTION_CHATEAU2)
 	{
-		m_name = "Archerie niveau 1" ;
-		m_apport = Ressource(30,-2,-5) ;
-		m_defense = 25 ;
+		m_name = "Grand chateau";
+		m_apport = Ressource(10,0,-10) ;
+		m_defense = 20 ;
+		m_defense_max = 80 ;
+		m_range = 2 ;
+	}
+	else if (m_type == CONSTRUCTION_ATELIER1)
+	{
+		m_name = "Atelier niveau 1" ;
+		m_apport = Ressource(-25,-5,-5) ;
+		m_defense = 10 ;
+		m_defense_max = 50 ;
 		m_range = 1 ;
 	}
-	else if (m_type == CONSTRUCTION_ARCHERY2)
+	else if (m_type == CONSTRUCTION_ATELIER2)
 	{
-		m_name = "Archerie niveau 2" ;
-		m_apport = Ressource(65,-4,-10) ;
-		m_defense = 30 ;
+		m_name = "Atelier niveau 2" ;
+		m_apport = Ressource(-50,-15,-10) ;
+		m_defense = 20 ;
+		m_defense_max = 60 ;
 		m_range = 1 ;
 	}
-	else if (m_type == CONSTRUCTION_FARM)
+	else if (m_type == CONSTRUCTION_FERME)
 	{
 		m_name = "Ferme";
-		m_apport = Ressource(5,0,15) ;
+		m_apport = Ressource(15,-5,2) ;
 		m_defense = 15 ;
+		m_defense_max = 15 ;
 		m_range = 1 ;
 	}
-	else if (m_type == CONSTRUCTION_TOWER)
+	else if (m_type == CONSTRUCTION_TOUR)
 	{
 		m_name = "Tour de defense";
-		m_apport = Ressource(0,-1,-2) ;
-		m_defense = 40 ;
-		m_range = 1 ;
+		m_apport = Ressource(-20,-15,-3) ;
+		m_defense = 20 ;
+		m_defense_max = 65 ;
+		m_range = 3 ;
 	}
 	else
 		warning_message("Construction without type") ;
@@ -64,18 +70,18 @@ void Construction::initCaracteristique()
 Ressource Construction::prix (unsigned short type)
 {
 	type = type % NB_TYPE_CONSTRUCTION ;
-	if (type == CONSTRUCTION_CASTLE1)
-		return Ressource(1000,80,0) ;
-	else if (type == CONSTRUCTION_CASTLE2)
-		return Ressource(1200,100,0) ;
-	else if (type == CONSTRUCTION_ARCHERY1)
-		return Ressource(100,40,0) ;
-	else if (type == CONSTRUCTION_ARCHERY2)
-		return Ressource(200,50,0) ;
-	else if (type == CONSTRUCTION_FARM)
-		return Ressource(650,20,0) ;
+	if (type == CONSTRUCTION_CHATEAU1)
+		return Ressource(500,80,0) ;
+	else if (type == CONSTRUCTION_CHATEAU2)
+		return Ressource(1200,150,0) ;
+	else if (type == CONSTRUCTION_ATELIER1)
+		return Ressource(300,50,0) ;
+	else if (type == CONSTRUCTION_ATELIER2)
+		return Ressource(500,75,0) ;
+	else if (type == CONSTRUCTION_FERME)
+		return Ressource(200,40,0) ;
 	else // CONSTRUCTION TOWER
-		return Ressource(300,15,0) ;
+		return Ressource(500,75,0) ;
 }
 
 Construction::Construction(unsigned short type , MapPos const& pos, AbstractPlayer* const& player) :
@@ -84,7 +90,6 @@ Construction::Construction(unsigned short type , MapPos const& pos, AbstractPlay
 	{
 		initCaracteristique() ;
 		m_action_possible = false ;
-		m_defense_max = m_defense + 20 ; //La défense peut-être améliorée de 30
 	}
 
 Construction::Construction(Construction const& aCopier) : 
