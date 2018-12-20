@@ -1,0 +1,2 @@
+Le pdf a été rédigé avant de commencer à programmer. Il n'a pas été mis à jour depuis
+SpriteRepresentation.png permet de comprendre comment sont utilisées les sprites par le programme pour la géstion du Terrain
