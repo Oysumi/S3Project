@@ -1,19 +1,19 @@
 Jeux de Stratégie Médiéval en C++
-V1.0 Première version finalisée et équillibrée
 Par Aurélien et Alexis
+V1.0 Première version finalisée et équillibrée
 
 Version 1.1 en cours de dévellopement :
-     - ajout d'un système de sauvegarde
-     - ajout d'un système permettant aux joueurs de naviguer d'un de ses objets à l'autre (via la séléction)
-         cela permet de gagner un temps précieux lors des longues parties
-     - touche Q ne sera plus associée à la décision de quitter. Trop dangereux pour les longues parties
-     - ajout d'une confirmation lorsqu'on passe au tour suivant et que l'on a pas effectué toutes ses actions
-     - ajout de nouvelles actions possibles pour enrichir le Jeu 
+   - ajout d'un système de sauvegarde
+   - ajout d'un système permettant aux joueurs de naviguer d'un de ses objets à l'autre (via la séléction)
+       cela permet de gagner un temps précieux lors des longues parties, pour gérer tous ces batiments
+   - touche Q ne sera plus associée à la décision de quitter. Trop dangereux pour les longues parties
+   - ajout d'une confirmation lorsqu'on passe au tour suivant et que l'on a pas effectué toutes ses actions
+   - ajout de nouvelles actions possibles pour enrichir le Jeu 
 
 Réfléxion autour de la version 1.2
-     - ajout d'un Menu de début de partie, choix de la taille de la carte, nombres et noms des joueurs,
+   - ajout d'un Menu de début de partie, choix de la taille de la carte, nombres et noms des joueurs,
        situation de départ etc...
-     - génération automatique de la carte et positionnement des constructions amélioré pour des parties encore plus intéressantes
+   - génération automatique de la carte et positionnement des constructions amélioré pour des parties encore plus intéressantes
 
 
 
